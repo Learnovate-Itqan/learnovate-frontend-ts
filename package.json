@@ -1,0 +1,89 @@
+{
+  "name": "learnovate-frontend-ts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint-fix": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint-check": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0 --fix --dry-run",
+    "format": "prettier --write .",
+    "format-check": "prettier --check .",
+    "prepare": "husky install"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Learnovate-Itqan/learnovate-frontend-ts"
+  },
+  "keywords": [
+    "vite",
+    "react",
+    "typescript",
+    "eslint",
+    "prettier",
+    "tailwindcss",
+    "react-query",
+    "react-hook-form",
+    "zod",
+    "axios",
+    "react-paginate",
+    "react-icons",
+    "swiper",
+    "uuid"
+  ],
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.1.0",
+    "@tanstack/react-query": "^5.17.19",
+    "axios": "^1.6.5",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.3",
+    "react-icons": "^5.0.1",
+    "react-paginate": "^8.2.0",
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^6.21.3",
+    "swiper": "^11.0.5",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.17.20",
+    "@tanstack/react-query-devtools": "^5.17.21",
+    "@types/lodash": "^4.14.202",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@types/react-paginate": "^7.1.4",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0",
+    "postcss": "^8.4.33",
+    "prettier": "^3.2.4",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vite-plugin-sitemap": "^0.5.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0 --fix"
+    ],
+    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  }
+}
