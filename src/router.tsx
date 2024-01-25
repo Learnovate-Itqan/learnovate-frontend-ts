@@ -1,5 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { HomePage } from "@/pages/home";
+import { LoginPage } from "@/pages/login";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -7,9 +8,8 @@ export const Router = createBrowserRouter(
       <Route path="/">
         <Route index element={<HomePage />} />
         <Route path="/about" element={<HomePage />} />
-      </Route>
-      <Route path="/">
-        <Route path="auth/login" element={<>Login</>} />
+        {/* Authentication Routes */}
+        <Route path="auth/login" element={<LoginPage />} />
         <Route path="auth/register" element={<>Register</>} />
       </Route>
       <Route path="*" element={<div>404</div>} />
