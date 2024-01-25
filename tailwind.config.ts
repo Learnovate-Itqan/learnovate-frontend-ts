@@ -39,6 +39,11 @@ export default {
           "3xl": "4rem",
         },
       },
+      colors: {
+        "dark-navy": "#181D3C",
+        "royal-blue": "#3498DB",
+        "mint-green": "#2ECC71",
+      },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
       },
