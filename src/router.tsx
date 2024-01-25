@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { HomePage } from "./pages/home";
+import { HomePage } from "@/pages/home";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
