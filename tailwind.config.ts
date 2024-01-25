@@ -23,9 +23,25 @@ export default {
 
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
+
       "3xl": "1920px",
+      // => @media (min-width: 1536px) { ... }
     },
     extend: {
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: "1rem",
+          sm: "3rem",
+          lg: "2rem",
+          xl: "2rem",
+          "2xl": "3rem",
+          "3xl": "4rem",
+        },
+      },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+      },
       transitionTimingFunction: {
         cubic: "cubic-bezier(0.645,0.045,0.355,1)",
       },
