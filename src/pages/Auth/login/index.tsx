@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
 import { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export function LoginPage() {
   useTitle("Learnovate | Login");
@@ -32,6 +33,21 @@ export function LoginPage() {
       rememberMe: false,
     },
   });
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      console.log(codeResponse);
+      try {
+        console.clear();
+        console.log("Sending request to server...");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const handleFormSubmit = (values: z.infer<typeof loginSchema>) => {
     setError("");
@@ -43,12 +59,7 @@ export function LoginPage() {
   return (
     <AuthLayout title="Welcome Back" subTitle="Welcome back! Please enter your details.">
       <div className="my-6 space-y-4">
-        <SocialButton
-          text="Log in with Google"
-          onClick={() => {
-            console.log("google button clicked");
-          }}
-        />
+        <SocialButton text="Log in with Google" onClick={() => googleLogin()} />
         <OrSeparator />
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="space-y-5">
