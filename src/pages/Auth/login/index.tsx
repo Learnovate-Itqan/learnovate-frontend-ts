@@ -88,8 +88,8 @@ export function LoginPage() {
                 </div>
                 <span className="select-none text-zinc-400">Remember me</span>
               </label>
-              <Link to="/auth/forget-password" className="font-medium text-royal-blue">
-                Forget Password?
+              <Link to="/auth/forgot-password" className="font-medium text-royal-blue">
+                Forgot Password?
               </Link>
             </div>
             {error && <FromError message={error} />}
