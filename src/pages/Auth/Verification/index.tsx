@@ -18,7 +18,7 @@ export function VerificationPage() {
           placeholder="------"
           containerStyle={"flex gap-2.5 xs:gap-4 sm:gap-2 md:gap-4"}
           inputStyle={
-            "bg-[#222C54] border border-royal-blue p-2 text-white !w-10 !h-10 xs:!w-12 xs:!h-12 sm:!w-10 sm:!h-10 lg:!w-12 lg:!h-12 xl:!w-14 xl:!h-14 rounded-md font-medium"
+            "bg-[#222C54] border border-royal-blue p-2 text-white !w-10 !h-10 xs:!w-12 xs:!h-12 sm:!w-10 sm:!h-10 lg:!w-12 lg:!h-12 xl:!w-14 xl:!h-14 rounded-md font-medium text-2xl xs:text-3xl sm:text-lg md:text-2xl xl:text-4xl"
           }
         />
         <div className="">
