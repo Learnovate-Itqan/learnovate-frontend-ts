@@ -16,7 +16,7 @@ import { FromSuccess } from "@/components/FormSuccess";
 import { useState } from "react";
 
 export function LoginPage() {
-  useTitle("Learnovate - Login");
+  useTitle("Learnovate | Login");
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const {
