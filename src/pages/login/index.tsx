@@ -11,7 +11,7 @@ import { FieldError } from "@/components/auth/FieldError";
 import { TrueIcon } from "@/components/icons/TrueIcon";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
-import { FromError } from "@/components/formError";
+import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
 import { useState } from "react";
 
