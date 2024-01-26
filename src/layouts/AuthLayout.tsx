@@ -71,7 +71,7 @@ export function AuthLayout({ children, title, subTitle }: TAuthLayoutProps) {
               <div className="-ms-3.5 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-[0.15rem] border-dark-navy bg-stone-300 md:h-12 md:w-12">
                 <span className="font-semibold text-dark-navy">+14</span>
               </div>
-              <div className="ms-2 hidden flex-col justify-center leading-snug md:flex">
+              <div className="ms-2 hidden flex-col justify-center whitespace-nowrap leading-snug md:flex">
                 <span>are in</span>
                 <span>one place</span>
               </div>

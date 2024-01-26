@@ -4,6 +4,7 @@ import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { ForgotPassword } from "@/pages/Auth/ForgotPassword";
 import { ResetPassword } from "@/pages/Auth/ResetPassword";
+import { VerificationPage } from "./pages/Auth/Verification";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +15,7 @@ export const Router = createBrowserRouter(
         {/* Authentication Routes */}
         <Route path="auth/login" element={<LoginPage />} />
         <Route path="auth/register" element={<RegisterPage />} />
+        <Route path="auth/verification" element={<VerificationPage />} />
         <Route path="auth/forgot-password" element={<ForgotPassword />} />
         <Route path="auth/reset-password/:id" element={<ResetPassword />} />
       </Route>
