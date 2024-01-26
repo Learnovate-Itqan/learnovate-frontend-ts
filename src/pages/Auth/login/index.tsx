@@ -97,6 +97,12 @@ export function LoginPage() {
             <Button type="submit" text="Log In" disabled={isSubmitting} />
           </div>
         </form>
+        <div className="text-balance text-center text-sm text-zinc-400">
+          <span>Don't have an account?</span>{" "}
+          <Link to="/auth/register" className="font-medium text-royal-blue">
+            Sign up
+          </Link>
+        </div>
       </div>
     </AuthLayout>
   );
