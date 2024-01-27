@@ -2,8 +2,10 @@ import OtpInput from "react-otp-input";
 import { useState } from "react";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { Button } from "@/components/ui/Button";
+import { useTitle } from "@/hooks/useTitle";
 
 export function VerificationPage() {
+  useTitle("Learnovate | Verification");
   const [otp, setOtp] = useState("");
 
   return (

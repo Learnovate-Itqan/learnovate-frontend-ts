@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useTitle } from "@/components/hooks/useTitle";
+import { useTitle } from "@/hooks/useTitle";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/login";
