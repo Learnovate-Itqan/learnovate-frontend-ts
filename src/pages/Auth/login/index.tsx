@@ -40,6 +40,7 @@ export function LoginPage() {
       try {
         console.clear();
         console.log("Sending request to server...");
+        setSuccess("Login successful!");
       } catch (error) {
         console.log(error);
       }
