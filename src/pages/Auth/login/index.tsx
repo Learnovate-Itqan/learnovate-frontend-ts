@@ -26,7 +26,6 @@ export function LoginPage() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-    getValues,
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -35,7 +34,7 @@ export function LoginPage() {
       rememberMe: false,
     },
   });
-  const login = usePostData("/api/v1/auth/login", { ...getValues() });
+  const login = usePostData<z.infer<typeof loginSchema>>("/api/v1/auth/login");
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
@@ -59,11 +58,17 @@ export function LoginPage() {
   const handleFormSubmit = async (values: z.infer<typeof loginSchema>) => {
     setError("");
     setSuccess("");
-    console.log(values);
+    // console.log(values);
     const { email, password } = values;
     const data = await login.mutateAsync({ email, password });
-    console.log(data);
-    reset();
+    if (login.isIdle || login.isError) {
+      setError("Something went wrong!");
+    }
+    if (login.isSuccess) {
+      setSuccess("Login successful!");
+      console.log(data);
+      reset();
+    }
   };
 
   return (

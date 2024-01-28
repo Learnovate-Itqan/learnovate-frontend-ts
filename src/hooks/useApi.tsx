@@ -1,5 +1,5 @@
 import "@tanstack/react-query";
-import { useMutation, UseMutationOptions, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
 
 declare module "@tanstack/react-query" {
@@ -22,7 +22,7 @@ export async function getRequest<T>(endpoint: string) {
     .get<T>(endpoint)
     .then((res: AxiosResponse<T>) => res.data)
     .catch((err: AxiosError) => {
-      throw err;
+      console.log(err);
     });
 }
 export function useGetData<T>(endpoint: string) {
@@ -34,54 +34,39 @@ export function useGetData<T>(endpoint: string) {
 
 // POST request
 export async function postRequest<T>(endpoint: string, data: T) {
-  return await api
-    .post<T>(endpoint, data)
-    .then((res: AxiosResponse<T>) => res.data)
-    .catch((err: AxiosError) => {
-      throw err;
-    });
+  const response = await api.post(endpoint, data).catch(() => {});
+  return response;
 }
-export function usePostData<T>(endpoint: string, data: T, options?: UseMutationOptions<T, AxiosError, T>) {
+export function usePostData<T>(endpoint: string) {
   const mutation = useMutation({
     mutationKey: [endpoint],
-    mutationFn: () => postRequest<T>(endpoint, data),
-    ...options,
+    mutationFn: (data: T) => postRequest(endpoint, data),
   });
   return mutation;
 }
 
 // PATCH request
 export async function patchRequest<T>(endpoint: string, data: T) {
-  return await api
-    .patch<T>(endpoint, data)
-    .then((res: AxiosResponse<T>) => res.data)
-    .catch((err: AxiosError) => {
-      throw err;
-    });
+  const response = await api.patch(endpoint, data).catch(() => {});
+  return response;
 }
-export function usePatchData<T>(endpoint: string, data: T, options?: UseMutationOptions<T, AxiosError, T>) {
+export function usePatchData<T>(endpoint: string) {
   const mutation = useMutation({
     mutationKey: [endpoint],
-    mutationFn: () => patchRequest<T>(endpoint, data),
-    ...options,
+    mutationFn: (data: T) => patchRequest(endpoint, data),
   });
   return mutation;
 }
 
 // DELETE request
-export async function deleteRequest<T>(endpoint: string) {
-  return await api
-    .delete<T>(endpoint)
-    .then((res: AxiosResponse<T>) => res.data)
-    .catch((err: AxiosError) => {
-      throw err;
-    });
+export async function deleteRequest(endpoint: string) {
+  const response = await api.delete(endpoint).catch(() => {});
+  return response;
 }
-export function useDeleteData<T>(endpoint: string, options?: UseMutationOptions<T, AxiosError, T>) {
+export function useDeleteData(endpoint: string) {
   const mutation = useMutation({
     mutationKey: [endpoint],
-    mutationFn: () => deleteRequest<T>(endpoint),
-    ...options,
+    mutationFn: () => deleteRequest(endpoint),
   });
   return mutation;
 }

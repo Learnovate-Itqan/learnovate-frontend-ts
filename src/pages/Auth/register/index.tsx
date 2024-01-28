@@ -15,6 +15,7 @@ import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
 import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
+import { usePostData } from "@/hooks/useApi";
 
 export function RegisterPage() {
   useTitle("Learnovate | Register");
@@ -31,9 +32,12 @@ export function RegisterPage() {
       fullName: "",
       email: "",
       password: "",
+      confirmPassword: "",
       termsAndPolicy: false,
     },
   });
+  const registerReq = usePostData("/api/v1/auth/signup");
+
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
@@ -51,10 +55,23 @@ export function RegisterPage() {
     },
   });
 
-  const handleFormSubmit = (values: z.infer<typeof registerSchema>) => {
+  const handleFormSubmit = async (values: z.infer<typeof registerSchema>) => {
     setError("");
     setSuccess("");
     console.log(values);
+    const { fullName: name, email, password, confirmPassword, termsAndPolicy } = values;
+    const data = await registerReq.mutateAsync({
+      name,
+      email,
+      password,
+      confirmPassword,
+      role: "student",
+      termsAndPolicy,
+    });
+    if (registerReq.isError) {
+      setError(registerReq.error?.message);
+    }
+    console.log(data);
     reset();
   };
 
@@ -94,6 +111,16 @@ export function RegisterPage() {
                 disabled={isSubmitting}
               />
               {errors.password && <FieldError message={errors.password.message} />}
+            </div>
+            <div className="space-y-2">
+              <InputField
+                {...register("confirmPassword")}
+                type="password"
+                label="Confirm Password"
+                placeholder="repeat your password"
+                disabled={isSubmitting}
+              />
+              {errors.confirmPassword && <FieldError message={errors.confirmPassword.message} />}
             </div>
             <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
               <label className="flex cursor-pointer items-center gap-1.5" htmlFor="termsAndPolicy">
