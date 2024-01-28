@@ -1,73 +1,113 @@
 import "@tanstack/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
-
-declare module "@tanstack/react-query" {
-  interface Register {
-    defaultError: AxiosError;
-  }
-}
+import axios, { AxiosInstance, AxiosError } from "axios";
 
 const api: AxiosInstance = axios.create({
-  baseURL: "https://learnovate-server.onrender.com",
+  baseURL: "https://learnovate-server.onrender.com/api/v1",
   // withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
+const globalResponseFormat = (res: unknown) => {
+  if (res instanceof AxiosError) {
+    return {
+      status: "failed",
+      code: res.response?.status,
+      data: res.response?.data,
+    };
+  }
+
+  if (res instanceof Error) {
+    return {
+      status: "failed",
+      code: 500,
+      data: res.message,
+    };
+  }
+
+  return {
+    status: "success",
+    response: res,
+  };
+};
+
 // GET request
-export async function getRequest<T>(endpoint: string) {
-  return await api
-    .get<T>(endpoint)
-    .then((res: AxiosResponse<T>) => res.data)
-    .catch((err: AxiosError) => {
-      console.log(err);
-    });
+export async function getRequest(endpoint: string) {
+  try {
+    const response = await api.get(endpoint);
+    return response;
+  } catch (error) {
+    return error;
+  }
 }
-export function useGetData<T>(endpoint: string) {
+export function useGetData(endpoint: string) {
   return useQuery({
     queryKey: [endpoint],
-    queryFn: () => getRequest<T>(endpoint),
+    queryFn: async () => {
+      const res = await getRequest(endpoint);
+      return globalResponseFormat(res);
+    },
   });
 }
 
 // POST request
 export async function postRequest<T>(endpoint: string, data: T) {
-  const response = await api.post(endpoint, data).catch(() => {});
-  return response;
+  try {
+    const response = await api.post(endpoint, data);
+    return response;
+  } catch (error) {
+    return error;
+  }
 }
 export function usePostData<T>(endpoint: string) {
   const mutation = useMutation({
     mutationKey: [endpoint],
-    mutationFn: (data: T) => postRequest(endpoint, data),
+    mutationFn: async (data: T) => {
+      const res = await postRequest(endpoint, data);
+      return globalResponseFormat(res);
+    },
   });
-  console.log(mutation);
   return mutation;
 }
 
 // PATCH request
 export async function patchRequest<T>(endpoint: string, data: T) {
-  const response = await api.patch(endpoint, data).catch(() => {});
-  return response;
+  try {
+    const response = await api.patch(endpoint, data);
+    return response;
+  } catch (error) {
+    return error;
+  }
 }
 export function usePatchData<T>(endpoint: string) {
   const mutation = useMutation({
     mutationKey: [endpoint],
-    mutationFn: (data: T) => patchRequest(endpoint, data),
+    mutationFn: async (data: T) => {
+      const res = await patchRequest(endpoint, data);
+      return globalResponseFormat(res);
+    },
   });
   return mutation;
 }
 
 // DELETE request
 export async function deleteRequest(endpoint: string) {
-  const response = await api.delete(endpoint).catch(() => {});
-  return response;
+  try {
+    const response = await api.delete(endpoint);
+    return response;
+  } catch (error) {
+    return error;
+  }
 }
 export function useDeleteData(endpoint: string) {
   const mutation = useMutation({
     mutationKey: [endpoint],
-    mutationFn: () => deleteRequest(endpoint),
+    mutationFn: async () => {
+      const res = await deleteRequest(endpoint);
+      return globalResponseFormat(res);
+    },
   });
   return mutation;
 }
