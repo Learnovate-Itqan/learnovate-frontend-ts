@@ -42,6 +42,7 @@ export function usePostData<T>(endpoint: string) {
     mutationKey: [endpoint],
     mutationFn: (data: T) => postRequest(endpoint, data),
   });
+  console.log(mutation);
   return mutation;
 }
 

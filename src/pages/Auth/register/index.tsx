@@ -32,7 +32,6 @@ export function RegisterPage() {
       fullName: "",
       email: "",
       password: "",
-      confirmPassword: "",
       termsAndPolicy: false,
     },
   });
@@ -59,12 +58,12 @@ export function RegisterPage() {
     setError("");
     setSuccess("");
     console.log(values);
-    const { fullName: name, email, password, confirmPassword, termsAndPolicy } = values;
+    const { fullName: name, email, password, termsAndPolicy } = values;
     const data = await registerReq.mutateAsync({
       name,
       email,
       password,
-      confirmPassword,
+      confirmPassword: password,
       role: "student",
       termsAndPolicy,
     });
@@ -111,16 +110,6 @@ export function RegisterPage() {
                 disabled={isSubmitting}
               />
               {errors.password && <FieldError message={errors.password.message} />}
-            </div>
-            <div className="space-y-2">
-              <InputField
-                {...register("confirmPassword")}
-                type="password"
-                label="Confirm Password"
-                placeholder="repeat your password"
-                disabled={isSubmitting}
-              />
-              {errors.confirmPassword && <FieldError message={errors.confirmPassword.message} />}
             </div>
             <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
               <label className="flex cursor-pointer items-center gap-1.5" htmlFor="termsAndPolicy">
