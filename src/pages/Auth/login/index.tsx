@@ -9,7 +9,7 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { InputField } from "@/components/ui/InputField";
 import { FieldError } from "@/components/auth/FieldError";
 import { TrueIcon } from "@/components/icons/TrueIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
@@ -20,7 +20,8 @@ import { authErrorSchema } from "@/schemas/authError";
 
 export function LoginPage() {
   useTitle("Learnovate | Login");
-  const [error, setError] = useState<string | undefined>("");
+  const navigate = useNavigate();
+  const [error, setError] = useState<string[] | undefined>([]);
   const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
@@ -47,7 +48,7 @@ export function LoginPage() {
         console.log(data);
         setSuccess("Login successful!");
       } catch (error) {
-        setError("Something went wrong!");
+        setError(["Something went wrong!"]);
         console.log(error);
       }
     },
@@ -57,16 +58,22 @@ export function LoginPage() {
   });
 
   const handleFormSubmit = async (values: z.infer<typeof loginSchema>) => {
-    setError("");
+    setError([]);
     setSuccess("");
     const { email, password } = values;
     const state = await login.mutateAsync({ email, password });
     if (state.status === "failed") {
       const errors = authErrorSchema.safeParse(state.data.errors);
-      if (errors.success === true) setError(errors.data[0].msg);
-      else setError("Something went wrong!");
+      if (errors.success === true) {
+        const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
+        setError(errorMsg);
+      } else setError(["Something went wrong!"]);
     } else {
+      console.log(state);
       setSuccess("Login successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
       reset();
     }
   };
@@ -118,9 +125,9 @@ export function LoginPage() {
                 Forgot Password?
               </Link>
             </div>
-            {error && <FromError message={error} />}
+            {error && <FromError messages={error} />}
             {success && <FromSuccess message={success} />}
-            <Button type="submit" text="Log In" disabled={isSubmitting} />
+            <Button type="submit" text="Log In" disabled={isSubmitting} isLoading={isSubmitting} />
           </div>
         </form>
         <div className="text-balance text-center text-sm text-zinc-400">

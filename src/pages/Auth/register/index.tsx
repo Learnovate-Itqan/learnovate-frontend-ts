@@ -9,17 +9,19 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { InputField } from "@/components/ui/InputField";
 import { FieldError } from "@/components/auth/FieldError";
 import { TrueIcon } from "@/components/icons/TrueIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
 import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { usePostData } from "@/hooks/useApi";
+import { authErrorSchema } from "@/schemas/authError";
 
 export function RegisterPage() {
   useTitle("Learnovate | Register");
-  const [error, setError] = useState<string | undefined>("");
+  const navigate = useNavigate();
+  const [error, setError] = useState<string[] | undefined>([]);
   const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
@@ -35,7 +37,7 @@ export function RegisterPage() {
       termsAndPolicy: false,
     },
   });
-  const registerReq = usePostData("/api/v1/auth/signup");
+  const registerReq = usePostData("/auth/signup");
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
@@ -55,11 +57,11 @@ export function RegisterPage() {
   });
 
   const handleFormSubmit = async (values: z.infer<typeof registerSchema>) => {
-    setError("");
+    setError([]);
     setSuccess("");
     console.log(values);
     const { fullName: name, email, password, termsAndPolicy } = values;
-    const data = await registerReq.mutateAsync({
+    const state = await registerReq.mutateAsync({
       name,
       email,
       password,
@@ -67,11 +69,22 @@ export function RegisterPage() {
       role: "student",
       termsAndPolicy,
     });
-    if (registerReq.isError) {
-      setError(registerReq.error?.message);
+    if (state.status === "failed") {
+      console.log(state);
+      const errors = authErrorSchema.safeParse(state.data.errors);
+      if (errors.success === true) {
+        const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
+        setError(errorMsg);
+      } else setError(["Something went wrong!"]);
+      console.log(errors);
+    } else {
+      console.log(state);
+      setSuccess("register successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      reset();
     }
-    console.log(data);
-    reset();
   };
 
   return (
@@ -133,9 +146,9 @@ export function RegisterPage() {
                 </span>
               </label>
             </div>
-            {error && <FromError message={error} />}
+            {error && <FromError messages={error} />}
             {success && <FromSuccess message={success} />}
-            <Button type="submit" text="Log In" disabled={isSubmitting} />
+            <Button type="submit" text="Log In" disabled={isSubmitting} isLoading={isSubmitting} />
           </div>
         </form>
         <div className="text-balance text-center text-sm text-zinc-400">
