@@ -1,6 +1,6 @@
 import "@tanstack/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios, { AxiosInstance, AxiosError } from "axios";
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
 
 const api: AxiosInstance = axios.create({
   baseURL: "https://learnovate-server.onrender.com/api/v1",
@@ -27,9 +27,11 @@ const globalResponseFormat = (res: unknown) => {
     };
   }
 
+  const { status, data } = res as AxiosResponse;
   return {
     status: "success",
-    response: res,
+    code: status,
+    data,
   };
 };
 
