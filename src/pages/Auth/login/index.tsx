@@ -16,6 +16,7 @@ import { FromSuccess } from "@/components/FormSuccess";
 import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { postRequest, usePostData } from "@/hooks/useApi";
+import { authErrorSchema } from "@/schemas/authError";
 
 export function LoginPage() {
   useTitle("Learnovate | Login");
@@ -34,7 +35,7 @@ export function LoginPage() {
       rememberMe: false,
     },
   });
-  const login = usePostData<z.infer<typeof loginSchema>>("/api/v1/auth/login");
+  const login = usePostData<z.infer<typeof loginSchema>>("/auth/login");
 
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
@@ -42,7 +43,7 @@ export function LoginPage() {
       console.log(codeResponse);
       try {
         const { code: token } = codeResponse;
-        const data = await postRequest("/api/v1/auth/continue-with-google", { token });
+        const data = await postRequest("/auth/continue-with-google", { token });
         console.log(data);
         setSuccess("Login successful!");
       } catch (error) {
@@ -58,15 +59,14 @@ export function LoginPage() {
   const handleFormSubmit = async (values: z.infer<typeof loginSchema>) => {
     setError("");
     setSuccess("");
-    // console.log(values);
     const { email, password } = values;
-    const data = await login.mutateAsync({ email, password });
-    if (login.isIdle || login.isError) {
-      setError("Something went wrong!");
-    }
-    if (login.isSuccess) {
+    const state = await login.mutateAsync({ email, password });
+    if (state.status === "failed") {
+      const errors = authErrorSchema.safeParse(state.data.errors);
+      if (errors.success === true) setError(errors.data[0].msg);
+      else setError("Something went wrong!");
+    } else {
       setSuccess("Login successful!");
-      console.log(data);
       reset();
     }
   };
