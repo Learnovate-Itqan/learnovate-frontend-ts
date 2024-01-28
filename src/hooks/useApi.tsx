@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
 
 const api: AxiosInstance = axios.create({
   baseURL: "https://learnovate-server.onrender.com/api/v1",
-  // withCredentials: true,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
