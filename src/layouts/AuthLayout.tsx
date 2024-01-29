@@ -45,7 +45,7 @@ export function AuthLayout({ children, title, subTitle }: TAuthLayoutProps) {
           <div></div>
         </div>
       </div>
-      <div className="relative hidden sm:block md:basis-6/12 lg:basis-8/12">
+      <div className="relative hidden md:block md:basis-6/12 lg:basis-8/12">
         <img
           className="z-0 h-full w-full object-cover"
           src={background}
