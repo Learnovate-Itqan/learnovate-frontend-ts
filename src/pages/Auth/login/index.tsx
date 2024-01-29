@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useTitle } from "@/hooks/useTitle";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schemas/login";
+import { loginSchema, loginResponseSchema } from "@/schemas/login";
 import { OrSeparator } from "@/components/ui/OrSeparator";
 import { SocialButton } from "@/components/ui/SocialButton";
 import { AuthLayout } from "@/layouts/AuthLayout";
@@ -17,9 +17,13 @@ import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { postRequest, usePostData } from "@/hooks/useApi";
 import { authErrorSchema } from "@/schemas/authError";
+import { encrypt } from "@/utils/crypto";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/authSlice";
 
 export function LoginPage() {
   useTitle("Learnovate | Login");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
   const [success, setSuccess] = useState<string | undefined>("");
@@ -58,24 +62,38 @@ export function LoginPage() {
   });
 
   const handleFormSubmit = async (values: z.infer<typeof loginSchema>) => {
+    // reset error and success
     setError([]);
     setSuccess("");
+
+    // extract email and password from values
     const { email, password } = values;
+
+    // send request
     const state = await login.mutateAsync({ email, password });
+
+    // handle response errors
     if (state.status === "failed") {
       const errors = authErrorSchema.safeParse(state.data.errors);
       if (errors.success === true) {
         const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
         setError(errorMsg);
       } else setError(["Something went wrong!"]);
-    } else {
-      console.log(state);
-      setSuccess("Login successful!");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-      reset();
     }
+
+    // handle response success, parse it and store token in local storage
+    const response = loginResponseSchema.safeParse(state.data);
+    if (response.success) {
+      const { accessToken, data } = response.data;
+      const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
+      localStorage.setItem("token", encryptedToken);
+      dispatch(setUser({ ...data, authStatus: true }));
+      setSuccess("Login successful!");
+      reset();
+      navigate("/");
+      return;
+    }
+    setError(["Something went wrong!"]);
   };
 
   return (
