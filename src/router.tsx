@@ -17,7 +17,7 @@ export const Router = createBrowserRouter(
         <Route element={<AuthRoutes />}>
           <Route path="auth/login" element={<LoginPage />} />
           <Route path="auth/register" element={<RegisterPage />} />
-          <Route path="auth/verification/:token" element={<VerificationPage />} />
+          <Route path="auth/verification" element={<VerificationPage />} />
           <Route path="auth/forgot-password" element={<ForgotPassword />} />
           <Route path="auth/reset-password/:id" element={<ResetPassword />} />
         </Route>
