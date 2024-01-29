@@ -94,7 +94,7 @@ export function LoginPage() {
       navigate("/");
       return;
     }
-    setError(["Something went wrong!"]);
+    setError(["something went wrong!"]);
   };
 
   return (
