@@ -79,6 +79,7 @@ export function LoginPage() {
         const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
         setError(errorMsg);
       } else setError(["Something went wrong!"]);
+      return;
     }
 
     // handle response success, parse it and store token in local storage
