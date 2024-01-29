@@ -1,5 +1,6 @@
-import { useAuthStatus } from "@/hooks/useAuthStatus";
 import { Navigate, Outlet } from "react-router-dom";
+
+import { useAuthStatus } from "@/hooks/useAuthStatus";
 
 export function AuthRoutes() {
   const authStatus = useAuthStatus();

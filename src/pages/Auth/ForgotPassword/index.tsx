@@ -1,18 +1,19 @@
-import { useTitle } from "@/hooks/useTitle";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { forgotPasswordSchema } from "@/schemas/forgotPassword";
-import { z } from "zod";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { InputField } from "@/components/ui/InputField";
-import { FieldError } from "@/components/auth/FieldError";
-import { Button } from "@/components/ui/Button";
-import { usePostData } from "@/hooks/useApi";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
+import { FieldError } from "@/components/auth/FieldError";
+import { Button } from "@/components/ui/Button";
+import { InputField } from "@/components/ui/InputField";
+import { usePostData } from "@/hooks/useApi";
+import { useTitle } from "@/hooks/useTitle";
+import { AuthLayout } from "@/layouts/AuthLayout";
 import { authErrorSchema } from "@/schemas/authError";
-import { useNavigate } from "react-router-dom";
+import { forgotPasswordSchema } from "@/schemas/forgotPassword";
 
 export function ForgotPassword() {
   useTitle("Learnovate | Forgot Password");

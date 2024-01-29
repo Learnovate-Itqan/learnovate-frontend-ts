@@ -1,9 +1,11 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { HomePage } from "@/pages/home";
-import { LoginPage } from "@/pages/Auth/login";
-import { RegisterPage } from "@/pages/Auth/register";
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+
 import { ForgotPassword } from "@/pages/Auth/ForgotPassword";
 import { ResetPassword } from "@/pages/Auth/ResetPassword";
+import { LoginPage } from "@/pages/Auth/login";
+import { RegisterPage } from "@/pages/Auth/register";
+import { HomePage } from "@/pages/home";
+
 import { VerificationPage } from "./pages/Auth/Verification";
 import { AuthRoutes } from "./routes/Auth";
 

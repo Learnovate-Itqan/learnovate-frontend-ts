@@ -1,5 +1,6 @@
-import { z } from "zod";
 import { createSlice } from "@reduxjs/toolkit";
+import { z } from "zod";
+
 import { userSchema } from "@/schemas/userSchema";
 
 const initialState: z.infer<typeof userSchema> = {

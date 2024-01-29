@@ -1,6 +1,7 @@
 import "@tanstack/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+
 import { decrypt } from "@/utils/crypto";
 
 const token = localStorage.getItem("token");

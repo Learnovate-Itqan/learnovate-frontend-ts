@@ -1,14 +1,15 @@
-import OtpInput from "react-otp-input";
 import { useState } from "react";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { Button } from "@/components/ui/Button";
-import { useTitle } from "@/hooks/useTitle";
+import { Toaster, toast } from "react-hot-toast";
+import OtpInput from "react-otp-input";
 import { Navigate, useNavigate } from "react-router-dom";
+
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
+import { Button } from "@/components/ui/Button";
 import { usePostData } from "@/hooks/useApi";
+import { useTitle } from "@/hooks/useTitle";
+import { AuthLayout } from "@/layouts/AuthLayout";
 import { authErrorSchema } from "@/schemas/authError";
-import { Toaster, toast } from "react-hot-toast";
 
 export function VerificationPage() {
   const resetEmail = localStorage.getItem("reset-email");

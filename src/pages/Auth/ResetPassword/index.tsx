@@ -1,22 +1,23 @@
-import { useTitle } from "@/hooks/useTitle";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { resetPasswordSchema } from "@/schemas/resetPassword";
-import { z } from "zod";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { InputField } from "@/components/ui/InputField";
-import { FieldError } from "@/components/auth/FieldError";
-import { Button } from "@/components/ui/Button";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { usePatchData } from "@/hooks/useApi";
+import { z } from "zod";
+
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
-import { useState } from "react";
+import { FieldError } from "@/components/auth/FieldError";
+import { Button } from "@/components/ui/Button";
+import { InputField } from "@/components/ui/InputField";
+import { usePatchData } from "@/hooks/useApi";
+import { useTitle } from "@/hooks/useTitle";
+import { AuthLayout } from "@/layouts/AuthLayout";
+import { setUser } from "@/redux/slices/authSlice";
 import { authErrorSchema } from "@/schemas/authError";
 import { loginResponseSchema } from "@/schemas/login";
-import { useDispatch } from "react-redux";
+import { resetPasswordSchema } from "@/schemas/resetPassword";
 import { encrypt } from "@/utils/crypto";
-import { setUser } from "@/redux/slices/authSlice";
 
 export function ResetPassword() {
   const [resetEmail] = useState(localStorage.getItem("reset-email"));

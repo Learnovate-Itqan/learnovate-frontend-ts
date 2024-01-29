@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
-import logoInline from "@/assets/logo-inline.webp";
+import { Link } from "react-router-dom";
+
 import background from "@/assets/auth/backgroud.webp";
 import person1 from "@/assets/auth/person01.webp";
 import person2 from "@/assets/auth/person02.webp";
-import { Link } from "react-router-dom";
+import logoInline from "@/assets/logo-inline.webp";
 
 type TPersonCircleProps = {
   className?: string;

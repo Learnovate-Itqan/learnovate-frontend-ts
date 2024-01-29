@@ -1,25 +1,26 @@
-import { z } from "zod";
-import { useTitle } from "@/hooks/useTitle";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, loginResponseSchema } from "@/schemas/login";
-import { OrSeparator } from "@/components/ui/OrSeparator";
-import { SocialButton } from "@/components/ui/SocialButton";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { InputField } from "@/components/ui/InputField";
-import { FieldError } from "@/components/auth/FieldError";
-import { TrueIcon } from "@/components/icons/TrueIcon";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
+import { z } from "zod";
+
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
-import { useState } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
+import { FieldError } from "@/components/auth/FieldError";
+import { TrueIcon } from "@/components/icons/TrueIcon";
+import { Button } from "@/components/ui/Button";
+import { InputField } from "@/components/ui/InputField";
+import { OrSeparator } from "@/components/ui/OrSeparator";
+import { SocialButton } from "@/components/ui/SocialButton";
 import { postRequest, usePostData } from "@/hooks/useApi";
-import { authErrorSchema } from "@/schemas/authError";
-import { encrypt } from "@/utils/crypto";
-import { useDispatch } from "react-redux";
+import { useTitle } from "@/hooks/useTitle";
+import { AuthLayout } from "@/layouts/AuthLayout";
 import { setUser } from "@/redux/slices/authSlice";
+import { authErrorSchema } from "@/schemas/authError";
+import { loginResponseSchema, loginSchema } from "@/schemas/login";
+import { encrypt } from "@/utils/crypto";
 
 export function LoginPage() {
   useTitle("Learnovate | Login");

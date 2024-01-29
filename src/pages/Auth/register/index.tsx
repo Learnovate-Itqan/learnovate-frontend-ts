@@ -1,22 +1,23 @@
-import { z } from "zod";
-import { useTitle } from "@/hooks/useTitle";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@/schemas/register";
-import { OrSeparator } from "@/components/ui/OrSeparator";
-import { SocialButton } from "@/components/ui/SocialButton";
-import { AuthLayout } from "@/layouts/AuthLayout";
-import { InputField } from "@/components/ui/InputField";
-import { FieldError } from "@/components/auth/FieldError";
-import { TrueIcon } from "@/components/icons/TrueIcon";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
+import { z } from "zod";
+
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
-import { useState } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
+import { FieldError } from "@/components/auth/FieldError";
+import { TrueIcon } from "@/components/icons/TrueIcon";
+import { Button } from "@/components/ui/Button";
+import { InputField } from "@/components/ui/InputField";
+import { OrSeparator } from "@/components/ui/OrSeparator";
+import { SocialButton } from "@/components/ui/SocialButton";
 import { usePostData } from "@/hooks/useApi";
+import { useTitle } from "@/hooks/useTitle";
+import { AuthLayout } from "@/layouts/AuthLayout";
 import { authErrorSchema } from "@/schemas/authError";
+import { registerSchema } from "@/schemas/register";
 
 export function RegisterPage() {
   useTitle("Learnovate | Register");
