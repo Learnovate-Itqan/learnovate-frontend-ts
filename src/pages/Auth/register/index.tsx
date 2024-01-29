@@ -28,6 +28,7 @@ export function RegisterPage() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
+    getValues,
   } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -57,10 +58,18 @@ export function RegisterPage() {
   });
 
   const handleFormSubmit = async (values: z.infer<typeof registerSchema>) => {
+    // reset error and success
     setError([]);
     setSuccess("");
-    console.log(values);
+    // check if termsAndPolicy is checked
+    if (!getValues("termsAndPolicy")) {
+      setError(["You must agree to the terms and privacy policy."]);
+      return;
+    }
+
+    // extract values from form
     const { fullName: name, email, password, termsAndPolicy } = values;
+    // send request to server
     const state = await registerReq.mutateAsync({
       name,
       email,
@@ -69,6 +78,8 @@ export function RegisterPage() {
       role: "student",
       termsAndPolicy,
     });
+
+    // handle response
     if (state.status === "failed") {
       console.log(state);
       const errors = authErrorSchema.safeParse(state.data.errors);
