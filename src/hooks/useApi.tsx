@@ -10,26 +10,33 @@ const api: AxiosInstance = axios.create({
   },
 });
 
+type TStatus = "success" | "failed";
+
 const globalResponseFormat = (res: unknown) => {
+  let resStatus: TStatus;
+
   if (res instanceof AxiosError) {
+    resStatus = "failed";
     return {
-      status: "failed",
+      status: resStatus,
       code: res.response?.status,
       data: res.response?.data,
     };
   }
 
   if (res instanceof Error) {
+    resStatus = "failed";
     return {
-      status: "failed",
+      status: resStatus,
       code: 500,
       data: res.message,
     };
   }
 
   const { status, data } = res as AxiosResponse;
+  resStatus = "success";
   return {
-    status: "success",
+    status: resStatus,
     code: status,
     data,
   };
