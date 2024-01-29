@@ -1,8 +1,8 @@
-import path from "path";
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import sitemap from "vite-plugin-sitemap";
+import path from "path";
 import { fileURLToPath } from "url";
+import { defineConfig } from "vite";
+import sitemap from "vite-plugin-sitemap";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
