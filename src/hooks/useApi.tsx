@@ -1,12 +1,17 @@
 import "@tanstack/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import { decrypt } from "@/utils/crypto";
+
+const token = localStorage.getItem("token");
+const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET) : "";
 
 const api: AxiosInstance = axios.create({
   baseURL: "https://learnovate-server.onrender.com/api/v1",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${decryptedToken}`,
   },
 });
 
