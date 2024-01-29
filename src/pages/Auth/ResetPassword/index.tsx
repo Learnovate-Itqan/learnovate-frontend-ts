@@ -7,9 +7,24 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { InputField } from "@/components/ui/InputField";
 import { FieldError } from "@/components/auth/FieldError";
 import { Button } from "@/components/ui/Button";
+import { Navigate, useNavigate } from "react-router-dom";
+import { usePatchData } from "@/hooks/useApi";
+import { FromError } from "@/components/FormError";
+import { FromSuccess } from "@/components/FormSuccess";
+import { useState } from "react";
+import { authErrorSchema } from "@/schemas/authError";
+import { loginResponseSchema } from "@/schemas/login";
+import { useDispatch } from "react-redux";
+import { encrypt } from "@/utils/crypto";
+import { setUser } from "@/redux/slices/authSlice";
 
 export function ResetPassword() {
+  const [resetEmail] = useState(localStorage.getItem("reset-email"));
   useTitle("Learnovate | Reset Password");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string[] | undefined>([]);
+  const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
     handleSubmit,
@@ -22,11 +37,41 @@ export function ResetPassword() {
       confirmPassword: "",
     },
   });
+  const resetPasswordMutation = usePatchData("/auth/reset-password");
 
-  const handleFromSubmit = (values: z.infer<typeof resetPasswordSchema>) => {
+  const handleFromSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     console.log(values);
-    reset();
+    const email = resetEmail;
+    const state = await resetPasswordMutation.mutateAsync({ ...values, email });
+    if (state.status === "failed") {
+      const errors = authErrorSchema.safeParse(state.data.errors);
+      if (errors.success === true) {
+        const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
+        setError(errorMsg);
+      } else setError(["Something went wrong!"]);
+      return;
+    }
+
+    console.log(state);
+    // localStorage.removeItem("reset-email");
+    const response = loginResponseSchema.safeParse(state.data);
+    if (response.success) {
+      const { accessToken, data } = response.data;
+      const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
+      localStorage.setItem("token", encryptedToken);
+      dispatch(setUser({ ...data, authStatus: true }));
+      setSuccess("password reset successfully!, wait while we redirect you to login page.");
+      localStorage.removeItem("reset-email");
+      reset();
+      navigate("/");
+      return;
+    }
+    setError(["something went wrong!"]);
   };
+
+  if (!resetEmail) {
+    return <Navigate to="/auth/forgot-password" />;
+  }
 
   return (
     <AuthLayout title="Forget Password?" subTitle="Enter your email address to receive security code.">
@@ -53,7 +98,9 @@ export function ResetPassword() {
               />
               {errors.confirmPassword && <FieldError message={errors.confirmPassword.message} />}
             </div>
-            <Button text="Send" disabled={isSubmitting} type="submit" />
+            {error && <FromError messages={error} />}
+            {success && <FromSuccess message={success} />}
+            <Button text="Send" disabled={isSubmitting} type="submit" isLoading={isSubmitting} />
           </div>
         </form>
       </div>

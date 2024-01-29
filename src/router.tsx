@@ -19,7 +19,7 @@ export const Router = createBrowserRouter(
           <Route path="auth/register" element={<RegisterPage />} />
           <Route path="auth/verification" element={<VerificationPage />} />
           <Route path="auth/forgot-password" element={<ForgotPassword />} />
-          <Route path="auth/reset-password/:id" element={<ResetPassword />} />
+          <Route path="auth/reset-password" element={<ResetPassword />} />
         </Route>
       </Route>
       <Route path="*" element={<div>404</div>} />

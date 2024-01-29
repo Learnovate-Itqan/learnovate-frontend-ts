@@ -3,10 +3,82 @@ import { useState } from "react";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { Button } from "@/components/ui/Button";
 import { useTitle } from "@/hooks/useTitle";
+import { Navigate, useNavigate } from "react-router-dom";
+import { FromError } from "@/components/FormError";
+import { FromSuccess } from "@/components/FormSuccess";
+import { usePostData } from "@/hooks/useApi";
+import { authErrorSchema } from "@/schemas/authError";
+import { Toaster, toast } from "react-hot-toast";
 
 export function VerificationPage() {
+  const resetEmail = localStorage.getItem("reset-email");
   useTitle("Learnovate | Verification");
+  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string[] | undefined>([]);
+  const [success, setSuccess] = useState<string | undefined>("");
+  const resetMutation = usePostData("/auth/forgot-password");
+  const verificationMutation = usePostData("/auth/verify/password-reset-code");
+
+  const handleResend = async () => {
+    if (!resetEmail) {
+      toast.error("Something went wrong!");
+      return;
+    }
+    setSending(true);
+    const loadingToast = toast.loading(`sending reset code ...`);
+    const state = await resetMutation.mutateAsync({ email: resetEmail });
+    if (state.status === "failed") {
+      toast.dismiss(loadingToast);
+      const errors = authErrorSchema.safeParse(state.data.errors);
+      if (errors.success === true) {
+        const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
+        toast.error(errorMsg.join(", "));
+      } else setError(["Something went wrong!"]);
+      setSending(false);
+      return;
+    }
+
+    toast.dismiss(loadingToast);
+    toast.success("reset code sent to your email address!");
+    setSending(false);
+  };
+
+  const handleVerify = async () => {
+    if (otp.length === 0) {
+      setError(["verification code is required!"]);
+      return;
+    } else if (otp.length !== 6) {
+      setError(["invalid code!"]);
+      return;
+    }
+    setError(undefined);
+    setSuccess(undefined);
+    setLoading(true);
+    const state = await verificationMutation.mutateAsync({ resetCode: otp });
+    if (state.status === "failed") {
+      const errors = authErrorSchema.safeParse(state.data.errors);
+      if (errors.success === true) {
+        const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
+        setError(errorMsg);
+      } else setError(["Something went wrong!"]);
+      setLoading(false);
+      return;
+    }
+
+    setSuccess("verification successful!");
+    setLoading(false);
+    setOtp("");
+    setTimeout(() => {
+      navigate("/auth/reset-password");
+    }, 1000);
+  };
+
+  if (!resetEmail) {
+    return <Navigate to="/auth/forgot-password" />;
+  }
 
   return (
     <AuthLayout title="Verification" subTitle="Please enter the code we sent to your email address">
@@ -20,19 +92,22 @@ export function VerificationPage() {
           placeholder="------"
           containerStyle={"flex gap-2.5 xs:gap-4 sm:gap-2 md:gap-4"}
           inputStyle={
-            "bg-[#222C54] border border-royal-blue p-2 text-white !w-10 !h-10 xs:!w-12 xs:!h-12 sm:!w-10 sm:!h-10 lg:!w-12 lg:!h-12 xl:!w-14 xl:!h-14 rounded-md font-medium text-2xl xs:text-3xl sm:text-lg md:text-2xl xl:text-4xl"
+            "bg-[#222C54] border border-royal-blue p-2 text-white !w-10 !h-10 xs:!w-12 xs:!h-12 sm:!w-16 sm:!h-16 lg:!w-12 lg:!h-12 xl:!w-14 xl:!h-14 rounded-md font-medium text-2xl xs:text-3xl sm:text-4xl md:text-3xl xl:text-4xl"
           }
         />
         <div className="">
           <p className="text-zinc-400">
             <span>{"Didn’t get a code?"}</span>{" "}
-            <button type="button" className="font-medium text-royal-blue">
+            <button className="font-medium text-royal-blue" onClick={handleResend} disabled={sending}>
               Resend
             </button>
           </p>
         </div>
-        <Button text="Confirm" type="button" />
+        {error && <FromError messages={error} />}
+        {success && <FromSuccess message={success} />}
+        <Button text="Confirm" type="button" onClick={handleVerify} isLoading={loading} disabled={loading} />
       </div>
+      <Toaster />
     </AuthLayout>
   );
 }

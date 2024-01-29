@@ -7,9 +7,18 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { InputField } from "@/components/ui/InputField";
 import { FieldError } from "@/components/auth/FieldError";
 import { Button } from "@/components/ui/Button";
+import { usePostData } from "@/hooks/useApi";
+import { useState } from "react";
+import { FromError } from "@/components/FormError";
+import { FromSuccess } from "@/components/FormSuccess";
+import { authErrorSchema } from "@/schemas/authError";
+import { useNavigate } from "react-router-dom";
 
 export function ForgotPassword() {
   useTitle("Learnovate | Forgot Password");
+  const navigate = useNavigate();
+  const [error, setError] = useState<string[] | undefined>([]);
+  const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
     handleSubmit,
@@ -21,9 +30,26 @@ export function ForgotPassword() {
       email: "",
     },
   });
+  const forgetMutation = usePostData("/auth/forgot-password");
 
-  const handleFromSubmit = (values: z.infer<typeof forgotPasswordSchema>) => {
-    console.log(values);
+  const handleFromSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
+    setError(undefined);
+    setSuccess(undefined);
+    const state = await forgetMutation.mutateAsync(values);
+    if (state.status === "failed") {
+      const errors = authErrorSchema.safeParse(state.data.errors);
+      if (errors.success === true) {
+        const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
+        setError(errorMsg);
+      } else setError(["Something went wrong!"]);
+      return;
+    }
+
+    setSuccess("reset password code sent to your email address!");
+    localStorage.setItem("reset-email", values.email);
+    setTimeout(() => {
+      navigate("/auth/verification");
+    }, 700);
     reset();
   };
 
@@ -42,7 +68,9 @@ export function ForgotPassword() {
               />
               {errors.email && <FieldError message={errors.email.message} />}
             </div>
-            <Button text="Send" disabled={isSubmitting} type="submit" />
+            {error && <FromError messages={error} />}
+            {success && <FromSuccess message={success} />}
+            <Button text="Send" disabled={isSubmitting} type="submit" isLoading={isSubmitting} />
           </div>
         </form>
       </div>
