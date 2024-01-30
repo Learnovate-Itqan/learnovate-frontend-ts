@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { FromError } from "@/components/FormError";
-import { FromSuccess } from "@/components/FormSuccess";
 import { FieldError } from "@/components/auth/FieldError";
 import { Button } from "@/components/ui/Button";
 import { InputField } from "@/components/ui/InputField";
@@ -25,7 +25,6 @@ export function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
-  const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
     handleSubmit,
@@ -41,7 +40,6 @@ export function ResetPassword() {
   const resetPasswordMutation = usePatchData("/auth/reset-password");
 
   const handleFromSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
-    console.log(values);
     const email = resetEmail;
     const state = await resetPasswordMutation.mutateAsync({ ...values, email });
     if (state.status === "failed") {
@@ -53,15 +51,13 @@ export function ResetPassword() {
       return;
     }
 
-    console.log(state);
-    // localStorage.removeItem("reset-email");
     const response = loginResponseSchema.safeParse(state.data);
     if (response.success) {
       const { accessToken, data } = response.data;
       const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
       localStorage.setItem("token", encryptedToken);
       dispatch(setUser({ ...data, authStatus: true }));
-      setSuccess("password reset successfully!, wait while we redirect you to login page.");
+      toast.success("password reset successful!, welcome back!", { duration: 3000 });
       localStorage.removeItem("reset-email");
       reset();
       navigate("/");
@@ -100,7 +96,6 @@ export function ResetPassword() {
               {errors.confirmPassword && <FieldError message={errors.confirmPassword.message} />}
             </div>
             {error && <FromError messages={error} />}
-            {success && <FromSuccess message={success} />}
             <Button text="Send" disabled={isSubmitting} type="submit" isLoading={isSubmitting} />
           </div>
         </form>
