@@ -6,6 +6,7 @@ import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { HomePage } from "@/pages/home";
 
+import { NotFoundPage } from "./pages/404";
 import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
 import { VerificationPage } from "./pages/Auth/Verification";
 import { AuthRoutes } from "./routes/Auth";
@@ -26,7 +27,7 @@ export const Router = createBrowserRouter(
           <Route path="auth/reset-password" element={<ResetPassword />} />
         </Route>
       </Route>
-      <Route path="*" element={<div>404</div>} />
+      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 );
