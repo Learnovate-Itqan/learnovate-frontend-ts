@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -82,19 +83,15 @@ export function RegisterPage() {
 
     // handle response
     if (state.status === "failed") {
-      console.log(state);
       const errors = authErrorSchema.safeParse(state.data.errors);
       if (errors.success === true) {
         const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
         setError(errorMsg);
       } else setError(["Something went wrong!"]);
-      console.log(errors);
     } else {
-      console.log(state);
+      toast.success(state.data.message, { duration: 3000 });
       setSuccess("register successful!");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      navigate("/");
       reset();
     }
   };
