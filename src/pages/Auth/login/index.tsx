@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { InputField } from "@/components/ui/InputField";
 import { OrSeparator } from "@/components/ui/OrSeparator";
 import { SocialButton } from "@/components/ui/SocialButton";
-import { postRequest, usePostData } from "@/hooks/useApi";
+import { globalResponseFormat, postRequest, usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { setUser } from "@/redux/slices/authSlice";
@@ -43,22 +43,25 @@ export function LoginPage() {
   });
   const login = usePostData<z.infer<typeof loginSchema>>("/auth/login");
 
-  const googleLogin = useGoogleLogin({
+  const googleAuth = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
       console.log(codeResponse);
-      try {
-        const { code: token } = codeResponse;
-        const data = await postRequest("/auth/continue-with-google", { token });
-        console.log(data);
-        setSuccess("Login successful!");
-      } catch (error) {
+      const { code: token } = codeResponse;
+      const data = await postRequest("/auth/continue-with-google", { token });
+      const response = globalResponseFormat(data);
+
+      if (response.status === "failed") {
         setError(["Something went wrong!"]);
-        console.log(error);
+        console.log({ errorData: response.data });
+        return;
       }
+
+      console.log(response.data);
     },
     onError: (error) => {
       console.log(error);
+      setError(["Something went wrong!"]);
     },
   });
 
@@ -101,7 +104,7 @@ export function LoginPage() {
   return (
     <AuthLayout title="Welcome Back" subTitle="Welcome back! Please enter your details.">
       <div className="my-6 space-y-4">
-        <SocialButton text="Log in with Google" onClick={() => googleLogin()} />
+        <SocialButton text="Log in with Google" onClick={() => googleAuth()} />
         <OrSeparator />
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="space-y-5">
