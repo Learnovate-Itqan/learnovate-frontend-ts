@@ -3,8 +3,8 @@ import TrackCard from "@/components/ui/TrackCard";
 
 export default function TrackSection() {
   return (
-    <section className="flex justify-center items-center h-dvh  text-center">
-      <main className="w-2/3 flex flex-col gap-6">
+    <section className="flex justify-center items-center min-h-dvh  text-center">
+      <main className="m-8 md:w-3/4 lg:w-2/3 flex flex-col gap-6">
         <h1 className="text-4xl text-dark-navy font-semibold ">Start your journey with your track</h1>
         <p className="text-neutral-gray leading-6 ">
           Lorem ipsum dolor sit amet. Sit facere dignissimos et rerum ducimus non nihil consequatur est sapiente illo in
