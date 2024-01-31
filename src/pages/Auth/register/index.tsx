@@ -33,12 +33,7 @@ export function RegisterPage() {
     getValues,
   } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      termsAndPolicy: false,
-    },
+    defaultValues: { fullName: "", email: "", password: "", termsAndPolicy: false },
   });
   const registerReq = usePostData("/auth/signup");
 
@@ -66,7 +61,7 @@ export function RegisterPage() {
 
   const handleFormSubmit = async (values: z.infer<typeof registerSchema>) => {
     // reset error and success
-    setError([]);
+    setError(undefined);
     setSuccess("");
     // check if termsAndPolicy is checked
     if (!getValues("termsAndPolicy")) {

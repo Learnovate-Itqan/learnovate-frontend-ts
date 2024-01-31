@@ -6,6 +6,7 @@ import verifyError from "@/assets/auth/verifyError.webp";
 import verifyLoading from "@/assets/auth/verifyLoading.webp";
 import verifySuccess from "@/assets/auth/verifySuccess.webp";
 import { api, globalResponseFormat } from "@/hooks/useApi";
+import { useTitle } from "@/hooks/useTitle";
 
 export function Loader() {
   return (
@@ -19,6 +20,7 @@ export function Loader() {
 }
 
 export function EmailVerificationPage() {
+  useTitle("Learnovate | Email Verification");
   const { code } = useParams();
   const navigate = useNavigate();
   const [isLoadingDelay, setIsLoadingDelay] = useState(true);

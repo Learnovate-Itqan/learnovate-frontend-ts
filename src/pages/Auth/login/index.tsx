@@ -35,11 +35,7 @@ export function LoginPage() {
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
+    defaultValues: { email: "", password: "", rememberMe: false },
   });
   const login = usePostData<z.infer<typeof loginSchema>>("/auth/login");
 
