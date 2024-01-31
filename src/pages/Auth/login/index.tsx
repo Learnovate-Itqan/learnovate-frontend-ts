@@ -104,7 +104,7 @@ export function LoginPage() {
   return (
     <AuthLayout title="Welcome Back" subTitle="Welcome back! Please enter your details.">
       <div className="my-6 space-y-4">
-        <SocialButton text="Log in with Google" onClick={() => googleAuth()} />
+        <SocialButton text="Continue With Google" onClick={() => googleAuth()} />
         <OrSeparator />
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="space-y-5">

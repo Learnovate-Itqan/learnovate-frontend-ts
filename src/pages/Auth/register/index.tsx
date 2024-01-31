@@ -104,7 +104,7 @@ export function RegisterPage() {
   return (
     <AuthLayout title="Sign Up" subTitle="Create your account to get started.">
       <div className="my-6 space-y-4">
-        <SocialButton text="Log in with Google" onClick={() => googleAuth()} />
+        <SocialButton text="Create With Google" onClick={() => googleAuth()} />
         <OrSeparator />
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="space-y-5">
@@ -162,7 +162,7 @@ export function RegisterPage() {
             </div>
             {error && <FromError messages={error} />}
             {success && <FromSuccess message={success} />}
-            <Button type="submit" text="Log In" disabled={isSubmitting} isLoading={isSubmitting} />
+            <Button type="submit" text="Create an account" disabled={isSubmitting} isLoading={isSubmitting} />
           </div>
         </form>
         <div className="text-balance text-center text-sm text-zinc-400">
