@@ -23,8 +23,11 @@ import { loginResponseSchema, loginSchema } from "@/schemas/login";
 import { userSchema } from "@/schemas/userSchema";
 import { encrypt } from "@/utils/crypto";
 
+import { GoogleTempModal } from "../GoogleTempModal";
+
 export function LoginPage() {
   useTitle("Learnovate | Login");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
@@ -49,8 +52,9 @@ export function LoginPage() {
       const response = globalResponseFormat(data);
 
       if (response.status === "failed") {
-        setError(["Something went wrong!"]);
+        // setError(["Something went wrong!"]);
         console.log({ errorData: response.data });
+        setIsModalOpen(true);
         return;
       }
 
@@ -101,6 +105,7 @@ export function LoginPage() {
 
   return (
     <AuthLayout title="Welcome Back" subTitle="Welcome back! Please enter your details.">
+      <GoogleTempModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="my-6 space-y-4">
         <SocialButton text="Continue With Google" onClick={() => googleAuth()} />
         <OrSeparator />

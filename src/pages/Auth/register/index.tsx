@@ -20,8 +20,11 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { authErrorSchema } from "@/schemas/authError";
 import { registerSchema } from "@/schemas/register";
 
+import { GoogleTempModal } from "../GoogleTempModal";
+
 export function RegisterPage() {
   useTitle("Learnovate | Register");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
   const [success, setSuccess] = useState<string | undefined>("");
@@ -46,8 +49,9 @@ export function RegisterPage() {
       const response = globalResponseFormat(data);
 
       if (response.status === "failed") {
-        setError(["Something went wrong!"]);
+        // setError(["Something went wrong!"]);
         console.log({ errorData: response.data });
+        setIsModalOpen(true);
         return;
       }
 
@@ -98,6 +102,7 @@ export function RegisterPage() {
 
   return (
     <AuthLayout title="Sign Up" subTitle="Create your account to get started.">
+      <GoogleTempModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="my-6 space-y-4">
         <SocialButton text="Create With Google" onClick={() => googleAuth()} />
         <OrSeparator />
