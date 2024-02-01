@@ -9,7 +9,7 @@ export function Footer() {
     <footer className=" bg-dark-navy md:px-44 lg:px-10 xl:px-44  px-10 py-16 text-white">
       <main className="flex flex-col gap-5 justify-left items-left md:grid lg:grid-cols-6 my-5">
         <aside className="">
-          <img src={Logo} alt="Learnovate Logo" className="md:w-2/3 w-1/3" />
+          <img src={Logo} alt="Learnovate Logo" className="lg:w-2/3 md:w-1/2 w-1/4" />
         </aside>
         <aside className="">
           <h1>Welcome</h1>
