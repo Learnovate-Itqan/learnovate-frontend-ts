@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -13,14 +14,17 @@ import { Button } from "@/components/ui/Button";
 import { InputField } from "@/components/ui/InputField";
 import { OrSeparator } from "@/components/ui/OrSeparator";
 import { SocialButton } from "@/components/ui/SocialButton";
-import { usePostData } from "@/hooks/useApi";
+import { globalResponseFormat, postRequest, usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { authErrorSchema } from "@/schemas/authError";
 import { registerSchema } from "@/schemas/register";
 
+import { GoogleTempModal } from "../GoogleTempModal";
+
 export function RegisterPage() {
   useTitle("Learnovate | Register");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
   const [success, setSuccess] = useState<string | undefined>("");
@@ -32,35 +36,36 @@ export function RegisterPage() {
     getValues,
   } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      termsAndPolicy: false,
-    },
+    defaultValues: { fullName: "", email: "", password: "", termsAndPolicy: false },
   });
   const registerReq = usePostData("/auth/signup");
 
-  const googleLogin = useGoogleLogin({
+  const googleAuth = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
       console.log(codeResponse);
-      try {
-        console.clear();
-        console.log("Sending request to server...");
-        setSuccess("Login successful!");
-      } catch (error) {
-        console.log(error);
+      const { code: token } = codeResponse;
+      const data = await postRequest("/auth/continue-with-google", { token });
+      const response = globalResponseFormat(data);
+
+      if (response.status === "failed") {
+        // setError(["Something went wrong!"]);
+        console.log({ errorData: response.data });
+        setIsModalOpen(true);
+        return;
       }
+
+      console.log(response.data);
     },
     onError: (error) => {
       console.log(error);
+      setError(["Something went wrong!"]);
     },
   });
 
   const handleFormSubmit = async (values: z.infer<typeof registerSchema>) => {
     // reset error and success
-    setError([]);
+    setError(undefined);
     setSuccess("");
     // check if termsAndPolicy is checked
     if (!getValues("termsAndPolicy")) {
@@ -82,27 +87,24 @@ export function RegisterPage() {
 
     // handle response
     if (state.status === "failed") {
-      console.log(state);
       const errors = authErrorSchema.safeParse(state.data.errors);
       if (errors.success === true) {
         const errorMsg = errors.data.map((error) => error.msg.toLocaleLowerCase());
         setError(errorMsg);
       } else setError(["Something went wrong!"]);
-      console.log(errors);
     } else {
-      console.log(state);
+      toast.success(state.data.message, { duration: 3000 });
       setSuccess("register successful!");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      navigate("/");
       reset();
     }
   };
 
   return (
     <AuthLayout title="Sign Up" subTitle="Create your account to get started.">
+      <GoogleTempModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="my-6 space-y-4">
-        <SocialButton text="Log in with Google" onClick={() => googleLogin()} />
+        <SocialButton text="Create With Google" onClick={() => googleAuth()} />
         <OrSeparator />
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="space-y-5">
@@ -160,7 +162,7 @@ export function RegisterPage() {
             </div>
             {error && <FromError messages={error} />}
             {success && <FromSuccess message={success} />}
-            <Button type="submit" text="Log In" disabled={isSubmitting} isLoading={isSubmitting} />
+            <Button type="submit" text="Create an account" disabled={isSubmitting} isLoading={isSubmitting} />
           </div>
         </form>
         <div className="text-balance text-center text-sm text-zinc-400">

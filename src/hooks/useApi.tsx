@@ -7,7 +7,7 @@ import { decrypt } from "@/utils/crypto";
 const token = localStorage.getItem("token");
 const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET) : "";
 
-const api: AxiosInstance = axios.create({
+export const api: AxiosInstance = axios.create({
   baseURL: "https://learnovate-server.onrender.com/api/v1",
   withCredentials: true,
   headers: {
@@ -18,7 +18,7 @@ const api: AxiosInstance = axios.create({
 
 type TStatus = "success" | "failed";
 
-const globalResponseFormat = (res: unknown) => {
+export const globalResponseFormat = (res: unknown) => {
   let resStatus: TStatus;
 
   if (res instanceof AxiosError) {
