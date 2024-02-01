@@ -20,6 +20,7 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { setUser } from "@/redux/slices/authSlice";
 import { authErrorSchema } from "@/schemas/authError";
 import { loginResponseSchema, loginSchema } from "@/schemas/login";
+import { userSchema } from "@/schemas/userSchema";
 import { encrypt } from "@/utils/crypto";
 
 export function LoginPage() {
@@ -88,7 +89,8 @@ export function LoginPage() {
       const { accessToken, data } = response.data;
       const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
       localStorage.setItem("token", encryptedToken);
-      dispatch(setUser({ ...data, authStatus: true }));
+      const userParse = userSchema.safeParse({ ...data, authStatus: true });
+      if (userParse.success) dispatch(setUser(userParse.data));
       setSuccess("Login successful!");
       reset();
       navigate("/");
