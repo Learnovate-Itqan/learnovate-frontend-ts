@@ -7,10 +7,10 @@ import mentor from "../../assets/home/Mentor.png";
 export default function CourseSection() {
   return (
     <>
-      <section className=" mx-20 mt-16">
-        <header className="flex justify-between items-center">
+      <section className="mx-10 md:mx-20 mt-16">
+        <header className="flex flex-col gap-4 sm:flex-row justify-between items-center">
           <h1 className="text-dark-navy text-3xl font-semibold">Start With our Courses</h1>
-          <div className="">
+          <div className="hidden sm:block">
             <Button text="Discover All" type="button" />
           </div>
         </header>
@@ -19,9 +19,12 @@ export default function CourseSection() {
             <CourseCard key={course.id} className="w-96" {...course} />
           ))}
         </main>
+        <div className="sm:hidden">
+          <Button text="Discover All" type="button" />
+        </div>
       </section>
-      <section className="mx-auto flex justify-evenly my-44 items-center">
-        <aside className="max-w-96">
+      <section className="flex flex-col md:flex-row gap-5 justify-evenly md:my-44 my-24 mx-5 items-center">
+        <aside className="md:max-w-96 max-w-72">
           <img src={mentor} alt="" className="" />
         </aside>
         <aside className=" max-w-96 flex flex-col gap-4">
