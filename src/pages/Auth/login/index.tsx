@@ -91,14 +91,16 @@ export function LoginPage() {
     const response = loginResponseSchema.safeParse(state.data);
     if (response.success) {
       const { accessToken, data } = response.data;
-      const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
-      localStorage.setItem("token", encryptedToken);
       const userParse = userSchema.safeParse({ ...data, authStatus: true });
-      if (userParse.success) dispatch(setUser(userParse.data));
-      setSuccess("Login successful!");
-      reset();
-      navigate("/");
-      return;
+      if (userParse.success) {
+        const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
+        localStorage.setItem("token", encryptedToken);
+        dispatch(setUser(userParse.data));
+        setSuccess("Login successful!");
+        reset();
+        navigate("/");
+        return;
+      }
     }
     setError(["something went wrong!"]);
   };

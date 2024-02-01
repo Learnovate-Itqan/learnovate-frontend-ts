@@ -17,6 +17,7 @@ import { setUser } from "@/redux/slices/authSlice";
 import { authErrorSchema } from "@/schemas/authError";
 import { loginResponseSchema } from "@/schemas/login";
 import { resetPasswordSchema } from "@/schemas/resetPassword";
+import { userSchema } from "@/schemas/userSchema";
 import { encrypt } from "@/utils/crypto";
 
 export function ResetPassword() {
@@ -54,14 +55,17 @@ export function ResetPassword() {
     const response = loginResponseSchema.safeParse(state.data);
     if (response.success) {
       const { accessToken, data } = response.data;
-      const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
-      localStorage.setItem("token", encryptedToken);
-      dispatch(setUser({ ...data, authStatus: true }));
-      toast.success("password reset successful!, welcome back!", { duration: 3000 });
-      localStorage.removeItem("reset-email");
-      reset();
-      navigate("/");
-      return;
+      const userParse = userSchema.safeParse({ ...data, authStatus: true });
+      if (userParse.success) {
+        const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
+        localStorage.setItem("token", encryptedToken);
+        dispatch(setUser(userParse.data));
+        toast.success("password reset successful!, welcome back!", { duration: 3000 });
+        localStorage.removeItem("reset-email");
+        reset();
+        navigate("/");
+        return;
+      }
     }
     setError(["something went wrong!"]);
   };
