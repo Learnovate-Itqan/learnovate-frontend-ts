@@ -7,7 +7,7 @@ import MentorSection from "./MentorSection";
 import TrackSection from "./TrackSection";
 
 export const HomePage = () => (
-  <div className=" overflow-hidden">
+  <div className=" w-full relative overflow-x-hidden">
     <Navbar />
     <HeroSection />
     <TrackSection />

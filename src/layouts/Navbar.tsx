@@ -4,23 +4,26 @@ import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 import { TRACKS } from "@/assets/temp/Tracks";
+import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
 import { SearchBar } from "@/components/ui/SearchBar";
 
 import person from "../assets/home/Mentor.png";
 import Logo from "../assets/logo-inline.webp";
+import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
   const [isAuth] = useState(true);
 
   return (
-    <nav className='bg-dark-navy w-full absolute px-20 py-5 flex justify-between items-center gap-14 z-50  after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full after:h-[100%] after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
-      <div className="w-48 ">
+    <nav className='bg-dark-navy w-full absolute px-5 lg:px-10 xl:px-20 py-5 flex justify-between items-center gap-1 z-50  after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
+      <SmallNavbar />
+      <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
           <img src={Logo} />
         </Link>
       </div>
-      <div className="grow">
+      <div className="grow hidden mx-5 lg:block">
         <ul className="flex space-x-5 text-white">
           <li>
             <TracksDropDownMenu />
@@ -48,21 +51,22 @@ export function Navbar() {
         </ul>
       </div>
       {!isAuth ? (
-        <div className="flex space-x-5 min-w-fit">
+        <div className="space-x-5 min-w-fit hidden lg:flex">
           <button className="text-white whitespace-nowrap hover:opacity-80 transition-opacity">Log in</button>
           <Button text="Sign up" type="button" />
         </div>
       ) : (
-        <div className="text-white flex justify-center items-center gap-5">
+        <div className="text-white justify-center items-center gap-5 hidden lg:flex">
           <SearchBar />
           <button>
             <GoBell size={22} />
           </button>
           <Link to="/profile">
-            <img src={person} className="w-10 h-10 rounded-full" />
+            <img src={person} className="w-10 min-w-8 aspect-square rounded-full" />
           </Link>
         </div>
       )}
+      <BurgerBtn />
     </nav>
   );
 }
