@@ -1,7 +1,13 @@
-import { TRACKS } from "@/assets/temp/Tracks";
 import TrackCard from "@/components/ui/TrackCard";
 
-export default function TrackSection() {
+type TTrack = {
+  id: string;
+  title: string;
+  relatedTopics: string[];
+};
+
+export default function TrackSection({ tracks }: { tracks: TTrack[] }) {
+  if (!tracks) return null;
   return (
     <section className="flex justify-center items-center min-h-dvh  text-center">
       <main className="m-8 md:w-3/4 lg:w-2/3 flex flex-col gap-6">
@@ -12,9 +18,9 @@ export default function TrackSection() {
           ducimus! Id sint galisum et corrupti obcaecati qui quisquam quam hic sint aliquam nam Quis porro qui velit
           soluta et eius natus.
         </p>
-        <div className="flex flex-wrap gap-4  justify-center items-center mx-7">
-          {TRACKS.map((track) => (
-            <TrackCard key={track.name} {...track} />
+        <div className="flex flex-wrap gap-4 justify-center items-center mx-7">
+          {tracks.map((track) => (
+            <TrackCard key={track.id} {...track} />
           ))}
         </div>
       </main>

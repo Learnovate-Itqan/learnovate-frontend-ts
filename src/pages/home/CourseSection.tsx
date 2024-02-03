@@ -1,22 +1,51 @@
-import { COURSES } from "@/assets/temp/Courses";
 import { Button } from "@/components/ui/Button";
 import CourseCard from "@/components/ui/CourseCard";
 
 import mentor from "../../assets/home/Mentor.png";
 
-export default function CourseSection() {
+type Course = {
+  id: number;
+  title: string;
+  publishTime: string;
+  description: string;
+  keywords: string[];
+  image: string;
+  progress: number;
+  estimatedTime: number;
+  noChapters: number;
+  noStudentsEnrolled: number;
+  rating: number;
+  cLevel: string;
+  cLink: string;
+  trackID: string;
+};
+
+export default function CourseSection({ courses }: { courses: Course[] }) {
+  if (!courses) return null;
   return (
     <>
-      <section className="mx-10 md:mx-20 mt-16">
+      <section className="mx-5 sm:mx-10 md:mx-20 mt-16">
         <header className="flex flex-col gap-4 sm:flex-row justify-between items-center">
           <h1 className="text-dark-navy text-3xl font-semibold">Start With our Courses</h1>
           <div className="hidden sm:block">
             <Button text="Discover All" type="button" />
           </div>
         </header>
-        <main className="flex flex-wrap justify-between gap-5 my-10">
-          {COURSES.map((course) => (
-            <CourseCard key={course.id} className="w-96" {...course} />
+        <main className="flex flex-wrap gap-5 my-10">
+          {courses.map((course) => (
+            <CourseCard
+              key={course.id}
+              className="w-96"
+              name={course.title}
+              rate={course.rating}
+              description={course.description}
+              level={course.cLevel}
+              id={course.id}
+              track={course.trackID}
+              duration={course.estimatedTime}
+              image={course.image}
+              price={23}
+            />
           ))}
         </main>
         <div className="sm:hidden">

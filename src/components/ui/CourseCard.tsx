@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import { Tag } from "./Tag";
 
 type CourseCardProps = {
+  id: number;
   name: string;
   image?: string | undefined;
-  id: number;
   rate: number;
   level: string;
-  duration: string;
+  duration: number;
   price: number;
   track: string;
   description: string;
@@ -32,7 +32,7 @@ export default function CourseCard({
   return (
     <div className={"text-black rounded-lg shadow-lg overflow-hidden border-2 grow min-w-64 " + className}>
       <div className=" bg-[#B7B9C3] h-56 relative">
-        <img src={image} alt="" loading="lazy" />
+        <img src={image} className=" object-cover h-full w-full" alt="" loading="lazy" />
         <Link
           to={`/course/:${id}`}
           className=" absolute inset-0 z-10 bg-black/50 hover:opacity-100 flex justify-center items-center transition-all opacity-0 "
@@ -45,12 +45,12 @@ export default function CourseCard({
           <h2 className=" text-royal-blue font-semibold">{track}</h2>
           <h1 className="text-lg font-semibold">{name}</h1>
           <p className=" text-neutral-gray text-sm">{description}</p>
-          <footer className="flex justify-between item-center">
+          <footer className="flex justify-between max-w-96 item-center">
             <Tag>
               {rate} <HiStar className="text-yellow-500" size={18} />{" "}
             </Tag>
             <Tag>{level}</Tag>
-            <Tag>{duration}</Tag>
+            <Tag>{duration} Min</Tag>
             <Tag>{price}$</Tag>
           </footer>
         </Link>
