@@ -112,26 +112,29 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
         <div className="flex flex-col gap-2 items-start font-[500] p-4 ">
           {tracks.map((track) => (
             <button
-              className="flex items-center gap-1 hover:text-dark-navy/70"
+              className={`flex items-center gap-1  ${selectedTrack === track ? "text-royal-blue hover:text-royal-blue/70" : "hover:text-dark-navy/70"}`}
               onClick={() => handleTrackClick(track)}
               key={track.id}
             >
               <span>{track.name}</span>
               <span>
-                <IoIosArrowDown size={14} className=" -rotate-90" />
+                <IoIosArrowDown
+                  size={14}
+                  className={` transition-all  ${selectedTrack === track ? "rotate-90" : "-rotate-90"}`}
+                />
               </span>
             </button>
           ))}
         </div>
         <div
-          className={`text-sm transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " border-l-2 max-w-screen-3xl" : " max-w-0"}`}
+          className={`text-sm flex flex-col transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " border-l-2 max-w-screen-3xl" : " max-w-0"}`}
         >
           <header className="bg-dark-navy/90 text-white w-full text-lg font-semibold p-4">
             <h1>{selectedTrack?.name}</h1>
           </header>
-          <main className="px-4">
+          <main className="px-4 pb-2 grow flex justify-between flex-col">
             <p className=" font-semibold text-base mb-4">Related Topics</p>
-            <div className="flex flex-col">
+            <div className="flex flex-col grow">
               {selectedTrack?.relatedTopics.map((topic, index) => (
                 <Link to={`/tracks/${selectedTrack.name}`} className="hover:text-dark-navy/70" key={index}>
                   {topic}

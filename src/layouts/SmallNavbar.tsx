@@ -20,7 +20,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrac
   return (
     <nav
       ref={navRef}
-      className={`h-dvh absolute w-60 bg-royal-blue z-50 top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
+      className={`xl:hidden h-dvh absolute w-60 bg-royal-blue z-50 top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
     >
       <header>
         <div className="flex justify-between">
@@ -127,21 +127,25 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
           ))}
         </div>
         <div
-          className={`text-sm transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " max-w-screen-3xl" : " max-w-0"}`}
+          className={`text-sm flex flex-col  transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " max-w-screen-3xl" : " max-w-0"}`}
         >
           <header className="bg-dark-navy/90 text-white w-full text-lg font-semibold p-4">
             <h1>{selectedTrack?.name}</h1>
           </header>
-          <main className="px-4">
+          <main className="px-4 flex flex-col pb-2 justify-between grow">
             <p className=" font-semibold text-base mb-4">Related Topics</p>
-            <div className="flex flex-col">
+            <div className="flex flex-col grow">
               {selectedTrack?.relatedTopics.map((topic, index) => (
-                <Link to={`/tracks/${selectedTrack.name}`} className="hover:text-dark-navy/70" key={index}>
+                <Link
+                  to={`/tracks/${selectedTrack.name}`}
+                  className="hover:text-dark-navy/70 whitespace-nowrap"
+                  key={index}
+                >
                   {topic}
                 </Link>
               ))}
             </div>
-            <Link to={`/tracks/${selectedTrack?.name}`} className="text-royal-blue text-base mt-4 block">
+            <Link to={`/tracks/${selectedTrack?.name}`} className="text-dark-navy text-base mt-4 block">
               Explore the track
             </Link>
           </main>
