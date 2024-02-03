@@ -2,7 +2,7 @@ import { FaGooglePlay } from "react-icons/fa";
 
 export function PlayStoreButton() {
   return (
-    <button className="bg-transparent p-2 border-[1px] min-w-28 border-white rounded-lg flex justify-center items-center gap-4">
+    <button className="bg-transparent p-2 border-[1px] min-w-40 border-white rounded-lg flex justify-center items-center gap-4">
       <FaGooglePlay size={25} />
       <div className="text-left">
         <p className="text-xs">GET IT ON</p>
