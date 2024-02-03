@@ -8,7 +8,7 @@ import { TRACKS } from "@/assets/temp/Tracks";
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
 import { SearchBar } from "@/components/ui/SearchBar";
-import { SmallSearchBar } from "@/components/ui/SmalllSearchBar";
+import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 import person from "../assets/home/Mentor.png";
