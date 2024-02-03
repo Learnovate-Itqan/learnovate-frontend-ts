@@ -8,7 +8,7 @@ export function SmallSearchBar() {
       className={`flex gap-1 p-1 rounded-lg transition-color duration-300 ${isOpened ? "has-[:focus]:bg-white/5 has-[:focus]:ring-royal-blue has-[:focus]:ring-2" : ""}  `}
     >
       <button className="lg:hidden" onClick={() => setIsOpened((prev) => !prev)}>
-        <label htmlFor="Search">
+        <label htmlFor="Search" className=" cursor-pointer">
           <IoMdSearch size={30} className="text-white" />
         </label>
       </button>
