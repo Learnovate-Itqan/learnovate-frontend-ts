@@ -1,4 +1,7 @@
+import { z } from "zod";
+
 import { useGetData } from "@/hooks/useApi";
+import { trackSchema } from "@/schemas/trackSchema";
 
 import CourseSection from "./CourseSection";
 import HeroSection from "./HeroSection";
@@ -8,12 +11,10 @@ import TrackSection from "./TrackSection";
 export const HomePage = () => {
   const { data } = useGetData("/home");
   const { courses, mentors, tracks } = data?.data || {};
-  console.log(courses);
-  console.log(data);
   return (
     <div className=" w-full relative overflow-x-hidden">
       <HeroSection />
-      <TrackSection tracks={tracks} />
+      <TrackSection tracks={tracks as z.infer<typeof trackSchema>[]} />
       <MentorSection mentors={mentors} />
       <CourseSection courses={courses} />
     </div>

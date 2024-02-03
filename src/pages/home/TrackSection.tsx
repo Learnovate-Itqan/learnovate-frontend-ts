@@ -1,12 +1,9 @@
+import { z } from "zod";
+
 import TrackCard from "@/components/ui/TrackCard";
+import { trackSchema } from "@/schemas/trackSchema";
 
-type TTrack = {
-  id: string;
-  title: string;
-  relatedTopics: string[];
-};
-
-export default function TrackSection({ tracks }: { tracks: TTrack[] }) {
+export default function TrackSection({ tracks }: { tracks: z.infer<typeof trackSchema>[] }) {
   if (!tracks) return null;
   return (
     <section className="flex justify-center items-center min-h-dvh  text-center">
