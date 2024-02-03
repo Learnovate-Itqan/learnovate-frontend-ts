@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
@@ -88,9 +89,10 @@ export function SmallNavbar() {
 function TracksDropDownMenu() {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<(typeof TRACKS)[0] | null>(null);
-  const dropDownRef = useOutsideClick(() => setIsOpened(false));
+  const dropDownRef = useOutsideClick(() => setIsOpened(false), false);
 
-  const handleDropDownMenuClick = () => {
+  const handleDropDownMenuClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     if (isOpened) setSelectedTrack(null);
     setIsOpened((prev) => !prev);
   };
