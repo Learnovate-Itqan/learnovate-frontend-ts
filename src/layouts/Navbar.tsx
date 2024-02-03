@@ -8,6 +8,7 @@ import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmalllSearchBar";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 import person from "../assets/home/Mentor.png";
 import Logo from "../assets/logo-inline.webp";
@@ -78,6 +79,7 @@ export function Navbar() {
 function TracksDropDownMenu() {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<(typeof TRACKS)[0] | null>(null);
+  const dropDownRef = useOutsideClick(() => setIsOpened(false));
 
   const handleDropDownMenuClick = () => {
     if (isOpened) setSelectedTrack(null);
@@ -97,6 +99,7 @@ function TracksDropDownMenu() {
         </span>
       </button>
       <div
+        ref={dropDownRef}
         className={` absolute top-full overflow-hidden transition-all duration-700 flex z-10 bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
       >
         <div className="flex flex-col gap-2 items-start font-[500] p-4 ">

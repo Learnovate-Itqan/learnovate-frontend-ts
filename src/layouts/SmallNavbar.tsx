@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { TRACKS } from "@/assets/temp/Tracks";
 import { BurgerBtn } from "@/components/ui/BurgerButton";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { closeNav } from "@/redux/slices/navSlice";
 import { RootState } from "@/redux/store";
 
 import person from "../assets/home/Mentor.png";
@@ -13,9 +15,12 @@ import Logo from "../assets/white logo.svg";
 
 export function SmallNavbar() {
   const isOpen = useSelector((state: RootState) => state.nav.isOpen);
+  const dispatcher = useDispatch();
+  const navRef = useOutsideClick(() => dispatcher(closeNav()));
   const [isAuth] = useState(true);
   return (
     <nav
+      ref={navRef}
       className={`h-dvh absolute w-60 bg-royal-blue z-50 top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
     >
       <header>
@@ -83,6 +88,7 @@ export function SmallNavbar() {
 function TracksDropDownMenu() {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<(typeof TRACKS)[0] | null>(null);
+  const dropDownRef = useOutsideClick(() => setIsOpened(false));
 
   const handleDropDownMenuClick = () => {
     if (isOpened) setSelectedTrack(null);
@@ -99,6 +105,7 @@ function TracksDropDownMenu() {
         <span>Tracks</span>
       </button>
       <div
+        ref={dropDownRef}
         className={` absolute whitespace-nowrap top-0 right-full overflow-hidden transition-all duration-500 flex flex-row-reverse z-10 border-white border-[1px] rounded-md bg-royal-blue text-white  ${isOpened ? " max-w-screen-3xl  " : "hidden max-w-0"}`}
       >
         <div className="flex flex-col gap-2 items-end font-[500] p-4 ">
