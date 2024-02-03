@@ -6,6 +6,7 @@ import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { HomePage } from "@/pages/home";
 
+import { AppLayout } from "./layouts/AppLayout";
 import { VerificationPage } from "./pages/Auth/Verification";
 import { AuthRoutes } from "./routes/Auth";
 
@@ -13,8 +14,10 @@ export const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<div>404</div>}>
       <Route path="/">
-        <Route index element={<HomePage />} />
-        <Route path="/about" element={<HomePage />} />
+        <Route element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/about" element={<HomePage />} />
+        </Route>
         {/* Authentication Routes */}
         <Route element={<AuthRoutes />}>
           <Route path="auth/login" element={<LoginPage />} />

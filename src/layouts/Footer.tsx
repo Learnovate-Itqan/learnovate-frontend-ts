@@ -6,8 +6,8 @@ import Logo from "../assets/logo-full-white-text.svg";
 
 export function Footer() {
   return (
-    <footer className=" bg-dark-navy md:px-44 lg:px-10 xl:px-44  px-10 py-16 text-white">
-      <main className="flex flex-col gap-5 justify-left items-left md:grid lg:grid-cols-6 my-5">
+    <footer className=" bg-dark-navy md:px-32 lg:px-10 xl:px-44  px-10 py-16 text-white place-self-end">
+      <main className="flex flex-col gap-5 justify-left items-left md:grid lg:grid-cols-6 mt-5">
         <aside className="">
           <img src={Logo} alt="Learnovate Logo" className="lg:w-2/3 md:w-1/2 w-1/4" />
         </aside>
@@ -65,7 +65,7 @@ export function Footer() {
             </Link>
           </ul>
         </aside>
-        <aside className=" lg:-translate-y-16 col-span-2 grid gap-3 my-8 bg-white/10 p-8 ">
+        <aside className=" lg:-translate-y-8 col-span-2 grid gap-3  bg-white/10 p-8 ">
           <h1>Subscribe</h1>
 
           <SubscribeEmailInput />
