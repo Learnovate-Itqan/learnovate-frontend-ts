@@ -34,16 +34,20 @@ export default function CourseCard({
       <div className=" bg-[#B7B9C3] h-56 relative">
         <img src={image} className=" object-cover h-full w-full" alt="" loading="lazy" />
         <Link
-          to={`/course/:${id}`}
+          to={`/course/${id}`}
           className=" absolute inset-0 z-10 bg-black/50 hover:opacity-100 flex justify-center items-center transition-all opacity-0 "
         >
           <IoPlayCircleSharp className="text-white" size={50} />
         </Link>
       </div>
       <div>
-        <Link to={`/course/:${id}`} className="bg-white p-6 grid gap-2">
-          <h2 className=" text-royal-blue font-semibold">{track}</h2>
-          <h1 className="text-lg font-semibold">{name}</h1>
+        <div className="bg-white p-6 grid gap-2">
+          <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
+            {track}
+          </Link>
+          <Link to={`/course/${id}`} className="text-lg font-semibold w-fit">
+            {name}
+          </Link>
           <p className=" text-neutral-gray text-sm">{description}</p>
           <footer className="flex justify-between max-w-96 item-center">
             <Tag>
@@ -53,7 +57,7 @@ export default function CourseCard({
             <Tag>{duration} Min</Tag>
             <Tag>{price}$</Tag>
           </footer>
-        </Link>
+        </div>
       </div>
     </div>
   );
