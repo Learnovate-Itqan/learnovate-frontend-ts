@@ -4,11 +4,11 @@ import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-import { TRACKS } from "@/assets/temp/Tracks";
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
+import { useGetData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 import person from "../assets/home/Mentor.png";
@@ -16,11 +16,12 @@ import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
-  const [isAuth] = useState(true);
-
+  const { data } = useGetData("/nav");
+  const { tracks, user } = data?.data || {};
+  const { loggedIn: isAuth } = user || {};
   return (
     <nav className='bg-dark-navy w-full absolute px-5 lg:px-10 xl:px-20 py-5 flex justify-between items-center gap-1 z-50  after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
-      <SmallNavbar />
+      <SmallNavbar tracks={tracks} isAuth={isAuth} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
           <img src={Logo} />
@@ -28,9 +29,7 @@ export function Navbar() {
       </div>
       <div className="grow hidden mx-5 lg:block">
         <ul className="flex space-x-5 text-white">
-          <li>
-            <TracksDropDownMenu />
-          </li>
+          <li>{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
           <li>
             <Link className="hover:opacity-80 transition-opacity" to={"/"}>
               Mentors
@@ -77,9 +76,15 @@ export function Navbar() {
   );
 }
 
-function TracksDropDownMenu() {
+type TTrack = {
+  id: string;
+  name: string;
+  relatedTopics: string[];
+};
+
+function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState<(typeof TRACKS)[0] | null>(null);
+  const [selectedTrack, setSelectedTrack] = useState<TTrack | null>(null);
   const dropDownRef = useOutsideClick(() => setIsOpened(false), false);
 
   const handleDropDownMenuClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -87,7 +92,7 @@ function TracksDropDownMenu() {
     if (isOpened) setSelectedTrack(null);
     setIsOpened((prev) => !prev);
   };
-  const handleTrackClick = (track: (typeof TRACKS)[0]) => {
+  const handleTrackClick = (track: TTrack) => {
     if (selectedTrack === track) setSelectedTrack(null);
     else setSelectedTrack(track);
   };
@@ -105,11 +110,11 @@ function TracksDropDownMenu() {
         className={` absolute top-full overflow-hidden transition-all duration-700 flex z-10 bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
       >
         <div className="flex flex-col gap-2 items-start font-[500] p-4 ">
-          {TRACKS.map((track, index) => (
+          {tracks.map((track) => (
             <button
               className="flex items-center gap-1 hover:text-dark-navy/70"
               onClick={() => handleTrackClick(track)}
-              key={index}
+              key={track.id}
             >
               <span>{track.name}</span>
               <span>

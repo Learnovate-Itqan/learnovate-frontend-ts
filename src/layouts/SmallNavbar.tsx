@@ -5,7 +5,6 @@ import { LuLogOut } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { TRACKS } from "@/assets/temp/Tracks";
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { closeNav } from "@/redux/slices/navSlice";
@@ -14,11 +13,10 @@ import { RootState } from "@/redux/store";
 import person from "../assets/home/Mentor.png";
 import Logo from "../assets/white logo.svg";
 
-export function SmallNavbar() {
+export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrack[] }) {
   const isOpen = useSelector((state: RootState) => state.nav.isOpen);
   const dispatcher = useDispatch();
   const navRef = useOutsideClick(() => dispatcher(closeNav()));
-  const [isAuth] = useState(true);
   return (
     <nav
       ref={navRef}
@@ -36,9 +34,7 @@ export function SmallNavbar() {
       </header>
 
       <ul className="flex flex-col justify-evenly items-end grow text-xl font-semibold text-white">
-        <li className="relative">
-          <TracksDropDownMenu />
-        </li>
+        <li className="relative">{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
         <li>
           <Link className="hover:opacity-80 transition-opacity" to={"/"}>
             Mentors
@@ -86,9 +82,15 @@ export function SmallNavbar() {
   );
 }
 
-function TracksDropDownMenu() {
+type TTrack = {
+  id: string;
+  name: string;
+  relatedTopics: string[];
+};
+
+function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState<(typeof TRACKS)[0] | null>(null);
+  const [selectedTrack, setSelectedTrack] = useState<TTrack | null>(null);
   const dropDownRef = useOutsideClick(() => setIsOpened(false), false);
 
   const handleDropDownMenuClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -96,7 +98,7 @@ function TracksDropDownMenu() {
     if (isOpened) setSelectedTrack(null);
     setIsOpened((prev) => !prev);
   };
-  const handleTrackClick = (track: (typeof TRACKS)[0]) => {
+  const handleTrackClick = (track: TTrack) => {
     if (selectedTrack === track) setSelectedTrack(null);
     else setSelectedTrack(track);
   };
@@ -111,11 +113,11 @@ function TracksDropDownMenu() {
         className={` absolute whitespace-nowrap top-0 right-full overflow-hidden transition-all duration-500 flex flex-row-reverse z-10 border-white border-[1px] rounded-md bg-royal-blue text-white  ${isOpened ? " max-w-screen-3xl  " : "hidden max-w-0"}`}
       >
         <div className="flex flex-col gap-2 items-end font-[500] p-4 ">
-          {TRACKS.map((track, index) => (
+          {tracks.map((track) => (
             <button
               className={`flex items-center gap-1 hover:text-dark-navy/70 ${selectedTrack === track ? "text-dark-navy" : "text-white"}`}
               onClick={() => handleTrackClick(track)}
-              key={index}
+              key={track.id}
             >
               <span>
                 <IoIosArrowDown size={14} className=" rotate-90" />
