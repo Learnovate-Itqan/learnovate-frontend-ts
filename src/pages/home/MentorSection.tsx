@@ -1,30 +1,11 @@
+import { z } from "zod";
+
+import mentorImage from "@/assets/home/mentors/metor01.webp";
 import { Button } from "@/components/ui/Button";
 import MentorCard from "@/components/ui/MentorCard";
+import { mentorSchema } from "@/schemas/mentorSchema";
 
-type Mentor = {
-  name: string;
-  image?: string | undefined;
-  id: string;
-  mentorID: string;
-  noStudents: number;
-  pricePerHour: number;
-  rating: number;
-  title: string;
-  about: string;
-  experience: string;
-  skills: string[];
-  resume: string;
-  education: string;
-  workExperience: string;
-  linkedIn: string;
-  gitHub: string;
-  facebook: string;
-  twitter: string;
-  languages: string[];
-  trackID: string;
-};
-
-export default function MentorSection({ mentors }: { mentors: Mentor[] }) {
+export default function MentorSection({ mentors }: { mentors: z.infer<typeof mentorSchema>[] }) {
   if (!mentors) {
     return null;
   }
@@ -49,8 +30,8 @@ export default function MentorSection({ mentors }: { mentors: Mentor[] }) {
               key={mentor.id}
               className=""
               title={mentor.title}
-              image={mentor.image}
-              name={mentor.name}
+              image={mentorImage}
+              name={mentor.title}
               id={mentor.id}
               rating={mentor.rating}
             />

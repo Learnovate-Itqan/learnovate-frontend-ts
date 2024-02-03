@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Tag } from "./Tag";
 
 type CourseCardProps = {
-  id: number;
+  id: string;
   name: string;
   image?: string | undefined;
   rate: number;

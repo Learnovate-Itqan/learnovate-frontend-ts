@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 import { useGetData } from "@/hooks/useApi";
+import { courseSchema } from "@/schemas/courseSchema";
+import { mentorSchema } from "@/schemas/mentorSchema";
 import { trackSchema } from "@/schemas/trackSchema";
 
 import CourseSection from "./CourseSection";
@@ -15,8 +17,8 @@ export const HomePage = () => {
     <div className=" w-full relative overflow-x-hidden">
       <HeroSection />
       <TrackSection tracks={tracks as z.infer<typeof trackSchema>[]} />
-      <MentorSection mentors={mentors} />
-      <CourseSection courses={courses} />
+      <MentorSection mentors={mentors as z.infer<typeof mentorSchema>[]} />
+      <CourseSection courses={courses as z.infer<typeof courseSchema>[]} />
     </div>
   );
 };

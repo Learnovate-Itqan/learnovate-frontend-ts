@@ -1,26 +1,12 @@
+import { z } from "zod";
+
 import { Button } from "@/components/ui/Button";
 import CourseCard from "@/components/ui/CourseCard";
+import { courseSchema } from "@/schemas/courseSchema";
 
 import mentor from "../../assets/home/Mentor.png";
 
-type Course = {
-  id: number;
-  title: string;
-  publishTime: string;
-  description: string;
-  keywords: string[];
-  image: string;
-  progress: number;
-  estimatedTime: number;
-  noChapters: number;
-  noStudentsEnrolled: number;
-  rating: number;
-  cLevel: string;
-  cLink: string;
-  trackID: string;
-};
-
-export default function CourseSection({ courses }: { courses: Course[] }) {
+export default function CourseSection({ courses }: { courses: z.infer<typeof courseSchema>[] }) {
   if (!courses) return null;
   return (
     <>
