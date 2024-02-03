@@ -7,6 +7,7 @@ import { TRACKS } from "@/assets/temp/Tracks";
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { SmallSearchBar } from "@/components/ui/SmalllSearchBar";
 
 import person from "../assets/home/Mentor.png";
 import Logo from "../assets/logo-inline.webp";
@@ -66,7 +67,10 @@ export function Navbar() {
           </Link>
         </div>
       )}
-      <BurgerBtn />
+      <div className="flex justify-center items-center gap-1 lg:hidden">
+        <SmallSearchBar />
+        <BurgerBtn />
+      </div>
     </nav>
   );
 }
