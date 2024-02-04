@@ -91,7 +91,10 @@ type TTrack = {
 function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<TTrack | null>(null);
-  const dropDownRef = useOutsideClick(() => setIsOpened(false), false);
+  const dropDownRef = useOutsideClick(() => {
+    setIsOpened(false);
+    setSelectedTrack(null);
+  }, false);
 
   const handleDropDownMenuClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -110,24 +113,27 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
       </button>
       <div
         ref={dropDownRef}
-        className={` absolute whitespace-nowrap top-0 right-full overflow-hidden transition-all duration-500 flex flex-row-reverse z-10 border-white border-[1px] rounded-md bg-royal-blue text-white  ${isOpened ? " max-w-screen-3xl  " : "hidden max-w-0"}`}
+        className={` absolute whitespace-nowrap top-0 right-full overflow-hidden transition-all duration-500 flex flex-col z-10 border-white border-[1px] rounded-md bg-royal-blue text-white  ${isOpened ? " max-w-screen-3xl  " : "hidden max-w-0"}`}
       >
         <div className="flex flex-col gap-2 items-end font-[500] p-4 ">
           {tracks.map((track) => (
             <button
-              className={`flex items-center gap-1 hover:text-dark-navy/70 ${selectedTrack === track ? "text-dark-navy" : "text-white"}`}
+              className={`flex items-center gap-1  ${selectedTrack === track ? "text-dark-navy" : "text-white hover:text-dark-navy/70 "}`}
               onClick={() => handleTrackClick(track)}
               key={track.id}
             >
               <span>
-                <IoIosArrowDown size={14} className=" rotate-90" />
+                <IoIosArrowDown
+                  size={14}
+                  className={`transition-all ${selectedTrack === track ? "text-dark-navy rotate-180" : "text-white"}`}
+                />
               </span>
               <span>{track.name}</span>
             </button>
           ))}
         </div>
         <div
-          className={`text-sm flex flex-col  transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " max-w-screen-3xl" : " max-w-0"}`}
+          className={`text-sm flex flex-col  transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " max-h-screen" : " max-h-0"}`}
         >
           <header className="bg-dark-navy/90 text-white w-full text-lg font-semibold p-4">
             <h1>{selectedTrack?.name}</h1>
