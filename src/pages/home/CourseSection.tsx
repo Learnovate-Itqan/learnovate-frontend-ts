@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/Button";
@@ -7,6 +8,7 @@ import { courseSchema } from "@/schemas/courseSchema";
 import mentor from "../../assets/home/Mentor.png";
 
 export default function CourseSection({ courses }: { courses: z.infer<typeof courseSchema>[] }) {
+  const navigate = useNavigate();
   if (!courses) return null;
   return (
     <>
@@ -52,7 +54,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
             illum ducimus!{" "}
           </p>
           <div className="inline">
-            <Button text="Discover All" type="button" />
+            <Button text="Discover All" type="button" onClick={() => navigate("/courses")} />
           </div>
         </aside>
       </section>

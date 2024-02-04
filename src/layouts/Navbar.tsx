@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
@@ -19,6 +19,7 @@ export function Navbar() {
   const { data } = useGetData("/nav");
   const { tracks, user } = data?.data || {};
   const { loggedIn: isAuth } = user || {};
+  const navigate = useNavigate();
   return (
     <nav className='bg-dark-navy w-full absolute px-5 lg:px-10 xl:px-20 py-5 flex justify-between items-center gap-1 z-50  after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
@@ -36,7 +37,7 @@ export function Navbar() {
             </Link>
           </li>
           <li>
-            <Link className="hover:opacity-80 transition-opacity" to={"/"}>
+            <Link className="hover:opacity-80 transition-opacity" to={"/courses"}>
               Courses
             </Link>
           </li>
@@ -54,8 +55,13 @@ export function Navbar() {
       </div>
       {!isAuth ? (
         <div className="space-x-5 min-w-fit hidden lg:flex">
-          <button className="text-white whitespace-nowrap hover:opacity-80 transition-opacity">Log in</button>
-          <Button text="Sign up" type="button" />
+          <button
+            className="text-white whitespace-nowrap hover:opacity-80 transition-opacity"
+            onClick={() => navigate("/auth/login")}
+          >
+            Log in
+          </button>
+          <Button text="Sign up" type="button" onClick={() => navigate("/auth/register")} />
         </div>
       ) : (
         <div className="text-white justify-center items-center gap-5 hidden lg:flex">

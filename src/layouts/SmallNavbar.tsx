@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
@@ -17,6 +17,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrac
   const isOpen = useSelector((state: RootState) => state.nav.isOpen);
   const dispatcher = useDispatch();
   const navRef = useOutsideClick(() => dispatcher(closeNav()));
+  const navigate = useNavigate();
   return (
     <nav
       ref={navRef}
@@ -41,7 +42,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrac
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/"}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/courses"}>
             Courses
           </Link>
         </li>
@@ -70,10 +71,16 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrac
         </div>
       ) : (
         <div className="gap-2 min-w-fit flex flex-col justify-center font-semibold items-center w-full">
-          <button className="text-dark-navy border-2 w-full border-dark-navy px-3 py-1.5 rounded-md whitespace-nowrap hover:bg-dark-navy/20 transition-colors">
+          <button
+            className="text-dark-navy border-2 w-full border-dark-navy px-3 py-1.5 rounded-md whitespace-nowrap hover:bg-dark-navy/20 transition-colors"
+            onClick={() => navigate("/auth/register")}
+          >
             Sign up
           </button>
-          <button className="text-white bg-dark-navy/90 w-full px-4 py-2 rounded-md whitespace-nowrap hover:bg-dark-navy/90 transition-colors">
+          <button
+            className="text-white bg-dark-navy/90 w-full px-4 py-2 rounded-md whitespace-nowrap hover:bg-dark-navy/90 transition-colors"
+            onClick={() => navigate("/auth/login")}
+          >
             Log in
           </button>
         </div>
