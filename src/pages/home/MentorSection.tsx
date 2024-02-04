@@ -9,6 +9,7 @@ export default function MentorSection({ mentors }: { mentors: z.infer<typeof men
   if (!mentors) {
     return null;
   }
+  console.log(mentors);
   return (
     <section className=" flex flex-col gap-5 justify-evenly items-center bg-dark-navy py-8 min-h-dvh text-white">
       <aside className="flex flex-col justify-center gap-6 text-center items-center mx-12 md:mx-24 lg:mx-48">
@@ -30,8 +31,8 @@ export default function MentorSection({ mentors }: { mentors: z.infer<typeof men
               key={mentor.id}
               className=""
               title={mentor.title}
-              image={mentorImage}
-              name={mentor.title}
+              image={mentor.user.image || mentorImage}
+              name={mentor.user.name}
               id={mentor.id}
               rating={mentor.rating}
             />

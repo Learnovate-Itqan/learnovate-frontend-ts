@@ -27,10 +27,10 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
               description={course.description}
               level={course.cLevel}
               id={course.id}
-              track={course.trackID}
-              duration={course.estimatedTime}
+              track={course.trackName}
+              duration={course.estimatedTime || 0}
               image={course.image}
-              price={23}
+              price={course.prices}
             />
           ))}
         </main>

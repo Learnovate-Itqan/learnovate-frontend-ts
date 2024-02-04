@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const trackSchema = z.object({
   id: z.string().uuid(),
-  title: z.string(),
+  name: z.string(),
   subtitle: z.string(),
   description: z.string(),
   image: z.string().url(),

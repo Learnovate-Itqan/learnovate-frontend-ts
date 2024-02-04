@@ -51,7 +51,7 @@ export default function CourseCard({
           <p className=" text-neutral-gray text-sm">{description}</p>
           <footer className="flex justify-between max-w-96 item-center">
             <Tag>
-              {rate} <HiStar className="text-yellow-500" size={18} />{" "}
+              {rate} <HiStar className="text-yellow-500" size={18} />
             </Tag>
             <Tag>{level}</Tag>
             <Tag>{duration} Min</Tag>
