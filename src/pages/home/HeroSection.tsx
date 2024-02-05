@@ -5,15 +5,15 @@ import { PlayStoreButton } from "@/components/ui/PlayStoreButton";
 
 export default function HeroSection() {
   return (
-    <section className="relative py-24 min-h-dvh bg-gradient-to-b from-dark-navy via-dark-navy/90 to-dark-navy/80 md:from-transparent md:to-transparent md:via-transparent md:bg-dark-navy flex justify-start items-center">
+    <section className="relative flex justify-start items-center py-24 min-h-dvh bg-gradient-to-b from-dark-navy via-dark-navy/90 to-dark-navy/80 md:from-transparent md:to-transparent md:via-transparent md:bg-dark-navy ">
       <div
         style={{
           backgroundImage: `url(${Hero})`,
         }}
-        className="hidden md:block bg-dark-navy inset-0 absolute z-10 bg-cover bg-right bg-no-repeat "
+        className="hidden md:block bg-dark-navy inset-0 absolute bg-cover bg-right bg-no-repeat "
       />
-      <main className=" container  text-white text-center md:text-left grid gap-5 xs:gap-8 z-20">
-        <h1 className=" text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold ">
+      <main className="container text-white text-center md:text-left grid gap-5 xs:gap-8 z-20">
+        <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold ">
           <span className="block">Choose your </span>
           <span className="block">
             <span className=" text-royal-blue">tech</span> road with
