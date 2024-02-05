@@ -4,16 +4,18 @@ import { IoIosArrowDown } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { closeNav } from "@/redux/slices/navSlice";
 import { RootState } from "@/redux/store";
+import { trackSchema } from "@/schemas/trackSchema";
 
 import person from "../assets/home/Mentor.png";
 import Logo from "../assets/white logo.svg";
 
-export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrack[] }) {
+export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.infer<typeof trackSchema>[] }) {
   const isOpen = useSelector((state: RootState) => state.nav.isOpen);
   const dispatcher = useDispatch();
   const navRef = useOutsideClick(() => dispatcher(closeNav()));
@@ -89,28 +91,15 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: TTrac
   );
 }
 
-type TTrack = {
-  id: string;
-  name: string;
-  relatedTopics: string[];
-};
-
-function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
+function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] }) {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState<TTrack | null>(null);
   const dropDownRef = useOutsideClick(() => {
     setIsOpened(false);
-    setSelectedTrack(null);
   }, false);
 
   const handleDropDownMenuClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    if (isOpened) setSelectedTrack(null);
     setIsOpened((prev) => !prev);
-  };
-  const handleTrackClick = (track: TTrack) => {
-    if (selectedTrack === track) setSelectedTrack(null);
-    else setSelectedTrack(track);
   };
   return (
     <>
@@ -124,44 +113,14 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
       >
         <div className="flex flex-col gap-2 items-end font-[500] p-4 ">
           {tracks.map((track) => (
-            <button
-              className={`flex items-center gap-1  ${selectedTrack === track ? "text-dark-navy" : "text-white hover:text-dark-navy/70 "}`}
-              onClick={() => handleTrackClick(track)}
+            <Link
+              to={`/tracks/${track?.name}`}
+              className={`flex items-center gap-1 hover:text-dark-navy/70 `}
               key={track.id}
             >
-              <span>
-                <IoIosArrowDown
-                  size={14}
-                  className={`transition-all ${selectedTrack === track ? "text-dark-navy rotate-180" : "text-white"}`}
-                />
-              </span>
               <span>{track.name}</span>
-            </button>
-          ))}
-        </div>
-        <div
-          className={`text-sm flex flex-col  transition-all duration-300 space-y-2 items-start whitespace-nowrap overflow-hidden ${selectedTrack ? " max-h-screen" : " max-h-0"}`}
-        >
-          <header className="bg-dark-navy/90 text-white w-full text-lg font-semibold p-4">
-            <h1>{selectedTrack?.name}</h1>
-          </header>
-          <main className="px-4 flex flex-col pb-2 justify-between grow">
-            <p className=" font-semibold text-base mb-4">Related Topics</p>
-            <div className="flex flex-col grow">
-              {selectedTrack?.relatedTopics.map((topic, index) => (
-                <Link
-                  to={`/tracks/${selectedTrack.name}`}
-                  className="hover:text-dark-navy/70 whitespace-nowrap"
-                  key={index}
-                >
-                  {topic}
-                </Link>
-              ))}
-            </div>
-            <Link to={`/tracks/${selectedTrack?.name}`} className="text-dark-navy text-base mt-4 block">
-              Explore the track
             </Link>
-          </main>
+          ))}
         </div>
       </div>
     </>
