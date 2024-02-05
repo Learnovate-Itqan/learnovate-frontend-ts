@@ -10,4 +10,5 @@ export const trackSchema = z.object({
   estimatedTime: z.number(),
   noStudentsEnrolled: z.number(),
   keywords: z.array(z.string()),
+  relatedTopics: z.array(z.string()),
 });
