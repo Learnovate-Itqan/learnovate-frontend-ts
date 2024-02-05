@@ -10,6 +10,7 @@ import { AppLayout } from "./layouts/AppLayout";
 import { NotFoundPage } from "./pages/404";
 import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
 import { VerificationPage } from "./pages/Auth/Verification";
+import { CoursesPage } from "./pages/courses";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
@@ -18,6 +19,7 @@ export const Router = createBrowserRouter(
       <Route path="/">
         <Route element={<AppLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/courses" element={<CoursesPage />} />
           <Route path="/about" element={<HomePage />} />
         </Route>
         {/* Authentication Routes */}
