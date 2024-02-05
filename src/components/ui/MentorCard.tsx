@@ -19,7 +19,7 @@ export default function MentorCard({ name, id, rating, image, title, className }
       <div className="absolute -left-1 -top-1 flex w-full justify-between p-4 text-sm">
         <Tag>
           <HiStar className="inline-block h-5 w-5 text-yellow-500" />
-          <p>{rating}</p>
+          <p>{rating.toFixed(1)}</p>
         </Tag>
       </div>
       <Link to={`/mentors/${id}`} className="bg-[#222C54] py-3  min-h-fit flex flex-col justify-center items-center">

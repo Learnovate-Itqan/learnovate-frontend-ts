@@ -54,7 +54,7 @@ export default function CourseCard({
         </p>
         <footer className="flex text-sm md:text-base justify-start gap-1 item-center">
           <Tag>
-            {rate} <HiStar className="text-yellow-500" size={18} />
+            {rate.toFixed(1)} <HiStar className="text-yellow-500" size={18} />
           </Tag>
           <Tag>{level}</Tag>
           <Tag>{duration} Min</Tag>
