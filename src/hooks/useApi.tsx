@@ -8,7 +8,8 @@ const token = localStorage.getItem("token");
 const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET) : "";
 
 export const api: AxiosInstance = axios.create({
-  baseURL: "https://learnovate-server.onrender.com/api/v1",
+  baseURL: "https://learnovate-back.onrender.com/api/v1",
+
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

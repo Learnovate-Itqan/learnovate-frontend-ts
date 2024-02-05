@@ -43,6 +43,7 @@ export default {
         "dark-navy": "#181D3C",
         "royal-blue": "#3498DB",
         "mint-green": "#2ECC71",
+        "neutral-gray": "#808080",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
@@ -52,6 +53,7 @@ export default {
       },
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(16rem, 1fr))",
+        "auto-fit-18": "repeat(auto-fit, minmax(18rem, 1fr))",
       },
     },
   },

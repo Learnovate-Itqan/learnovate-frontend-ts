@@ -1,8 +1,24 @@
-export const HomePage = () => (
-  <div className="flex h-screen w-full items-center justify-center bg-gradient-to-r from-violet-900 to-sky-900 text-center text-white">
-    <div className="space-y-2">
-      <h1 className="text-6xl font-bold">Learnovate</h1>
-      <p className="text-xl">Coming soon...</p>
+import { z } from "zod";
+
+import { useGetData } from "@/hooks/useApi";
+import { courseSchema } from "@/schemas/courseSchema";
+import { mentorSchema } from "@/schemas/mentorSchema";
+import { trackSchema } from "@/schemas/trackSchema";
+
+import CourseSection from "./CourseSection";
+import HeroSection from "./HeroSection";
+import MentorSection from "./MentorSection";
+import TrackSection from "./TrackSection";
+
+export const HomePage = () => {
+  const { data } = useGetData("/home");
+  const { courses, mentors, tracks } = data?.data || {};
+  return (
+    <div className=" w-full relative overflow-x-hidden">
+      <HeroSection />
+      <TrackSection tracks={tracks as z.infer<typeof trackSchema>[]} />
+      <MentorSection mentors={mentors as z.infer<typeof mentorSchema>[]} />
+      <CourseSection courses={courses as z.infer<typeof courseSchema>[]} />
     </div>
-  </div>
-);
+  );
+};
