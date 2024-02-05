@@ -30,7 +30,9 @@ export default function CourseCard({
   className,
 }: CourseCardProps) {
   return (
-    <div className={"text-black rounded-lg shadow-lg overflow-hidden border-2 grow min-w-64 " + className}>
+    <div
+      className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow min-w-72 " + className}
+    >
       <div className=" bg-[#B7B9C3] h-56 relative">
         <img src={image} className=" object-cover h-full w-full" alt="" loading="lazy" />
         <Link
@@ -40,24 +42,24 @@ export default function CourseCard({
           <IoPlayCircleSharp className="text-white" size={50} />
         </Link>
       </div>
-      <div>
-        <div className="bg-white p-6 grid gap-2">
-          <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
-            {track}
-          </Link>
-          <Link to={`/course/${id}`} className="text-lg font-semibold w-fit">
-            {name}
-          </Link>
-          <p className=" text-neutral-gray text-sm">{description}</p>
-          <footer className="flex justify-between max-w-96 item-center">
-            <Tag>
-              {rate} <HiStar className="text-yellow-500" size={18} />
-            </Tag>
-            <Tag>{level}</Tag>
-            <Tag>{duration} Min</Tag>
-            <Tag>{price}$</Tag>
-          </footer>
-        </div>
+      <div className="bg-white p-6 flex flex-col justify-between grow gap-2">
+        <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
+          {track}
+        </Link>
+        <Link to={`/course/${id}`} className="text-lg font-semibold w-fit">
+          {name}
+        </Link>
+        <p className=" text-neutral-gray text-sm grow ">
+          {description.length > 100 ? description.slice(0, 100) + "..." : description}
+        </p>
+        <footer className="flex text-sm md:text-base justify-start gap-1 item-center">
+          <Tag>
+            {rate} <HiStar className="text-yellow-500" size={18} />
+          </Tag>
+          <Tag>{level}</Tag>
+          <Tag>{duration} Min</Tag>
+          <Tag>{price}$</Tag>
+        </footer>
       </div>
     </div>
   );
