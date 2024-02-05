@@ -14,16 +14,20 @@ import { Button } from "@/components/ui/Button";
 import { InputField } from "@/components/ui/InputField";
 import { OrSeparator } from "@/components/ui/OrSeparator";
 import { SocialButton } from "@/components/ui/SocialButton";
-import { postRequest, usePostData } from "@/hooks/useApi";
+import { globalResponseFormat, postRequest, usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { setUser } from "@/redux/slices/authSlice";
 import { authErrorSchema } from "@/schemas/authError";
 import { loginResponseSchema, loginSchema } from "@/schemas/login";
+import { userSchema } from "@/schemas/userSchema";
 import { encrypt } from "@/utils/crypto";
+
+import { GoogleTempModal } from "../GoogleTempModal";
 
 export function LoginPage() {
   useTitle("Learnovate | Login");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
@@ -35,30 +39,30 @@ export function LoginPage() {
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
+    defaultValues: { email: "", password: "", rememberMe: false },
   });
   const login = usePostData<z.infer<typeof loginSchema>>("/auth/login");
 
-  const googleLogin = useGoogleLogin({
+  const googleAuth = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
       console.log(codeResponse);
-      try {
-        const { code: token } = codeResponse;
-        const data = await postRequest("/auth/continue-with-google", { token });
-        console.log(data);
-        setSuccess("Login successful!");
-      } catch (error) {
-        setError(["Something went wrong!"]);
-        console.log(error);
+      const { code: token } = codeResponse;
+      const data = await postRequest("/auth/continue-with-google", { token });
+      const response = globalResponseFormat(data);
+
+      if (response.status === "failed") {
+        // setError(["Something went wrong!"]);
+        console.log({ errorData: response.data });
+        setIsModalOpen(true);
+        return;
       }
+
+      console.log(response.data);
     },
     onError: (error) => {
       console.log(error);
+      setError(["Something went wrong!"]);
     },
   });
 
@@ -87,21 +91,25 @@ export function LoginPage() {
     const response = loginResponseSchema.safeParse(state.data);
     if (response.success) {
       const { accessToken, data } = response.data;
-      const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
-      localStorage.setItem("token", encryptedToken);
-      dispatch(setUser({ ...data, authStatus: true }));
-      setSuccess("Login successful!");
-      reset();
-      navigate("/");
-      return;
+      const userParse = userSchema.safeParse({ ...data, authStatus: true });
+      if (userParse.success) {
+        const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
+        localStorage.setItem("token", encryptedToken);
+        dispatch(setUser(userParse.data));
+        setSuccess("Login successful!");
+        reset();
+        navigate("/");
+        return;
+      }
     }
     setError(["something went wrong!"]);
   };
 
   return (
     <AuthLayout title="Welcome Back" subTitle="Welcome back! Please enter your details.">
+      <GoogleTempModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="my-6 space-y-4">
-        <SocialButton text="Log in with Google" onClick={() => googleLogin()} />
+        <SocialButton text="Continue With Google" onClick={() => googleAuth()} />
         <OrSeparator />
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="space-y-5">

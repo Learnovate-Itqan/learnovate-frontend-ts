@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { FromError } from "@/components/FormError";
-import { FromSuccess } from "@/components/FormSuccess";
 import { FieldError } from "@/components/auth/FieldError";
 import { Button } from "@/components/ui/Button";
 import { InputField } from "@/components/ui/InputField";
@@ -19,7 +19,6 @@ export function ForgotPassword() {
   useTitle("Learnovate | Forgot Password");
   const navigate = useNavigate();
   const [error, setError] = useState<string[] | undefined>([]);
-  const [success, setSuccess] = useState<string | undefined>("");
   const {
     register,
     handleSubmit,
@@ -35,7 +34,6 @@ export function ForgotPassword() {
 
   const handleFromSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
     setError(undefined);
-    setSuccess(undefined);
     const state = await forgetMutation.mutateAsync(values);
     if (state.status === "failed") {
       const errors = authErrorSchema.safeParse(state.data.errors);
@@ -46,11 +44,9 @@ export function ForgotPassword() {
       return;
     }
 
-    setSuccess("reset password code sent to your email address!");
+    toast.success("reset password code sent to your email address!", { duration: 3500 });
     localStorage.setItem("reset-email", values.email);
-    setTimeout(() => {
-      navigate("/auth/verification");
-    }, 700);
+    navigate("/auth/verification");
     reset();
   };
 
@@ -70,7 +66,6 @@ export function ForgotPassword() {
               {errors.email && <FieldError message={errors.email.message} />}
             </div>
             {error && <FromError messages={error} />}
-            {success && <FromSuccess message={success} />}
             <Button text="Send" disabled={isSubmitting} type="submit" isLoading={isSubmitting} />
           </div>
         </form>
