@@ -12,5 +12,12 @@ export const loginResponseSchema = z.object({
     email: z.string().email(),
     id: z.string().uuid(),
     name: z.string(),
+    role: z.union([z.literal("student"), z.literal("mentor"), z.literal(undefined)]),
+    image: z.string().url(),
+    age: z.union([z.number().int().positive(), z.null()]).optional(),
+    gender: z.union([z.literal("male"), z.literal("female"), z.null()]).optional(),
+    country: z.union([z.string(), z.null()]).optional(),
+    city: z.union([z.string(), z.null()]).optional(),
+    bio: z.union([z.string(), z.null()]).optional(),
   }),
 });

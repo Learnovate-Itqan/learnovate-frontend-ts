@@ -9,6 +9,7 @@ const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET)
 
 const api: AxiosInstance = axios.create({
   baseURL: "https://learnovate-back.onrender.com/api/v1",
+
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -18,7 +19,7 @@ const api: AxiosInstance = axios.create({
 
 type TStatus = "success" | "failed";
 
-const globalResponseFormat = (res: unknown) => {
+export const globalResponseFormat = (res: unknown) => {
   let resStatus: TStatus;
 
   if (res instanceof AxiosError) {

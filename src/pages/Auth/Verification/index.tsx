@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import OtpInput from "react-otp-input";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { FromError } from "@/components/FormError";
-import { FromSuccess } from "@/components/FormSuccess";
 import { Button } from "@/components/ui/Button";
 import { usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
@@ -19,11 +18,11 @@ export function VerificationPage() {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string[] | undefined>([]);
-  const [success, setSuccess] = useState<string | undefined>("");
   const resetMutation = usePostData("/auth/forgot-password");
   const verificationMutation = usePostData("/auth/verify/password-reset-code");
 
   const handleResend = async () => {
+    setError(undefined);
     if (!resetEmail) {
       toast.error("Something went wrong!");
       return;
@@ -43,7 +42,7 @@ export function VerificationPage() {
     }
 
     toast.dismiss(loadingToast);
-    toast.success("reset code sent to your email address!");
+    toast.success("reset code sent to your email address!", { duration: 3000 });
     setSending(false);
   };
 
@@ -56,7 +55,6 @@ export function VerificationPage() {
       return;
     }
     setError(undefined);
-    setSuccess(undefined);
     setLoading(true);
     const state = await verificationMutation.mutateAsync({ resetCode: otp });
     if (state.status === "failed") {
@@ -69,12 +67,10 @@ export function VerificationPage() {
       return;
     }
 
-    setSuccess("verification successful!");
     setLoading(false);
+    toast.success("verification successful!", { duration: 3000 });
     setOtp("");
-    setTimeout(() => {
-      navigate("/auth/reset-password");
-    }, 1000);
+    navigate("/auth/reset-password");
   };
 
   if (!resetEmail) {
@@ -105,10 +101,8 @@ export function VerificationPage() {
           </p>
         </div>
         {error && <FromError messages={error} />}
-        {success && <FromSuccess message={success} />}
         <Button text="Confirm" type="button" onClick={handleVerify} isLoading={loading} disabled={loading} />
       </div>
-      <Toaster />
     </AuthLayout>
   );
 }
