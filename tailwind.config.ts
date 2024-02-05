@@ -53,6 +53,7 @@ export default {
       },
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(16rem, 1fr))",
+        "auto-fit-18": "repeat(auto-fit, minmax(18rem, 1fr))",
       },
     },
   },
