@@ -67,7 +67,7 @@ export function Navbar() {
         </div>
       ) : (
         <div className="text-white justify-center items-center gap-5 hidden lg:flex">
-          <SearchBar />
+          <SearchBar className=" text-white *:placeholder:text-white/80 has-[:focus]:bg-white/20" />
           <button>
             <GoBell size={22} />
           </button>

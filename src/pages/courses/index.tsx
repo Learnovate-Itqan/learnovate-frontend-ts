@@ -42,7 +42,7 @@ export function CoursesPage() {
             </button>
           </div>
           <div className="flex gap-2 max-h-12">
-            <SearchBar className="bg-gray-400 text-white *:placeholder:text-white/80" />
+            <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
             <button className="bg-royal-blue aspect-square flex justify-center items-center text-white px-2 py-1 rounded-lg">
               <TbAdjustmentsFilled size={28} className="rotate-90 aspect-square" />
             </button>
