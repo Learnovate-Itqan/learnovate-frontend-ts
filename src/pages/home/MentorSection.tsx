@@ -1,3 +1,4 @@
+import ContentLoader from "react-content-loader";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -9,7 +10,29 @@ import { mentorSchema } from "@/schemas/mentorSchema";
 export default function MentorSection({ mentors }: { mentors: z.infer<typeof mentorSchema>[] }) {
   const navigate = useNavigate();
 
-  if (!mentors) return null;
+  if (!mentors)
+    return (
+      <div className="bg-dark-navy py-10 flex justify-center">
+        <ContentLoader
+          title="Mentors"
+          speed={2}
+          width={900}
+          height={360}
+          viewBox="-50 0 500 300"
+          backgroundColor="#ffffff76"
+          foregroundColor="#808080"
+        >
+          <rect x="0" y="160" rx="10" ry="10" width="60" height="75" />
+          <rect x="90" y="160" rx="10" ry="10" width="60" height="75" />
+          <rect x="180" y="160" rx="10" ry="10" width="60" height="75" />
+          <rect x="270" y="160" rx="10" ry="10" width="60" height="75" />
+          <rect x="360" y="160" rx="10" ry="10" width="60" height="75" />
+          <rect x="100" y="80" rx="5" ry="5" width="215" height="10" />
+          <rect x="80" y="110" rx="5" ry="5" width="261" height="11" />
+          <rect x="150" y="20" rx="5" ry="5" width="115" height="13" />
+        </ContentLoader>
+      </div>
+    );
 
   return (
     <section className="flex flex-col gap-16 py-20 justify-evenly items-center bg-dark-navy text-white">

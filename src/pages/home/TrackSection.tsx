@@ -1,10 +1,16 @@
+import { List } from "react-content-loader";
 import { z } from "zod";
 
 import TrackCard from "@/components/ui/TrackCard";
 import { trackSchema } from "@/schemas/trackSchema";
 
 export default function TrackSection({ tracks }: { tracks: z.infer<typeof trackSchema>[] }) {
-  if (!tracks) return null;
+  if (!tracks)
+    return (
+      <div className="flex justify-center items-center py-20">
+        <List title="Tracks" viewBox="-80 0 400 110" height={"15rem"} />
+      </div>
+    );
   return (
     <section className="container py-20 flex justify-center items-center text-center">
       <main className="flex flex-col gap-6 max-w-screen-xl">
