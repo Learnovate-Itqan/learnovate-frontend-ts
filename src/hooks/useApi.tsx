@@ -7,7 +7,7 @@ import { decrypt } from "@/utils/crypto";
 const token = localStorage.getItem("token");
 const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET) : "";
 
-const api: AxiosInstance = axios.create({
+export const api: AxiosInstance = axios.create({
   baseURL: "https://learnovate-back.onrender.com/api/v1",
 
   withCredentials: true,

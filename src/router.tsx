@@ -6,12 +6,9 @@ import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { HomePage } from "@/pages/home";
 
-
 import { AppLayout } from "./layouts/AppLayout";
-
 import { NotFoundPage } from "./pages/404";
 import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
-
 import { VerificationPage } from "./pages/Auth/Verification";
 import { AuthRoutes } from "./routes/Auth";
 
