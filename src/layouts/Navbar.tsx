@@ -3,6 +3,7 @@ import { useState } from "react";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
@@ -10,6 +11,7 @@ import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import { useGetData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { trackSchema } from "@/schemas/trackSchema";
 
 import person from "../assets/home/Mentor.png";
 import Logo from "../assets/logo-inline.webp";
@@ -30,7 +32,7 @@ export function Navbar() {
       </div>
       <div className="grow hidden mx-5 lg:block">
         <ul className="flex space-x-5 text-white">
-          <li>{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
+          <li className="relative">{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
           <li>
             <Link className="hover:opacity-80 transition-opacity" to={"/"}>
               Mentors
@@ -82,15 +84,9 @@ export function Navbar() {
   );
 }
 
-type TTrack = {
-  id: string;
-  name: string;
-  relatedTopics: string[];
-};
-
-function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
+function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] }) {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState<TTrack | null>(null);
+  const [selectedTrack, setSelectedTrack] = useState<z.infer<typeof trackSchema> | null>(null);
   const dropDownRef = useOutsideClick(() => setIsOpened(false), false);
 
   const handleDropDownMenuClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -98,7 +94,7 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
     if (isOpened) setSelectedTrack(null);
     setIsOpened((prev) => !prev);
   };
-  const handleTrackClick = (track: TTrack) => {
+  const handleTrackClick = (track: z.infer<typeof trackSchema>) => {
     if (selectedTrack === track) setSelectedTrack(null);
     else setSelectedTrack(track);
   };
@@ -113,7 +109,7 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
       </button>
       <div
         ref={dropDownRef}
-        className={` absolute top-full overflow-hidden transition-all duration-700 flex z-10 bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
+        className={` absolute top-[150%]  overflow-hidden transition-all duration-700 flex z-10 bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
       >
         <div className="flex flex-col gap-2 items-start font-[500] p-4 ">
           {tracks.map((track) => (
@@ -122,7 +118,7 @@ function TracksDropDownMenu({ tracks }: { tracks: TTrack[] }) {
               onClick={() => handleTrackClick(track)}
               key={track.id}
             >
-              <span>{track.name}</span>
+              <span className=" whitespace-nowrap">{track.name}</span>
               <span>
                 <IoIosArrowDown
                   size={14}
