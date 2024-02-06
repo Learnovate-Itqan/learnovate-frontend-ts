@@ -1,6 +1,8 @@
+import React from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { TbAdjustmentsFilled } from "react-icons/tb";
 import ReactPaginate from "react-paginate";
+import { useSearchParams } from "react-router-dom";
 
 import { COURSES } from "@/assets/temp/Courses";
 import CourseCard from "@/components/ui/CourseCard";
@@ -8,22 +10,35 @@ import { SearchBar } from "@/components/ui/SearchBar";
 
 import { CoursesHeader } from "./CoursesHeader";
 
-const Tracks = ["Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android", "Web Development"];
+const Tracks = ["All", "Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android"];
 
 export function CoursesPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedPage = searchParams.get("page") || "1";
+  const selectedTrack = searchParams.get("track") || "all";
+
+  const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    searchParams.set("track", e.currentTarget.value);
+    setSearchParams(searchParams, { replace: true });
+  };
+
+  const handlePageChange = (page: { selected: number }) => {
+    searchParams.set("page", (page.selected + 1).toString());
+    setSearchParams(searchParams, { replace: true });
+  };
   return (
     <>
       <CoursesHeader />
       <main className=" py-20">
         <header className="container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
           <div className="flex justify-start gap-3 flex-wrap">
-            <button className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl">
-              all
-            </button>
             {Tracks.map((track, index) => (
               <button
                 key={index}
-                className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl"
+                value={track.replace(" ", "-").toLowerCase()}
+                className={` border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl ${track.replace(" ", "-").toLowerCase() === selectedTrack ? "bg-royal-blue text-white" : "text-royal-blue"}`}
+                onClick={handleTrackChange}
               >
                 {track}
               </button>
@@ -67,7 +82,8 @@ export function CoursesPage() {
           ))}
         </main>
         <ReactPaginate
-          onPageChange={() => null}
+          onPageChange={handlePageChange}
+          initialPage={Number(selectedPage) - 1}
           pageCount={10}
           pageRangeDisplayed={2}
           marginPagesDisplayed={1}
@@ -85,7 +101,7 @@ export function CoursesPage() {
           breakLinkClassName="border-neutral-gray"
           activeClassName="bg-dark-navy border-dark-navy border-0 text-white"
           activeLinkClassName=" border-dark-navy border-0"
-          renderOnZeroPageCount={null}
+          renderOnZeroPageCount={undefined}
         />
       </main>
     </>
