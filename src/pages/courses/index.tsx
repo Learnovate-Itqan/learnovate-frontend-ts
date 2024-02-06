@@ -36,7 +36,7 @@ export function CoursesPage() {
             </button>
           </div>
         </header>
-        <main className="px-1 xs:container grid grid-cols-auto-fit-18 xl:grid-cols-3 gap-5 py-10">
+        <main className="px-1 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
           {COURSES.map((course, index) => (
             <CourseCard
               key={index}

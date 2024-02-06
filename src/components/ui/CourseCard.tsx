@@ -31,7 +31,7 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div
-      className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow min-w-72 " + className}
+      className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow min-w-80 " + className}
     >
       <div className=" bg-[#B7B9C3] h-56 relative">
         <img src={image} className=" object-cover h-full w-full" alt="" loading="lazy" />
