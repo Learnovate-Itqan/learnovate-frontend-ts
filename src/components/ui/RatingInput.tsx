@@ -7,17 +7,10 @@ type StarsRatingProps = {
   size?: number;
   color?: string;
   className?: string;
-  defaultRating?: number;
+  rating: number;
 };
 
-export function RatingInput({
-  onSetRating,
-  maxRating = 5,
-  size = 30,
-  className = "",
-  defaultRating = 0,
-}: StarsRatingProps) {
-  const [rating, setRating] = useState(defaultRating);
+export function RatingInput({ onSetRating, maxRating = 5, size = 30, className = "", rating = 0 }: StarsRatingProps) {
   const [hoverRating, setHoverRating] = useState(0);
 
   function handleHover(rating: number) {
@@ -25,7 +18,6 @@ export function RatingInput({
   }
 
   function handleRating(rating: number) {
-    setRating(rating);
     if (onSetRating) onSetRating(rating);
   }
 
