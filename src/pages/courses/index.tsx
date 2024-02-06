@@ -6,23 +6,14 @@ import { COURSES } from "@/assets/temp/Courses";
 import CourseCard from "@/components/ui/CourseCard";
 import { SearchBar } from "@/components/ui/SearchBar";
 
-import headerImage from "../../assets/books-coursesPage.jpg";
+import { CoursesHeader } from "./CoursesHeader";
 
 const Tracks = ["Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android", "Web Development"];
 
 export function CoursesPage() {
   return (
     <>
-      <header className="relative flex justify-start items-center min-h-96 bg-gradient-to-br from-dark-navy via-dark-navy/90 text-white py-20">
-        <div
-          style={{ backgroundImage: `url(${headerImage})` }}
-          className=" absolute inset-0 -z-10 bg-no-repeat bg-right bg-dark-navy bg-cover"
-        />
-        <main className="container flex flex-col justify-center items-start z-20">
-          <h1 className="text-5xl font-bold">Courses</h1>
-          <p className="text-lg mt-4">Learn about the technological courses provided to you by Learnovate</p>
-        </main>
-      </header>
+      <CoursesHeader />
       <main className=" py-20">
         <header className="container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
           <div className="flex justify-start gap-3 flex-wrap">
