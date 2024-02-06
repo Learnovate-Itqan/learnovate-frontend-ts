@@ -29,7 +29,7 @@ export function AllCoursesSection() {
   };
   return (
     <main className=" py-20">
-      <header className="container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
+      <header className="px-1 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
         <div className="flex justify-start gap-3 flex-wrap">
           {Tracks.map((track, index) => (
             <button
@@ -42,7 +42,7 @@ export function AllCoursesSection() {
             </button>
           ))}
         </div>
-        <div className="flex w-64 xs:w-full  lg:w-fit gap-2 max-h-12">
+        <div className="flex w-full  lg:w-fit gap-2 max-h-12">
           <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
 
           <Modal>
