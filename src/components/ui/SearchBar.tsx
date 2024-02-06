@@ -8,7 +8,7 @@ export function SearchBar({ className }: TSearchBarProps) {
   return (
     <div
       className={
-        "flex items-center px-4 py-1 w-full rounded-lg transition-color duration-300 has-[:focus]:ring-royal-blue has-[:focus]:ring-2 " +
+        "flex items-center px-2 sm:px-4 py-1 w-full rounded-lg transition-color duration-300 has-[:focus]:ring-royal-blue has-[:focus]:ring-2 " +
         className
       }
     >
