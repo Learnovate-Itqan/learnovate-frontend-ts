@@ -22,7 +22,7 @@ export function RatingInput({ onSetRating, maxRating = 5, size = 30, className =
   }
 
   return (
-    <div className={" flex justify-start items-center gap-4" + className}>
+    <div className={" flex justify-start flex-wrap items-center gap-4" + className}>
       <div className="flex gap-1">
         {Array.from({ length: maxRating }, (_, i) => (
           <HiStar
@@ -35,7 +35,7 @@ export function RatingInput({ onSetRating, maxRating = 5, size = 30, className =
           />
         ))}
       </div>
-      <p className="text-gray-500">({hoverRating || rating || "0"} stars)</p>
+      <p className="text-gray-500 whitespace-nowrap">({hoverRating || rating || "0"} stars)</p>
     </div>
   );
 }
