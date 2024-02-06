@@ -23,7 +23,7 @@ export function Navbar() {
   const { loggedIn: isAuth } = user || {};
   const navigate = useNavigate();
   return (
-    <nav className='bg-dark-navy min-w-full absolute container py-5 flex justify-between items-center gap-1 z-10 after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
+    <nav className='bg-dark-navy min-w-full absolute container py-5 flex justify-between items-center gap-1 z-[100] after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
@@ -109,7 +109,7 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
       </button>
       <div
         ref={dropDownRef}
-        className={` absolute top-[150%]  overflow-hidden transition-all duration-700 flex z-10 bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
+        className={` absolute top-[150%]  overflow-hidden transition-all duration-700 flex z-[100] bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
       >
         <div className="flex flex-col gap-2 items-start font-[500] p-4 ">
           {tracks.map((track) => (
