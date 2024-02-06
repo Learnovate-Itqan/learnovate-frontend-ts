@@ -8,7 +8,7 @@ export function CoursesHeader() {
         className=" absolute inset-0 -z-10 bg-no-repeat bg-right bg-dark-navy bg-cover"
       />
       <main className="container flex flex-col justify-center items-start z-20">
-        <h1 className="text-5xl font-bold">Courses</h1>
+        <h1 className="text-5xl font-semibold">Courses</h1>
         <p className="text-lg mt-4">Learn about the technological courses provided to you by Learnovate</p>
       </main>
     </header>

@@ -23,7 +23,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
   return (
     <nav
       ref={navRef}
-      className={`xl:hidden h-dvh absolute w-60 bg-royal-blue z-[100] top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
+      className={`xl:hidden h-dvh fixed w-60 bg-royal-blue z-[100] top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
     >
       <header>
         <div className="flex justify-between">
