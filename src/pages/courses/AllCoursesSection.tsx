@@ -8,6 +8,8 @@ import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 
+import { FilterCoursesForm } from "./FilterCoursesForm";
+
 const Tracks = ["All", "Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android"];
 
 export function AllCoursesSection() {
@@ -51,7 +53,7 @@ export function AllCoursesSection() {
             </Modal.Open>
 
             <Modal.Window name="filter">
-              <div className=""></div>
+              <FilterCoursesForm />
             </Modal.Window>
           </Modal>
         </div>
