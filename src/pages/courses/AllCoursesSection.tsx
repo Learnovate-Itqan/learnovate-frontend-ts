@@ -2,7 +2,7 @@ import React from "react";
 import { TbAdjustmentsFilled } from "react-icons/tb";
 import { useSearchParams } from "react-router-dom";
 
-import courseImage from "@/assets/books-coursesPage.jpg";
+import courseImage from "@/assets/learnovate-thumbnail-course.png";
 import CourseCard from "@/components/ui/CourseCard";
 import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
