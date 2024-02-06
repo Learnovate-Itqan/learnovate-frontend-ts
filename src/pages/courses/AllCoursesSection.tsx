@@ -2,7 +2,7 @@ import React from "react";
 import { TbAdjustmentsFilled } from "react-icons/tb";
 import { useSearchParams } from "react-router-dom";
 
-import { COURSES } from "@/assets/temp/Courses";
+import courseImage from "@/assets/books-coursesPage.jpg";
 import CourseCard from "@/components/ui/CourseCard";
 import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
@@ -59,18 +59,20 @@ export function AllCoursesSection() {
         </div>
       </header>
       <main className="px-1 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
-        {COURSES.map((course, index) => (
+        {Array.from({ length: 9 }, (_, index) => (
           <CourseCard
             key={index}
             id={`${index}`}
-            name={course.name}
-            track={course.track}
+            name={"Artificial Intelligence"}
+            track={"Data Science"}
             duration={120}
-            level={course.level}
-            rate={course.rate}
-            image={course.image}
-            price={course.price}
-            description={course.description}
+            level={"Beginner"}
+            rate={5}
+            image={courseImage}
+            price={index * 10}
+            description={
+              "This course provides an introduction to the field of Artificial Intelligence and its applications. Students will gain a solid foundation in the principles and techniques. "
+            }
           />
         ))}
       </main>
