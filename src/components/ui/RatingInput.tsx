@@ -35,7 +35,7 @@ export function RatingInput({
         {Array.from({ length: maxRating }, (_, i) => (
           <HiStar
             key={i}
-            className={`transition-colors duration-150 cursor-pointer ${(hoverRating ? hoverRating >= i + 1 : rating >= i + 1) ? `text-yellow-500` : `text-gray-400`}`}
+            className={`transition-colors duration-150 cursor-pointer ${(hoverRating ? hoverRating >= i + 1 : rating >= i + 1) ? `text-[#DD8809]` : `text-gray-400`}`}
             onClick={() => handleRating(i + 1)}
             size={size}
             onMouseEnter={() => handleHover(i + 1)}
