@@ -17,7 +17,7 @@ export function Paginate({ onPageChange, initialPage, pageCount }: PaginateProps
       marginPagesDisplayed={1}
       nextLabel={<GrNext className=" text-lg" />}
       previousLabel={<GrPrevious className=" text-lg" />}
-      containerClassName="flex gap-2 justify-center items-center font-semibold *:border-2  *:rounded-lg *:w-10 *:h-10 *:flex *:justify-center *:items-center"
+      containerClassName="flex flex-wrap gap-1 justify-center items-center font-semibold *:transition-all *:duration-300 *:border-2  *:rounded-lg *:w-10 *:h-10 *:flex *:justify-center *:items-center"
       pageClassName="text-neutral-gray border-neutral-gray"
       pageLinkClassName="w-full h-full flex justify-center items-center "
       previousClassName=" border-dark-navy text-dark-navy "

@@ -32,7 +32,7 @@ export function AllCoursesSection() {
             <button
               key={index}
               value={track.replace(" ", "-").toLowerCase()}
-              className={` border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl ${track.replace(" ", "-").toLowerCase() === selectedTrack ? "bg-royal-blue text-white" : "text-royal-blue"}`}
+              className={` border-2 whitespace-nowrap transition-colors border-royal-blue px-4 py-2 rounded-xl ${track.replace(" ", "-").toLowerCase() === selectedTrack ? "bg-royal-blue text-white" : "text-royal-blue"}`}
               onClick={handleTrackChange}
             >
               {track}
