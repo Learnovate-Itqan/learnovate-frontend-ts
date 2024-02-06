@@ -1,0 +1,49 @@
+import { useState } from "react";
+import { HiStar } from "react-icons/hi2";
+
+type StarsRatingProps = {
+  onSetRating: (rating: number) => void;
+  maxRating?: number;
+  size?: number;
+  color?: string;
+  className?: string;
+  defaultRating?: number;
+};
+
+export function RatingInput({
+  onSetRating,
+  maxRating = 5,
+  size = 30,
+  className = "",
+  defaultRating = 0,
+}: StarsRatingProps) {
+  const [rating, setRating] = useState(defaultRating);
+  const [hoverRating, setHoverRating] = useState(0);
+
+  function handleHover(rating: number) {
+    setHoverRating(rating);
+  }
+
+  function handleRating(rating: number) {
+    setRating(rating);
+    if (onSetRating) onSetRating(rating);
+  }
+
+  return (
+    <div className={" flex justify-start items-center gap-4" + className}>
+      <div className="flex gap-1">
+        {Array.from({ length: maxRating }, (_, i) => (
+          <HiStar
+            key={i}
+            className={`transition-colors duration-150 cursor-pointer ${(hoverRating ? hoverRating >= i + 1 : rating >= i + 1) ? `text-yellow-500` : `text-gray-400`}`}
+            onClick={() => handleRating(i + 1)}
+            size={size}
+            onMouseEnter={() => handleHover(i + 1)}
+            onMouseLeave={() => handleHover(0)}
+          />
+        ))}
+      </div>
+      <p className="text-gray-500">({hoverRating || rating || "0"} stars)</p>
+    </div>
+  );
+}
