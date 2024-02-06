@@ -8,6 +8,8 @@ import { SearchBar } from "@/components/ui/SearchBar";
 
 import headerImage from "../../assets/books-coursesPage.jpg";
 
+const Tracks = ["Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android", "Web Development"];
+
 export function CoursesPage() {
   return (
     <>
@@ -22,26 +24,21 @@ export function CoursesPage() {
         </main>
       </header>
       <main className=" py-20">
-        <header className="container flex justify-center items-center flex-col-reverse gap-4 lg:flex-row lg:justify-between">
+        <header className="container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
           <div className="flex justify-start gap-3 flex-wrap">
             <button className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl">
               all
             </button>
-            <button className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl">
-              Data Science
-            </button>
-            <button className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl">
-              Dev Ops
-            </button>
-            <button className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl">
-              Computer Science
-            </button>
-            <button className="text-royal-blue border-2 border-royal-blue px-4 py-2 rounded-xl">IOS</button>
-            <button className="text-royal-blue border-2 border-royal-blue px-4 py-2 rounded-xl">
-              Embedded Systems
-            </button>
+            {Tracks.map((track, index) => (
+              <button
+                key={index}
+                className="text-royal-blue border-2 whitespace-nowrap border-royal-blue px-4 py-2 rounded-xl"
+              >
+                {track}
+              </button>
+            ))}
           </div>
-          <div className="flex gap-2 max-h-12">
+          <div className="flex w-full lg:w-fit gap-2 max-h-12">
             <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
             <button className="bg-royal-blue aspect-square flex justify-center items-center text-white px-2 py-1 rounded-lg">
               <TbAdjustmentsFilled size={28} className="rotate-90 aspect-square" />
