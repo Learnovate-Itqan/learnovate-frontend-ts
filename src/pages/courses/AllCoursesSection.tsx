@@ -1,11 +1,10 @@
 import React from "react";
-import { GrNext, GrPrevious } from "react-icons/gr";
 import { TbAdjustmentsFilled } from "react-icons/tb";
-import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
 
 import { COURSES } from "@/assets/temp/Courses";
 import CourseCard from "@/components/ui/CourseCard";
+import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 
 const Tracks = ["All", "Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android"];
@@ -62,43 +61,8 @@ export function AllCoursesSection() {
             description={course.description}
           />
         ))}
-        {COURSES.slice(0, 3).map((course, index) => (
-          <CourseCard
-            key={index}
-            id={`${index + 10}`}
-            name={course.name}
-            track={course.track}
-            duration={120}
-            level={course.level}
-            rate={course.rate}
-            image={course.image}
-            price={course.price}
-            description={course.description}
-          />
-        ))}
       </main>
-      <ReactPaginate
-        onPageChange={handlePageChange}
-        initialPage={Number(selectedPage) - 1}
-        pageCount={10}
-        pageRangeDisplayed={2}
-        marginPagesDisplayed={1}
-        nextLabel={<GrNext className=" text-lg" />}
-        previousLabel={<GrPrevious className=" text-lg" />}
-        containerClassName="flex gap-2 justify-center items-center font-semibold *:border-2  *:rounded-lg *:w-10 *:h-10 *:flex *:justify-center *:items-center"
-        pageClassName="text-neutral-gray border-neutral-gray"
-        pageLinkClassName="w-full h-full flex justify-center items-center "
-        previousClassName=" border-dark-navy text-dark-navy "
-        previousLinkClassName="w-full h-full flex justify-center items-center"
-        nextClassName=" border-dark-navy text-dark-navy "
-        nextLinkClassName=" w-full h-full flex justify-center items-center"
-        breakLabel="..."
-        breakClassName=" text-neutral-gray border-neutral-gray"
-        breakLinkClassName="border-neutral-gray"
-        activeClassName="bg-dark-navy border-dark-navy border-0 text-white"
-        activeLinkClassName=" border-dark-navy border-0"
-        renderOnZeroPageCount={undefined}
-      />
+      <Paginate onPageChange={handlePageChange} initialPage={parseInt(selectedPage) - 1} pageCount={10} />
     </main>
   );
 }
