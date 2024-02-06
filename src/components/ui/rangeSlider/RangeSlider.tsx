@@ -10,6 +10,7 @@ type RangeSliderProps = {
   allowCross?: boolean;
   leftLabel?: string;
   rightLabel?: string;
+  values: number[];
 };
 
 export default function RangeSlider({
@@ -17,6 +18,7 @@ export default function RangeSlider({
   min,
   max,
   initialValues,
+  values,
   leftLabel,
   rightLabel,
   allowCross = false,
@@ -33,6 +35,7 @@ export default function RangeSlider({
           min={min || 0}
           max={max || 100}
           defaultValue={initialValues || [min, max] || [0, 100]}
+          value={values}
           onChange={onChange}
           className="my-1"
           allowCross={allowCross}
