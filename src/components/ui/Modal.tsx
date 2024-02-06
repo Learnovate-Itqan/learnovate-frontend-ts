@@ -51,7 +51,7 @@ function Window({ children, name: ModalWindowName }: WindowProps) {
     <div className="fixed inset-0 top-0 left-0 h-dvh w-full z-[1000] transition-all duration-500 bg-gray-700/40 ">
       <main
         ref={ref}
-        className="modal fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-auto max-h-dvh bg-white rounded-2xl py-10 px-12 shadow-lg "
+        className="modal fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-auto max-h-dvh bg-white rounded-2xl py-10 px-12 shadow-lg max-w-full  "
       >
         <button
           onClick={close}
