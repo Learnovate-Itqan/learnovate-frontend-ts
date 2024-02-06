@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { COURSES } from "@/assets/temp/Courses";
 import CourseCard from "@/components/ui/CourseCard";
+import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 
@@ -41,9 +42,18 @@ export function AllCoursesSection() {
         </div>
         <div className="flex w-full lg:w-fit gap-2 max-h-12">
           <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
-          <button className="bg-royal-blue aspect-square flex justify-center items-center text-white px-2 py-1 rounded-lg">
-            <TbAdjustmentsFilled size={28} className="rotate-90 aspect-square" />
-          </button>
+
+          <Modal>
+            <Modal.Open opens="filter">
+              <button className="bg-royal-blue aspect-square flex justify-center items-center text-white px-2 py-1 rounded-lg">
+                <TbAdjustmentsFilled size={28} className="rotate-90 aspect-square" />
+              </button>
+            </Modal.Open>
+
+            <Modal.Window name="filter">
+              <div className=""></div>
+            </Modal.Window>
+          </Modal>
         </div>
       </header>
       <main className="px-1 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
