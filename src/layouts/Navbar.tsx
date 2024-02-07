@@ -23,7 +23,7 @@ export function Navbar() {
   const { loggedIn: isAuth } = user || {};
   const navigate = useNavigate();
   return (
-    <nav className='bg-dark-navy min-w-full absolute container py-5 flex justify-between items-center gap-1 z-10 after:content-[""] after:top-full after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
+    <nav className="bg-dark-navy min-w-full container relative py-5 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
@@ -55,19 +55,19 @@ export function Navbar() {
           </li>
         </ul>
       </div>
-      {!isAuth ? (
+      {isAuth === undefined ? null : !isAuth ? (
         <div className="space-x-5 min-w-fit hidden lg:flex">
           <button
-            className="text-white py-3 px-6 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"
+            className="text-white py-2 px-5 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"
             onClick={() => navigate("/auth/login")}
           >
             Log in
           </button>
-          <Button className=" py-3 px-6" text="Sign up" type="button" onClick={() => navigate("/auth/register")} />
+          <Button className=" py-2 px-5" text="Sign up" type="button" onClick={() => navigate("/auth/register")} />
         </div>
       ) : (
-        <div className="text-white justify-center items-center gap-5 hidden lg:flex">
-          <SearchBar />
+        <div className="text-white justify-end grow items-center gap-5 hidden lg:flex">
+          <SearchBar className=" text-white min-w-56 max-w-80 bg-white/10 *:placeholder:text-white/80 has-[:focus]:bg-white/20" />
           <button>
             <GoBell size={22} />
           </button>
@@ -109,7 +109,7 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
       </button>
       <div
         ref={dropDownRef}
-        className={` absolute top-[150%]  overflow-hidden transition-all duration-700 flex z-10 bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
+        className={` absolute top-[150%]  overflow-hidden transition-all duration-700 flex z-[100] bg-white text-dark-navy rounded-lg shadow-lg  ${isOpened ? " max-h-screen" : " max-h-0"}`}
       >
         <div className="flex flex-col gap-2 items-start font-[500] p-4 ">
           {tracks.map((track) => (

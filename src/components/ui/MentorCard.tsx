@@ -15,7 +15,12 @@ type MentorCardProps = {
 export default function MentorCard({ name, id, rating, image, title, className }: MentorCardProps) {
   return (
     <div className={"relative rounded-lg shadow-lg overflow-hidden flex flex-col " + className}>
-      <img src={image} alt={`${name} image`} title={`${name}`} className="bg-[#B7B9C3] w-full object-cover pb-0 grow" />
+      <img
+        src={image}
+        alt={`${name} image`}
+        title={`${name}`}
+        className="bg-[#B7B9C3] min-h-56 aspect-square w-full object-cover pb-0 grow"
+      />
       <div className="absolute -left-1 -top-1 flex w-full justify-between p-4 text-sm">
         <Tag>
           <HiStar className="inline-block h-5 w-5 text-yellow-500" />
