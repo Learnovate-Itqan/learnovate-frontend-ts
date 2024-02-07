@@ -7,9 +7,9 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { FromError } from "@/components/FormError";
-import { FieldError } from "@/components/auth/FieldError";
-import { Button } from "@/components/ui/Button_";
-import { InputField } from "@/components/ui/InputField";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { usePatchData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";
@@ -25,22 +25,19 @@ export function ResetPassword() {
   useTitle("Learnovate | Reset Password");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState<string[] | undefined>([]);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof resetPasswordSchema>>({
+  const [error, setError] = useState<string[] | undefined>(undefined);
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
+  const { isSubmitting } = form.formState;
   const resetPasswordMutation = usePatchData("/auth/reset-password");
 
-  const handleFromSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
+  const handleFormSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
+    setError(undefined);
     const email = resetEmail;
     const state = await resetPasswordMutation.mutateAsync({ ...values, email });
     if (state.status === "failed") {
@@ -62,7 +59,7 @@ export function ResetPassword() {
         dispatch(setUser(userParse.data));
         toast.success("password reset successful!, welcome back!", { duration: 3000 });
         localStorage.removeItem("reset-email");
-        reset();
+        form.reset();
         navigate("/");
         return;
       }
@@ -77,32 +74,54 @@ export function ResetPassword() {
   return (
     <AuthLayout title="Forget Password?" subTitle="Enter your email address to receive security code.">
       <div className="my-6 space-y-4">
-        <form onSubmit={handleSubmit(handleFromSubmit)}>
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <InputField
-                {...register("password")}
-                type="password"
-                label="Password"
-                placeholder="e.g. ●●●●●●●●"
-                disabled={isSubmitting}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isSubmitting}
+                        placeholder="e.g. ●●●●●●●●"
+                        type="password"
+                        className="rounded-lg border-[0.1rem] focus-visible:ring-0 border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.password && <FieldError message={errors.password.message} />}
-            </div>
-            <div className="space-y-2">
-              <InputField
-                {...register("confirmPassword")}
-                type="password"
-                label="Confirm Password"
-                placeholder="repeat your password"
-                disabled={isSubmitting}
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isSubmitting}
+                        placeholder="repeat your password"
+                        type="password"
+                        className="rounded-lg border-[0.1rem] focus-visible:ring-0 border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.confirmPassword && <FieldError message={errors.confirmPassword.message} />}
+              {error && <FromError messages={error} />}
+              <Button disabled={isSubmitting} type="submit" className="w-full">
+                {isSubmitting ? "Loading..." : "Reset password"}
+              </Button>
             </div>
-            {error && <FromError messages={error} />}
-            <Button text="Send" disabled={isSubmitting} type="submit" isLoading={isSubmitting} />
-          </div>
-        </form>
+          </form>
+        </Form>
       </div>
     </AuthLayout>
   );
