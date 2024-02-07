@@ -4,7 +4,7 @@ import OtpInput from "react-otp-input";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { FromError } from "@/components/FormError";
-import { Button } from "@/components/ui/Button_";
+import { Button } from "@/components/ui/button";
 import { usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";
@@ -17,7 +17,7 @@ export function VerificationPage() {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
-  const [error, setError] = useState<string[] | undefined>([]);
+  const [error, setError] = useState<string[] | undefined>(undefined);
   const resetMutation = usePostData("/auth/forgot-password");
   const verificationMutation = usePostData("/auth/verify/password-reset-code");
 
@@ -87,21 +87,27 @@ export function VerificationPage() {
           inputType="number"
           renderInput={(props) => <input {...props} />}
           placeholder="------"
-          containerStyle={"flex gap-2.5 xs:gap-4 sm:gap-2 md:gap-4"}
+          containerStyle={"flex justify-between gap-2.5 xs:gap-4 sm:gap-2 md:gap-4"}
           inputStyle={
-            "bg-[#222C54] border border-royal-blue p-2 text-white !w-10 !h-10 xs:!w-12 xs:!h-12 sm:!w-16 sm:!h-16 lg:!w-12 lg:!h-12 xl:!w-14 xl:!h-14 rounded-md font-medium text-2xl xs:text-3xl sm:text-4xl md:text-3xl xl:text-4xl"
+            "bg-white border border-royal-blue p-2 text-dark-navy !w-[calc(100%/6)] text-2xl xxs:text-4xl rounded-md"
           }
         />
         <div className="">
           <p className="text-zinc-400">
             <span>{"Didn’t get a code?"}</span>{" "}
-            <button className="font-medium text-royal-blue" onClick={handleResend} disabled={sending}>
+            <button
+              className="font-medium text-royal-blue hover:underline underline-offset-2"
+              onClick={handleResend}
+              disabled={sending}
+            >
               Resend
             </button>
           </p>
         </div>
         {error && <FromError messages={error} />}
-        <Button text="Confirm" type="button" onClick={handleVerify} isLoading={loading} disabled={loading} />
+        <Button className="w-full" type="button" onClick={handleVerify} disabled={loading}>
+          {loading ? "Loading..." : "Verify"}
+        </Button>
       </div>
     </AuthLayout>
   );
