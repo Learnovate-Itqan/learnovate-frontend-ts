@@ -29,7 +29,7 @@ export function AllCoursesSection() {
   };
   return (
     <main className=" py-20">
-      <header className="px-3 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
+      <header className="px-1 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
         <div className="flex justify-start gap-3 flex-wrap">
           {Tracks.map((track, index) => (
             <button
@@ -58,7 +58,7 @@ export function AllCoursesSection() {
           </Modal>
         </div>
       </header>
-      <main className="px-3 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
+      <main className="px-1 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
         {Array.from({ length: 9 }, (_, index) => (
           <CourseCard
             key={index}
