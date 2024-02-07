@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { FromError } from "@/components/FormError";
 import { FieldError } from "@/components/auth/FieldError";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import { InputField } from "@/components/ui/InputField";
 import { usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";

@@ -4,7 +4,7 @@ import OtpInput from "react-otp-input";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { FromError } from "@/components/FormError";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import { usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";

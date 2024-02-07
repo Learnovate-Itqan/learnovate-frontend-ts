@@ -1,6 +1,6 @@
 import Hero from "@/assets/home/landing-page.png";
 import { AppStoreButton } from "@/components/ui/AppStoreButton";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import { PlayStoreButton } from "@/components/ui/PlayStoreButton";
 
 export default function HeroSection() {

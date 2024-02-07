@@ -10,7 +10,7 @@ import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
 import { FieldError } from "@/components/auth/FieldError";
 import { TrueIcon } from "@/components/icons/TrueIcon";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import { InputField } from "@/components/ui/InputField";
 import { OrSeparator } from "@/components/ui/OrSeparator";
 import { SocialButton } from "@/components/ui/SocialButton";
