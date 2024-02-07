@@ -66,8 +66,8 @@ export function Navbar() {
           <Button className=" py-2 px-5" text="Sign up" type="button" onClick={() => navigate("/auth/register")} />
         </div>
       ) : (
-        <div className="text-white justify-center items-center gap-5 hidden lg:flex">
-          <SearchBar className=" text-white *:placeholder:text-white/80 has-[:focus]:bg-white/20" />
+        <div className="text-white justify-end grow items-center gap-5 hidden lg:flex">
+          <SearchBar className=" text-white min-w-56 max-w-80 bg-white/10 *:placeholder:text-white/80 has-[:focus]:bg-white/20" />
           <button>
             <GoBell size={22} />
           </button>
