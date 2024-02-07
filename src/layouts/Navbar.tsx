@@ -23,7 +23,7 @@ export function Navbar() {
   const { loggedIn: isAuth } = user || {};
   const navigate = useNavigate();
   return (
-    <nav className='bg-dark-navy min-w-full container relative py-5 flex justify-between items-center gap-1 after:content-[""] after:top-full after:left-0 after:absolute after:z-10 after:pointer-events-none after:w-full xl:after:h-[100%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50'>
+    <nav className="bg-dark-navy min-w-full container relative py-5 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
