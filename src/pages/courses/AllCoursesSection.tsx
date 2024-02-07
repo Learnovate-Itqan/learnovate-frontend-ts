@@ -29,7 +29,7 @@ export function AllCoursesSection() {
   };
   return (
     <main className=" py-20">
-      <header className="px-1 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
+      <header className="px-3 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
         <div className="flex justify-start gap-3 flex-wrap">
           {Tracks.map((track, index) => (
             <button
@@ -42,7 +42,7 @@ export function AllCoursesSection() {
             </button>
           ))}
         </div>
-        <div className="flex w-full  lg:w-fit gap-2 max-h-12">
+        <div className="flex w-full grow lg:max-w-96  gap-2 max-h-12">
           <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
 
           <Modal>
@@ -58,7 +58,7 @@ export function AllCoursesSection() {
           </Modal>
         </div>
       </header>
-      <main className="px-1 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
+      <main className="px-3 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
         {Array.from({ length: 9 }, (_, index) => (
           <CourseCard
             key={index}
@@ -66,10 +66,10 @@ export function AllCoursesSection() {
             name={"Artificial Intelligence"}
             track={"Data Science"}
             duration={120}
-            level={"Beginner"}
+            level={"Intermediate"}
             rate={5}
             image={courseImage}
-            price={index * 10}
+            price={index * 100}
             description={
               "This course provides an introduction to the field of Artificial Intelligence and its applications. Students will gain a solid foundation in the principles and techniques. "
             }
