@@ -49,11 +49,11 @@ export default function MentorSection({ mentors }: { mentors: z.infer<typeof men
         </div>
       </aside>
       <aside className="container flex flex-col gap-10 justify-center ">
-        <main className=" container grid grid-cols-auto-fit xl:grid-cols-5 gap-10 justify-center">
+        <main className=" flex flex-wrap gap-10 justify-center">
           {mentors.map((mentor) => (
             <MentorCard
               key={mentor.id}
-              className=""
+              className="sm:max-w-56"
               title={mentor.title}
               image={mentor.user.image || mentorImage}
               name={mentor.user.name}
@@ -62,7 +62,7 @@ export default function MentorSection({ mentors }: { mentors: z.infer<typeof men
             />
           ))}
         </main>
-        <div className="container min-w-11 sm:hidden">
+        <div className=" min-w-11 sm:hidden">
           <Button text="Discover More" type="button" onClick={() => navigate("/mentors")} />
         </div>
       </aside>
