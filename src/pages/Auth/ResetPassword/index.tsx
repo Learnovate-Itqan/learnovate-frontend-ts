@@ -89,7 +89,7 @@ export function ResetPassword() {
                         disabled={isSubmitting}
                         placeholder="e.g. ●●●●●●●●"
                         type="password"
-                        className="rounded-lg border-[0.1rem] focus-visible:ring-0 border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                        className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -108,7 +108,7 @@ export function ResetPassword() {
                         disabled={isSubmitting}
                         placeholder="repeat your password"
                         type="password"
-                        className="rounded-lg border-[0.1rem] focus-visible:ring-0 border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                        className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                       />
                     </FormControl>
                     <FormMessage />
