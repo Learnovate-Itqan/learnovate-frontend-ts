@@ -14,7 +14,7 @@ export const HomePage = () => {
   const { data } = useGetData("/home");
   const { courses, mentors, tracks } = data?.data || {};
   return (
-    <div className=" w-full relative overflow-x-hidden">
+    <div className=" w-full overflow-x-hidden">
       <HeroSection />
       <TrackSection tracks={tracks as z.infer<typeof trackSchema>[]} />
       <MentorSection mentors={mentors as z.infer<typeof mentorSchema>[]} />

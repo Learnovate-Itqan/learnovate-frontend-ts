@@ -2,7 +2,7 @@ import headerImage from "../../assets/books-coursesPage.jpg";
 
 export function CoursesHeader() {
   return (
-    <header className="relative flex justify-start items-center min-h-96 bg-gradient-to-br from-dark-navy via-dark-navy/90 text-white py-20">
+    <header className="relative flex justify-start items-center min-h-[calc(24rem-85px)] bg-gradient-to-br from-dark-navy via-dark-navy/90 text-white py-20">
       <div
         style={{ backgroundImage: `url(${headerImage})` }}
         className=" absolute inset-0 -z-10 bg-no-repeat bg-right bg-dark-navy bg-cover"
