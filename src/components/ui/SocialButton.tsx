@@ -42,7 +42,7 @@ export function SocialButton({ text, setIsModalOpen, setError, disabled }: TSoci
       variant="outline"
       size="lg"
       disabled={disabled}
-      className="w-full bg-transparent border border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400"
+      className="w-full space-x-2 bg-transparent border border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400"
     >
       <FcGoogle className="text-2xl" />
       <span>{text}</span>
