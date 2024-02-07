@@ -55,15 +55,15 @@ export function Navbar() {
           </li>
         </ul>
       </div>
-      {!isAuth ? (
+      {isAuth === undefined ? null : !isAuth ? (
         <div className="space-x-5 min-w-fit hidden lg:flex">
           <button
-            className="text-white py-3 px-6 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"
+            className="text-white py-2 px-5 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"
             onClick={() => navigate("/auth/login")}
           >
             Log in
           </button>
-          <Button className=" py-3 px-6" text="Sign up" type="button" onClick={() => navigate("/auth/register")} />
+          <Button className=" py-2 px-5" text="Sign up" type="button" onClick={() => navigate("/auth/register")} />
         </div>
       ) : (
         <div className="text-white justify-center items-center gap-5 hidden lg:flex">

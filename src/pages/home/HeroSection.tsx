@@ -5,7 +5,7 @@ import { PlayStoreButton } from "@/components/ui/PlayStoreButton";
 
 export default function HeroSection() {
   return (
-    <section className="relative flex justify-start items-center py-24 md:min-h-[calc(100dvh-85px)] min-h-[calc(100dvh-77px)] bg-gradient-to-b from-dark-navy via-dark-navy/90 to-dark-navy/80 md:from-transparent md:to-transparent md:via-transparent md:bg-dark-navy ">
+    <section className="relative flex justify-start items-center py-24 md:min-h-[calc(100dvh-82px)] min-h-[calc(100dvh-77px)] bg-gradient-to-b from-dark-navy via-dark-navy/90 to-dark-navy/80 md:from-transparent md:to-transparent md:via-transparent md:bg-dark-navy ">
       <div
         style={{
           backgroundImage: `url(${Hero})`,
