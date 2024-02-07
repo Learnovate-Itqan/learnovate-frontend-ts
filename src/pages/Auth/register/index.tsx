@@ -158,7 +158,7 @@ export function RegisterPage() {
         <div className="text-balance text-center text-sm text-zinc-400">
           <span>Already have an account?</span>{" "}
           <Link to="/auth/login" className="font-medium underline-offset-4 hover:underline text-royal-blue">
-            Sign in
+            Login
           </Link>
         </div>
       </div>
