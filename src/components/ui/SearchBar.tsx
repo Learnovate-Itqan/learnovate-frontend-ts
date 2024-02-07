@@ -13,7 +13,11 @@ export function SearchBar({ className }: TSearchBarProps) {
       }
     >
       <IoMdSearch size={20} />
-      <input type="text" placeholder="Search" className="bg-transparent grow px-2 py-1 rounded-lg focus:outline-none" />
+      <input
+        type="text"
+        placeholder="Search"
+        className="bg-transparent grow px-2 w-0 py-1 rounded-lg focus:outline-none"
+      />
     </div>
   );
 }
