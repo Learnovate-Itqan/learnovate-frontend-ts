@@ -1,3 +1,11 @@
+import AllMentorsSection from "./AllMentorsSection";
+import MentorsHeader from "./MentorsHeader";
+
 export default function MentorPage() {
-  return <div>Mentors</div>;
+  return (
+    <>
+      <MentorsHeader />
+      <AllMentorsSection />
+    </>
+  );
 }
