@@ -34,7 +34,7 @@ export function Navbar() {
         <ul className="flex space-x-5 text-white">
           <li className="relative">{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
           <li>
-            <Link className="hover:opacity-80 transition-opacity" to={"/"}>
+            <Link className="hover:opacity-80 transition-opacity" to={"/mentors"}>
               Mentors
             </Link>
           </li>
@@ -137,7 +137,7 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
           <main className="px-4 pb-2 grow flex justify-between flex-col">
             <p className=" font-semibold text-base mb-4">Related Topics</p>
             <div className="flex flex-col grow">
-              {selectedTrack?.relatedTopics.map((topic, index) => (
+              {selectedTrack?.relatedTopics?.map((topic, index) => (
                 <Link to={`/tracks/${selectedTrack.name}`} className="hover:text-dark-navy/70" key={index}>
                   {topic}
                 </Link>

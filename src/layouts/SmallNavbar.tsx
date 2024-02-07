@@ -41,7 +41,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
           {tracks && <TracksDropDownMenu tracks={tracks} handleCloseNav={() => dispatcher(closeNav())} />}
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/"} onClick={() => dispatcher(closeNav())}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/mentors"} onClick={() => dispatcher(closeNav())}>
             Mentors
           </Link>
         </li>
