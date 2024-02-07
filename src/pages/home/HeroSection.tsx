@@ -10,7 +10,7 @@ export default function HeroSection() {
         style={{
           backgroundImage: `url(${Hero})`,
         }}
-        className="hidden md:block bg-dark-navy inset-0 absolute bg-cover bg-right bg-no-repeat "
+        className="hidden md:block bg-dark-navy inset-0 absolute bg-cover bg-right bg-no-repeat after:content-[''] after:top-0 after:left-0 after:absolute after:-z-1 after:w-full xl:after:h-[30%] after:h-[60%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/50 "
       />
       <main className="container text-white text-center md:text-left grid gap-5 xs:gap-8 z-20">
         <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold ">
