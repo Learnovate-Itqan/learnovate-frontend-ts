@@ -28,7 +28,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
       <header>
         <div className="flex justify-between">
           <div className="w-12 ">
-            <Link to={"/"}>
+            <Link to={"/"} onClick={() => dispatcher(closeNav())}>
               <img src={Logo} />
             </Link>
           </div>
@@ -37,31 +37,33 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
       </header>
 
       <ul className="flex flex-col justify-evenly items-end grow text-xl font-semibold text-white">
-        <li className="relative">{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
+        <li className="relative">
+          {tracks && <TracksDropDownMenu tracks={tracks} handleCloseNav={() => dispatcher(closeNav())} />}
+        </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/"}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/"} onClick={() => dispatcher(closeNav())}>
             Mentors
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/courses"}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/courses"} onClick={() => dispatcher(closeNav())}>
             Courses
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/about"}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/about"} onClick={() => dispatcher(closeNav())}>
             About
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/contact"}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/contact"} onClick={() => dispatcher(closeNav())}>
             Contact
           </Link>
         </li>
       </ul>
       {isAuth ? (
         <div className="flex justify-between items-center">
-          <Link to="/profile">
+          <Link to="/profile" onClick={() => dispatcher(closeNav())}>
             <img src={person} className="w-12 aspect-square rounded-full object-contain bg-dark-navy" />
           </Link>
           <button
@@ -75,13 +77,19 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
         <div className="gap-2 min-w-fit flex flex-col justify-center font-semibold items-center w-full">
           <button
             className="text-dark-navy border-2 w-full border-dark-navy px-3 py-1.5 rounded-md whitespace-nowrap hover:bg-dark-navy/20 transition-colors"
-            onClick={() => navigate("/auth/register")}
+            onClick={() => {
+              dispatcher(closeNav());
+              navigate("/auth/register");
+            }}
           >
             Sign up
           </button>
           <button
             className="text-white bg-dark-navy/90 w-full px-4 py-2 rounded-md whitespace-nowrap hover:bg-dark-navy/90 transition-colors"
-            onClick={() => navigate("/auth/login")}
+            onClick={() => {
+              dispatcher(closeNav());
+              navigate("/auth/login");
+            }}
           >
             Log in
           </button>
@@ -91,7 +99,12 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
   );
 }
 
-function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] }) {
+type DropDownMenuProps = {
+  handleCloseNav: () => void;
+  tracks: z.infer<typeof trackSchema>[];
+};
+
+function TracksDropDownMenu({ tracks, handleCloseNav }: DropDownMenuProps) {
   const [isOpened, setIsOpened] = useState(false);
   const dropDownRef = useOutsideClick(() => {
     setIsOpened(false);
@@ -117,6 +130,7 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
               to={`/tracks/${track?.name}`}
               className={`flex items-center gap-1 hover:text-dark-navy/70 `}
               key={track.id}
+              onClick={handleCloseNav}
             >
               <span>{track.name}</span>
             </Link>
