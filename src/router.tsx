@@ -11,6 +11,7 @@ import { NotFoundPage } from "./pages/404";
 import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
 import { VerificationPage } from "./pages/Auth/Verification";
 import { CoursesPage } from "./pages/courses";
+import { MentorPage } from "./pages/mentor";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
@@ -31,6 +32,9 @@ export const Router = createBrowserRouter(
           <Route path="auth/forgot-password" element={<ForgotPassword />} />
           <Route path="auth/reset-password" element={<ResetPassword />} />
         </Route>
+
+        {/* Mentor Routes */}
+        <Route path="mentor" element={<MentorPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Route>
