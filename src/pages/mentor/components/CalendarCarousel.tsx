@@ -11,14 +11,14 @@ export const CalendarCarousel = () => {
   return (
     <Carousel className="flex flex-col gap-2">
       <CarouselContent>
-        {Array.from({ length: 6 }).map((_, index) => (
+        {Array.from({ length: 12 }).map((_, index) => (
           <CarouselItem key={index} className="basis-1/2 lg:basis-1/3">
             <Button
               variant={selectedDate.includes(index) ? "default" : "outline"}
               className="w-full"
               onClick={() => handleSelection(index)}
             >
-              {`${9 + index}:00 AM`}
+              {`${9 + index}:00`}
             </Button>
           </CarouselItem>
         ))}
