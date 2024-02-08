@@ -26,7 +26,7 @@ export const MentorInfo = ({
       <div className="space-y-2.5">
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Work experience:</h4>
-          <p className="text-balance max-w-xl">{workExperience}</p>
+          <p className="text-balance max-w-2xl">{workExperience}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Education:</h4>
