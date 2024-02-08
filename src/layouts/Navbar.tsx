@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import { useGetData } from "@/hooks/useApi";

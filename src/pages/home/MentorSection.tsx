@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import mentorImage from "@/assets/home/mentors/metor01.webp";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import MentorCard from "@/components/ui/MentorCard";
 import { mentorSchema } from "@/schemas/mentorSchema";
 
