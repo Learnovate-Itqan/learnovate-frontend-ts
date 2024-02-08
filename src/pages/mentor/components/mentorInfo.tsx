@@ -44,7 +44,7 @@ export const MentorInfo = ({
           </div>
         </div>
       </div>
-      <div className="space-y-2.5 grid grid-cols-2">
+      <div className="space-y-2.5 grid grid-cols-1 xs:grid-cols-2">
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Resume/cv:</h4>
           <a href={resume} target="_blank" rel="noreferrer">

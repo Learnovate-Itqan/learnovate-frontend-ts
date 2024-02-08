@@ -22,7 +22,7 @@ export const mentor = {
   ],
   workExperience:
     "Senior Engineer @rasayelio | @GoogleDevExpert in Web Technologies | Passionate about Vue.js 💚 and TypeScript 💙 | OSS Maintainer | Host 🎙️ Untyped Podcast",
-  education: "Computer Science",
+  education: "Bachelor's degree in Computer Engineering, ABC University",
   jobExperience: "Senior",
   rating: 4.9,
   languages: ["English", "Arabic"],
