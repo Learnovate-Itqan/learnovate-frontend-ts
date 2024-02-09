@@ -45,7 +45,7 @@ export default function AllMentorsSection() {
             {Array.from({ length: 20 }).map((_, index) => (
               <MentorCard
                 key={index}
-                className="w-[250px] h-[300px] place-self-center"
+                className="sm:w-[250px] sm:h-[300px] place-self-center"
                 name={Mentor.name}
                 rating={Mentor.rate}
                 image={Mentor.image}
