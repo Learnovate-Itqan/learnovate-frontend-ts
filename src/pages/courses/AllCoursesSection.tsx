@@ -43,7 +43,11 @@ export function AllCoursesSection() {
           ))}
         </div>
         <div className="flex w-full grow lg:max-w-96  gap-2 max-h-12">
-          <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
+          <SearchBar
+            className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 "
+            onChange={() => null}
+            value=""
+          />
 
           <Modal>
             <Modal.Open opens="filter">

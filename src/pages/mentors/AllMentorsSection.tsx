@@ -21,7 +21,11 @@ export default function AllMentorsSection() {
       <main className="container py-20">
         <section className="flex flex-col lg:flex-row justify-center gap-10 ">
           <aside className=" flex lg:flex-col  gap-2 lg:max-w-80 lg:min-w-80">
-            <SearchBar className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 " />
+            <SearchBar
+              className="bg-gray-200 text-gray-500 *:placeholder:text-gray-500/80 "
+              onChange={() => null}
+              value=""
+            />
             <Modal>
               <Modal.Open opens="filter">
                 <button className="bg-royal-blue aspect-square flex justify-center items-center text-white px-2 py-1 rounded-lg lg:hidden">

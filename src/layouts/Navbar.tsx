@@ -67,7 +67,11 @@ export function Navbar() {
         </div>
       ) : (
         <div className="text-white justify-end grow items-center gap-5 hidden lg:flex">
-          <SearchBar className=" text-white min-w-56 max-w-80 bg-white/10 *:placeholder:text-white/80 has-[:focus]:bg-white/20" />
+          <SearchBar
+            className=" text-white min-w-56 max-w-80 bg-white/10 *:placeholder:text-white/80 has-[:focus]:bg-white/20"
+            onChange={() => null}
+            value=""
+          />
           <button>
             <GoBell size={22} />
           </button>

@@ -195,7 +195,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
 export function CountryBicker() {
   return (
     <div className="p-2 rounded-xl min-w-56 border-2">
-      <SearchBar className="border-2 mb-2 text-gray-400" />
+      <SearchBar className="border-2 mb-2 text-gray-400" onChange={() => null} value="" />
       <ScrollArea className="h-48 px-1">
         {COUNTRIES.map((country, index) => (
           <div key={index} className="flex gap-2 my-1 items-center">
