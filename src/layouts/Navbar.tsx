@@ -22,6 +22,7 @@ export function Navbar() {
   const { tracks, user } = data?.data || {};
   const { loggedIn: isAuth } = user || {};
   const navigate = useNavigate();
+  console.log(tracks, isAuth);
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
