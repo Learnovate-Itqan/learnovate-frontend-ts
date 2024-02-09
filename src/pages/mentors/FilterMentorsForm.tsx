@@ -210,11 +210,15 @@ export function CountryBicker({ onChange }: { onChange: (value: string) => void 
       <SearchBar className="border-2 mb-2 text-gray-400" onChange={() => null} value="" />
       <ScrollArea className="h-48 px-1">
         {COUNTRIES.map((country, index) => (
-          <div key={index} className="flex gap-2 my-1 items-center">
+          <div
+            key={index}
+            className="flex gap-2 my-1 items-center transition-colors duration-150 rounded-xl hover:bg-gray-100"
+          >
             <Checkbox
               id={country.name}
               onCheckedChange={() => onChange(country.name)}
-              className=" w-5 h-5 border-gray-400 border-2 rounded-md data-[state=checked]:bg-royal-blue data-[state=checked]:border-transparent"
+              title={country.name}
+              className=" w-5 h-5 border-gray-400 border-2 bg-white rounded-md data-[state=checked]:bg-royal-blue data-[state=checked]:border-transparent"
             />
             <label htmlFor={country.name} className="flex items-center gap-1">
               <span>

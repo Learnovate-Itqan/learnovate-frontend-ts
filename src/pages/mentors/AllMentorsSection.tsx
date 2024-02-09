@@ -42,7 +42,7 @@ export default function AllMentorsSection() {
             </div>
           </aside>
           <aside className="flex flex-wrap justify-center lg:justify-start gap-4 grow text-white ">
-            {Array.from({ length: 20 }).map((_, index) => (
+            {Array.from({ length: 16 }).map((_, index) => (
               <MentorCard
                 key={index}
                 className="sm:w-[250px] sm:h-[300px] place-self-center"
