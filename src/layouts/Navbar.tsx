@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
@@ -20,7 +20,6 @@ import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
   const queryClient = useQueryClient();
-  queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === "/nav" });
 
   const { data } = useGetData("/nav");
   const { tracks, user } = data?.data || {};
@@ -28,8 +27,9 @@ export function Navbar() {
   const navigate = useNavigate();
   console.log(tracks, isAuth);
 
-  // useEffect(() => {
-  // }, [queryClient]);
+  useEffect(() => {
+    queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === "/nav" });
+  }, [queryClient]);
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
