@@ -15,7 +15,6 @@ const Tracks = ["All", "Data Science", "Dev Ops", "Computer Science", "IOS", "Em
 export function AllCoursesSection() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const selectedPage = searchParams.get("page") || "1";
   const selectedTrack = searchParams.get("track") || "all";
 
   const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,10 +22,6 @@ export function AllCoursesSection() {
     setSearchParams(searchParams, { replace: true });
   };
 
-  const handlePageChange = (page: { selected: number }) => {
-    searchParams.set("page", (page.selected + 1).toString());
-    setSearchParams(searchParams, { replace: true });
-  };
   return (
     <main className=" py-20">
       <header className="px-1 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
@@ -80,7 +75,7 @@ export function AllCoursesSection() {
           />
         ))}
       </main>
-      <Paginate onPageChange={handlePageChange} initialPage={parseInt(selectedPage) - 1} pageCount={10} />
+      <Paginate pageCount={10} />
     </main>
   );
 }

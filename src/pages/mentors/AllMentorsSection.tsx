@@ -56,7 +56,7 @@ export default function AllMentorsSection() {
           </aside>
         </section>
         <div className="mt-10">
-          <Paginate pageCount={10} initialPage={1} onPageChange={() => null} />
+          <Paginate pageCount={10} />
         </div>
       </main>
     </div>
