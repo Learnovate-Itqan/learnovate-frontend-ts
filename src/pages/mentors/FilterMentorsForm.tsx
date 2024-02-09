@@ -8,9 +8,10 @@ import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
 import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { Checkbox } from "@/components/ui/checkbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
-
-// import { COUNTRIES } from "../../db/Countries";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { COUNTRIES } from "@/db/Countries";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const PRICE_RANGE = [0, 500];
@@ -194,8 +195,23 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
 export function CountryBicker() {
   return (
     <div className="p-2 rounded-xl border-2">
-      <SearchBar className="border-2 text-gray-500" />
-      <div className=" overflow-auto max-h-48 "></div>
+      <SearchBar className="border-2 mb-2 text-gray-400" />
+      <ScrollArea className="h-48 px-1">
+        {COUNTRIES.map((country, index) => (
+          <div key={index} className="flex gap-2 my-1 items-center">
+            <Checkbox
+              id={country.name}
+              className=" w-5 h-5 border-gray-400 border-2 rounded-md data-[state=checked]:bg-royal-blue data-[state=checked]:border-transparent"
+            />
+            <label htmlFor={country.name} className="flex items-center gap-1">
+              <span>
+                <img src={country.image} alt={country.name} title={country.name} className="h-5" loading="lazy" />{" "}
+              </span>
+              {country.name}
+            </label>
+          </div>
+        ))}
+      </ScrollArea>
     </div>
   );
 }
