@@ -119,7 +119,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   };
   return (
     <div className="flex flex-col justify-between  min-w-min gap-2  ">
-      <main className="p-4 rounded-xl flex flex-col gap-3 shadow-xl border-[1px] grow">
+      <main className="lg:p-4 rounded-xl flex flex-col gap-3 lg:shadow-xl lg:border-[1px] grow">
         <FilterTemplate header="Level">
           <div className="flex gap-2 flex-wrap">
             {levels.map((level, index) => (
