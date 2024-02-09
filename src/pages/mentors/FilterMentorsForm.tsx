@@ -14,7 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { COUNTRIES } from "@/db/Countries";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
-const PRICE_RANGE = [0, 500];
+const HOURLY_RATE_RANGE = [0, 500];
 const EXPERIENCE_YEARS = [1, 12];
 const Tracks = [
   "All",
@@ -41,15 +41,14 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
-  const [selectedTracks] = useState<string[]>(searchParams.get("tracks")?.split(",") || []);
-  const [keywords, setKeywords] = useState<string[]>(searchParams.get("keywords")?.split(",") || []);
-  const [priceRange, setPriceRange] = useState<number[]>(
+  const [selectedTracks, setSelectedTrack] = useState<string[]>(searchParams.get("tracks")?.split(",") || []);
+  const [skills, setSkills] = useState<string[]>(searchParams.get("skills")?.split(",") || []);
+  const [hourlyRate, setHourlyRate] = useState<number[]>(
     searchParams
-      .get("time")
+      .get("hourlyRate")
       ?.split(",")
-      .map((item) => Number(item)) || PRICE_RANGE
+      .map((item) => Number(item)) || HOURLY_RATE_RANGE
   );
-  const [timeRange, setTimeRange] = useState<string[]>(searchParams.get("time")?.split(",") || []);
   const [rating, setRating] = useState(searchParams.get("rating") ? Number(searchParams.get("rating")) : 0);
   const [experienceRange, setExperienceRange] = useState<number[]>(
     searchParams
@@ -57,6 +56,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
       ?.split(",")
       .map((item) => Number(item)) || EXPERIENCE_YEARS
   );
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(searchParams.get("countries")?.split(",") || []);
 
   const handleLevelChange = (value: string) => {
     if (selectedLevels.includes(value)) {
@@ -66,16 +66,16 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     }
   };
 
-  const handleKeywordDeletion = (keyword: string) => {
-    setKeywords(keywords.filter((word) => word !== keyword));
+  const handleSkillDeletion = (skill: string) => {
+    setSkills(skills.filter((word) => word !== skill));
   };
-  const handleKeywordAddition = (keyword: string) => {
-    setKeywords([...keywords, keyword]);
+  const handleSkillAddition = (skill: string) => {
+    setSkills([...skills, skill]);
   };
 
-  const handlePriceRangeChange = (value: number | number[]) => {
+  const handleHourlyRateChange = (value: number | number[]) => {
     if (Array.isArray(value)) {
-      setPriceRange(value);
+      setHourlyRate(value);
     }
   };
   const handleExperienceRangeChange = (value: number | number[]) => {
@@ -84,11 +84,19 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     }
   };
 
+  const handleCountryChange = (value: string) => {
+    if (selectedCountries.includes(value)) {
+      setSelectedCountries(selectedCountries.filter((country) => country !== value));
+    } else {
+      setSelectedCountries([...selectedCountries, value]);
+    }
+  };
+
   const handleReset = () => {
     setSelectedLevels([]);
-    setKeywords([]);
-    setPriceRange(PRICE_RANGE);
-    setTimeRange([]);
+    setSkills([]);
+    setHourlyRate(HOURLY_RATE_RANGE);
+    setSelectedCountries([]);
     setRating(0);
     setExperienceRange(EXPERIENCE_YEARS);
   };
@@ -97,15 +105,18 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     if (selectedLevels.length > 0) searchParams.set("levels", selectedLevels.join(","));
     else searchParams.delete("levels");
 
-    if (keywords.length > 0) searchParams.set("keywords", keywords.join(","));
-    else searchParams.delete("keywords");
+    if (selectedTracks.length > 0) searchParams.set("tracks", selectedTracks.join(","));
+    else searchParams.delete("tracks");
 
-    if (priceRange[0] !== PRICE_RANGE[0] || priceRange[1] !== PRICE_RANGE[1])
-      searchParams.set("price", priceRange.join(","));
-    else searchParams.delete("price");
+    if (skills.length > 0) searchParams.set("skills", skills.join(","));
+    else searchParams.delete("skills");
 
-    if (timeRange.length > 0) searchParams.set("time", timeRange.join(","));
-    else searchParams.delete("time");
+    if (hourlyRate[0] !== HOURLY_RATE_RANGE[0] || hourlyRate[1] !== HOURLY_RATE_RANGE[1])
+      searchParams.set("hourlyRate", hourlyRate.join(","));
+    else searchParams.delete("hourlyRate");
+
+    if (selectedCountries.length > 0) searchParams.set("countries", selectedCountries.join(","));
+    else searchParams.delete("countries");
 
     if (rating > 0) searchParams.set("rating", rating.toString());
     else searchParams.delete("rating");
@@ -138,24 +149,24 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
           <MultiSelection
             options={Tracks}
             selectedOptions={selectedTracks}
-            onChange={() => null}
-            onDeletion={() => null}
+            onChange={(option) => setSelectedTrack((prev) => [...prev, option])}
+            onDeletion={(option) => setSelectedTrack((prev) => prev.filter((track) => track !== option))}
           />
         </FilterTemplate>
 
         <FilterTemplate header="Skills">
-          <KeyWordsForm keywords={keywords} onAddition={handleKeywordAddition} onDeletion={handleKeywordDeletion} />
+          <KeyWordsForm keywords={skills} onAddition={handleSkillAddition} onDeletion={handleSkillDeletion} />
         </FilterTemplate>
 
         <FilterTemplate header="Hourly Rate">
           <div className="max-w-[28rem]">
             <RangeSlider
-              min={PRICE_RANGE[0]}
-              max={PRICE_RANGE[1]}
-              values={priceRange}
-              onChange={handlePriceRangeChange}
-              leftLabel={`$${priceRange[0].toFixed(1)}`}
-              rightLabel={`$${priceRange[1].toFixed(1)}`}
+              min={HOURLY_RATE_RANGE[0]}
+              max={HOURLY_RATE_RANGE[1]}
+              values={hourlyRate}
+              onChange={handleHourlyRateChange}
+              leftLabel={`$${hourlyRate[0].toFixed(1)}`}
+              rightLabel={`$${hourlyRate[1].toFixed(1)}`}
             />
           </div>
         </FilterTemplate>
@@ -178,7 +189,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
         </FilterTemplate>
         <FilterTemplate header="Country">
           <div className="max-w-[28rem]">
-            <CountryBicker />
+            <CountryBicker onChange={handleCountryChange} />
           </div>
         </FilterTemplate>
       </main>
@@ -192,7 +203,8 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     </div>
   );
 }
-export function CountryBicker() {
+
+export function CountryBicker({ onChange }: { onChange: (value: string) => void }) {
   return (
     <div className="p-2 rounded-xl min-w-56 border-2">
       <SearchBar className="border-2 mb-2 text-gray-400" onChange={() => null} value="" />
@@ -201,6 +213,7 @@ export function CountryBicker() {
           <div key={index} className="flex gap-2 my-1 items-center">
             <Checkbox
               id={country.name}
+              onCheckedChange={() => onChange(country.name)}
               className=" w-5 h-5 border-gray-400 border-2 rounded-md data-[state=checked]:bg-royal-blue data-[state=checked]:border-transparent"
             />
             <label htmlFor={country.name} className="flex items-center gap-1">
