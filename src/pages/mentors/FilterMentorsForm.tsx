@@ -7,7 +7,10 @@ import { KeyWordsForm } from "@/components/ui/KeywordsForm";
 import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
 import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
+import { SearchBar } from "@/components/ui/SearchBar";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
+
+// import { COUNTRIES } from "../../db/Countries";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const PRICE_RANGE = [0, 500];
@@ -114,7 +117,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     onCloseModal && onCloseModal();
   };
   return (
-    <div className="flex flex-col justify-between h-full min-w-min gap-2  ">
+    <div className="flex flex-col justify-between  min-w-min gap-2  ">
       <main className="p-4 rounded-xl flex flex-col gap-3 shadow-xl border-[1px] grow">
         <FilterTemplate header="Level">
           <div className="flex gap-2 flex-wrap">
@@ -172,6 +175,11 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
             />
           </div>
         </FilterTemplate>
+        <FilterTemplate header="Country">
+          <div className="max-w-[28rem]">
+            <CountryBicker />
+          </div>
+        </FilterTemplate>
       </main>
 
       <footer className="w-full grid grid-cols-2  gap-2 mt-3 ">
@@ -180,6 +188,14 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
         </button>
         <Button className="px-4 whitespace-nowrap" type="button" text="Show Results" onClick={handleApplyFilters} />
       </footer>
+    </div>
+  );
+}
+export function CountryBicker() {
+  return (
+    <div className="p-2 rounded-xl border-2">
+      <SearchBar className="border-2 text-gray-500" />
+      <div className=" overflow-auto max-h-48 "></div>
     </div>
   );
 }
