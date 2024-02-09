@@ -9,23 +9,25 @@ import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 import { useGetData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { trackSchema } from "@/schemas/trackSchema";
+import { userSchema } from "@/schemas/userSchema";
 
-import person from "../assets/home/Mentor.png";
 import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
-  const { data } = useGetData("/nav");
-  const { tracks, user } = data?.data || {};
-  const { loggedIn: isAuth } = user || {};
+  const { data: response } = useGetData("/nav");
+  const { tracks, user } = response?.data || {};
+  const { loggedIn: isAuth, data } = user || {};
+  const userData = data as z.infer<typeof userSchema>;
   const navigate = useNavigate();
 
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
-      <SmallNavbar tracks={tracks} isAuth={isAuth} />
+      <SmallNavbar tracks={tracks} isAuth={isAuth} user={userData} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
           <img src={Logo} />
@@ -77,7 +79,7 @@ export function Navbar() {
             <GoBell size={22} />
           </button>
           <Link to="/profile">
-            <img src={person} className="w-10 min-w-8 aspect-square rounded-full" />
+            <UserAvatar imageUrl={userData?.image} name={userData?.name || "User"} />
           </Link>
         </div>
       )}
