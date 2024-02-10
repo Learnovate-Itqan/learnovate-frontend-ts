@@ -47,8 +47,13 @@ export const MentorInfo = ({
       <div className="grid grid-cols-1 xs:grid-cols-2 gap-y-4">
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Resume/cv:</h4>
-          <a href={resume} target="_blank" rel="noreferrer">
-            <p className="text-balance max-w-xl text-royal-blue hover:underline underline-offset-2">View</p>
+          <a
+            href={resume}
+            target="_blank"
+            rel="noreferrer"
+            className="w-fit max-w-xl text-royal-blue hover:underline underline-offset-2"
+          >
+            View
           </a>
         </div>
         <div className="space-y-1">

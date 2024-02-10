@@ -1,4 +1,5 @@
 import mentorViewer from "@/assets/mentors/mentorViewer.webp";
+import { Navbar } from "@/layouts/Navbar";
 
 import { MessageBox } from "./messageBox";
 
@@ -13,6 +14,7 @@ type TViewerHeader = {
 export const ViewerHeader = ({ name, jobTitle, description, image, price }: TViewerHeader) => {
   return (
     <header className="w-full">
+      <Navbar />
       <div className="w-full relative">
         <div className="absolute inset-0 -z-20">
           <img src={mentorViewer} alt={name} loading="lazy" className="h-full w-full object-cover" />
