@@ -1,11 +1,11 @@
 import { mentor } from "@/db/mentor";
 
-import { MentorInfo } from "./components/mentorInfo";
-import { MentorSmallCalendar } from "./components/mentorSmallCalendar";
-import { ViewerHeader } from "./components/mentorViewHeader";
-import { SkillsBox } from "./components/skillsBox";
+import { MentorInfo } from "../components/mentorInfo";
+import { MentorSmallCalendar } from "../components/mentorSmallCalendar";
+import { ViewerHeader } from "../components/mentorViewHeader";
+import { SkillsBox } from "../components/skillsBox";
 
-export const MentorPage = () => {
+export const MentorViewerPage = () => {
   return (
     <>
       <ViewerHeader {...mentor} />
