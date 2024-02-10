@@ -17,7 +17,7 @@ export const MeHeader = ({ name, jobTitle, description, image }: TViewerHeader) 
       <div className="w-full relative">
         <div className="z-0 text-dark-navy py-12">
           <div className="container h-full flex gap-x-10 gap-y-4 flex-col sm:flex-row sm:items-center">
-            <div className="w-fit shadow-xl rounded-full overflow-hidden border-[0.3rem] border-white shadow-lg pt-2 bg-gray-400/80">
+            <div className="w-fit shadow-xl rounded-full overflow-hidden border-[0.3rem] border-white pt-2 bg-gray-400/80">
               <img
                 src={image}
                 alt={`${name} - ${description}`}
