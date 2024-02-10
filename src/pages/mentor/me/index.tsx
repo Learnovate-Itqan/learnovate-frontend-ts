@@ -3,6 +3,7 @@ import { mentor } from "@/db/mentor";
 import { MeStats } from "../components/meStats";
 import { MentorInfo } from "../components/mentorInfo";
 import { MeHeader } from "../components/mentorMeHeader";
+import { SessionCalendar } from "../components/sessionCalendar";
 import { SkillsBox } from "../components/skillsBox";
 
 export const MentorMePage = () => {
@@ -16,6 +17,7 @@ export const MentorMePage = () => {
             <MentorInfo {...mentor} />
             <MeStats />
           </div>
+          <SessionCalendar />
         </div>
       </main>
     </>
