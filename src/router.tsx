@@ -1,17 +1,18 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
+import { AppLayout } from "@/layouts/AppLayout";
+import { NotFoundPage } from "@/pages/404";
+import { EmailVerificationPage } from "@/pages/Auth/EmailVerification";
 import { ForgotPassword } from "@/pages/Auth/ForgotPassword";
 import { ResetPassword } from "@/pages/Auth/ResetPassword";
+import { VerificationPage } from "@/pages/Auth/Verification";
 import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
+import { CoursesPage } from "@/pages/courses";
 import { HomePage } from "@/pages/home";
+import { MentorMePage } from "@/pages/mentor/me";
+import { MentorViewerPage } from "@/pages/mentor/viewer";
 
-import { AppLayout } from "./layouts/AppLayout";
-import { NotFoundPage } from "./pages/404";
-import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
-import { VerificationPage } from "./pages/Auth/Verification";
-import { CoursesPage } from "./pages/courses";
-import { MentorPage } from "./pages/mentor";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
@@ -34,7 +35,8 @@ export const Router = createBrowserRouter(
         </Route>
 
         {/* Mentor Routes */}
-        <Route path="mentor" element={<MentorPage />} />
+        <Route path="mentor/:id" element={<MentorViewerPage />} />
+        <Route path="mentor/me/:id" element={<MentorMePage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Route>
