@@ -1,9 +1,9 @@
 import { mentor } from "@/db/mentor";
 
-import { MeStats } from "../components/meStats";
 import { MentorInfo } from "../components/mentorInfo";
-import { MeHeader } from "../components/mentorMeHeader";
 import { SkillsBox } from "../components/skillsBox";
+import { MeStats } from "./components/meStats";
+import { MeHeader } from "./components/mentorMeHeader";
 
 export const MentorMePage = () => {
   return (
