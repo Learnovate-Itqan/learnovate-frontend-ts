@@ -1,9 +1,9 @@
 import { mentor } from "@/db/mentor";
 
 import { MentorInfo } from "../components/mentorInfo";
-import { MentorSmallCalendar } from "../components/mentorSmallCalendar";
-import { ViewerHeader } from "../components/mentorViewHeader";
 import { SkillsBox } from "../components/skillsBox";
+import { MentorSmallCalendar } from "./components/mentorSmallCalendar";
+import { ViewerHeader } from "./components/mentorViewHeader";
 
 export const MentorViewerPage = () => {
   return (

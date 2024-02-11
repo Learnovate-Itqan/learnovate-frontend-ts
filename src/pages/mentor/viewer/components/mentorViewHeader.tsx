@@ -1,7 +1,7 @@
 import mentorViewer from "@/assets/mentors/mentorViewer.webp";
 import { Navbar } from "@/layouts/Navbar";
 
-import { MessageBox } from "./messageBox";
+import { MessageBox } from "../../components/messageBox";
 
 type TViewerHeader = {
   name: string;
