@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 
-import { CalendarCarousel } from "./calendarCarousel.tsx";
+import { CalendarCarousel } from "./CalendarCarousel";
 
 export const MentorSmallCalendar = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
