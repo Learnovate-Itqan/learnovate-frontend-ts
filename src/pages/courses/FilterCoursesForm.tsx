@@ -94,6 +94,7 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
       searchParams.set("chapters", chaptersRange.join(","));
     else searchParams.delete("chapters");
 
+    searchParams.set("page", "1");
     setSearchParams(searchParams, { replace: true });
     onCloseModal && onCloseModal();
   };
