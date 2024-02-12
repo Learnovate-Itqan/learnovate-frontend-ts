@@ -124,6 +124,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
       searchParams.set("experience", experienceRange.join(","));
     else searchParams.delete("experience");
 
+    searchParams.set("page", "1");
     setSearchParams(searchParams, { replace: true });
     onCloseModal && onCloseModal();
   };
