@@ -16,5 +16,5 @@ export const courseSchema = z.object({
   cLink: z.string(),
   trackID: z.string().uuid(),
   trackName: z.string(),
-  prices: z.number(),
+  price: z.number(),
 });
