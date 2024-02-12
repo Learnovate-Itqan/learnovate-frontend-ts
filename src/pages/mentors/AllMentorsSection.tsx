@@ -1,21 +1,35 @@
 import { TbAdjustmentsFilled } from "react-icons/tb";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { z } from "zod";
 
+import { Button } from "@/components/ui/Button";
 import MentorCard from "@/components/ui/MentorCard";
 import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { Spinner } from "@/components/ui/Spinner";
+import { useGetData } from "@/hooks/useApi";
+import { mentorSchema } from "@/schemas/mentorSchema";
 
-import mentor02 from "../../assets/home/mentors/metor02.webp";
 import { FilterMentorsFrom } from "./FilterMentorsForm";
 
-const Mentor = {
-  id: 1,
-  name: "John Doe",
-  image: mentor02,
-  jobTitle: "Front-End Developer",
-  rate: 4.5,
-};
 export default function AllMentorsSection() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { data: response } = useGetData(`mentors?${searchParams.toString()}`);
+  const { data } = response || {};
+  const { mentors, status } = data || {};
+
+  if (status === "failed") {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 py-20 ">
+        <h1 className="text-3xl font-semibold ">Something went wrong</h1>
+        <p className="text-xl text-dark-navy font-semibold"> please try again</p>
+        <Button className="max-w-48 mt-5" text="Try Again" type="button" onClick={() => navigate("/")} />
+      </div>
+    );
+  }
+
   return (
     <div>
       <main className="container py-20">
@@ -41,19 +55,37 @@ export default function AllMentorsSection() {
               <FilterMentorsFrom />
             </div>
           </aside>
-          <aside className="flex flex-wrap justify-center lg:justify-start gap-4 grow text-white ">
-            {Array.from({ length: 16 }).map((_, index) => (
-              <MentorCard
-                key={index}
-                className="sm:w-[250px] sm:h-[300px] place-self-center"
-                name={Mentor.name}
-                rating={Mentor.rate}
-                image={Mentor.image}
-                title={Mentor.jobTitle}
-                id={"Mentor.id"}
-              />
-            ))}
-          </aside>
+          {!mentors ? (
+            <div className="py-20 grow flex justify-center items-center">
+              <Spinner className="w-36 h-36" />
+            </div>
+          ) : mentors.length === 0 ? (
+            <div className="container py-20 w-full flex ">
+              <section className="flex grow flex-col items-center gap-3">
+                <h1 className="text-3xl font-bold text-center">No mentors available</h1>
+                <Button
+                  className="max-w-36"
+                  text="Clear Filters"
+                  type="button"
+                  onClick={() => navigate("/mentors", { replace: true })}
+                />
+              </section>
+            </div>
+          ) : (
+            <aside className="flex flex-wrap justify-center lg:justify-start gap-4 h-min grow text-white ">
+              {mentors.map((mentor: z.infer<typeof mentorSchema>) => (
+                <MentorCard
+                  key={mentor.id}
+                  className="sm:w-[250px] sm:h-[300px]"
+                  name={mentor.user.name}
+                  rating={mentor.rating}
+                  image={mentor.user.image}
+                  title={mentor.track.name}
+                  id={"Mentor.id"}
+                />
+              ))}
+            </aside>
+          )}
         </section>
         <div className="mt-10">
           <Paginate pageCount={10} />
