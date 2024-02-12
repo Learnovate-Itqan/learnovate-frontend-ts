@@ -11,7 +11,7 @@ import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const PRICE_RANGE = [0, 500];
-const TimesRanges = ["1-2 days", "1-2 weeks", "3-6 weeks", "2-3 months", "3-6 months"];
+const TimesRanges = ["1-2 hours", "3-6 hours", "6-12 hours", "1-2 days", "3-6 days", "1-2 week"];
 const CHAPTERS_RANGE = [1, 12];
 
 type FilterCoursesFormProps = {
