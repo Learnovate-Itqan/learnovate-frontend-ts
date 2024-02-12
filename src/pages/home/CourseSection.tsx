@@ -56,7 +56,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
               track={course.trackName}
               duration={course.estimatedTime || 0}
               image={course.image}
-              price={course.prices}
+              price={course.price}
             />
           ))}
         </main>
