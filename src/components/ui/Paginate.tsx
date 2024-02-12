@@ -9,7 +9,7 @@ type PaginateProps = {
 export function Paginate({ pageCount }: PaginateProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const selectedPage = searchParams.get("page") || "1";
+  const selectedPage = Number(searchParams.get("page") || "1") - 1;
   const handlePageChange = (page: { selected: number }) => {
     searchParams.set("page", (page.selected + 1).toString());
     setSearchParams(searchParams, { replace: true });
@@ -17,7 +17,8 @@ export function Paginate({ pageCount }: PaginateProps) {
   return (
     <ReactPaginate
       onPageChange={handlePageChange}
-      initialPage={parseInt(selectedPage) - 1}
+      initialPage={0}
+      forcePage={selectedPage}
       pageCount={pageCount}
       pageRangeDisplayed={2}
       marginPagesDisplayed={1}
