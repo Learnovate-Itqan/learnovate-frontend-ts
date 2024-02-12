@@ -756,13 +756,6 @@ export const COUNTRIES = [
     image: "https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IE.svg",
   },
   {
-    name: "Israel",
-    code: "IL",
-    emoji: "🇮🇱",
-    unicode: "U+1F1EE U+1F1F1",
-    image: "https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IL.svg",
-  },
-  {
     name: "Isle of Man",
     code: "IM",
     emoji: "🇮🇲",
