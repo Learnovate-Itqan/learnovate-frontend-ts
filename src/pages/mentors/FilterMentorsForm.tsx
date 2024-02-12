@@ -14,7 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { COUNTRIES } from "@/db/Countries";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
-const HOURLY_RATE_RANGE = [0, 500];
+const HOURLY_RATE_RANGE = [0, 100];
 const EXPERIENCE_YEARS = [1, 12];
 const Tracks = [
   "All",
@@ -83,7 +83,6 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
       setExperienceRange(value);
     }
   };
-
   const handleCountryChange = (value: string) => {
     if (selectedCountries.includes(value)) {
       setSelectedCountries(selectedCountries.filter((country) => country !== value));
@@ -93,12 +92,12 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   };
 
   const handleReset = () => {
-    setSelectedLevels([]);
-    setSkills([]);
-    setHourlyRate(HOURLY_RATE_RANGE);
-    setSelectedCountries([]);
-    setRating(0);
-    setExperienceRange(EXPERIENCE_YEARS);
+    setSelectedLevels(() => []);
+    setSkills(() => []);
+    setHourlyRate(() => HOURLY_RATE_RANGE);
+    setSelectedCountries(() => []);
+    setRating(() => 0);
+    setExperienceRange(() => EXPERIENCE_YEARS);
   };
 
   const handleApplyFilters = () => {
@@ -205,11 +204,19 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
 }
 
 export function CountryBicker({ onChange }: { onChange: (value: string) => void }) {
+  const [searchValue, setSearchValue] = useState("");
+
+  const usedCountries = COUNTRIES.filter((country) => country.name.toLowerCase().includes(searchValue.toLowerCase()));
+
   return (
     <div className="p-2 rounded-xl min-w-56 border-2">
-      <SearchBar className="border-2 mb-2 text-gray-400" onChange={() => null} value="" />
+      <SearchBar
+        className="border-2 mb-2 text-gray-400"
+        onChange={(value) => setSearchValue(value)}
+        value={searchValue}
+      />
       <ScrollArea className="h-48 px-1">
-        {COUNTRIES.map((country, index) => (
+        {usedCountries.map((country, index) => (
           <div
             key={index}
             className="flex gap-2 my-1 items-center transition-colors duration-150 rounded-xl hover:bg-gray-100"
