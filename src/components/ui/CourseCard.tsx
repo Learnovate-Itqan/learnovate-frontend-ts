@@ -57,7 +57,7 @@ export default function CourseCard({
             {rate.toFixed(1)} <HiStar className="text-yellow-500" size={18} />
           </Tag>
           <Tag>{level}</Tag>
-          <Tag>{duration} Min</Tag>
+          <Tag>{duration} hours</Tag>
           <Tag>{price}$</Tag>
         </footer>
       </div>
