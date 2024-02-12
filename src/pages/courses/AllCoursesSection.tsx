@@ -92,7 +92,7 @@ export function AllCoursesSection() {
       </header>
       {!courses ? (
         <div className="py-20 flex justify-center items-center">
-          <Spinner />
+          <Spinner className="w-36 h-36 stroke-royal-blue" />
         </div>
       ) : courses.length === 0 ? (
         <div className="container py-20 w-full flex justify-center items-center">
