@@ -4,7 +4,7 @@ export function UserAvatar({ imageUrl, name }: { imageUrl: string; name: string 
   return (
     <Avatar>
       <AvatarImage src={imageUrl} title={name} alt={name} />
-      <AvatarFallback className=" bg-royal-blue text-lg">{name.slice(0, 2).toUpperCase()}</AvatarFallback>
+      <AvatarFallback className=" bg-royal-blue text-lg">{name?.slice(0, 2).toUpperCase()}</AvatarFallback>
     </Avatar>
   );
 }
