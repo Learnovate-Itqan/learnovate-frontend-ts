@@ -15,7 +15,7 @@ import { courseSchema } from "@/schemas/courseSchema";
 
 import { FilterCoursesForm } from "./FilterCoursesForm";
 
-const Tracks = ["All", "Data Science", "Dev Ops", "Computer Science", "IOS", "Embedded Systems", "Android"];
+const Tracks = ["All", "Data Science", "Web Development", "Computer Science", "IOS", "Embedded Systems", "Android"];
 
 export function AllCoursesSection() {
   const [searchParams, setSearchParams] = useSearchParams();
