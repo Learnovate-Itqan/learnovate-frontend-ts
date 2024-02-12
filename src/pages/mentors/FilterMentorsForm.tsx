@@ -17,20 +17,16 @@ const levels = ["Beginner", "Intermediate", "Advanced"];
 const HOURLY_RATE_RANGE = [0, 100];
 const EXPERIENCE_YEARS = [1, 12];
 const Tracks = [
-  "All",
   "Data Science",
   "Dev Ops",
   "Computer Science",
   "IOS",
   "Embedded Systems",
   "Android",
+  "Flutter",
   "Web Development",
-  "Mobile Development",
   "Game Development",
   "Software Development",
-  "Machine Learning",
-  "Artificial Intelligence",
-  "Cyber Security",
 ];
 
 type FilterCoursesFormProps = {
@@ -93,6 +89,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
 
   const handleReset = () => {
     setSelectedLevels(() => []);
+    setSelectedTrack(() => []);
     setSkills(() => []);
     setHourlyRate(() => HOURLY_RATE_RANGE);
     setSelectedCountries(() => []);
