@@ -14,6 +14,8 @@ export function Paginate({ pageCount }: PaginateProps) {
     searchParams.set("page", (page.selected + 1).toString());
     setSearchParams(searchParams, { replace: true });
   };
+
+  if (pageCount <= 1) return null;
   return (
     <ReactPaginate
       onPageChange={handlePageChange}
