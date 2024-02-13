@@ -16,14 +16,13 @@ import { courseSchema } from "@/schemas/courseSchema";
 import { FilterCoursesForm } from "./FilterCoursesForm";
 
 const Tracks = ["All", "Data Science", "Web Development", "Computer Science", "IOS", "Embedded Systems", "Android"];
-
+const COURSES_PER_PAGE = 9;
 export function AllCoursesSection() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { data: response } = useGetData(`courses${window.location.search}`);
   const { data } = response || {};
-  const { courses, status } = data || {};
-  console.log(data);
+  const { courses, totalCourses, status } = data || {};
   const selectedTrack = searchParams.get("track") || "all";
 
   const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -119,7 +118,7 @@ export function AllCoursesSection() {
           ))}
         </main>
       )}
-      <Paginate pageCount={10} />
+      <Paginate pageCount={Math.ceil(totalCourses / COURSES_PER_PAGE)} />
     </main>
   );
 }
