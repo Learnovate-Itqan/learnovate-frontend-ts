@@ -13,12 +13,14 @@ import { mentorSchema } from "@/schemas/mentorSchema";
 
 import { FilterMentorsFrom } from "./FilterMentorsForm";
 
+const MENTORS_PER_PAGE = 16;
+
 export default function AllMentorsSection() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { data: response } = useGetData(`mentors?${searchParams.toString()}`);
   const { data } = response || {};
-  const { mentors, status } = data || {};
+  const { mentors, totalMentors, status } = data || {};
 
   if (status === "failed") {
     return (
@@ -88,7 +90,7 @@ export default function AllMentorsSection() {
           )}
         </section>
         <div className="mt-10">
-          <Paginate pageCount={10} />
+          <Paginate pageCount={Math.ceil(totalMentors / MENTORS_PER_PAGE)} />
         </div>
       </main>
     </div>
