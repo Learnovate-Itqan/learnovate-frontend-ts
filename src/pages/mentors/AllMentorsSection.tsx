@@ -19,8 +19,8 @@ export default function AllMentorsSection() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { data: response } = useGetData(`mentors?${searchParams.toString()}`);
-  const { data } = response || {};
-  const { mentors, totalMentors, status } = data || {};
+  const { data, status } = response || {};
+  const { mentors, totalMentors } = data || {};
 
   if (status === "failed") {
     return (

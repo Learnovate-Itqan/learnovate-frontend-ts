@@ -21,8 +21,8 @@ export function AllCoursesSection() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { data: response } = useGetData(`courses${window.location.search}`);
-  const { data } = response || {};
-  const { courses, totalCourses, status } = data || {};
+  const { data, status } = response || {};
+  const { courses, totalCourses } = data || {};
   const selectedTrack = searchParams.get("track") || "all";
 
   const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
