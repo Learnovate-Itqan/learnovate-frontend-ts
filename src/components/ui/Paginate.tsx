@@ -19,7 +19,6 @@ export function Paginate({ pageCount }: PaginateProps) {
   return (
     <ReactPaginate
       onPageChange={handlePageChange}
-      initialPage={0}
       forcePage={selectedPage}
       pageCount={pageCount}
       pageRangeDisplayed={2}
