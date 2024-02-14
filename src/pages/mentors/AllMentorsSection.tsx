@@ -81,11 +81,11 @@ export default function AllMentorsSection() {
               </section>
             </div>
           ) : (
-            <aside className="flex flex-wrap justify-center lg:justify-start gap-4 h-min grow text-white ">
+            <aside className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-4 h-min grow text-white ">
               {mentors.map((mentor: z.infer<typeof mentorSchema>) => (
                 <MentorCard
                   key={mentor.id}
-                  className="sm:w-[250px] sm:h-[300px]"
+                  className="xxs:w-[150px] xxs:h-[200px] sm:w-[250px] sm:h-[300px]"
                   name={mentor.user.name}
                   rating={mentor.rating}
                   image={mentor.user.image}
