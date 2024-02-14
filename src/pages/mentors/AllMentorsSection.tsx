@@ -90,7 +90,7 @@ export default function AllMentorsSection() {
           )}
         </section>
         <div className="mt-10">
-          <Paginate pageCount={Math.ceil(totalMentors / MENTORS_PER_PAGE)} />
+          <Paginate pageCount={Math.ceil(totalMentors / MENTORS_PER_PAGE) || 1} />
         </div>
       </main>
     </div>

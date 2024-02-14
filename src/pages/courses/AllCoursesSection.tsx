@@ -135,7 +135,7 @@ export function AllCoursesSection() {
           ))}
         </main>
       )}
-      <Paginate pageCount={Math.ceil(totalCourses / COURSES_PER_PAGE)} />
+      <Paginate pageCount={Math.ceil(totalCourses / COURSES_PER_PAGE) || 1} />
     </main>
   );
 }
