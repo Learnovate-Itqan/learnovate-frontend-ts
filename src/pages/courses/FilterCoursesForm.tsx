@@ -8,6 +8,7 @@ import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
 import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
+import { formatCurrency } from "@/utils/helpers";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const PRICE_RANGE = [0, 500];
@@ -125,8 +126,8 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
             max={PRICE_RANGE[1]}
             values={priceRange}
             onChange={handlePriceRangeChange}
-            leftLabel={`$${priceRange[0].toFixed(1)}`}
-            rightLabel={`$${priceRange[1].toFixed(1)}`}
+            leftLabel={formatCurrency(priceRange[0])}
+            rightLabel={formatCurrency(priceRange[1])}
           />
         </div>
       </FilterTemplate>

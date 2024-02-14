@@ -16,6 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { COUNTRIES } from "@/db/Countries";
 import { trackSchema } from "@/schemas/trackSchema";
+import { formatCurrency } from "@/utils/helpers";
 
 // const levels = ["Beginner", "Intermediate", "Advanced"];
 const HOURLY_RATE_RANGE = [0, 100];
@@ -174,8 +175,8 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
               max={HOURLY_RATE_RANGE[1]}
               values={hourlyRate}
               onChange={handleHourlyRateChange}
-              leftLabel={`$${hourlyRate[0].toFixed(1)}`}
-              rightLabel={`$${hourlyRate[1].toFixed(1)}`}
+              leftLabel={formatCurrency(hourlyRate[0])}
+              rightLabel={formatCurrency(hourlyRate[1])}
             />
           </div>
         </FilterTemplate>

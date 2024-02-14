@@ -2,6 +2,8 @@ import { HiStar } from "react-icons/hi2";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
+import { formatCurrency } from "@/utils/helpers";
+
 import { Tag } from "./Tag";
 
 type CourseCardProps = {
@@ -58,7 +60,7 @@ export default function CourseCard({
           </Tag>
           <Tag>{level}</Tag>
           <Tag>{duration} hours</Tag>
-          <Tag>{price}$</Tag>
+          <Tag>{formatCurrency(price)}</Tag>
         </footer>
       </div>
     </div>
