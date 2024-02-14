@@ -72,14 +72,14 @@ export function AllCoursesSection() {
 
   return (
     <main className=" py-20">
-      <header className="px-1 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
+      <header className="container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
         <div className="flex justify-start gap-3 flex-wrap">
           {tracks.length
             ? tracks.map((track, index) => (
                 <button
                   key={index}
                   value={track.toLowerCase()}
-                  className={` border-2 whitespace-nowrap transition-colors border-royal-blue px-4 py-2 rounded-xl ${track.toLowerCase() === selectedTrack.toLowerCase() ? "bg-royal-blue text-white" : "text-royal-blue hover:bg-dark-navy/5"}`}
+                  className={` border-2 text-xs sm:text-sm md:text-base whitespace-nowrap transition-colors border-royal-blue px-4 py-2 rounded-xl ${track.toLowerCase() === selectedTrack.toLowerCase() ? "bg-royal-blue text-white" : "text-royal-blue hover:bg-dark-navy/5"}`}
                   onClick={handleTrackChange}
                 >
                   {track}
@@ -122,13 +122,14 @@ export function AllCoursesSection() {
           </section>
         </div>
       ) : (
-        <main className="px-1 xs:container grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 py-10">
+        <main className="container grid grid-cols-auto-fit-19 xl:grid-cols-3 gap-5 py-10">
           {courses?.map((course: z.infer<typeof courseSchema>) => (
             <CourseCard
               key={course.id}
+              className=" min-w-72"
               id={course.id}
               name={course.title}
-              track={"Data Science"}
+              track={course.trackName || "Data Science"}
               duration={course.estimatedTime}
               level={course.cLevel}
               rate={course.rating}
