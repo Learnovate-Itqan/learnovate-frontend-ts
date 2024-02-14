@@ -1,4 +1,5 @@
-import React from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
@@ -24,6 +25,13 @@ export function Navbar() {
   const { loggedIn: isAuth, data } = user || {};
   const userData = data as z.infer<typeof userSchema>;
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (tracks) {
+      queryClient.setQueryData(["tracks"], tracks);
+    }
+  }, [tracks, queryClient]);
 
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
