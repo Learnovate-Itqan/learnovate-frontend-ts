@@ -6,14 +6,14 @@ import { FilterTemplate } from "@/components/ui/FilterTemplate";
 import { KeyWordsForm } from "@/components/ui/KeywordsForm";
 import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
-import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
+// import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { Checkbox } from "@/components/ui/checkbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { COUNTRIES } from "@/db/Countries";
 
-const levels = ["Beginner", "Intermediate", "Advanced"];
+// const levels = ["Beginner", "Intermediate", "Advanced"];
 const HOURLY_RATE_RANGE = [0, 100];
 const EXPERIENCE_YEARS = [1, 12];
 const Tracks = [
@@ -36,7 +36,7 @@ type FilterCoursesFormProps = {
 export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
+  // const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
   const [selectedTracks, setSelectedTrack] = useState<string[]>(searchParams.get("tracks")?.split(",") || []);
   const [skills, setSkills] = useState<string[]>(searchParams.get("skills")?.split(",") || []);
   const [hourlyRate, setHourlyRate] = useState<number[]>(
@@ -54,13 +54,13 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   );
   const [selectedCountries, setSelectedCountries] = useState<string[]>(searchParams.get("countries")?.split(",") || []);
 
-  const handleLevelChange = (value: string) => {
-    if (selectedLevels.includes(value)) {
-      setSelectedLevels(selectedLevels.filter((level) => level !== value));
-    } else {
-      setSelectedLevels([...selectedLevels, value]);
-    }
-  };
+  // const handleLevelChange = (value: string) => {
+  //   if (selectedLevels.includes(value)) {
+  //     setSelectedLevels(selectedLevels.filter((level) => level !== value));
+  //   } else {
+  //     setSelectedLevels([...selectedLevels, value]);
+  //   }
+  // };
 
   const handleSkillDeletion = (skill: string) => {
     setSkills(skills.filter((word) => word !== skill));
@@ -88,7 +88,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   };
 
   const handleReset = () => {
-    setSelectedLevels(() => []);
+    // setSelectedLevels(() => []);
     setSelectedTrack(() => []);
     setSkills(() => []);
     setHourlyRate(() => HOURLY_RATE_RANGE);
@@ -98,8 +98,8 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   };
 
   const handleApplyFilters = () => {
-    if (selectedLevels.length > 0) searchParams.set("levels", selectedLevels.join(","));
-    else searchParams.delete("levels");
+    // if (selectedLevels.length > 0) searchParams.set("levels", selectedLevels.join(","));
+    // else searchParams.delete("levels");
 
     if (selectedTracks.length > 0) searchParams.set("tracks", selectedTracks.join(","));
     else searchParams.delete("tracks");
@@ -128,7 +128,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   return (
     <div className="flex flex-col justify-between  min-w-min gap-2  ">
       <main className="lg:p-4 rounded-xl flex flex-col gap-3 lg:shadow-xl lg:border-[1px] grow">
-        <FilterTemplate header="Level">
+        {/* <FilterTemplate header="Level">
           <div className="flex gap-2 flex-wrap">
             {levels.map((level, index) => (
               <RoundedCheckbox
@@ -140,7 +140,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
               />
             ))}
           </div>
-        </FilterTemplate>
+        </FilterTemplate> */}
 
         <FilterTemplate header="Tracks">
           <MultiSelection
