@@ -1,5 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TbAdjustmentsFilled } from "react-icons/tb";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
@@ -13,8 +12,8 @@ import { SearchBar } from "@/components/ui/SearchBar";
 import { Spinner } from "@/components/ui/Spinner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetData } from "@/hooks/useApi";
+import { useTracksName } from "@/hooks/useTracksName";
 import { courseSchema } from "@/schemas/courseSchema";
-import { trackSchema } from "@/schemas/trackSchema";
 
 import { FilterCoursesForm } from "./FilterCoursesForm";
 
@@ -22,7 +21,6 @@ const COURSES_PER_PAGE = 9;
 export function AllCoursesSection() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   // fetch Courses
   const { data: response } = useGetData(`courses?${searchParams.toString()}`);
@@ -30,9 +28,7 @@ export function AllCoursesSection() {
   const { courses, totalCourses, globalMaxPrice, globalMinPrice, minNumberOfChapters, maxNumberOfChapters } =
     data || {};
 
-  // handle tracks
-  const tracksQuery = queryClient.getQueryData(["tracks"]) as z.infer<typeof trackSchema>[] | null;
-  const [tracks, setTracks] = useState<string[]>([]);
+  const tracks = useTracksName();
   const selectedTrack = searchParams.get("track") || "all";
 
   const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -53,12 +49,6 @@ export function AllCoursesSection() {
   const handleDeletingAllFilters = () => {
     navigate("/courses", { replace: true });
   };
-
-  useEffect(() => {
-    if (tracksQuery) {
-      setTracks(tracksQuery.map((track) => track.name));
-    }
-  }, [tracksQuery]);
 
   if (status === "failed") {
     return (

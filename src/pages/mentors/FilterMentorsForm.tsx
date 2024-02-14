@@ -1,7 +1,5 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/Button";
 import { FilterTemplate } from "@/components/ui/FilterTemplate";
@@ -15,7 +13,7 @@ import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { COUNTRIES } from "@/db/Countries";
-import { trackSchema } from "@/schemas/trackSchema";
+import { useTracksName } from "@/hooks/useTracksName";
 import { formatCurrency } from "@/utils/helpers";
 
 // const levels = ["Beginner", "Intermediate", "Advanced"];
@@ -32,11 +30,9 @@ export function FilterMentorsFrom({
   defaultPricesRange,
 }: FilterCoursesFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const queryClient = useQueryClient();
-  const tracksQuery = queryClient.getQueryData(["tracks"]) as z.infer<typeof trackSchema>[] | null;
 
-  const [tracks, setTracks] = useState<string[]>([]);
   // const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
+  const tracks = useTracksName();
   const [selectedTracks, setSelectedTrack] = useState<string[]>(searchParams.get("tracks")?.split(",") || []);
   const [skills, setSkills] = useState<string[]>(searchParams.get("skills")?.split(",") || []);
   const [hourlyRate, setHourlyRate] = useState<number[]>(
@@ -128,12 +124,6 @@ export function FilterMentorsFrom({
     setSearchParams(searchParams, { replace: true });
     onCloseModal && onCloseModal();
   };
-
-  useEffect(() => {
-    if (tracksQuery) {
-      setTracks(tracksQuery?.map((track: z.infer<typeof trackSchema>) => track.name));
-    }
-  }, [tracksQuery]);
 
   useEffect(() => {
     setHourlyRate(defaultPricesRange);
