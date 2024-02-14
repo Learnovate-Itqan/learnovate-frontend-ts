@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/Button";
 import { FilterTemplate } from "@/components/ui/FilterTemplate";
@@ -11,23 +13,13 @@ import { SearchBar } from "@/components/ui/SearchBar";
 import { Checkbox } from "@/components/ui/checkbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 import { COUNTRIES } from "@/db/Countries";
+import { trackSchema } from "@/schemas/trackSchema";
 
 // const levels = ["Beginner", "Intermediate", "Advanced"];
 const HOURLY_RATE_RANGE = [0, 100];
 const EXPERIENCE_YEARS = [1, 12];
-const Tracks = [
-  "Data Science",
-  "Dev Ops",
-  "Computer Science",
-  "IOS",
-  "Embedded Systems",
-  "Android",
-  "Flutter",
-  "Web Development",
-  "Game Development",
-  "Software Development",
-];
 
 type FilterCoursesFormProps = {
   onCloseModal?: () => void;
@@ -35,7 +27,10 @@ type FilterCoursesFormProps = {
 
 export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const queryClient = useQueryClient();
+  const tracksQuery = queryClient.getQueryData(["tracks"]) as z.infer<typeof trackSchema>[] | null;
 
+  const [tracks, setTracks] = useState<string[]>([]);
   // const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
   const [selectedTracks, setSelectedTrack] = useState<string[]>(searchParams.get("tracks")?.split(",") || []);
   const [skills, setSkills] = useState<string[]>(searchParams.get("skills")?.split(",") || []);
@@ -65,6 +60,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
   const handleSkillDeletion = (skill: string) => {
     setSkills(skills.filter((word) => word !== skill));
   };
+
   const handleSkillAddition = (skill: string) => {
     setSkills([...skills, skill]);
   };
@@ -74,11 +70,13 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
       setHourlyRate(value);
     }
   };
+
   const handleExperienceRangeChange = (value: number | number[]) => {
     if (Array.isArray(value)) {
       setExperienceRange(value);
     }
   };
+
   const handleCountryChange = (value: string) => {
     if (selectedCountries.includes(value)) {
       setSelectedCountries(selectedCountries.filter((country) => country !== value));
@@ -125,6 +123,12 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     setSearchParams(searchParams, { replace: true });
     onCloseModal && onCloseModal();
   };
+
+  useEffect(() => {
+    if (tracksQuery) {
+      setTracks(tracksQuery?.map((track: z.infer<typeof trackSchema>) => track.name));
+    }
+  }, [tracksQuery]);
   return (
     <div className="flex flex-col justify-between  min-w-min gap-2  ">
       <main className="lg:p-4 rounded-xl flex flex-col gap-3 lg:shadow-xl lg:border-[1px] grow">
@@ -143,12 +147,20 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
         </FilterTemplate> */}
 
         <FilterTemplate header="Tracks">
-          <MultiSelection
-            options={Tracks}
-            selectedOptions={selectedTracks}
-            onChange={(option) => setSelectedTrack((prev) => [...prev, option])}
-            onDeletion={(option) => setSelectedTrack((prev) => prev.filter((track) => track !== option))}
-          />
+          {tracks.length ? (
+            <MultiSelection
+              options={tracks}
+              selectedOptions={selectedTracks}
+              onChange={(option) => setSelectedTrack((prev) => [...prev, option])}
+              onDeletion={(option) => setSelectedTrack((prev) => prev.filter((track) => track !== option))}
+            />
+          ) : (
+            <div className="flex gap-3 flex-wrap">
+              {Array.from({ length: 8 }, (_, index) => (
+                <Skeleton key={index} className="w-28 h-8 rounded-lg" />
+              ))}
+            </div>
+          )}
         </FilterTemplate>
 
         <FilterTemplate header="Skills">
