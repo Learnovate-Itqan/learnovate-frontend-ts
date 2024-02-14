@@ -1,4 +1,5 @@
-import React from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
 import { TbAdjustmentsFilled } from "react-icons/tb";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
@@ -10,19 +11,27 @@ import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { Spinner } from "@/components/ui/Spinner";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetData } from "@/hooks/useApi";
 import { courseSchema } from "@/schemas/courseSchema";
+import { trackSchema } from "@/schemas/trackSchema";
 
 import { FilterCoursesForm } from "./FilterCoursesForm";
 
-const Tracks = ["All", "Data Science", "Web Development", "Computer Science", "IOS", "Embedded Systems", "Android"];
 const COURSES_PER_PAGE = 9;
 export function AllCoursesSection() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { data: response } = useGetData(`courses${window.location.search}`);
+  const queryClient = useQueryClient();
+
+  // fetch Courses
+  const { data: response } = useGetData(`courses?${searchParams.toString()}`);
   const { data, status } = response || {};
   const { courses, totalCourses } = data || {};
+
+  // handle tracks
+  const tracksQuery = queryClient.getQueryData(["tracks"]) as z.infer<typeof trackSchema>[] | null;
+  const [tracks, setTracks] = useState<string[]>([]);
   const selectedTrack = searchParams.get("track") || "all";
 
   const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -44,6 +53,12 @@ export function AllCoursesSection() {
     navigate("/courses", { replace: true });
   };
 
+  useEffect(() => {
+    if (tracksQuery) {
+      setTracks(tracksQuery.map((track) => track.name));
+    }
+  }, [tracksQuery]);
+
   if (status === "failed") {
     return (
       <div className="flex flex-col items-center justify-center gap-3 py-20 ">
@@ -58,16 +73,18 @@ export function AllCoursesSection() {
     <main className=" py-20">
       <header className="px-1 xs:container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
         <div className="flex justify-start gap-3 flex-wrap">
-          {Tracks.map((track, index) => (
-            <button
-              key={index}
-              value={track.toLowerCase()}
-              className={` border-2 whitespace-nowrap transition-colors border-royal-blue px-4 py-2 rounded-xl ${track.toLowerCase() === selectedTrack.toLowerCase() ? "bg-royal-blue text-white" : "text-royal-blue"}`}
-              onClick={handleTrackChange}
-            >
-              {track}
-            </button>
-          ))}
+          {tracks.length
+            ? tracks.map((track, index) => (
+                <button
+                  key={index}
+                  value={track.toLowerCase()}
+                  className={` border-2 whitespace-nowrap transition-colors border-royal-blue px-4 py-2 rounded-xl ${track.toLowerCase() === selectedTrack.toLowerCase() ? "bg-royal-blue text-white" : "text-royal-blue hover:bg-dark-navy/5"}`}
+                  onClick={handleTrackChange}
+                >
+                  {track}
+                </button>
+              ))
+            : Array.from({ length: 8 }, (_, index) => <Skeleton key={index} className="w-28 h-8 rounded-lg" />)}
         </div>
         <div className="flex w-full grow lg:max-w-96  gap-2 max-h-12">
           <SearchBar
