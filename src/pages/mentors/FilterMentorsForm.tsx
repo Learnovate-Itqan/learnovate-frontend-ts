@@ -19,14 +19,18 @@ import { trackSchema } from "@/schemas/trackSchema";
 import { formatCurrency } from "@/utils/helpers";
 
 // const levels = ["Beginner", "Intermediate", "Advanced"];
-const HOURLY_RATE_RANGE = [0, 100];
-const EXPERIENCE_YEARS = [1, 12];
 
 type FilterCoursesFormProps = {
   onCloseModal?: () => void;
+  defaultExperienceRange: number[];
+  defaultPricesRange: number[];
 };
 
-export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
+export function FilterMentorsFrom({
+  onCloseModal,
+  defaultExperienceRange,
+  defaultPricesRange,
+}: FilterCoursesFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const tracksQuery = queryClient.getQueryData(["tracks"]) as z.infer<typeof trackSchema>[] | null;
@@ -39,14 +43,14 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     searchParams
       .get("hourlyRate")
       ?.split(",")
-      .map((item) => Number(item)) || HOURLY_RATE_RANGE
+      .map((item) => Number(item)) || defaultPricesRange
   );
   const [rating, setRating] = useState(searchParams.get("rating") ? Number(searchParams.get("rating")) : 0);
   const [experienceRange, setExperienceRange] = useState<number[]>(
     searchParams
       .get("experience")
       ?.split(",")
-      .map((item) => Number(item)) || EXPERIENCE_YEARS
+      .map((item) => Number(item)) || defaultExperienceRange
   );
   const [selectedCountries, setSelectedCountries] = useState<string[]>(searchParams.get("countries")?.split(",") || []);
 
@@ -90,10 +94,10 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     // setSelectedLevels(() => []);
     setSelectedTrack(() => []);
     setSkills(() => []);
-    setHourlyRate(() => HOURLY_RATE_RANGE);
+    setHourlyRate(() => defaultPricesRange);
     setSelectedCountries(() => []);
     setRating(() => 0);
-    setExperienceRange(() => EXPERIENCE_YEARS);
+    setExperienceRange(() => defaultExperienceRange);
   };
 
   const handleApplyFilters = () => {
@@ -106,7 +110,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     if (skills.length > 0) searchParams.set("skills", skills.join(","));
     else searchParams.delete("skills");
 
-    if (hourlyRate[0] !== HOURLY_RATE_RANGE[0] || hourlyRate[1] !== HOURLY_RATE_RANGE[1])
+    if (hourlyRate[0] !== defaultPricesRange[0] || hourlyRate[1] !== defaultPricesRange[1])
       searchParams.set("hourlyRate", hourlyRate.join(","));
     else searchParams.delete("hourlyRate");
 
@@ -116,7 +120,7 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
     if (rating > 0) searchParams.set("rating", rating.toString());
     else searchParams.delete("rating");
 
-    if (experienceRange[0] !== EXPERIENCE_YEARS[0] || experienceRange[1] !== EXPERIENCE_YEARS[1])
+    if (experienceRange[0] !== defaultExperienceRange[0] || experienceRange[1] !== defaultExperienceRange[1])
       searchParams.set("experience", experienceRange.join(","));
     else searchParams.delete("experience");
 
@@ -130,6 +134,11 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
       setTracks(tracksQuery?.map((track: z.infer<typeof trackSchema>) => track.name));
     }
   }, [tracksQuery]);
+
+  useEffect(() => {
+    setHourlyRate(defaultPricesRange);
+    setExperienceRange(defaultExperienceRange);
+  }, [defaultPricesRange, defaultExperienceRange]);
   return (
     <div className="flex flex-col justify-between  min-w-min gap-2  ">
       <main className="lg:p-4 rounded-xl flex flex-col gap-3 lg:shadow-xl lg:border-[1px] grow">
@@ -171,8 +180,8 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
         <FilterTemplate header="Hourly Rate">
           <div className="max-w-[28rem]">
             <RangeSlider
-              min={HOURLY_RATE_RANGE[0]}
-              max={HOURLY_RATE_RANGE[1]}
+              min={defaultPricesRange[0]}
+              max={defaultPricesRange[1]}
               values={hourlyRate}
               onChange={handleHourlyRateChange}
               leftLabel={formatCurrency(hourlyRate[0])}
@@ -188,8 +197,8 @@ export function FilterMentorsFrom({ onCloseModal }: FilterCoursesFormProps) {
         <FilterTemplate header="Experience in years">
           <div className="max-w-[28rem]">
             <RangeSlider
-              min={EXPERIENCE_YEARS[0]}
-              max={EXPERIENCE_YEARS[1]}
+              min={defaultExperienceRange[0]}
+              max={defaultExperienceRange[1]}
               values={experienceRange}
               onChange={handleExperienceRangeChange}
               leftLabel={`${experienceRange[0]}`}

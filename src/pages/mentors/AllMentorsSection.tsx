@@ -20,7 +20,8 @@ export default function AllMentorsSection() {
   const [searchParams] = useSearchParams();
   const { data: response } = useGetData(`mentors?${searchParams.toString()}`);
   const { data, status } = response || {};
-  const { mentors, totalMentors } = data || {};
+  const { mentors, totalMentors, globalMinPrice, globalMaxPrice, globalMinExperience, globalMaxExperience } =
+    data || {};
 
   if (status === "failed") {
     return (
@@ -50,11 +51,17 @@ export default function AllMentorsSection() {
               </Modal.Open>
 
               <Modal.Window name="filter">
-                <FilterMentorsFrom />
+                <FilterMentorsFrom
+                  defaultExperienceRange={[globalMinExperience || 0, globalMaxExperience || 10]}
+                  defaultPricesRange={[globalMinPrice || 0, globalMaxPrice || 100]}
+                />
               </Modal.Window>
             </Modal>
             <div className="grow hidden lg:block">
-              <FilterMentorsFrom />
+              <FilterMentorsFrom
+                defaultExperienceRange={[globalMinExperience || 0, globalMaxExperience || 10]}
+                defaultPricesRange={[globalMinPrice || 0, globalMaxPrice || 100]}
+              />
             </div>
           </aside>
           {!mentors ? (

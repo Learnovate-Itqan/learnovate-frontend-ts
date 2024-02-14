@@ -27,7 +27,8 @@ export function AllCoursesSection() {
   // fetch Courses
   const { data: response } = useGetData(`courses?${searchParams.toString()}`);
   const { data, status } = response || {};
-  const { courses, totalCourses } = data || {};
+  const { courses, totalCourses, globalMaxPrice, globalMinPrice, minNumberOfChapters, maxNumberOfChapters } =
+    data || {};
 
   // handle tracks
   const tracksQuery = queryClient.getQueryData(["tracks"]) as z.infer<typeof trackSchema>[] | null;
@@ -101,7 +102,10 @@ export function AllCoursesSection() {
             </Modal.Open>
 
             <Modal.Window name="filter">
-              <FilterCoursesForm />
+              <FilterCoursesForm
+                defaultChaptersRange={[minNumberOfChapters || 0, maxNumberOfChapters || 10]}
+                defaultPricesRange={[globalMinPrice || 0, globalMaxPrice || 100]}
+              />
             </Modal.Window>
           </Modal>
         </div>
