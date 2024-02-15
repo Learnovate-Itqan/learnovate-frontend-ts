@@ -49,11 +49,11 @@ export default function MentorSection({ mentors }: { mentors: z.infer<typeof men
         </div>
       </aside>
       <aside className="container flex flex-col gap-10 justify-center ">
-        <main className=" flex flex-wrap gap-10 justify-center">
+        <main className=" flex flex-wrap gap-2 sm:gap-4 lg:gap-10 justify-center">
           {mentors.map((mentor) => (
             <MentorCard
               key={mentor.id}
-              className="sm:max-w-56"
+              className="xxs:w-[150px] xxs:h-[200px] sm:w-[250px] sm:h-[300px]"
               title={mentor.title}
               image={mentor.user.image || mentorImage}
               name={mentor.user.name}

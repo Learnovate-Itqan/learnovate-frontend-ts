@@ -102,7 +102,7 @@ const config = {
       },
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(16rem, 1fr))",
-        "auto-fit-22": "repeat(auto-fit, minmax(22rem, 1fr))",
+        "auto-fit-19": "repeat(auto-fit, minmax(19rem, 1fr))",
       },
     },
   },

@@ -2,6 +2,8 @@ import { HiStar } from "react-icons/hi2";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
+import { formatCurrency } from "@/utils/helpers";
+
 import { Tag } from "./Tag";
 
 type CourseCardProps = {
@@ -30,11 +32,9 @@ export default function CourseCard({
   className,
 }: CourseCardProps) {
   return (
-    <div
-      className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow min-w-80 " + className}
-    >
-      <div className=" bg-[#B7B9C3] h-56 relative">
-        <img src={image} className=" object-cover h-full w-full" alt="" loading="lazy" />
+    <div className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow " + className}>
+      <div className=" bg-[#B7B9C3] relative">
+        <img src={image} className=" object-cover h-full w-full" alt={`${name} image`} loading="lazy" />
         <Link
           to={`/course/${id}`}
           className=" absolute inset-0 z-10 bg-black/50 hover:opacity-100 flex justify-center items-center transition-all opacity-0 "
@@ -42,7 +42,7 @@ export default function CourseCard({
           <IoPlayCircleSharp className="text-white" size={50} />
         </Link>
       </div>
-      <div className="bg-white p-6 flex flex-col justify-between grow gap-2">
+      <div className=" p-4 md:p-6 bg-white flex flex-col justify-between grow gap-2">
         <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
           {track}
         </Link>
@@ -52,13 +52,13 @@ export default function CourseCard({
         <p className=" text-neutral-gray text-sm grow ">
           {description.length > 100 ? description.slice(0, 100) + "..." : description}
         </p>
-        <footer className="flex text-sm md:text-base justify-start gap-1 item-center">
+        <footer className="flex flex-wrap text-sm md:text-base justify-start gap-1 item-center">
           <Tag>
             {rate.toFixed(1)} <HiStar className="text-yellow-500" size={18} />
           </Tag>
           <Tag>{level}</Tag>
-          <Tag>{duration} Min</Tag>
-          <Tag>{price}$</Tag>
+          <Tag>{duration} hrs</Tag>
+          <Tag>{formatCurrency(price)}</Tag>
         </footer>
       </div>
     </div>

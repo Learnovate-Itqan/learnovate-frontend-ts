@@ -1,17 +1,25 @@
 import { GrNext, GrPrevious } from "react-icons/gr";
 import ReactPaginate from "react-paginate";
+import { useSearchParams } from "react-router-dom";
 
 type PaginateProps = {
-  onPageChange: (page: { selected: number }) => void;
-  initialPage: number;
   pageCount: number;
 };
 
-export function Paginate({ onPageChange, initialPage, pageCount }: PaginateProps) {
+export function Paginate({ pageCount }: PaginateProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedPage = Number(searchParams.get("page") || "1") - 1;
+  const handlePageChange = (page: { selected: number }) => {
+    searchParams.set("page", (page.selected + 1).toString());
+    setSearchParams(searchParams, { replace: true });
+  };
+
+  if (pageCount <= 1) return null;
   return (
     <ReactPaginate
-      onPageChange={onPageChange}
-      initialPage={initialPage}
+      onPageChange={handlePageChange}
+      forcePage={selectedPage}
       pageCount={pageCount}
       pageRangeDisplayed={2}
       marginPagesDisplayed={1}

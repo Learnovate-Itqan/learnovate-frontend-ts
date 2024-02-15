@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+import { trackSchema } from "./trackSchema";
+import { userSchema } from "./userSchema";
+
 export const mentorSchema = z.object({
   id: z.string().uuid(),
   mentorID: z.string().uuid(),
@@ -19,8 +22,6 @@ export const mentorSchema = z.object({
   twitter: z.string(),
   languages: z.array(z.string()),
   trackID: z.string().uuid(),
-  user: z.object({
-    name: z.string(),
-    image: z.string().url(),
-  }),
+  user: userSchema,
+  track: trackSchema,
 });
