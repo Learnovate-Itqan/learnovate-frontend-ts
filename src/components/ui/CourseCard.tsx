@@ -42,7 +42,7 @@ export default function CourseCard({
           <IoPlayCircleSharp className="text-white" size={50} />
         </Link>
       </div>
-      <div className="container py-6 bg-white flex flex-col justify-between grow gap-2">
+      <div className=" p-4 md:p-6 bg-white flex flex-col justify-between grow gap-2">
         <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
           {track}
         </Link>
