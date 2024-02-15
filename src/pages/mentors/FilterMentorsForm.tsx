@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { Button } from "@/components/ui/Button";
+import { CountryBicker } from "@/components/ui/CountryBicker";
 import { FilterTemplate } from "@/components/ui/FilterTemplate";
 import { KeyWordsForm } from "@/components/ui/KeywordsForm";
 import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
 // import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
-import { SearchBar } from "@/components/ui/SearchBar";
-import { Checkbox } from "@/components/ui/checkbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { COUNTRIES } from "@/db/Countries";
 import { useTracksName } from "@/hooks/useTracksName";
 import { formatCurrency } from "@/utils/helpers";
 
@@ -209,43 +206,6 @@ export function FilterMentorsFrom({
         </button>
         <Button className="px-4 whitespace-nowrap" type="button" text="Show Results" onClick={handleApplyFilters} />
       </footer>
-    </div>
-  );
-}
-
-export function CountryBicker({ onChange }: { onChange: (value: string) => void }) {
-  const [searchValue, setSearchValue] = useState("");
-
-  const usedCountries = COUNTRIES.filter((country) => country.name.toLowerCase().includes(searchValue.toLowerCase()));
-
-  return (
-    <div className="p-2 rounded-xl min-w-56 border-2">
-      <SearchBar
-        className="border-2 mb-2 text-gray-400"
-        onChange={(value) => setSearchValue(value)}
-        value={searchValue}
-      />
-      <ScrollArea className="h-48 px-1">
-        {usedCountries.map((country, index) => (
-          <div
-            key={index}
-            className="flex gap-2 my-1 items-center transition-colors duration-150 rounded-xl hover:bg-gray-100"
-          >
-            <Checkbox
-              id={country.name}
-              onCheckedChange={() => onChange(country.name)}
-              title={country.name}
-              className=" w-5 h-5 border-gray-400 border-2 bg-white rounded-md data-[state=checked]:bg-royal-blue data-[state=checked]:border-transparent"
-            />
-            <label htmlFor={country.name} className="flex items-center gap-1">
-              <span>
-                <img src={country.image} alt={country.name} title={country.name} className="h-5" loading="lazy" />{" "}
-              </span>
-              {country.name}
-            </label>
-          </div>
-        ))}
-      </ScrollArea>
     </div>
   );
 }
