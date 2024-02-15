@@ -1,11 +1,11 @@
 import { Checkbox } from "@radix-ui/react-checkbox";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { COUNTRIES } from "@/db/Countries";
 
 import { SearchBar } from "./SearchBar";
+import { ScrollArea } from "./scroll-area";
 
 type CountryBickerProps = {
   onChange: (value: string) => void;
