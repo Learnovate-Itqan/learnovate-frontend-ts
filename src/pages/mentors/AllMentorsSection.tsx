@@ -2,7 +2,7 @@ import { TbAdjustmentsFilled } from "react-icons/tb";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import MentorCard from "@/components/ui/MentorCard";
 import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";

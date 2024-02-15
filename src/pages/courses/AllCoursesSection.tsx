@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 import courseImage from "@/assets/learnovate-thumbnail-course.png";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import CourseCard from "@/components/ui/CourseCard";
 import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
