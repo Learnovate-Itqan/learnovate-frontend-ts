@@ -1,24 +1,31 @@
 import { Checkbox } from "@radix-ui/react-checkbox";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { COUNTRIES } from "@/db/Countries";
 
 import { SearchBar } from "./SearchBar";
 
-export function CountryBicker({ onChange }: { onChange: (value: string) => void }) {
+type CountryBickerProps = {
+  onChange: (value: string) => void;
+  className?: string;
+  countriesAreaClassName?: string;
+};
+
+export function CountryBicker({ onChange, className = "", countriesAreaClassName = "" }: CountryBickerProps) {
   const [searchValue, setSearchValue] = useState("");
 
   const usedCountries = COUNTRIES.filter((country) => country.name.toLowerCase().includes(searchValue.toLowerCase()));
 
   return (
-    <div className="p-2 rounded-xl min-w-56 border-2">
+    <div className={twMerge("p-2 rounded-xl min-w-56 border-2", className)}>
       <SearchBar
         className="border-2 mb-2 text-gray-400"
         onChange={(value) => setSearchValue(value)}
         value={searchValue}
       />
-      <ScrollArea className="h-48 px-1">
+      <ScrollArea className={twMerge("h-48 px-1", countriesAreaClassName)}>
         {usedCountries.map((country, index) => (
           <div
             key={index}
