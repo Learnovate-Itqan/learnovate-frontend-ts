@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -8,13 +7,12 @@ import { z } from "zod";
 
 import { FromError } from "@/components/FormError";
 import { FromSuccess } from "@/components/FormSuccess";
-import { FieldError } from "@/components/auth/FieldError";
-import { TrueIcon } from "@/components/icons/TrueIcon";
-import { Button } from "@/components/ui/Button";
-import { InputField } from "@/components/ui/InputField";
 import { OrSeparator } from "@/components/ui/OrSeparator";
 import { SocialButton } from "@/components/ui/SocialButton";
-import { globalResponseFormat, postRequest, usePostData } from "@/hooks/useApi";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { usePostData } from "@/hooks/useApi";
 import { useTitle } from "@/hooks/useTitle";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { setUser } from "@/redux/slices/authSlice";
@@ -30,46 +28,19 @@ export function LoginPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState<string[] | undefined>([]);
-  const [success, setSuccess] = useState<string | undefined>("");
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof loginSchema>>({
+  const [error, setError] = useState<string[] | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
+  const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "", rememberMe: false },
+    defaultValues: { email: "", password: "" },
   });
+  const { isSubmitting } = form.formState;
   const login = usePostData<z.infer<typeof loginSchema>>("/auth/login");
-
-  const googleAuth = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: async (codeResponse) => {
-      console.log(codeResponse);
-      const { code: token } = codeResponse;
-      const data = await postRequest("/auth/continue-with-google", { token });
-      const response = globalResponseFormat(data);
-
-      if (response.status === "failed") {
-        // setError(["Something went wrong!"]);
-        console.log({ errorData: response.data });
-        setIsModalOpen(true);
-        return;
-      }
-
-      console.log(response.data);
-    },
-    onError: (error) => {
-      console.log(error);
-      setError(["Something went wrong!"]);
-    },
-  });
 
   const handleFormSubmit = async (values: z.infer<typeof loginSchema>) => {
     // reset error and success
-    setError([]);
-    setSuccess("");
+    setError(undefined);
+    setSuccess(undefined);
 
     // extract email and password from values
     const { email, password } = values;
@@ -97,7 +68,7 @@ export function LoginPage() {
         localStorage.setItem("token", encryptedToken);
         dispatch(setUser(userParse.data));
         setSuccess("Login successful!");
-        reset();
+        form.reset();
         navigate("/");
         return;
       }
@@ -109,59 +80,76 @@ export function LoginPage() {
     <AuthLayout title="Welcome Back" subTitle="Welcome back! Please enter your details.">
       <GoogleTempModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="my-6 space-y-4">
-        <SocialButton text="Continue With Google" onClick={() => googleAuth()} />
+        <SocialButton
+          text="Continue With Google"
+          setIsModalOpen={setIsModalOpen}
+          setError={setError}
+          disabled={isSubmitting}
+        />
         <OrSeparator />
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <InputField
-                {...register("email")}
-                type="email"
-                label="Email"
-                placeholder="e.g. example@learnovate.com"
-                disabled={isSubmitting}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isSubmitting}
+                        placeholder="john.doe@example.com"
+                        type="email"
+                        className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.email && <FieldError message={errors.email.message} />}
-            </div>
-            <div className="space-y-2">
-              <InputField
-                {...register("password")}
-                type="password"
-                label="Password"
-                placeholder="e.g. ●●●●●●●●"
-                disabled={isSubmitting}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isSubmitting}
+                        placeholder="e.g. ●●●●●●●●"
+                        type="password"
+                        className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.password && <FieldError message={errors.password.message} />}
+              <div className="flex justify-end">
+                <Link
+                  to="/auth/forgot-password"
+                  className="font-medium text-royal-blue text-sm hover:underline underline-offset-2"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+              {error && <FromError messages={error} />}
+              {success && <FromSuccess message={success} />}
+              <div className="pt-0">
+                <Button type="submit" disabled={isSubmitting} className="w-full">
+                  {isSubmitting ? "Loading..." : "Login"}
+                </Button>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-              <label className="flex cursor-pointer items-center gap-2" htmlFor="rememberMe">
-                <div className="relative flex w-fit cursor-pointer items-center rounded-full">
-                  <input
-                    {...register("rememberMe")}
-                    type="checkbox"
-                    id="rememberMe"
-                    disabled={isSubmitting}
-                    className="before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border-[0.1rem] border-zinc-400 transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-royal-blue checked:bg-royal-blue checked:before:bg-royal-blue hover:before:opacity-10"
-                  />
-                  <span className="pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-                    <TrueIcon className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-                <span className="select-none text-zinc-400">Remember me</span>
-              </label>
-              <Link to="/auth/forgot-password" className="font-medium text-royal-blue">
-                Forgot Password?
-              </Link>
-            </div>
-            {error && <FromError messages={error} />}
-            {success && <FromSuccess message={success} />}
-            <Button type="submit" text="Log In" disabled={isSubmitting} isLoading={isSubmitting} />
-          </div>
-        </form>
+          </form>
+        </Form>
         <div className="text-balance text-center text-sm text-zinc-400">
           <span>Don't have an account?</span>{" "}
-          <Link to="/auth/register" className="font-medium text-royal-blue">
-            Sign up
+          <Link to="/auth/register" className="font-medium text-royal-blue text-sm hover:underline underline-offset-2">
+            Register
           </Link>
         </div>
       </div>

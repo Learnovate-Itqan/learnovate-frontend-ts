@@ -7,7 +7,7 @@ type TFormErrorProps = {
 export function FromError({ messages }: TFormErrorProps) {
   return (
     <ul
-      className={`flex flex-col gap-2 rounded-xl bg-red-500/30 p-3 text-sm text-white ${messages.length === 0 && "hidden"}`}
+      className={`flex flex-col gap-2 rounded-xl bg-destructive/15 p-3 text-sm text-destructive ${messages.length === 0 && "hidden"}`}
     >
       {messages.map((message, index) => (
         <li key={index} className="flex gap-x-2.5">

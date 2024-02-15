@@ -38,7 +38,7 @@ export function EmailVerificationPage() {
 
   useEffect(() => {
     if (isLoadingDelay) {
-      const delay = 3000;
+      const delay = 2000;
       const delayTimeout = setTimeout(() => {
         setIsLoadingDelay(false);
       }, delay);
@@ -48,16 +48,15 @@ export function EmailVerificationPage() {
   }, [isLoading, isLoadingDelay]);
 
   useEffect(() => {
-    if (data?.status === "success") {
-      console.log(data);
-      const redirectDelay = 2000;
+    if (data?.status === "success" && !isLoadingDelay) {
+      const redirectDelay = 3000;
       const delayTimeout = setTimeout(() => {
         navigate("/auth/login");
       }, redirectDelay);
 
       return () => clearTimeout(delayTimeout);
     }
-  }, [data, navigate]);
+  }, [data, navigate, isLoadingDelay]);
 
   return (
     <main className="w-full h-screen bg-dark-navy flex justify-center items-center text-white text-center">

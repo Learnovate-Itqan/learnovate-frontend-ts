@@ -6,7 +6,7 @@ type TFormSuccessProps = {
 
 export function FromSuccess({ message }: TFormSuccessProps) {
   return (
-    <div className="flex items-center gap-x-2 rounded-md bg-mint-green/70 p-3 text-sm text-white">
+    <div className="flex items-center gap-x-2 rounded-md bg-emerald-500/15 p-3 text-sm text-emerald-500">
       <RxCheckCircled />
       <p>{message}</p>
     </div>

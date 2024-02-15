@@ -2,7 +2,7 @@ import ContentLoader from "react-content-loader";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button_";
 import CourseCard from "@/components/ui/CourseCard";
 import { courseSchema } from "@/schemas/courseSchema";
 
