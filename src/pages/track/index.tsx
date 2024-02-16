@@ -1,0 +1,107 @@
+import mentorImage from "@/assets/home/Mentor.png";
+import courseImage from "@/assets/learnovate-thumbnail-course.png";
+import CourseCard from "@/components/ui/CourseCard";
+import MentorCard from "@/components/ui/MentorCard";
+import { Tag } from "@/components/ui/Tag";
+import { Button } from "@/components/ui/button";
+
+import { TrackHeader } from "./TrackHeader";
+
+const TRACK = {
+  name: "UI/UX",
+  about: "Elevate Your Skills in Crafting Intuitive and Engaging User Experiences.",
+  description:
+    " Unlock the secrets to creating captivating digital experiences with our UI/UX Design Mastery track. In this comprehensive program, you'll delve into the art and science of User Interface (UI) and UserExperience (UX) design, equipping yourself with the skills to shape the future of digital interactions.",
+  rating: 4.5,
+  numLearners: 500,
+  progress: 0.65,
+  estimatedTime: "3 weeks of study, 1-2 hours/week",
+  relatedTopics: [
+    "python",
+    "pandas",
+    "machine learning",
+    "deep learning",
+    "Data Science",
+    "data engineer",
+    "data engineer",
+    "data engineer",
+    "data engineer",
+    "data engineer",
+  ],
+  relatedCourses: [],
+  relatedMentors: [],
+};
+
+export function Track() {
+  return (
+    <>
+      <TrackHeader track={TRACK} />
+      <main className="container ">
+        <header className="flex flex-col gap-10 py-10">
+          <div className="flex md:gap-4 gap-2 flex-wrap">
+            {TRACK.relatedTopics.map((topic, index) => (
+              <Tag
+                title={topic}
+                key={index}
+                className="bg-white capitalize border-royal-blue text-royal-blue border-[1px] font-[400]"
+              >
+                {topic}
+              </Tag>
+            ))}
+          </div>
+          <section className="flex flex-col lg:flex-row gap-6 justify-between">
+            <aside className="flex flex-col gap-2">
+              <h4 className="font-semibold text-lg">Description:</h4>
+              <p className="max-w-[900px] leading-5">{TRACK.description}</p>
+            </aside>
+            <aside className="flex w-96 flex-col gap-2">
+              <h4 className="font-semibold text-lg">Estimated time:</h4>
+              <p className="max-w-[850px] leading-5">{TRACK.estimatedTime}</p>
+              <Button className="max-w-60" type="button">
+                Show Roadmap
+              </Button>
+            </aside>
+          </section>
+        </header>
+        <main className="mb-16 grid gap-10">
+          <section className="flex flex-col gap-3">
+            <h3 className="text-2xl font-semibold">Ordered Courses:</h3>
+            <div className="grid grid-cols-auto-fit-19 gap-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <CourseCard
+                  className="max-w-[29rem]"
+                  key={index}
+                  name="Python for Data Science"
+                  description="Learn Python for Data Science and Machine Learning"
+                  rate={4.5}
+                  track="UI/UX"
+                  duration={50}
+                  level="intermediate"
+                  image={courseImage}
+                  price={20}
+                  id={`${index}`}
+                />
+              ))}
+            </div>
+          </section>
+          <section className="flex flex-col gap-3">
+            <h3 className="text-2xl font-semibold">Related Mentors:</h3>
+            <div className="flex justify-start flex-wrap gap-2 sm:gap-3">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <MentorCard
+                  className="w-[150px] h-[200px] sm:w-[250px] sm:h-[300px]"
+                  key={index}
+                  name="Khalid Ahmed"
+                  title="UI/UX Designer"
+                  rating={4.5}
+                  image={mentorImage}
+                  id={`${index}`}
+                />
+              ))}
+            </div>
+          </section>
+        </main>
+      </main>
+    </>
+  );
+}
