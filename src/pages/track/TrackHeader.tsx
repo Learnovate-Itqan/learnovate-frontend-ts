@@ -38,11 +38,7 @@ export function TrackHeader({ track }: TrackHeaderProps) {
         </div>
         <div className="w-full flex flex-col gap-2">
           <h2 className="ml-1 text-xl font-semibold">{Math.ceil((1 - track.progress) * 100)}% to complete</h2>
-          <Progress
-            // indicatorClassName="bg-royal-blue rounded-xl"
-            className="max-w-96 h-2 bg-dark-navy text-white shadow-2xl"
-            value={track.progress * 100}
-          />
+          <Progress className="max-w-96 h-2 bg-dark-navy text-white shadow-2xl" value={track.progress * 100} />
         </div>
       </main>
     </header>
