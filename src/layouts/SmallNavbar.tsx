@@ -58,8 +58,8 @@ export function SmallNavbar({ isAuth, tracks, user }: SmallNavbarProps) {
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/about"} onClick={() => dispatcher(closeNav())}>
-            About
+          <Link className="hover:opacity-80 transition-opacity" to={"/pricing"} onClick={() => dispatcher(closeNav())}>
+            Pricing
           </Link>
         </li>
         <li>

@@ -55,8 +55,8 @@ export function Navbar() {
             </Link>
           </li>
           <li>
-            <Link className="hover:opacity-80 transition-opacity" to={"/about"}>
-              About
+            <Link className="hover:opacity-80 transition-opacity" to={"/pricing"}>
+              Pricing
             </Link>
           </li>
           <li>
