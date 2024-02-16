@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
 
 import mentorImage from "@/assets/home/Mentor.png";
 import courseImage from "@/assets/learnovate-thumbnail-course.png";
@@ -7,20 +8,21 @@ import MentorCard from "@/components/ui/MentorCard";
 import { Tag } from "@/components/ui/Tag";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
+import { trackSchema } from "@/schemas/trackSchema";
 
 import { PageSkelton } from "./PageSkelton";
 import { TrackHeader } from "./TrackHeader";
 
 const TRACK = {
   name: "UI/UX",
-  about: "Elevate Your Skills in Crafting Intuitive and Engaging User Experiences.",
+  subtitle: "Elevate Your Skills in Crafting Intuitive and Engaging User Experiences.",
   description:
     " Unlock the secrets to creating captivating digital experiences with our UI/UX Design Mastery track. In this comprehensive program, you'll delve into the art and science of User Interface (UI) and UserExperience (UX) design, equipping yourself with the skills to shape the future of digital interactions.",
   rating: 4.5,
-  numLearners: 500,
+  noStudentsEnrolled: 500,
   progress: 0.65,
   estimatedTime: "3 weeks of study, 1-2 hours/week",
-  keywords: [
+  relatedTopics: [
     "python",
     "pandas",
     "machine learning",
@@ -43,7 +45,7 @@ export function Track() {
   // fetch Track Data
   const { data: response } = useGetData(`/track/${id}`);
   const { data, status } = response || {};
-  const { track } = data || {};
+  const { track }: { track: z.infer<typeof trackSchema> } = data || {};
 
   if (status === "failed" && !TRACK) {
     return (
@@ -56,18 +58,17 @@ export function Track() {
       </div>
     );
   }
-  console.log(track);
 
   return (
     <>
-      <TrackHeader track={track || TRACK} />
+      <TrackHeader track={(track as z.infer<typeof trackSchema>) || TRACK} />
       {!track && !TRACK ? (
         <PageSkelton />
       ) : (
         <main className="container ">
           <header className="flex flex-col gap-10 py-10">
             <div className="flex md:gap-4 gap-2 flex-wrap">
-              {TRACK.keywords.map((topic, index) => (
+              {TRACK.relatedTopics.map((topic, index) => (
                 <Tag
                   title={topic}
                   key={index}
