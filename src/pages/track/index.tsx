@@ -20,7 +20,7 @@ const TRACK = {
   numLearners: 500,
   progress: 0.65,
   estimatedTime: "3 weeks of study, 1-2 hours/week",
-  relatedTopics: [
+  keywords: [
     "python",
     "pandas",
     "machine learning",
@@ -67,7 +67,7 @@ export function Track() {
         <main className="container ">
           <header className="flex flex-col gap-10 py-10">
             <div className="flex md:gap-4 gap-2 flex-wrap">
-              {TRACK.relatedTopics.map((topic, index) => (
+              {TRACK.keywords.map((topic, index) => (
                 <Tag
                   title={topic}
                   key={index}
