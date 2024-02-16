@@ -23,7 +23,7 @@ export function TrackHeader({ track }: TrackHeaderProps) {
       {track ? (
         <main className="container flex flex-col gap-4 justify-center items-start z-20">
           <h1 className="text-5xl font-semibold">{track?.name}</h1>
-          <p className="text-lg mt-4">{track?.subtitle}</p>
+          <p className="text-lg ">{track?.subtitle}</p>
           <div className="flex gap-5">
             <Tag className="bg-[#374573] select-none text-white">
               <HiStar className="text-yellow-500" size={18} />

@@ -13,6 +13,7 @@ import { trackSchema } from "@/schemas/trackSchema";
 import { PageSkelton } from "./PageSkelton";
 import { TrackHeader } from "./TrackHeader";
 
+const MENTOR_NUMBER = 5;
 const TRACK = {
   name: "UI/UX",
   subtitle: "Elevate Your Skills in Crafting Intuitive and Engaging User Experiences.",
@@ -83,7 +84,7 @@ export function Track() {
                 <h4 className="font-semibold text-lg">Description:</h4>
                 <p className="max-w-[900px] leading-5">{TRACK.description}</p>
               </aside>
-              <aside className="flex w-96 flex-col gap-2">
+              <aside className="flex flex-col mr-6 gap-2">
                 <h4 className="font-semibold text-lg">Estimated time:</h4>
                 <p className="max-w-[850px] leading-5">{TRACK.estimatedTime}</p>
                 <Button className="max-w-60" type="button">
@@ -114,10 +115,12 @@ export function Track() {
             </section>
             <section className="flex flex-col gap-3">
               <h3 className="text-2xl font-semibold">Related Mentors:</h3>
-              <div className="flex justify-start flex-wrap gap-2 sm:gap-3">
-                {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                className={`flex justify-start 2xl:${MENTOR_NUMBER > 4 ? "justify-between" : "justify-start"} flex-wrap gap-2 sm:gap-3 last:items-end last:grow`}
+              >
+                {Array.from({ length: MENTOR_NUMBER }).map((_, index) => (
                   <MentorCard
-                    className="w-[150px] h-[200px] sm:w-[250px] sm:h-[300px]"
+                    className="xxs:w-[150px] xxs:h-[200px] xs:w-[180px] xs:h-[220px] sm:w-[250px] sm:h-[300px]"
                     key={index}
                     name="Khalid Ahmed"
                     title="UI/UX Designer"
