@@ -153,12 +153,21 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
             <p className=" font-semibold text-base mb-4">Related Topics</p>
             <div className="flex flex-col grow">
               {selectedTrack?.relatedTopics?.map((topic, index) => (
-                <Link to={`/tracks/${selectedTrack.name}`} className="hover:text-dark-navy/70" key={index}>
+                <Link
+                  to={`/track/${selectedTrack?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+                  className="hover:text-dark-navy/70"
+                  key={index}
+                  onClick={handleDropDownMenuClick}
+                >
                   {topic}
                 </Link>
               ))}
             </div>
-            <Link to={`/tracks/${selectedTrack?.name}`} className="text-royal-blue text-base mt-4 block">
+            <Link
+              to={`/track/${selectedTrack?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+              className="text-royal-blue text-base mt-4 block"
+              onClick={handleDropDownMenuClick}
+            >
               Explore the track
             </Link>
           </main>
