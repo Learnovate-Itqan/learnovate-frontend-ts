@@ -33,7 +33,7 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow " + className}>
-      <div className=" bg-[#B7B9C3] relative overflow-hidden max-h-64">
+      <div className=" bg-[#B7B9C3] relative overflow-hidden aspect-video">
         <img src={image} className=" object-cover h-full w-full" alt={`${name} image`} loading="lazy" />
         <Link
           to={`/course/${id}`}
