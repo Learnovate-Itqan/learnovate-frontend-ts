@@ -116,7 +116,7 @@ export function Track() {
             <section className="flex flex-col gap-3">
               <h3 className="text-2xl font-semibold">Related Mentors:</h3>
               <div
-                className={`flex justify-start 2xl:${MENTOR_NUMBER > 4 ? "justify-between" : "justify-start"} flex-wrap gap-2 sm:gap-3 last:items-end last:grow`}
+                className={`flex justify-start 2xl:justify-between flex-wrap gap-2 sm:gap-3 last:items-end last:grow`}
               >
                 {Array.from({ length: MENTOR_NUMBER }).map((_, index) => (
                   <MentorCard
