@@ -52,7 +52,7 @@ export default function CourseCard({
         <p className=" text-neutral-gray text-sm grow ">
           {description.length > 100 ? description.slice(0, 100) + "..." : description}
         </p>
-        <footer className="flex flex-wrap text-sm md:text-base justify-start gap-1 item-center">
+        <footer className="flex flex-wrap text-sm md:text-base justify-start gap-2 item-center">
           <Tag>
             {rate.toFixed(1)} <HiStar className="text-yellow-500" size={18} />
           </Tag>
