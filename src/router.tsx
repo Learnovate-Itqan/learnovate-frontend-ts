@@ -10,10 +10,10 @@ import { AppLayout } from "./layouts/AppLayout";
 import { NotFoundPage } from "./pages/404";
 import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
 import { VerificationPage } from "./pages/Auth/Verification";
-import Contact from "./pages/contact";
+import { Contact } from "./pages/contact";
 import { CoursesPage } from "./pages/courses";
 import MentorPage from "./pages/mentors";
-import Pricing from "./pages/pricing";
+import { Pricing } from "./pages/pricing";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
