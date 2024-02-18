@@ -6,8 +6,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
 
+import { PricingCard } from "../../components/ui/PricingCard";
 import AccordionSkelton from "./AccordionSkelton";
-import { PricingCard } from "./PricingCard";
 import { PricingHeader } from "./PricingHeader";
 
 const PLANS = [
