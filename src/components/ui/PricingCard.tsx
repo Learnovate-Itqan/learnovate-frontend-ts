@@ -16,7 +16,7 @@ export function PricingCard({ name, description, price, features, recommended, c
   return (
     <div
       className={twMerge(
-        " p-4 flex flex-col  gap-5 rounded-xl shadow-xl font-poppins grow bg-gray-200 w-96",
+        " p-4 py-6 flex flex-col  gap-5 rounded-xl shadow-xl font-poppins grow bg-gray-200 w-96",
         className
       )}
     >
