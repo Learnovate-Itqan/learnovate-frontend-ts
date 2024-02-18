@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
 import faqImage from "@/assets/faq.png";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Spinner } from "@/components/ui/Spinner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
 
+import headerImage from "../../assets/pricingHeaderImage.jpg";
 import { PricingCard } from "../../components/ui/PricingCard";
 import AccordionSkelton from "./AccordionSkelton";
-import { PricingHeader } from "./PricingHeader";
 
 const PLANS = [
   {
@@ -117,10 +118,14 @@ export function Pricing() {
   }
   return (
     <>
-      <PricingHeader />
+      <PageHeader
+        title="Pricing"
+        description="Our pricing is designed to provide you with the flexibility to choose the plan"
+        image={headerImage}
+      />
       <main className="container text-dark-navy py-10">
         <section>
-          <h1 className="text-[40px] text-balance leading-tight text-center font-semibold">
+          <h1 className="text-3xl sm:text-[40px] text-balance leading-tight text-center font-semibold">
             Choose your suitable plan
           </h1>
           <main className=" flex flex-wrap gap-10 justify-center my-10 ">
@@ -134,7 +139,7 @@ export function Pricing() {
           </main>
         </section>
         <section className="flex flex-col gap-2 pt-10">
-          <h1 className="text-[40px] leading-tight text-center font-semibold">Frequently asked question</h1>
+          <h1 className="text-3xl sm:text-[40px] leading-tight text-center font-semibold">Frequently asked question</h1>
           <p className="text-neutral-gray text-balance text-center">Here are some common questions about Learnovate</p>
           <main className="py-10 grid lg:grid-cols-2 gap-10 lg:gap-0">
             <aside>
