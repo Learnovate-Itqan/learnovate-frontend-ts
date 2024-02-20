@@ -123,9 +123,19 @@ export function FilterMentorsFrom({
   };
 
   useEffect(() => {
-    setHourlyRate(defaultPricesRange);
-    setExperienceRange(defaultExperienceRange);
-  }, [defaultPricesRange, defaultExperienceRange]);
+    setHourlyRate(
+      searchParams
+        .get("hourlyRate")
+        ?.split(",")
+        .map((item) => Number(item)) || defaultPricesRange
+    );
+    setExperienceRange(
+      searchParams
+        .get("experience")
+        ?.split(",")
+        .map((item) => Number(item)) || defaultExperienceRange
+    );
+  }, [defaultPricesRange, defaultExperienceRange, searchParams]);
   return (
     <div className="flex flex-col justify-between  min-w-min gap-2  ">
       <main className="lg:p-4 rounded-xl flex flex-col gap-3 lg:shadow-xl lg:border-[1px] grow">
