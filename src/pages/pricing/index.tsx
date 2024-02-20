@@ -144,10 +144,10 @@ export function Pricing() {
           <main className="py-10 grid lg:grid-cols-2 gap-10 lg:gap-0">
             <aside>
               {faqs ? (
-                <Accordion type="single" collapsible className="" defaultValue={FAQS[0].question}>
+                <Accordion type="single" collapsible defaultValue={FAQS[0].question}>
                   {faqs.map((faq, index) => (
                     <AccordionItem value={faq.question} key={index} className="hover:no-underline ">
-                      <AccordionTrigger className=" text-xl text-left gap-4 font-semibold hover:no-underline hover:text-gray-600 [&[data-state=open]]:text-royal-blue">
+                      <AccordionTrigger className=" text-xl text-left gap-4 font-semibold hover:no-underline [&[data-state=open]]:text-royal-blue">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-neutral-gray text-balance text-base">
