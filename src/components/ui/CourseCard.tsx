@@ -33,7 +33,7 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow " + className}>
-      <div className=" bg-[#B7B9C3] relative">
+      <div className=" bg-[#B7B9C3] relative overflow-hidden aspect-video">
         <img src={image} className=" object-cover h-full w-full" alt={`${name} image`} loading="lazy" />
         <Link
           to={`/course/${id}`}
@@ -42,7 +42,7 @@ export default function CourseCard({
           <IoPlayCircleSharp className="text-white" size={50} />
         </Link>
       </div>
-      <div className=" p-4 md:p-6 bg-white flex flex-col justify-between grow gap-2">
+      <div className=" px-3 py-4 md:p-6 bg-white flex flex-col justify-between grow gap-2">
         <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
           {track}
         </Link>
@@ -52,7 +52,7 @@ export default function CourseCard({
         <p className=" text-neutral-gray text-sm grow ">
           {description.length > 100 ? description.slice(0, 100) + "..." : description}
         </p>
-        <footer className="flex flex-wrap text-sm md:text-base justify-start gap-1 item-center">
+        <footer className="flex flex-wrap text-sm md:text-base justify-start gap-2 item-center">
           <Tag>
             {rate.toFixed(1)} <HiStar className="text-yellow-500" size={18} />
           </Tag>
