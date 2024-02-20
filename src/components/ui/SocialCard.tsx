@@ -34,7 +34,7 @@ export function SocialCard({
   href,
 }: SocialCardProps) {
   return (
-    <div className={`rounded-xl shadow-2xl p-5 border-[1px] border-gray-100 ${className}`}>
+    <div className={`rounded-xl shadow-custom p-5 ${className}`}>
       <div className=" flex flex-col gap-4 *:flex *:justify-start *:items-center *:gap-2 *:cursor-pointer *:transition-colors *:duration-150">
         {mail && (
           <a href={href?.mail && `https://${mail}`} target="_blank" className=" hover:text-royal-blue ">
