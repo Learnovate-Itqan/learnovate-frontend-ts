@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -13,6 +14,7 @@ import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { useGetData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
 import { userSchema } from "@/schemas/userSchema";
 
@@ -20,10 +22,15 @@ import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
+  const { authStatus, ...userSlice } = useSelector((state: RootState) => state.auth);
   const { data: response } = useGetData("/nav");
   const { tracks, user } = response?.data || {};
-  const { loggedIn: isAuth, data } = user || {};
-  const userData = data as z.infer<typeof userSchema>;
+  const { loggedIn, data } = user || {};
+  const isAuth = loggedIn || authStatus;
+  const userData =
+    data && !(Object.keys(data).length === 0)
+      ? (data as z.infer<typeof userSchema>)
+      : (userSlice as z.infer<typeof userSchema>) || null;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -66,7 +73,7 @@ export function Navbar() {
           </li>
         </ul>
       </div>
-      {isAuth === undefined ? null : !isAuth ? (
+      {response === undefined ? null : !isAuth ? (
         <div className="space-x-5 min-w-fit hidden lg:flex">
           <button
             className="text-white py-2 px-5 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"
