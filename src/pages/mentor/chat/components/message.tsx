@@ -19,7 +19,7 @@ export const Message = ({ role, text, image, name }: TMessage) => {
         "justify-start": !isUser,
       })}
     >
-      {!isUser && <UserAvatar className="bg-[#222C54] w-10 h-10" name={name} image={image} />}
+      {!isUser && <UserAvatar className="bg-[#222C54] w-8 h-8 xs:w-10 xs:h-10" name={name} image={image} />}
       <div
         className={clsx("py-1.5 px-2.5 max-w-3xl", {
           "bg-dark-navy text-white rounded-s-3xl rounded-t-3xl ms-12": isUser,
