@@ -185,7 +185,10 @@ export function Course() {
       <div className="">
         <main className=" grid grid-cols-[1fr_20rem] grid-rows-[1fr] gap-6">
           <section className=" col-span-2 xl:col-span-1">
-            <Player src="youtube/neKFZ-Zndkc?si=hJgeMlj0dhGYczsz" className="rounded-xl" />
+            <Player
+              src="http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8"
+              className="rounded-xl"
+            />
           </section>
           <section className=" flex h-fit flex-col gap-5 row-span-2 col-span-2 xl:col-span-1">
             <div className="shadow-custom grow rounded-xl overflow-hidden">
