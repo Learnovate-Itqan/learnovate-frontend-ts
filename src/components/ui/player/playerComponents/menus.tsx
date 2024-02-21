@@ -18,7 +18,7 @@ export interface MenuButtonProps {
 }
 
 export const menuClass =
-  "animate-out fade-out slide-out-to-bottom-2 data-[open]:animate-in data-[open]:fade-in data-[open]:slide-in-from-bottom-4 flex h-[var(--menu-height)] max-h-[400px] min-w-[260px] flex-col overflow-y-auto overscroll-y-contain rounded-md border border-white/10 bg-dark-navy/95 p-2.5 font-sans text-sm font-medium outline-none backdrop-blur-sm transition-[height] duration-300 will-change-[height] data-[resizing]:overflow-hidden  hidden w-full flex-col items-start justify-center outline-none data-[keyboard]:mt-[3px] data-[open]:inline-block";
+  "animate-out fade-out slide-out-to-bottom-2 data-[open]:animate-in data-[open]:fade-in data-[open]:slide-in-from-bottom-4 flex h-32 sm:h-56 max-h-[400px] min-w-[260px] flex-col overflow-y-auto overscroll-y-contain rounded-md border border-white/10 bg-dark-navy/95 p-2.5 font-sans text-sm font-medium outline-none backdrop-blur-sm transition-[height] duration-300 will-change-[height] data-[resizing]:overflow-hidden  hidden w-full flex-col items-start justify-center outline-none data-[keyboard]:mt-[3px] data-[open]:inline-block";
 
 export function PlaybackRate({ placement, tooltipPlacement }: MenuButtonProps) {
   const playbackRate = useMediaState("playbackRate");
@@ -27,7 +27,7 @@ export function PlaybackRate({ placement, tooltipPlacement }: MenuButtonProps) {
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <Menu.Button>
-            <span className="text-dark-navy px-2 py-1 mx-2 rounded-md transition-colors hover:bg-royal-blue/80 hover:text-white text-xs font-medium bg-white">
+            <span className="text-dark-navy px-1 sm:px-2 sm:py-1 mx-2 rounded-md transition-colors hover:bg-royal-blue/80 hover:text-white text-xs font-medium bg-white">
               {playbackRate}x
             </span>
           </Menu.Button>
@@ -62,7 +62,7 @@ export function Quality({ placement, tooltipPlacement }: MenuButtonProps) {
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <Menu.Button>
-            <TbAdjustmentsFilled className="w-6 h-6 rotate-90 aspect-square hover:text-royal-blue" />
+            <TbAdjustmentsFilled className=" w-4 sm:w-6 h-4 sm:h-6 rotate-90 aspect-square hover:text-royal-blue" />
           </Menu.Button>
         </Tooltip.Trigger>
         <Tooltip.Content className={tooltipClass} placement={tooltipPlacement}>

@@ -29,7 +29,7 @@ export function Play({ tooltipPlacement, className = "" }: MediaButtonProps) {
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
         <PlayButton className={twMerge(buttonClass, className)}>
-          {isPaused ? <FaPlay className="w-6 h-6" /> : <FaPause className="w-6 h-6" />}
+          {isPaused ? <FaPlay className="w-4 h-4 sm:w-6 sm:h-6" /> : <FaPause className="w-4 h-4 sm:w-6 sm:h-6" />}
         </PlayButton>
       </Tooltip.Trigger>
       <Tooltip.Content className={tooltipClass} placement={tooltipPlacement}>
@@ -47,11 +47,11 @@ export function Mute({ tooltipPlacement }: MediaButtonProps) {
       <Tooltip.Trigger asChild>
         <MuteButton className={buttonClass}>
           {isMuted || volume == 0 ? (
-            <FaVolumeMute className="w-6 h-6" />
+            <FaVolumeMute className="w-4 h-4 sm:w-6 sm:h-6" />
           ) : volume < 0.5 ? (
-            <FaVolumeDown className="w-6 h-6" />
+            <FaVolumeDown className="w-4 h-4 sm:w-6 sm:h-6" />
           ) : (
-            <FaVolumeUp className="w-6 h-6" />
+            <FaVolumeUp className="w-4 h-4 sm:w-6 sm:h-6" />
           )}
         </MuteButton>
       </Tooltip.Trigger>
@@ -68,7 +68,11 @@ export function Fullscreen({ tooltipPlacement }: MediaButtonProps) {
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
         <FullscreenButton className={buttonClass}>
-          {isActive ? <BsArrowsFullscreen className="w-6 h-6" /> : <BsFullscreen className="w-6 h-6" />}
+          {isActive ? (
+            <BsArrowsFullscreen className="w-4 h-4 sm:w-6 sm:h-6" />
+          ) : (
+            <BsFullscreen className="w-4 h-4 sm:w-6 sm:h-6" />
+          )}
         </FullscreenButton>
       </Tooltip.Trigger>
       <Tooltip.Content className={tooltipClass} placement={tooltipPlacement}>
@@ -83,7 +87,7 @@ export function Forward({ tooltipPlacement }: MediaButtonProps) {
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
         <SeekButton seconds={10} className={buttonClass}>
-          <RiForward10Line className="w-6 h-6" />
+          <RiForward10Line className="w-4 h-4 sm:w-6 sm:h-6" />
         </SeekButton>
       </Tooltip.Trigger>
       <Tooltip.Content className={tooltipClass} placement={tooltipPlacement}>
@@ -97,7 +101,7 @@ export function Rewind({ tooltipPlacement }: MediaButtonProps) {
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
         <SeekButton seconds={-10} className={buttonClass}>
-          <RiReplay10Line className="w-6 h-6" />
+          <RiReplay10Line className="w-4 h-4 sm:w-6 sm:h-6" />
         </SeekButton>
       </Tooltip.Trigger>
       <Tooltip.Content className={tooltipClass} placement={tooltipPlacement}>

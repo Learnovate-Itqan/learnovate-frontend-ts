@@ -2,7 +2,7 @@ import { TimeSlider, VolumeSlider } from "@vidstack/react";
 
 export function Volume() {
   return (
-    <VolumeSlider.Root className="volume-slider group relative mx-[7.5px] inline-flex h-10 w-full max-w-[80px] cursor-pointer touch-none select-none items-center outline-none aria-hidden:hidden">
+    <VolumeSlider.Root className="volume-slider group relative mx-[7.5px] inline-flex h-10 w-full max-w-16 sm:max-w-[80px] cursor-pointer touch-none select-none items-center outline-none aria-hidden:hidden">
       <VolumeSlider.Track className="relative ring-media-focus z-0 transition-all h-[3px] group-hover:h-[6px] w-full rounded-sm bg-white/30 group-data-[focus]:ring-[3px]">
         <VolumeSlider.TrackFill className="bg-royal-blue absolute h-full w-[var(--slider-fill)] rounded-sm will-change-[width]" />
       </VolumeSlider.Track>
@@ -24,7 +24,7 @@ export interface TimeSliderProps {
 
 export function Time({ thumbnails }: TimeSliderProps) {
   return (
-    <TimeSlider.Root className="time-slider group relative mx-[7.5px] inline-flex h-10 w-full cursor-pointer touch-none select-none items-center outline-none">
+    <TimeSlider.Root className="time-slider group relative mx-[7.5px] inline-flex h-7 sm:h-10 w-full cursor-pointer touch-none select-none items-center outline-none">
       <TimeSlider.Chapters className="relative flex h-full w-full items-center rounded-[1px]">
         {(cues, forwardRef) =>
           cues.map((cue) => (
