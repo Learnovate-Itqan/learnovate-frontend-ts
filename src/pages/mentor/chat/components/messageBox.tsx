@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { FaMicrophone } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { z } from "zod";
 
+import { useGetParam } from "@/hooks/useGetParam";
+import { useHandleAIChat } from "@/hooks/useHandleAIChat";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
-import { startChat } from "@/lib/aiChat";
-import { setError, setMessages, setTyping } from "@/redux/slices/aiChatSlice";
 import { RootState } from "@/redux/store";
 import { messageBoxSchema } from "@/schemas/messageBox";
 
@@ -19,37 +19,18 @@ type TMessageBox = {
 };
 
 export const MessageBox = ({ sound, ai }: TMessageBox) => {
-  const dispatch = useDispatch();
   const { error } = useSelector((state: RootState) => state.aiChat);
   const form = useForm<z.infer<typeof messageBoxSchema>>({
     resolver: zodResolver(messageBoxSchema),
     defaultValues: { text: "", image: "" },
   });
+  const aiHandler = useHandleAIChat(form);
+  const isAIChat = useGetParam("source") === "ai";
   const online = useOnlineStatus();
-  const aiChat = startChat();
   const text = form.watch("text");
 
   const handleMessage = async (data: z.infer<typeof messageBoxSchema>) => {
-    if (data.text) {
-      dispatch(setMessages({ role: "user", parts: data.text }));
-      form.reset();
-      dispatch(setTyping(true));
-      try {
-        const result = await aiChat.sendMessage(data.text);
-        console.log("Result", result);
-        const response = result.response;
-        const text = response.text();
-        dispatch(setTyping(false));
-        dispatch(setMessages({ role: "model", parts: text }));
-      } catch (error) {
-        const timer = setTimeout(() => {
-          dispatch(setTyping(false));
-          dispatch(setError("Something went wrong, please try again later"));
-          console.log("Error", error);
-        }, 1000);
-        return () => clearTimeout(timer);
-      }
-    }
+    if (data.text && isAIChat) aiHandler.mutateMessage(data.text);
   };
 
   const handleSendSound = (e: MouseEvent<HTMLButtonElement>) => {
@@ -58,6 +39,7 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
   };
 
   if (error) return null;
+
   if (!online)
     return (
       <div className="w-full h-16 flex items-center justify-center bg-dark-navy">
