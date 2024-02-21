@@ -1,7 +1,8 @@
 import { GoogleGenerativeAI, InputContent } from "@google/generative-ai";
 
-export const startChat = (history?: InputContent[]) => {
+export const startChat = () => {
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  return model.startChat({ history: history });
+  const history: InputContent[] = JSON.parse(sessionStorage.getItem("ai") || "[]");
+  return model.startChat({ history });
 };
