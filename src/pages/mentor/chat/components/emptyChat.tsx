@@ -7,9 +7,11 @@ export const EmptyChat = () => {
   if (source) return null;
 
   return (
-    <section className="flex-grow flex flex-col justify-center items-center gap-4">
-      <Chat className="w-3/4 md:w-1/2 text-neutral-400" />
-      <span className="text-xl md:text-2xl font-bold text-center">Select a chat to start messaging</span>
+    <section className="flex-grow flex flex-col justify-center items-center gap-4 bg-white">
+      <Chat className="hidden md:block md:w-1/2 text-neutral-400" />
+      <span className="hidden md:block text-xl md:text-2xl font-bold text-center">
+        Select a chat to start messaging
+      </span>
     </section>
   );
 };
