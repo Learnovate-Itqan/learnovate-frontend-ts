@@ -1,12 +1,10 @@
-import { useSelector } from "react-redux";
-
 import { Chat } from "@/components/icons/chat.js";
-import { RootState } from "@/redux/store.js";
+import { useGetParam } from "@/hooks/useGetParam";
 
 export const EmptyChat = () => {
-  const aiChat = useSelector((state: RootState) => state.aiChat);
+  const source = useGetParam("source");
 
-  if (aiChat.select) return null;
+  if (source) return null;
 
   return (
     <section className="flex-grow flex flex-col justify-center items-center gap-4">
