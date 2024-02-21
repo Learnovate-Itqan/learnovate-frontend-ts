@@ -18,7 +18,7 @@ type TForm =
     >
   | undefined;
 
-export const useHandleAIChat = (form: TForm) => {
+export const useHandleAIChat = (form?: TForm) => {
   const dispatch = useDispatch();
   const aiChat = startChat();
 
@@ -49,6 +49,7 @@ export const useHandleAIChat = (form: TForm) => {
     },
     clear: () => {
       dispatch(setNewAIChat());
+      sessionStorage.removeItem("ai");
     },
   };
 
