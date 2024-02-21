@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { Player } from "@/components/ui/player/player";
 import { courseSchema } from "@/schemas/courseSchema";
 
 import { AboutInstructor } from "./AboutInstructor";
 import { CourseContents } from "./CourseContents";
 import { CourseDescription } from "./CourseDescription";
+import { CoursePlayer } from "./CoursePlayer";
 
 const course: z.infer<typeof courseSchema> = {
   id: "1",
@@ -176,7 +176,7 @@ export function Course() {
 
       <main className=" grid grid-cols-[1fr_20rem] grid-rows-[auto_1fr] gap-6">
         <section className=" col-span-2 xl:col-span-1">
-          <Player src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8" className="rounded-xl" />
+          <CoursePlayer courseChapters={courseChapters} />
         </section>
         <section className=" flex h-fit flex-col gap-5 row-span-2 col-span-2 xl:col-span-1">
           <CourseContents courseChapters={courseChapters} progress={course?.progress} />

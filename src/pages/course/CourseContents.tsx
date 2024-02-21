@@ -23,7 +23,7 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
   const [searchParam, setSearchParam] = useSearchParams();
   const currentVideo = searchParam.get("video") || courseChapters[0].content[0].id;
   const handleVideoClick = (id: string) => {
-    searchParam.set("video", id);
+    searchParam.set("lecture", id);
     setSearchParam(searchParam);
   };
   return (
