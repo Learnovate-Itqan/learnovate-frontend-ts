@@ -1,16 +1,16 @@
 import { clsx } from "clsx";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { RenderMarkDown } from "./renderMarkDown";
+import { UserAvatar } from "./userAvatar";
 
 type TMessage = {
   role: "user" | "model" | "other";
   text: string;
   image?: string;
+  name: string;
 };
 
-export const Message = ({ role, text, image }: TMessage) => {
+export const Message = ({ role, text, image, name }: TMessage) => {
   const isUser = role === "user" ? true : false;
   return (
     <div
@@ -19,12 +19,7 @@ export const Message = ({ role, text, image }: TMessage) => {
         "justify-start": !isUser,
       })}
     >
-      {!isUser && (
-        <Avatar className="bg-[#222C54] w-10 h-10">
-          <AvatarImage src={image} alt={role} title={role} />
-          <AvatarFallback>{role.slice(0, 2).toUpperCase()}</AvatarFallback>
-        </Avatar>
-      )}
+      {!isUser && <UserAvatar className="bg-[#222C54] w-10 h-10" name={name} image={image} />}
       <div
         className={clsx("py-1.5 px-2.5 max-w-3xl", {
           "bg-dark-navy text-white rounded-s-3xl rounded-t-3xl": isUser,
