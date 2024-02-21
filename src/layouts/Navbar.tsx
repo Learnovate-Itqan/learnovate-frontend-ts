@@ -1,11 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -17,6 +18,7 @@ import { UserAvatar } from "@/components/ui/UserAvatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useGetData, usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { resetUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
 import { userSchema } from "@/schemas/userSchema";
@@ -25,6 +27,7 @@ import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
+  const dispatcher = useDispatch();
   const { authStatus, ...userSlice } = useSelector((state: RootState) => state.auth);
   const { data: response } = useGetData("/nav");
   const { tracks, user } = response?.data || {};
@@ -40,6 +43,7 @@ export function Navbar() {
   const logoutRequest = usePostData("/auth/logout");
 
   const logout = async () => {
+    const toastId = toast.loading("Logging out...");
     const token = localStorage.getItem("token");
     if (!token) return;
     console.log(token);
@@ -48,10 +52,14 @@ export function Navbar() {
     if (response?.status === "success") {
       queryClient.clear();
       localStorage.removeItem("token");
+      dispatcher(resetUser());
       queryClient.invalidateQueries({
         queryKey: ["/nav"],
       });
+      toast.success("Logged out successfully", { id: toastId });
       navigate("/");
+    } else {
+      toast.error("Something went wrong, please try again later", { id: toastId });
     }
   };
 
