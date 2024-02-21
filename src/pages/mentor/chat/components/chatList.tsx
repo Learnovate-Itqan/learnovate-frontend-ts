@@ -2,8 +2,8 @@ import { v4 as uuid } from "uuid";
 
 import mentor from "@/assets/mentors/Abdelrahman-Awad.webp";
 
+import { LearnovateChat } from "./AI/learnovateChat";
 import { ChatItem, TChat } from "./chatItem";
-import { LearnovateChat } from "./learnovateChat";
 
 const CREATE_CHAT_LIST = (count: number): TChat[] => {
   const chatList = [];
