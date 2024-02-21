@@ -17,6 +17,9 @@ export const aiChatSlice = createSlice({
     setMessages: (state, action: { payload: z.infer<typeof aiChatSchema> }) => {
       return { ...state, chat: [...state.chat, action.payload] };
     },
+    setLoadMessages: (state, action: { payload: z.infer<typeof aiChatSchema>[] }) => {
+      return { ...state, chat: action.payload };
+    },
     setChatSelect: (state, action: { payload: boolean }) => {
       return { ...state, select: action.payload };
     },
@@ -32,5 +35,5 @@ export const aiChatSlice = createSlice({
   },
 });
 
-export const { setMessages, setChatSelect, setTyping, setError, setNewChat } = aiChatSlice.actions;
+export const { setMessages, setLoadMessages, setChatSelect, setTyping, setError, setNewChat } = aiChatSlice.actions;
 export const aiChatReducer = aiChatSlice.reducer;
