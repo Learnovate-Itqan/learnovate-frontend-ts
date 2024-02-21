@@ -2,6 +2,7 @@ import { IoMdPlayCircle } from "react-icons/io";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type CourseContentsProps = {
   courseChapters: {
@@ -26,35 +27,37 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
           <Progress className="h-2 rounded-full bg-zinc-300" value={progress * 100} />
         </div>
       </header>
-      <main className="py-5 mb-5 text-dark-navy">
-        <Accordion type="single" collapsible defaultValue={courseChapters[0].name}>
-          {courseChapters.map((chapter, index) => (
-            <>
-              <AccordionItem value={chapter.name} key={index} className=" border-b-0 px-5">
-                <AccordionTrigger className=" text-left flex justify-between items-center gap-4 hover:no-underline">
-                  <span className="flex gap-4">
-                    <span className=" text-sm flex justify-center items-center border-2 rounded-full w-6 aspect-square border-dark-navy font-semibold">
-                      {index + 1}
+      <main className="py-5 text-dark-navy">
+        <ScrollArea className="h-64 xl:h-96">
+          <Accordion type="single" collapsible defaultValue={courseChapters[0].name}>
+            {courseChapters.map((chapter, index) => (
+              <>
+                <AccordionItem value={chapter.name} key={index} className=" border-b-0 px-5">
+                  <AccordionTrigger className=" text-left flex justify-between items-center gap-4 hover:no-underline">
+                    <span className="flex gap-4">
+                      <span className=" text-sm flex justify-center items-center border-2 rounded-full w-6 aspect-square border-dark-navy font-semibold">
+                        {index + 1}
+                      </span>
+                      {chapter.name}
                     </span>
-                    {chapter.name}
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className=" text-balance text-base">
-                  {chapter.content.map((content, index) => (
-                    <div key={index} className="flex justify-between text-sm items-center gap-4 px-1">
-                      <aside className="flex items-center gap-4">
-                        <IoMdPlayCircle />
-                        <span>{content.name}</span>
-                      </aside>
-                      <span className="text-zinc-400">{content.duration}</span>
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-              <hr className=" border-zinc-300" />
-            </>
-          ))}
-        </Accordion>
+                  </AccordionTrigger>
+                  <AccordionContent className=" text-balance text-base">
+                    {chapter.content.map((content, index) => (
+                      <div key={index} className="flex justify-between text-sm items-center gap-4 px-1">
+                        <aside className="flex items-center gap-4">
+                          <IoMdPlayCircle />
+                          <span>{content.name}</span>
+                        </aside>
+                        <span className="text-zinc-400">{content.duration}</span>
+                      </div>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+                <hr className=" border-zinc-300" />
+              </>
+            ))}
+          </Accordion>
+        </ScrollArea>
       </main>
     </div>
   );
