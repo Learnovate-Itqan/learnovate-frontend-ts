@@ -1,4 +1,5 @@
 import { IoMdPlayCircle } from "react-icons/io";
+import { useSearchParams } from "react-router-dom";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
@@ -19,6 +20,12 @@ type CourseContentsProps = {
 };
 
 export function CourseContents({ courseChapters, progress }: CourseContentsProps) {
+  const [searchParam, setSearchParam] = useSearchParams();
+  const currentVideo = searchParam.get("video") || courseChapters[0].content[0].id;
+  const handleVideoClick = (id: string) => {
+    searchParam.set("video", id);
+    setSearchParam(searchParam);
+  };
   return (
     <div className="shadow-custom grow rounded-xl overflow-hidden">
       <header className="px-5 py-8 rounded-xl shadow-custom">
@@ -41,15 +48,19 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
                       {chapter.name}
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent className=" text-balance text-base">
+                  <AccordionContent className=" text-balance space-y-1 text-base">
                     {chapter.content.map((content, index) => (
-                      <div key={index} className="flex justify-between text-sm items-center gap-4 px-1">
+                      <button
+                        key={index}
+                        className={`flex justify-between transition-colors duration-150 w-full text-sm items-center gap-4 px-1 ${currentVideo === content.id ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
+                        onClick={() => handleVideoClick(content.id)}
+                      >
                         <aside className="flex items-center gap-4">
                           <IoMdPlayCircle />
                           <span>{content.name}</span>
                         </aside>
                         <span className="text-zinc-400">{content.duration}</span>
-                      </div>
+                      </button>
                     ))}
                   </AccordionContent>
                 </AccordionItem>
