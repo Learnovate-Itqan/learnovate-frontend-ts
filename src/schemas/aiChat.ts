@@ -5,8 +5,14 @@ export const aiChatSchema = z.object({
   parts: z.string(),
 });
 
+export const aiErrorSchema = z.object({
+  message: z.string(),
+  flag: z.boolean(),
+});
+
 export const aiAssistantSchema = z.object({
   chat: z.array(aiChatSchema),
   select: z.boolean(),
   typing: z.boolean(),
+  error: aiErrorSchema,
 });
