@@ -1,38 +1,25 @@
-import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { clsx } from "clsx";
 
-import learnovateAI from "@/assets/mentors/learnovateAI.webp";
-import { useGetParam } from "@/hooks/useGetParam";
-import { RootState } from "@/redux/store.js";
+import { useGetParam } from "@/hooks/useGetParam.js";
 
-import { AIMessagesBox } from "./AI/messagesBox";
-import { ChatHeader } from "./chatHeader";
-import { MessageBox } from "./messageBox";
+import { ChatSection } from "./chatSection";
+import { EmptyChat } from "./emptyChat";
 
 export const ChatContainer = () => {
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const aiChat = useSelector((state: RootState) => state.aiChat);
   const sourceParam = useGetParam("source");
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [aiChat.chat]);
-
-  if (!sourceParam) return null;
-
   return (
-    <section className="overflow-y-auto flex flex-col flex-grow max-h-screen border-t border-t-gray-600">
-      <ChatHeader title="Learnovate AI" image={learnovateAI} />
-      <div
-        ref={chatContainerRef}
-        className="max-h-[calc(100%-8rem)] h-[calc(100%-8rem)] w-full bg-white overflow-y-auto"
-      >
-        <AIMessagesBox />
-      </div>
-      {sourceParam === "ai" && <MessageBox ai />}
-      {sourceParam !== "ai" && <MessageBox sound />}
-    </section>
+    <div
+      className={clsx(
+        "absolute md:static top-0 w-full h-full flex flex-col flex-grow max-h-screen border-t border-t-gray-600 transition-all duration-200 ease-cubic",
+        {
+          "-left-full": !sourceParam,
+          "left-0": sourceParam,
+        }
+      )}
+    >
+      <EmptyChat />
+      <ChatSection />
+    </div>
   );
 };
