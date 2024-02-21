@@ -20,9 +20,10 @@ type SmallNavbarProps = {
   isAuth: boolean;
   tracks: z.infer<typeof trackSchema>[];
   user: z.infer<typeof userSchema>;
+  logout: () => void;
 };
 
-export function SmallNavbar({ isAuth, tracks, user }: SmallNavbarProps) {
+export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) {
   const isOpen = useSelector((state: RootState) => state.nav.isOpen);
   const dispatcher = useDispatch();
   const navRef = useOutsideClick(() => dispatcher(closeNav()));
@@ -76,6 +77,7 @@ export function SmallNavbar({ isAuth, tracks, user }: SmallNavbarProps) {
           <button
             title="log out"
             className=" border-2 border-dark-navy hover:bg-dark-navy/30 transition-colors rounded-md py-2 px-1"
+            onClick={logout}
           >
             <LuLogOut className="text-dark-navy" size={30} />
           </button>

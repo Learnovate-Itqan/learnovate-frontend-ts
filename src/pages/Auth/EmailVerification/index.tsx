@@ -28,7 +28,7 @@ export function EmailVerificationPage() {
     queryKey: [`/auth/verify/email/${code}`],
     queryFn: async () => {
       try {
-        const res = await api.post(`/auth/verify/email/${code}`);
+        const res = await api().post(`/auth/verify/email/${code}`);
         return globalResponseFormat(res);
       } catch (error) {
         return globalResponseFormat(error);

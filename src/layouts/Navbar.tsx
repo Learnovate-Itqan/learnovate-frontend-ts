@@ -1,9 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { IoPersonCircleSharp } from "react-icons/io5";
+import { LuLogOut } from "react-icons/lu";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -12,8 +15,10 @@ import { Button } from "@/components/ui/Button_";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import { UserAvatar } from "@/components/ui/UserAvatar";
-import { useGetData } from "@/hooks/useApi";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useGetData, usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { resetUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
 import { userSchema } from "@/schemas/userSchema";
@@ -22,6 +27,7 @@ import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
+  const dispatcher = useDispatch();
   const { authStatus, ...userSlice } = useSelector((state: RootState) => state.auth);
   const { data: response } = useGetData("/nav");
   const { tracks, user } = response?.data || {};
@@ -34,6 +40,29 @@ export function Navbar() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const logoutRequest = usePostData("/auth/logout");
+
+  const logout = async () => {
+    const toastId = toast.loading("Logging out...");
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    console.log(token);
+    const response = await logoutRequest.mutateAsync({ token });
+    console.log(response);
+    if (response?.status === "success") {
+      queryClient.clear();
+      localStorage.removeItem("token");
+      dispatcher(resetUser());
+      queryClient.invalidateQueries({
+        queryKey: ["/nav"],
+      });
+      toast.success("Logged out successfully", { id: toastId });
+      navigate("/");
+    } else {
+      toast.error("Something went wrong, please try again later", { id: toastId });
+    }
+  };
+
   useEffect(() => {
     if (tracks) {
       queryClient.setQueryData(["tracks"], tracks);
@@ -42,7 +71,7 @@ export function Navbar() {
 
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
-      <SmallNavbar tracks={tracks} isAuth={isAuth} user={userData} />
+      <SmallNavbar tracks={tracks} isAuth={isAuth} user={userData} logout={logout} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
           <img src={Logo} />
@@ -93,9 +122,27 @@ export function Navbar() {
           <button>
             <GoBell size={22} />
           </button>
-          <Link to="/profile">
-            <UserAvatar imageUrl={userData?.image} name={userData?.name || "User"} />
-          </Link>
+          <Popover>
+            <PopoverTrigger>
+              <UserAvatar imageUrl={userData?.image} name={userData?.name || "User"} />
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col gap-3 w-48 mt-2 mr-10 text-dark-navy divide-y-[1px]">
+              <Link
+                to="/profile"
+                className="transition-colors flex items-center gap-1 font-semibold hover:text-zinc-600 "
+              >
+                <IoPersonCircleSharp size={25} />
+                Profile
+              </Link>
+              <button
+                className="text-left transition-colors flex pt-3 items-center gap-1 font-semibold hover:text-zinc-600 "
+                onClick={logout}
+              >
+                <LuLogOut className="text-dark-navy" size={25} />
+                Logout
+              </button>
+            </PopoverContent>
+          </Popover>
         </div>
       )}
       <div className="flex justify-center items-center gap-1 lg:hidden">
