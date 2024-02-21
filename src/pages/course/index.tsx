@@ -30,7 +30,7 @@ const course: z.infer<typeof courseSchema> = {
 const courseChapters = [
   {
     id: "31",
-    name: "lorem ipsum2",
+    name: "lorem ipsum29",
     content: [
       {
         id: "6410",
@@ -54,7 +54,7 @@ const courseChapters = [
   },
   {
     id: "11",
-    name: "lorem ipsum2",
+    name: "lorem ipsum33",
     content: [
       {
         id: "3210",
@@ -78,7 +78,7 @@ const courseChapters = [
   },
   {
     id: "17",
-    name: "lorem ipsum2",
+    name: "lorem ipsum86",
     content: [
       {
         id: "4010",
@@ -102,7 +102,7 @@ const courseChapters = [
   },
   {
     id: "73",
-    name: "lorem ipsum2",
+    name: "lorem ipsum69",
     content: [
       {
         id: "810",
@@ -173,20 +173,19 @@ export function Course() {
         <h1 className="text-3xl font-semibold text-dark-navy">{course.title}</h1>
         <p className="text-zinc-500">{mentor.name}</p>
       </header>
-      <div className="">
-        <main className=" grid grid-cols-[1fr_20rem] grid-rows-[1fr] gap-6">
-          <section className=" col-span-2 xl:col-span-1">
-            <Player src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8" className="rounded-xl" />
-          </section>
-          <section className=" flex h-fit flex-col gap-5 row-span-2 col-span-2 xl:col-span-1">
-            <CourseContents courseChapters={courseChapters} progress={course?.progress} />
-            <AboutInstructor mentor={mentor} />
-          </section>
-          <section className="col-span-2 xl:col-span-1 py-5">
-            <CourseDescription course={course} />
-          </section>
-        </main>
-      </div>
+
+      <main className=" grid grid-cols-[1fr_20rem] grid-rows-[auto_1fr] gap-6">
+        <section className=" col-span-2 xl:col-span-1">
+          <Player src="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8" className="rounded-xl" />
+        </section>
+        <section className=" flex h-fit flex-col gap-5 row-span-2 col-span-2 xl:col-span-1">
+          <CourseContents courseChapters={courseChapters} progress={course?.progress} />
+          <AboutInstructor mentor={mentor} />
+        </section>
+        <section className="col-span-2 xl:col-span-1 py-5">
+          <CourseDescription course={course} />
+        </section>
+      </main>
     </div>
   );
 }
