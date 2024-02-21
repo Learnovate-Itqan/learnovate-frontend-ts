@@ -49,7 +49,7 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
 
   return (
     <form onSubmit={form.handleSubmit(handleMessage)}>
-      <div className="w-full h-16 bg-white flex items-center gap-2 px-4">
+      <div className="w-full h-20 bg-white flex items-center gap-2 px-4">
         {!ai && (
           <div className="rounded-full">
             <label htmlFor="image">

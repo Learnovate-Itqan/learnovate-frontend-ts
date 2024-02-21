@@ -27,7 +27,7 @@ export const ChatSection = () => {
       <ChatHeader title="Learnovate AI" image={learnovateAI} />
       <div
         ref={chatContainerRef}
-        className="max-h-[calc(100%-8rem)] h-[calc(100%-8rem)] w-full bg-white overflow-y-auto"
+        className="max-h-[calc(100%-9rem)] h-[calc(100%-9rem)] w-full bg-white overflow-y-auto"
       >
         <AIMessagesBox />
       </div>
