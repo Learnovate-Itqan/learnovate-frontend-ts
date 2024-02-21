@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 import learnovateAI from "@/assets/mentors/learnovateAI.webp";
-import { setChatSelect } from "@/redux/slices/aiChatSlice";
+import { setAIChatSelect } from "@/redux/slices/aiChatSlice";
 
 import { UserAvatar } from "../userAvatar";
 
@@ -13,7 +13,7 @@ export const LearnovateChat = () => {
 
   const handleAISelection = () => {
     setSearchParams({ source: "ai" });
-    dispatch(setChatSelect(true));
+    dispatch(setAIChatSelect(true));
   };
 
   return (
