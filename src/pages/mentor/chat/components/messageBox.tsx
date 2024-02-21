@@ -1,4 +1,3 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MouseEvent } from "react";
 import { useForm } from "react-hook-form";
@@ -8,40 +7,48 @@ import { IoSend } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
 
-import { setMessages } from "@/redux/slices/aiChatSlice";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { startChat } from "@/lib/aiChat";
+import { setError, setMessages, setTyping } from "@/redux/slices/aiChatSlice";
 import { RootState } from "@/redux/store";
 import { messageBoxSchema } from "@/schemas/messageBox";
 
 type TMessageBox = {
   sound?: boolean;
+  ai?: boolean;
 };
 
-export const MessageBox = ({ sound }: TMessageBox) => {
+export const MessageBox = ({ sound, ai }: TMessageBox) => {
   const dispatch = useDispatch();
-  const aiChat = useSelector((state: RootState) => state.aiChat);
-  console.log(aiChat);
+  const { error } = useSelector((state: RootState) => state.aiChat);
   const form = useForm<z.infer<typeof messageBoxSchema>>({
     resolver: zodResolver(messageBoxSchema),
     defaultValues: { text: "", image: "" },
   });
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const chat = model.startChat({
-    history: [
-      { role: "user", parts: "Hello" },
-      { role: "model", parts: "Hello! My name is LearnovateAI Assistant. How can I help you today?" },
-    ],
-  });
+  const online = useOnlineStatus();
+  const aiChat = startChat();
   const text = form.watch("text");
 
   const handleMessage = async (data: z.infer<typeof messageBoxSchema>) => {
     if (data.text) {
       dispatch(setMessages({ role: "user", parts: data.text }));
       form.reset();
-      const result = await chat.sendMessage(data.text);
-      const response = result.response;
-      const text = response.text();
-      dispatch(setMessages({ role: "model", parts: text }));
+      dispatch(setTyping(true));
+      try {
+        const result = await aiChat.sendMessage(data.text);
+        console.log("Result", result);
+        const response = result.response;
+        const text = response.text();
+        dispatch(setTyping(false));
+        dispatch(setMessages({ role: "model", parts: text }));
+      } catch (error) {
+        const timer = setTimeout(() => {
+          dispatch(setTyping(false));
+          dispatch(setError("Something went wrong, please try again later"));
+          console.log("Error", error);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
     }
   };
 
@@ -49,17 +56,28 @@ export const MessageBox = ({ sound }: TMessageBox) => {
     e.stopPropagation();
     console.log("Send Sound");
   };
+
+  if (error) return null;
+  if (!online)
+    return (
+      <div className="w-full h-16 flex items-center justify-center bg-dark-navy">
+        <p className="text-white md:text-xl text-center">You are offline</p>
+      </div>
+    );
+
   return (
     <form onSubmit={form.handleSubmit(handleMessage)}>
       <div className="w-full h-16 bg-white flex items-center gap-2 px-4">
-        <div className="rounded-full">
-          <label htmlFor="image">
-            <span>
-              <FaPlus className="text-xl text-dark-navy" title="add image" />
-            </span>
-            <input {...form.register("image")} type="file" id="image" className="hidden" accept="image/*" />
-          </label>
-        </div>
+        {!ai && (
+          <div className="rounded-full">
+            <label htmlFor="image">
+              <span>
+                <FaPlus className="text-xl text-dark-navy" title="add image" />
+              </span>
+              <input {...form.register("image")} type="file" id="image" className="hidden" accept="image/*" />
+            </label>
+          </div>
+        )}
         <div className="w-full">
           <input
             {...form.register("text")}
@@ -90,7 +108,7 @@ export const MessageBox = ({ sound }: TMessageBox) => {
               onClick={handleSendSound}
               className="text-white flex items-center justify-center bg-dark-navy p-2 rounded-full"
             >
-              <FaMicrophone className="text-xl" title="Send Message" />
+              <FaMicrophone className="text-xl" title="Send Voice" />
             </button>
           )}
         </div>
