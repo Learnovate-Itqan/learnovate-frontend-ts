@@ -25,7 +25,7 @@ export const ChatList = () => {
   const chatList = CREATE_CHAT_LIST(12);
 
   return (
-    <ul className="overflow-y-auto min-w-max max-h-[calc(100vh-10rem)] no-scrollbar space-y-1">
+    <ul className="overflow-y-auto min-w-max max-h-[calc(100svh-10rem)] no-scrollbar space-y-1">
       <LearnovateChat />
       {chatList.map((person) => (
         <ChatItem key={person.id} {...person} />
