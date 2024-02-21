@@ -43,7 +43,7 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
   if (!online)
     return (
       <div className="w-full h-20 flex items-end justify-center bg-white">
-        <p className="text-white w-full text-xl text-center py-1  bg-red-400">You are offline</p>
+        <p className="text-white w-full text-xl text-center py-2  bg-red-400">You are offline</p>
       </div>
     );
 
