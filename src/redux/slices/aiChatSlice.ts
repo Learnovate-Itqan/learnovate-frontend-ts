@@ -6,6 +6,7 @@ import { aiAssistantSchema, aiChatSchema } from "@/schemas/aiChat";
 const initialState: z.infer<typeof aiAssistantSchema> = {
   chat: [],
   select: false,
+  typing: false,
 };
 
 export const aiChatSlice = createSlice({
@@ -18,11 +19,14 @@ export const aiChatSlice = createSlice({
     setChatSelect: (state, action: { payload: boolean }) => {
       return { ...state, select: action.payload };
     },
+    setTyping: (state, action: { payload: boolean }) => {
+      return { ...state, typing: action.payload };
+    },
     setNewChat: () => {
       return { ...initialState };
     },
   },
 });
 
-export const { setMessages, setChatSelect, setNewChat } = aiChatSlice.actions;
+export const { setMessages, setChatSelect, setTyping, setNewChat } = aiChatSlice.actions;
 export const aiChatReducer = aiChatSlice.reducer;

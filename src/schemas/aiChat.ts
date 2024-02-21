@@ -8,4 +8,5 @@ export const aiChatSchema = z.object({
 export const aiAssistantSchema = z.object({
   chat: z.array(aiChatSchema),
   select: z.boolean(),
+  typing: z.boolean(),
 });
