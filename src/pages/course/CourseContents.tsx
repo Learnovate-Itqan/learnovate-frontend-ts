@@ -29,6 +29,7 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
     searchParam.set("lecture", id);
     setSearchParam(searchParam);
   };
+
   return (
     <div className="shadow-custom grow rounded-xl overflow-hidden">
       <header className="px-5 py-8 rounded-xl shadow-custom">
@@ -38,7 +39,7 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
         </div>
       </header>
       <main className="py-5 text-dark-navy">
-        <ScrollArea className="h-64 xl:h-96">
+        <ScrollArea type="always" className="h-64 xl:h-[350px] 2xl:h-[470px] 3xl:h-[668px]">
           <Accordion type="single" collapsible defaultValue={currentChapter.id}>
             {courseChapters.map((chapter, index) => (
               <>
