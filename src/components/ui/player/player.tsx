@@ -47,7 +47,7 @@ export function Player({ src, title, className, poster, thumbnails, textTracks }
   return (
     <MediaPlayer
       className={twMerge(
-        "w-full aspect-video bg-black text-white font-sans overflow-hidden rounded-md ring-media-focus data-[focus]:ring-4 ",
+        "w-full aspect-video bg-black text-white font-sans overflow-hidden ring-media-focus data-[focus]:ring-4 ",
         className
       )}
       title={title}

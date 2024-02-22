@@ -168,21 +168,25 @@ const mentor = {
 
 export function Course() {
   return (
-    <div className="px-4 sm:container space-y-5 py-10">
-      <header>
+    <div className="sm:container sm:space-y-5 pb-10 sm:py-10">
+      <header className="hidden sm:block">
         <h1 className="text-3xl font-semibold text-dark-navy">{course.title}</h1>
         <p className="text-zinc-500">{mentor.name}</p>
       </header>
 
-      <main className=" grid grid-cols-[1fr_20rem] grid-rows-[auto_1fr] gap-6">
+      <main className="grid grid-cols-[1fr_20rem] grid-rows-[auto_1fr] gap-6">
         <section className=" col-span-2 xl:col-span-1">
           <CoursePlayer courseChapters={courseChapters} />
         </section>
-        <section className=" flex h-fit flex-col gap-5 row-span-2 col-span-2 xl:col-span-1">
+        <section className="px-4 sm:px-0 flex h-fit flex-col gap-5 row-span-2 col-span-2 xl:col-span-1">
+          <header className="sm:hidden">
+            <h1 className="text-xl sm:text-3xl font-semibold text-dark-navy">{course.title}</h1>
+            <p className="text-zinc-500">{mentor.name}</p>
+          </header>
           <CourseContents courseChapters={courseChapters} progress={course?.progress} />
           <AboutInstructor mentor={mentor} />
         </section>
-        <section className="col-span-2 xl:col-span-1 py-5">
+        <section className="px-4 sm:px-0 col-span-2 xl:col-span-1 py-5">
           <CourseDescription course={course} />
         </section>
       </main>

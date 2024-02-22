@@ -24,7 +24,7 @@ export function CoursePlayer({ courseChapters }: CoursePlayerProps) {
       src={currentVideo?.cLink || ""}
       title={currentVideo?.name}
       poster={{ src: videoPoster, alt: "poster" }}
-      className="rounded-xl"
+      className="sm:rounded-xl"
     />
   );
 }
