@@ -186,7 +186,7 @@ export function Course() {
           <CourseContents courseChapters={courseChapters} progress={course?.progress} />
           <AboutInstructor mentor={mentor} />
         </section>
-        <section className="px-4 sm:px-0 col-span-2 xl:col-span-1 py-5">
+        <section className="px-4 sm:px-0 col-span-2 xl:col-span-1 ">
           <CourseDescription course={course} />
         </section>
       </main>
