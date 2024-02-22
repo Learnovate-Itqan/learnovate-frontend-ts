@@ -36,10 +36,10 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
       </header>
       <main className="py-5 text-dark-navy">
         <ScrollArea className="h-64 xl:h-96">
-          <Accordion type="single" collapsible defaultValue={courseChapters[0].name}>
+          <Accordion type="single" collapsible defaultValue={courseChapters[0].id}>
             {courseChapters.map((chapter, index) => (
               <>
-                <AccordionItem value={chapter.name} key={index} className=" border-b-0 px-5">
+                <AccordionItem value={chapter.id} key={chapter.id} className=" border-b-0 px-5">
                   <AccordionTrigger className=" text-left flex justify-between items-center gap-4 hover:no-underline">
                     <span className="flex gap-4">
                       <span className=" text-sm flex justify-center items-center border-2 rounded-full w-6 aspect-square border-dark-navy font-semibold">
@@ -49,9 +49,9 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className=" text-balance space-y-1 text-base">
-                    {chapter.content.map((content, index) => (
+                    {chapter.content.map((content) => (
                       <button
-                        key={index}
+                        key={content.id}
                         className={`flex justify-between transition-colors duration-150 w-full text-sm items-center gap-4 px-1 ${currentVideo === content.id ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
                         onClick={() => handleVideoClick(content.id)}
                       >
