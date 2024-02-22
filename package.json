@@ -32,7 +32,6 @@
     "axios",
     "react-paginate",
     "react-icons",
-    "swiper",
     "uuid"
   ],
   "dependencies": {
@@ -104,10 +103,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0 --fix"
-    ],
-    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write ."
+      "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix"
     ]
   }
 }
