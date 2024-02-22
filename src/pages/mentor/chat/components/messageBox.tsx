@@ -36,7 +36,6 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
   const handleEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     // check if the user is using desktop keyboard or mobile keyboard
     const isMobile = window.matchMedia("(pointer: coarse)").matches;
-    console.log(isMobile);
     if (isMobile) return;
     if (e.key === "Enter" && !e.shiftKey && !keyboardStatus) {
       e.preventDefault();
