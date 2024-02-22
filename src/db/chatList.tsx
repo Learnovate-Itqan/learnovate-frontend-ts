@@ -10,7 +10,7 @@ export type TChat = {
   id: string;
   name: string;
   message: string;
-  time: Date;
+  time: number | string;
   image: string;
   notRead?: number;
 };
@@ -21,7 +21,7 @@ export const CHAT_LIST: TChat[] = [
     name: "Abdelrahman Awad",
     message:
       "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: new Date(),
+    time: Date.now(),
     image: abdelrahmanAwad,
   },
   {
@@ -29,7 +29,7 @@ export const CHAT_LIST: TChat[] = [
     name: "Amr Mostafa",
     message:
       "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: new Date(),
+    time: Date.now(),
     image: amrMostafa,
   },
   {
@@ -37,7 +37,7 @@ export const CHAT_LIST: TChat[] = [
     name: "Muhammad Emara",
     message:
       "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: new Date(),
+    time: Date.now(),
     image: muhammadEmara,
     notRead: 99,
   },
@@ -46,7 +46,7 @@ export const CHAT_LIST: TChat[] = [
     name: "Muhammad Ibrahim",
     message:
       "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: new Date(),
+    time: Date.now(),
     image: muhammadIbrahim,
     notRead: 8,
   },
@@ -55,7 +55,7 @@ export const CHAT_LIST: TChat[] = [
     name: "Muhammad Selim",
     message:
       "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: new Date(),
+    time: Date.now(),
     image: muhammadSelim,
   },
 ];
