@@ -1,5 +1,7 @@
 import { clsx } from "clsx";
 
+import { DateToAMAndPM } from "@/utils/dateToTime";
+
 import { RenderMarkDown } from "./renderMarkDown";
 import { UserAvatar } from "./userAvatar";
 
@@ -8,10 +10,12 @@ type TMessage = {
   text: string;
   image?: string;
   name: string;
+  time?: Date;
 };
 
-export const Message = ({ role, text, image, name }: TMessage) => {
+export const Message = ({ role, text, image, name, time }: TMessage) => {
   const isUser = role === "user" ? true : false;
+
   return (
     <div
       className={clsx("w-full flex items-end gap-x-2", {
@@ -21,12 +25,14 @@ export const Message = ({ role, text, image, name }: TMessage) => {
     >
       {!isUser && <UserAvatar className="bg-[#222C54] w-8 h-8 xs:w-10 xs:h-10" name={name} image={image} />}
       <div
-        className={clsx("py-1.5 px-2.5 max-w-3xl", {
+        className={clsx("max-w-3xl flex flex-col py-1.5 px-2.5 relative", {
           "bg-dark-navy text-white rounded-s-3xl rounded-t-3xl ms-12": isUser,
           "bg-gray-200 text-dark-navy rounded-e-3xl rounded-t-3xl": !isUser,
+          "py-2 px-4": time,
         })}
       >
-        {role === "model" ? <RenderMarkDown content={text} /> : text}
+        <span>{role === "model" ? <RenderMarkDown content={text} /> : text}</span>
+        {time && <span className="text-[0.7rem] mt-1">{DateToAMAndPM(time)}</span>}
       </div>
     </div>
   );

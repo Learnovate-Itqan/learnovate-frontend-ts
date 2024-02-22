@@ -18,6 +18,8 @@ type TForm =
     >
   | undefined;
 
+type TMessage = z.infer<typeof aiChatSchema>;
+
 export const useHandleAIChat = (form?: TForm) => {
   const dispatch = useDispatch();
   const aiChat = startChat();
@@ -25,7 +27,8 @@ export const useHandleAIChat = (form?: TForm) => {
   const aiChatHandler = {
     mutateMessage: async (message: string) => {
       if (!form) return;
-      dispatch(setAIMessages({ role: "user", parts: message }));
+      const userMessage: TMessage = { role: "user", parts: message, time: new Date() };
+      dispatch(setAIMessages(userMessage));
       form.reset();
       dispatch(setAITyping(true));
       try {
@@ -33,12 +36,10 @@ export const useHandleAIChat = (form?: TForm) => {
         const response = result.response;
         const text = response.text();
         dispatch(setAITyping(false));
-        dispatch(setAIMessages({ role: "model", parts: text }));
+        const aiMessage: TMessage = { role: "model", parts: text, time: new Date() };
+        dispatch(setAIMessages(aiMessage));
         const history: z.infer<typeof aiChatSchema>[] = JSON.parse(sessionStorage.getItem("ai") || "[]");
-        sessionStorage.setItem(
-          "ai",
-          JSON.stringify([...history, { role: "user", parts: message }, { role: "model", parts: text }])
-        );
+        sessionStorage.setItem("ai", JSON.stringify([...history, userMessage, aiMessage]));
       } catch (error) {
         const timer = setTimeout(() => {
           dispatch(setAITyping(false));
