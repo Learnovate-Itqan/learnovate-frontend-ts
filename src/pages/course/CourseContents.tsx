@@ -39,7 +39,7 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
         </div>
       </header>
       <main className="py-5 text-dark-navy">
-        <ScrollArea type="always" className="h-64 xl:h-[350px] 2xl:h-[470px] 3xl:h-[668px]">
+        <ScrollArea type="always" className="h-64 xl:h-[350px] 2xl:h-[465px] 3xl:h-[668px]">
           <Accordion type="single" collapsible defaultValue={currentChapter.id}>
             {courseChapters.map((chapter, index) => (
               <>
