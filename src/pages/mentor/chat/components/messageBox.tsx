@@ -6,6 +6,7 @@ import { FaMicrophone } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import useKeyBoardStatus from "use-detect-keyboard-open";
 import { z } from "zod";
 
 import { useGetParam } from "@/hooks/useGetParam";
@@ -28,11 +29,16 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
   const aiHandler = useHandleAIChat(form);
   const isAIChat = useGetParam("source") === "ai";
   const online = useOnlineStatus();
+  const keyboardStatus = useKeyBoardStatus();
   const text = form.watch("text");
-  console.log(text);
+  const isSubmitting = form.formState.isSubmitting;
 
   const handleEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    // check if the user is using desktop keyboard or mobile keyboard
+    const isMobile = window.matchMedia("(pointer: coarse)").matches;
+    console.log(isMobile);
+    if (isMobile) return;
+    if (e.key === "Enter" && !e.shiftKey && !keyboardStatus) {
       e.preventDefault();
       form.handleSubmit(handleMessage)();
     }
@@ -76,7 +82,8 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
         >
           <textarea
             {...form.register("text")}
-            onKeyPress={handleEnter}
+            onKeyDown={handleEnter}
+            disabled={isSubmitting}
             autoComplete="off"
             className="w-full bg-transparent border-none no-scrollbar focus:outline-none resize-none py-2"
             rows={1}
@@ -85,7 +92,11 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
         </div>
         <div>
           {text && (
-            <button type="submit" className="text-white flex items-center justify-center bg-dark-navy p-2 rounded-full">
+            <button
+              type="submit"
+              className="text-white flex items-center justify-center bg-dark-navy p-2 rounded-full"
+              disabled={isSubmitting}
+            >
               <IoSend className="text-xl" title="Send Message" />
             </button>
           )}
@@ -103,6 +114,7 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
               type="button"
               onClick={handleSendSound}
               className="text-white flex items-center justify-center bg-dark-navy p-2 rounded-full"
+              disabled={isSubmitting}
             >
               <FaMicrophone className="text-xl" title="Send Voice" />
             </button>
