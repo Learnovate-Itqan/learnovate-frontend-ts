@@ -10,7 +10,7 @@ type TMessage = {
   text: string;
   image?: string;
   name: string;
-  time?: Date;
+  time?: number | string;
 };
 
 export const Message = ({ role, text, image, name, time }: TMessage) => {
@@ -31,7 +31,7 @@ export const Message = ({ role, text, image, name, time }: TMessage) => {
           "py-2 px-4": time,
         })}
       >
-        <span>{role === "model" ? <RenderMarkDown content={text} /> : text}</span>
+        <span>{role === "model" ? <RenderMarkDown content={text} /> : <pre>{text.trim()}</pre>}</span>
         {time && <span className="text-[0.7rem] mt-1">{DateToAMAndPM(time)}</span>}
       </div>
     </div>

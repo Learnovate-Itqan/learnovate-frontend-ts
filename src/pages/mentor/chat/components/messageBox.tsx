@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MouseEvent } from "react";
+import clsx from "clsx";
+import { KeyboardEvent, MouseEvent } from "react";
 import { useForm } from "react-hook-form";
 import { FaMicrophone } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -28,6 +29,14 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
   const isAIChat = useGetParam("source") === "ai";
   const online = useOnlineStatus();
   const text = form.watch("text");
+  console.log(text);
+
+  const handleEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      form.handleSubmit(handleMessage)();
+    }
+  };
 
   const handleMessage = async (data: z.infer<typeof messageBoxSchema>) => {
     if (data.text && isAIChat) aiHandler.mutateMessage(data.text);
@@ -60,12 +69,17 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
             </label>
           </div>
         )}
-        <div className="w-full">
-          <input
+        <div
+          className={clsx("w-full h-fit flex items-center py-2 px-4 rounded-2xl bg-gray-100", {
+            "py-2": text,
+          })}
+        >
+          <textarea
             {...form.register("text")}
+            onKeyPress={handleEnter}
             autoComplete="off"
-            type="text"
-            className="w-full px-4 h-10 rounded-full bg-gray-100 border-none focus:outline-none focus:ring-1 focus:ring-dark-navy"
+            className="w-full bg-transparent border-none no-scrollbar focus:outline-none resize-none py-2"
+            rows={1}
             placeholder="Write Something..."
           />
         </div>

@@ -38,7 +38,7 @@ export const ChatSection = () => {
       {header && <ChatHeader {...header} />}
       <div
         ref={chatContainerRef}
-        className="max-h-[calc(100%-9rem)] h-[calc(100%-9rem)] w-full bg-white overflow-y-auto"
+        className="max-h-[calc(100%-9rem)] h-[calc(100%-9rem)] w-full bg-white overflow-y-auto chat-scrollbar"
       >
         <AIMessagesBox />
       </div>
