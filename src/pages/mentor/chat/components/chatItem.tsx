@@ -30,9 +30,12 @@ export const ChatItem = ({ id, name, message, time, image, notRead }: TChat) => 
           </div>
         </div>
         {notRead && (
-          <span className={clsx("bg-royal-blue mt-2 p-1 rounded-full flex items-center justify-center text-white text-xs font-bold",
-            { "w-5 h-5": notRead <= 9, "w-6 h-6": notRead > 9}
-          )}>
+          <span
+            className={clsx(
+              "bg-royal-blue mt-2 p-1 rounded-full flex items-center justify-center text-white text-xs font-bold",
+              { "w-5 h-5": notRead <= 9, "w-6 h-6": notRead > 9 }
+            )}
+          >
             {notRead}
           </span>
         )}

@@ -3,7 +3,7 @@ import { z } from "zod";
 export const aiChatSchema = z.object({
   role: z.union([z.literal("user"), z.literal("model"), z.literal("other")]),
   parts: z.string(),
-  time: z.union([z.number(), z.string()])
+  time: z.union([z.number(), z.string()]),
 });
 
 export const aiAssistantSchema = z.object({
