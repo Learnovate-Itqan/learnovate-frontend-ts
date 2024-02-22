@@ -27,7 +27,7 @@ export const useHandleAIChat = (form?: TForm) => {
   const aiChatHandler = {
     mutateMessage: async (message: string) => {
       if (!form) return;
-      const userMessage: TMessage = { role: "user", parts: message, time: new Date() };
+      const userMessage: TMessage = { role: "user", parts: message, time: Date.now() };
       dispatch(setAIMessages(userMessage));
       form.reset();
       dispatch(setAITyping(true));
@@ -36,7 +36,7 @@ export const useHandleAIChat = (form?: TForm) => {
         const response = result.response;
         const text = response.text();
         dispatch(setAITyping(false));
-        const aiMessage: TMessage = { role: "model", parts: text, time: new Date() };
+        const aiMessage: TMessage = { role: "model", parts: text, time: Date.now() };
         dispatch(setAIMessages(aiMessage));
         const history: z.infer<typeof aiChatSchema>[] = JSON.parse(sessionStorage.getItem("ai") || "[]");
         sessionStorage.setItem("ai", JSON.stringify([...history, userMessage, aiMessage]));
