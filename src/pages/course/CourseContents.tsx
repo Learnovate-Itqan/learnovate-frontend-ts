@@ -22,6 +22,9 @@ type CourseContentsProps = {
 export function CourseContents({ courseChapters, progress }: CourseContentsProps) {
   const [searchParam, setSearchParam] = useSearchParams();
   const currentVideo = searchParam.get("lecture") || courseChapters[0].content[0].id;
+  const currentChapter =
+    courseChapters.find((chapter) => chapter.content.some((content) => content.id === currentVideo)) ||
+    courseChapters[0];
   const handleVideoClick = (id: string) => {
     searchParam.set("lecture", id);
     setSearchParam(searchParam);
@@ -36,7 +39,7 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
       </header>
       <main className="py-5 text-dark-navy">
         <ScrollArea className="h-64 xl:h-96">
-          <Accordion type="single" collapsible defaultValue={courseChapters[0].id}>
+          <Accordion type="single" collapsible defaultValue={currentChapter.id}>
             {courseChapters.map((chapter, index) => (
               <>
                 <AccordionItem value={chapter.id} key={chapter.id} className=" border-b-0 px-5">
