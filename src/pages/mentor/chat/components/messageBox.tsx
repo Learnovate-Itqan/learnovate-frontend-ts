@@ -38,7 +38,7 @@ export const MessageBox = ({ sound, ai }: TMessageBox) => {
     console.log("Send Sound");
   };
 
-  if (error) return null;
+  if (error) return <div className="w-full h-20 bg-white"></div>;
 
   if (!online)
     return (
