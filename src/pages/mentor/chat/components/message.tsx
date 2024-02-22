@@ -31,7 +31,13 @@ export const Message = ({ role, text, image, name, time }: TMessage) => {
           "py-2 px-4": time,
         })}
       >
-        <span>{role === "model" ? <RenderMarkDown content={text} /> : <pre className="whitespace-pre-wrap">{text.trim()}</pre>}</span>
+        <span>
+          {role === "model" ? (
+            <RenderMarkDown content={text} />
+          ) : (
+            <pre className="whitespace-pre-wrap">{text.trim()}</pre>
+          )}
+        </span>
         {time && <span className="text-[0.7rem] mt-1">{DateToAMAndPM(time)}</span>}
       </div>
     </div>
