@@ -20,7 +20,7 @@ export function VideoLayout({ thumbnails }: VideoLayoutProps) {
     return (
       <Controls.Root className="absolute inset-0 z-10">
         <Controls.Group className="flex w-full items-center justify-center h-full">
-          <Buttons.Play className=" scale-[5]" tooltipPlacement="top" />
+          <Buttons.Play className=" scale-[3]" tooltipPlacement="top" />
         </Controls.Group>
       </Controls.Root>
     );
