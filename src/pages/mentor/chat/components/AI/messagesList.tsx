@@ -16,7 +16,14 @@ export const AIMessagesList = ({ receiverName, receiverImage }: TAIMessagesList)
   return (
     <div className="w-full p-4 space-y-2">
       {chat.map((message) => (
-        <Message role={message.role} text={message.parts} key={uuid()} image={receiverImage} name={receiverName} />
+        <Message
+          role={message.role}
+          text={message.parts}
+          key={uuid()}
+          image={receiverImage}
+          name={receiverName}
+          time={message.time}
+        />
       ))}
     </div>
   );

@@ -8,7 +8,7 @@ import { useGetParam } from "@/hooks/useGetParam";
 import { NewAIChat } from "./AI/newChat";
 import { UserAvatar } from "./userAvatar";
 
-type TChatHeader = {
+export type TChatHeader = {
   title: string;
   image?: string;
 };
