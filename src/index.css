@@ -67,4 +67,15 @@ input[type="number"] {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* Chat scrollbar */
+  .chat-scrollbar::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  .chat-scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  .chat-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #181D3C;
+  }
 }
