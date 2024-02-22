@@ -48,7 +48,7 @@ const courseChapters = [
         id: "83515",
         name: "lorem ipsum",
         duration: "4:33",
-        cLink: "https://_Yhyp-_hX2s?si=OR3QC_IST8pRP-kI",
+        cLink: "https://www.youtube.com/_Yhyp-_hX2s?si=OR3QC_IST8pRP-kI",
       },
     ],
   },
