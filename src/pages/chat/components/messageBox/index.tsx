@@ -45,7 +45,7 @@ export const MessageBox = () => {
     console.log(countLines(text));
     form.reset();
   };
-  
+
   if (!isOnline) return null;
 
   return (
