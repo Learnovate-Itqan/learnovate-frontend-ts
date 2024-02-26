@@ -13,7 +13,6 @@ import { HomePage } from "@/pages/home";
 import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
 
-import { MentorChatPage } from "./pages/mentor/chat";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
@@ -38,7 +37,6 @@ export const Router = createBrowserRouter(
         {/* Mentor Routes */}
         <Route path="mentor/:id" element={<MentorViewerPage />} />
         <Route path="mentor/me/:id" element={<MentorMePage />} />
-        <Route path="mentor/me/chat" element={<MentorChatPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Route>
