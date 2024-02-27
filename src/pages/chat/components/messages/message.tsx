@@ -14,7 +14,7 @@ export const Message = ({ role, text, image }: TMessage) => {
   const name = isModel ? "Learnovate Assistant" : "You";
 
   return (
-    <li className="flex flex-col items-center gap-2 w-full">
+    <li className="flex flex-col items-center gap-2 w-full px-4 lg:px-8">
       <div className="w-full max-w-3xl">
         <div className="flex items-center gap-2 select-none">
           <UserAvatar image={isModel ? learnovateAI : image} name={name} className="w-8 h-8" />
