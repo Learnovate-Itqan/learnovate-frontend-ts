@@ -25,6 +25,8 @@ export const RenderMarkDown: FC<RenderMarkdownProps> = ({ content }) => {
       {children}
     </a>
   );
+  const OL: FC<ComponentProps> = (({ children }) => <ol className="list-decimal ps-4">{children}</ol>);
+  const UL: FC<ComponentProps> = (({ children }) => <ul className="list-disc ps-4">{children}</ul>);
   return (
     <Markdown
       components={{
@@ -51,6 +53,12 @@ export const RenderMarkDown: FC<RenderMarkdownProps> = ({ content }) => {
         },
         a({ children, href }) {
           return <Link href={href}>{children}</Link>;
+        },
+        ol({ children }) {
+          return <OL>{children}</OL>;
+        },
+        ul({ children }) {
+          return <UL>{children}</UL>;
         },
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
