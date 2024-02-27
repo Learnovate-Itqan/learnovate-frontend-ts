@@ -1,14 +1,11 @@
-import { v4 as uuid } from "uuid";
-
 import { db } from "@/db";
 
-export const initializeChat = async (title: string, message: string) => {
+export const initializeChat = async (id: string, title: string, message: string) => {
   try {
-    const chatID = uuid();
     const time = Date.now();
-    await db.chatTitle.add({ id: chatID, title, time });
-    await db.chat.add({ chatID, role: "user", parts: message, time });
-    return chatID;
+    await db.chatTitle.add({ id, title, time });
+    await db.chat.add({ chatID: id, role: "user", parts: message, time });
+    return id;
   } catch (error) {
     console.error(error);
   }
