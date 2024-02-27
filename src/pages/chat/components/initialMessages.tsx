@@ -1,9 +1,12 @@
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 
 import AnimateIn from "@/components/ui/animateIn";
-import { initializeChat, sendMessage } from "@/db/chat";
-import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
+import { deleteChat, initializeChat, sendMessage } from "@/db/chat";
+import { useClearParam, useGetParam, useSetParam } from "@/hooks/useParamHelpers";
 import { startChat } from "@/lib/aiChat";
+import { setAssistantTyping } from "@/redux/slices/aiChatSlice";
 
 type TInitialMessages = {
   title: string;
@@ -13,8 +16,10 @@ type TInitialMessages = {
 };
 
 export const InitialMessages = ({ title, description, message, duration }: TInitialMessages) => {
+  const dispatch = useDispatch();
   const id = useGetParam("id");
   const setParam = useSetParam();
+  const clearID = useClearParam();
   const chat = startChat([]);
 
   const handleClick = async () => {
@@ -22,10 +27,19 @@ export const InitialMessages = ({ title, description, message, duration }: TInit
     const chatID = await initializeChat(uuid(), title, message);
     if (chatID) {
       setParam({ param: "id", value: chatID });
-      const result = await chat.sendMessage(message);
-      const response = result.response;
-      const text = response.text();
-      await sendMessage(chatID, "model", text);
+      try {
+        dispatch(setAssistantTyping(true));
+        const result = await chat.sendMessage(message);
+        const response = result.response;
+        const text = response.text();
+        await sendMessage(chatID, "model", text);
+        dispatch(setAssistantTyping(false));
+      } catch (error) {
+        toast.error("Sorry, Something went wrong. Please try later.");
+        dispatch(setAssistantTyping(false));
+        clearID("id");
+        deleteChat(chatID);
+      }
     }
   };
 
