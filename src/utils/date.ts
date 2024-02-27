@@ -11,3 +11,8 @@ export const formatDate = (time: number | string) => {
   else if (isSameYear(date, newDate)) return format(date, "MMMM");
   else return format(date, "MMMM yyyy");
 };
+
+export const timeToAMAndPM = (time: number) => {
+  const date = new Date(time);
+  return format(date, "h:mm a");
+};
