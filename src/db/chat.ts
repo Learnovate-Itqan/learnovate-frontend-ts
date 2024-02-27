@@ -7,7 +7,7 @@ export const initializeChat = async (id: string, title: string, message: string)
     await db.chat.add({ chatID: id, role: "user", parts: message, time });
     return id;
   } catch (error) {
-    console.error(error);
+    return false;
   }
 };
 
@@ -16,7 +16,6 @@ export const sendMessage = async (chatID: string, role: "user" | "model", messag
     await db.chat.add({ chatID, role, parts: message, time: Date.now() });
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 };
@@ -27,7 +26,6 @@ export const deleteChat = async (chatID: string) => {
     await db.chat.where("chatID").equals(chatID).delete();
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 };
@@ -41,6 +39,6 @@ export const getChatByID = async (chatID: string | null) => {
     if (!chat.length) return;
     return chat;
   } catch (error) {
-    console.error(error);
+    return;
   }
 };
