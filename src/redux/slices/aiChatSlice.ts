@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { z } from "zod";
 
-import { aiAssistantSchema, aiChatSchema } from "@/schemas/aiChat";
+type TInitialState = {
+  typing: boolean;
+  error: string | undefined;
+};
 
-const initialState: z.infer<typeof aiAssistantSchema> = {
-  chat: [],
-  select: false,
+const initialState: TInitialState = {
   typing: false,
   error: undefined,
 };
@@ -14,27 +14,14 @@ export const aiChatSlice = createSlice({
   name: "aiChat",
   initialState,
   reducers: {
-    setAIMessages: (state, action: { payload: z.infer<typeof aiChatSchema> }) => {
-      return { ...state, chat: [...state.chat, action.payload] };
+    setAssistantTyping: (state, action: { payload: boolean }) => {
+      state.typing = action.payload;
     },
-    setAILoadMessages: (state, action: { payload: z.infer<typeof aiChatSchema>[] }) => {
-      return { ...state, chat: action.payload };
-    },
-    setAIChatSelect: (state, action: { payload: boolean }) => {
-      return { ...state, select: action.payload };
-    },
-    setAITyping: (state, action: { payload: boolean }) => {
-      return { ...state, typing: action.payload };
-    },
-    setAIError: (state, action: { payload: string | undefined }) => {
-      return { ...state, error: action.payload };
-    },
-    setNewAIChat: () => {
-      return { ...initialState };
+    setAssistantError: (state, action: { payload: string | undefined }) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { setAIMessages, setAILoadMessages, setAIChatSelect, setAITyping, setAIError, setNewAIChat } =
-  aiChatSlice.actions;
+export const { setAssistantTyping, setAssistantError } = aiChatSlice.actions;
 export const aiChatReducer = aiChatSlice.reducer;
