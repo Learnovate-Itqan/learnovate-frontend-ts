@@ -1,7 +1,8 @@
+import { v4 as uuid } from "uuid";
+
 import AnimateIn from "@/components/ui/animateIn";
 import { initializeChat } from "@/db/chat";
 import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
-import { v4 as uuid } from "uuid";
 
 type TInitialMessages = {
   title: string;
