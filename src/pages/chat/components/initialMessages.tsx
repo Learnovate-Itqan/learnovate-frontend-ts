@@ -1,8 +1,9 @@
 import { v4 as uuid } from "uuid";
 
 import AnimateIn from "@/components/ui/animateIn";
-import { initializeChat } from "@/db/chat";
+import { initializeChat, sendMessage } from "@/db/chat";
 import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
+import { startChat } from "@/lib/aiChat";
 
 type TInitialMessages = {
   title: string;
@@ -14,12 +15,17 @@ type TInitialMessages = {
 export const InitialMessages = ({ title, description, message, duration }: TInitialMessages) => {
   const id = useGetParam("id");
   const setParam = useSetParam();
+  const chat = startChat([]);
 
   const handleClick = async () => {
     if (id) return;
     const chatID = await initializeChat(uuid(), title, message);
     if (chatID) {
       setParam({ param: "id", value: chatID });
+      const result = await chat.sendMessage(message);
+      const response = result.response;
+      const text = response.text();
+      await sendMessage(chatID, "model", text);
     }
   };
 
