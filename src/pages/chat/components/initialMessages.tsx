@@ -1,6 +1,5 @@
-import { useSearchParams } from "react-router-dom";
 import { initialReservedMessage } from "@/db/chat";
-import { useGetParam } from "@/hooks/useGetParam";
+import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
 
 type TInitialMessages = {
   title: string;
@@ -10,14 +9,13 @@ type TInitialMessages = {
 
 export const InitialMessages = ({ title, description, message }: TInitialMessages) => {
   const id = useGetParam("id");
-  const [, setSearchParams] = useSearchParams();
+  const setParam = useSetParam();
 
   const handleClick = async () => {
     if (id) return;
     const chatID = await initialReservedMessage(title, message);
     if (chatID) {
-      console.log(chatID);
-      setSearchParams({ id: chatID });
+      setParam({ param: "id", value: chatID });
     }
   };
 
