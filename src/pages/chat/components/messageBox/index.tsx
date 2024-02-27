@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState } from "react";
 import { KeyboardEvent } from "react";
 import { useForm } from "react-hook-form";
@@ -7,7 +8,11 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import useKeyBoardStatus from "use-detect-keyboard-open";
 import { z } from "zod";
 
+import { getChatByID } from "@/db/chat";
+import { initializeChat, sendMessage } from "@/db/chat";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
+import { generateTitle, startChat } from "@/lib/aiChat";
 import { countLines } from "@/utils/text";
 
 const messageBoxSchema = z.object({ text: z.string().min(1) });
@@ -20,6 +25,11 @@ export const MessageBox = () => {
   });
   const keyboardStatus = useKeyBoardStatus();
   const isOnline = useOnlineStatus();
+  const idParam = useGetParam("id");
+  const setParam = useSetParam();
+  const chat = useLiveQuery(() => getChatByID(idParam), [idParam]);
+  const model = startChat(chat || []);
+  const chatTitle = generateTitle();
   const { isSubmitting } = form.formState;
   const text = form.watch("text");
   const isDisabled = isSubmitting || !form.formState.isValid;
@@ -40,9 +50,21 @@ export const MessageBox = () => {
     }
   };
 
-  const handleSendMessage = (values: z.infer<typeof messageBoxSchema>) => {
+  const handleSendMessage = async (values: z.infer<typeof messageBoxSchema>) => {
     const { text } = values;
-    console.log(countLines(text));
+    const clearMessage = text.trim();
+    if (!idParam || !chat) {
+      const title = await chatTitle(clearMessage);
+      const chatID = await initializeChat(title, clearMessage);
+      console.log(chatID);
+      if (chatID) {
+        setParam({ param: "id", value: chatID });
+        const result = await model.sendMessage(clearMessage);
+        const response = result.response;
+        const text = response.text();
+        await sendMessage(chatID, "model", text);
+      }
+    }
     form.reset();
   };
 
