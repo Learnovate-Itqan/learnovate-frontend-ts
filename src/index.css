@@ -68,6 +68,17 @@ input[type="number"] {
     scrollbar-width: none; /* Firefox */
   }
 
+  /* Chat List scrollbar */
+  .chatList-scrollbar::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  .chatList-scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  .chatList-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+  }
+
   /* Chat scrollbar */
   .chat-scrollbar::-webkit-scrollbar {
     width: 0.6rem;
