@@ -16,11 +16,11 @@ export const Message = ({ role, text, image }: TMessage) => {
   return (
     <li className="flex flex-col items-center gap-2 w-full px-4 lg:px-8">
       <div className="w-full max-w-3xl">
-        <div className="flex items-center gap-2 select-none">
+        <div className="flex xs:flex-row items-center gap-2 select-none">
           <UserAvatar image={isModel ? learnovateAI : image} name={name} className="w-8 h-8" />
           <span className="text-lg font-bold">{name}</span>
         </div>
-        <div className="flex flex-col gap-1 ps-10">
+        <div className="flex flex-col gap-1 xs:ps-10 pt-2 xs:pt-0">
           <span>
             {isModel ? <RenderMarkDown content={text} /> : <pre className="whitespace-pre-wrap">{text.trim()}</pre>}
           </span>
