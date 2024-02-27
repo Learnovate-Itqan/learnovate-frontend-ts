@@ -20,8 +20,8 @@ export const ChatPage = () => {
             <h1 className="text-white text-2xl font-bold mt-4">How can I help you today?</h1>
           </div>
           <div className="w-full h-auto max-w-3xl grid grid-cols-2 gap-y-2 gap-x-4">
-            {CHAT_EXAMPLES.map((example) => (
-              <InitialMessages key={example.title} {...example} />
+            {CHAT_EXAMPLES.map((example, idx) => (
+              <InitialMessages key={example.title} {...example} duration={(idx + 4) * 100} />
             ))}
           </div>
         </div>
