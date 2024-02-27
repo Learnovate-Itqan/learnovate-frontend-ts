@@ -6,6 +6,7 @@ import { KeyboardEvent } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import useKeyBoardStatus from "use-detect-keyboard-open";
+import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
 import { getChatByID } from "@/db/chat";
@@ -53,17 +54,15 @@ export const MessageBox = () => {
   const handleSendMessage = async (values: z.infer<typeof messageBoxSchema>) => {
     const { text } = values;
     const clearMessage = text.trim();
+    const id = uuid();
     if (!idParam || !chat) {
       const title = await chatTitle(clearMessage);
-      const chatID = await initializeChat(title, clearMessage);
-      console.log(chatID);
-      if (chatID) {
-        setParam({ param: "id", value: chatID });
-        const result = await model.sendMessage(clearMessage);
-        const response = result.response;
-        const text = response.text();
-        await sendMessage(chatID, "model", text);
-      }
+      await initializeChat(id, title, clearMessage);
+      setParam({ param: "id", value: id });
+      const result = await model.sendMessage(clearMessage);
+      const response = result.response;
+      const text = response.text();
+      await sendMessage(id, "model", text);
     }
     form.reset();
   };
