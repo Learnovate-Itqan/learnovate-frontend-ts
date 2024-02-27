@@ -8,12 +8,10 @@ export const MessagesContainer = () => {
   if (!chatExist) return null;
 
   return (
-    <div className="flex-grow flex flex-col items-center justify-end py-2 gap-4 px-4 lg:px-8 text-white">
-      <ul className="w-full max-w-3xl space-y-4">
-        {chatExist.map((message) => (
-          <Message key={message.time} role={message.role} text={message.parts} />
-        ))}
-      </ul>
-    </div>
+    <ul className=" flex-grow w-full pt-8 space-y-4 pe-2 chat-scrollbar text-white max-h-[calc(100svh-6rem)] overflow-y-auto">
+      {chatExist.map((message) => (
+        <Message key={message.time} role={message.role} text={message.parts} />
+      ))}
+    </ul>
   );
 };
