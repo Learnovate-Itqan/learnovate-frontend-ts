@@ -23,3 +23,14 @@ export const deleteChat = async (chatID: string) => {
     return false;
   }
 };
+
+export const getChatByID = async (chatID: string | null) => {
+  if (!chatID) return;
+  // return all the chat data and sort it by time
+  try {
+    const chat = await db.chat.where("id").equals(chatID).sortBy("time");
+    return chat;
+  } catch (error) {
+    console.error(error);
+  }
+};
