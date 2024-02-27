@@ -1,19 +1,15 @@
-import { useLiveQuery } from "dexie-react-hooks";
-
 import { LearnovateLogo } from "@/components/icons/Logo";
-import { getChatByID } from "@/db/chat";
 import { getFourRandomExamples } from "@/db/chatExamples";
-import { useGetParam } from "@/hooks/useParamHelpers";
+import { useChatExist } from "@/hooks/useChatExist";
 
 import { InitialMessages } from "./initialMessages";
 
 const CHAT_EXAMPLES = getFourRandomExamples();
 
 export const NewChat = () => {
-  const idParam = useGetParam("id");
-  const chat = useLiveQuery(() => getChatByID(idParam), [idParam]);
+  const chatExist = useChatExist();
 
-  if (chat && idParam) return null;
+  if (chatExist) return null;
 
   return (
     <div className="flex-grow flex flex-col items-center justify-end py-2 gap-4 px-4 lg:px-8">
