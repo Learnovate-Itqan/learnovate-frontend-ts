@@ -1,6 +1,7 @@
 import AnimateIn from "@/components/ui/animateIn";
 import { initializeChat } from "@/db/chat";
 import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
+import { v4 as uuid } from "uuid";
 
 type TInitialMessages = {
   title: string;
@@ -15,7 +16,7 @@ export const InitialMessages = ({ title, description, message, duration }: TInit
 
   const handleClick = async () => {
     if (id) return;
-    const chatID = await initializeChat(title, message);
+    const chatID = await initializeChat(uuid(), title, message);
     if (chatID) {
       setParam({ param: "id", value: chatID });
     }
