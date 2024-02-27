@@ -1,19 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState } from "react";
 import { KeyboardEvent } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import useKeyBoardStatus from "use-detect-keyboard-open";
-import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
-import { getChatByID } from "@/db/chat";
-import { initializeChat, sendMessage } from "@/db/chat";
+import { useChatExist } from "@/hooks/useChatExist";
+import { useHandleAIChat } from "@/hooks/useHandleAIChat";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
-import { useGetParam, useSetParam } from "@/hooks/useParamHelpers";
-import { generateTitle, startChat } from "@/lib/aiChat";
 import { countLines } from "@/utils/text";
 
 const messageBoxSchema = z.object({ text: z.string().min(1) });
@@ -26,11 +22,8 @@ export const MessageBox = () => {
   });
   const keyboardStatus = useKeyBoardStatus();
   const isOnline = useOnlineStatus();
-  const idParam = useGetParam("id");
-  const setParam = useSetParam();
-  const chat = useLiveQuery(() => getChatByID(idParam), [idParam]);
-  const model = startChat(chat || []);
-  const chatTitle = generateTitle();
+  const existingChat = useChatExist();
+  const chat = useHandleAIChat(form);
   const { isSubmitting } = form.formState;
   const text = form.watch("text");
   const isDisabled = isSubmitting || !form.formState.isValid;
@@ -54,17 +47,13 @@ export const MessageBox = () => {
   const handleSendMessage = async (values: z.infer<typeof messageBoxSchema>) => {
     const { text } = values;
     const clearMessage = text.trim();
-    const id = uuid();
-    if (!idParam || !chat) {
-      const title = await chatTitle(clearMessage);
-      await initializeChat(id, title, clearMessage);
-      setParam({ param: "id", value: id });
-      const result = await model.sendMessage(clearMessage);
-      const response = result.response;
-      const text = response.text();
-      await sendMessage(id, "model", text);
+    // const id = uuid();
+    if (!existingChat) {
+      const chatID = await chat.startChat(clearMessage);
+      if (!chatID) return;
     }
-    form.reset();
+
+    await chat.continueChat(clearMessage);
   };
 
   if (!isOnline) return null;
