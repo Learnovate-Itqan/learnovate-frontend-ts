@@ -3,6 +3,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { HiFolderRemove } from "react-icons/hi";
 import { z } from "zod";
 
+import AnimateIn from "@/components/ui/animateIn";
 import { ChatTitle, db } from "@/db";
 import { deleteChat } from "@/db/chat";
 import { useClearParam, useGetParam, useSetParam } from "@/hooks/useParamHelpers";
@@ -37,33 +38,39 @@ export const MessagesList = () => {
         <div key={category} className="space-y-2">
           <h3 className="capitalize font-bold text-slate-300 text-xs ps-2">{category}</h3>
           <ul className="space-y-0.5">
-            {ChatTitle.map((chat) => (
-              <li
+            {ChatTitle.map((chat, idx) => (
+              <AnimateIn
                 key={chat.id}
-                className={clsx("px-2 flex items-center space-x-2 rounded relative group", {
-                  "hover:bg-gray-800": chat.id !== idParam,
-                  "bg-gray-700": chat.id === idParam,
-                })}
+                from="opacity-0 translate-y-4"
+                to="opacity-100 translate-y-0"
+                duration={(idx + 1) * 100}
               >
-                <button
-                  title={chat.title}
-                  className="w-full text-start text-sm py-2"
-                  onClick={() => handleChatSelection(chat.id)}
+                <li
+                  className={clsx("px-2 flex items-center space-x-2 rounded relative group", {
+                    "hover:bg-gray-800": chat.id !== idParam,
+                    "bg-gray-700": chat.id === idParam,
+                  })}
                 >
-                  {chat.title.length > 30 ? chat.title.slice(0, 30) + "..." : chat.title}
-                </button>
-                <button
-                  className="absolute top-1/2 -translate-y-1/2 right-2 invisible group-hover:visible"
-                  title="delete chat"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteChat(chat.id);
-                    if (chat.id === idParam) clearParam("id");
-                  }}
-                >
-                  <HiFolderRemove className="text-lg" />
-                </button>
-              </li>
+                  <button
+                    title={chat.title}
+                    className="w-full text-start text-sm py-2"
+                    onClick={() => handleChatSelection(chat.id)}
+                  >
+                    {chat.title.length > 30 ? chat.title.slice(0, 30) + "..." : chat.title}
+                  </button>
+                  <button
+                    className="absolute top-1/2 -translate-y-1/2 right-2 invisible group-hover:visible"
+                    title="delete chat"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteChat(chat.id);
+                      if (chat.id === idParam) clearParam("id");
+                    }}
+                  >
+                    <HiFolderRemove className="text-lg" />
+                  </button>
+                </li>
+              </AnimateIn>
             ))}
           </ul>
         </div>
