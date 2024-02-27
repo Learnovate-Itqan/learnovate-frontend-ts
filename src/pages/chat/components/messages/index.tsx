@@ -1,5 +1,6 @@
-import { Message } from "./message";
 import { useChatExist } from "@/hooks/useChatExist";
+
+import { Message } from "./message";
 
 export const MessagesContainer = () => {
   const chatExist = useChatExist();
