@@ -12,6 +12,7 @@ import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
 import { VerificationPage } from "./pages/Auth/Verification";
 import { Contact } from "./pages/contact";
 import { CoursesPage } from "./pages/courses";
+import { Meeting } from "./pages/meeting";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
 import { Track } from "./pages/track";
@@ -30,6 +31,7 @@ export const Router = createBrowserRouter(
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing />} />
         </Route>
+        <Route path="/meeting/:id" element={<Meeting />} />
         {/* Authentication Routes */}
         <Route element={<AuthRoutes />}>
           <Route path="auth/login" element={<LoginPage />} />
