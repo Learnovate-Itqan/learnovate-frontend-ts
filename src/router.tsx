@@ -6,6 +6,7 @@ import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { HomePage } from "@/pages/home";
 
+import { ChatProvider } from "./contexts/ChatContext";
 import RoomProvider from "./contexts/RoomContext";
 import { AppLayout } from "./layouts/AppLayout";
 import { NotFoundPage } from "./pages/404";
@@ -36,7 +37,9 @@ export const Router = createBrowserRouter(
           path="/meeting/:id"
           element={
             <RoomProvider>
-              <Meeting />
+              <ChatProvider>
+                <Meeting />
+              </ChatProvider>
             </RoomProvider>
           }
         />
