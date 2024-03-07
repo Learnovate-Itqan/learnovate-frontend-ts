@@ -6,6 +6,7 @@ import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { HomePage } from "@/pages/home";
 
+import RoomProvider from "./contexts/RoomContext";
 import { AppLayout } from "./layouts/AppLayout";
 import { NotFoundPage } from "./pages/404";
 import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
@@ -31,7 +32,14 @@ export const Router = createBrowserRouter(
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing />} />
         </Route>
-        <Route path="/meeting/:id" element={<Meeting />} />
+        <Route
+          path="/meeting/:id"
+          element={
+            <RoomProvider>
+              <Meeting />
+            </RoomProvider>
+          }
+        />
         {/* Authentication Routes */}
         <Route element={<AuthRoutes />}>
           <Route path="auth/login" element={<LoginPage />} />
