@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 export function usePeerConnection() {
   const [myPeer, setMyPeer] = useState<Peer>();
   const [myStream, setMyStream] = useState<MediaStream>();
+  const [userId, setUserId] = useState<string>();
   useEffect(() => {
     // create a new peer connection to make calls and answer calls
 
@@ -13,7 +14,7 @@ export function usePeerConnection() {
     const userId = v4();
     const peer = new Peer(userId);
     // store the user id and peer connection
-    // setUserId(userId);
+    setUserId(userId);
     setMyPeer(peer);
 
     // get user media(camera and mic)
@@ -25,5 +26,5 @@ export function usePeerConnection() {
       console.error(err);
     }
   }, []);
-  return { myPeer, myStream };
+  return { myPeer, myStream, userId };
 }
