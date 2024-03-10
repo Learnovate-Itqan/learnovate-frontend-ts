@@ -8,7 +8,7 @@ export const MentorEditPage = () => {
       <Header />
       <div className="container flex gap-4">
         <div className="basis-1/2">
-          <div className="bg-gray-200 p-4 rounded-lg flex gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg flex gap-4 shadow-xl">
             <ImageForm />
             <BasicInfoForm />
           </div>
