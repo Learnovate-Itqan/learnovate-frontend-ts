@@ -24,3 +24,20 @@ export const mentorSchema = z.object({
     image: z.string().url(),
   }),
 });
+
+export const BasicInfoFormSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }).max(100, { message: "Name is too long" }),
+  title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
+  bio: z.string().min(1, { message: "Bio is required" }).max(1000, { message: "Bio is too long" }),
+  price: z.string().min(1, { message: "Price is required" }).max(3, { message: "Price is too high" }),
+});
+
+export const ProSectionSchema = z.object({
+  workExp: z
+    .string()
+    .min(1, { message: "Work experience is required" })
+    .max(1000, { message: "Work experience is too long" }),
+  education: z.string().min(1, { message: "Education is required" }).max(100, { message: "Education is too long" }),
+  experience: z.string().min(1, { message: "Experience is required" }).max(1000, { message: "Experience is too long" }),
+  location: z.string().min(1, { message: "Location is required" }).max(100, { message: "Location is too long" }),
+});
