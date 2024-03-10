@@ -11,6 +11,7 @@ export const BasicInfoFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }).max(100, { message: "Name is too long" }),
   title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
   bio: z.string().min(1, { message: "Bio is required" }).max(1000, { message: "Bio is too long" }),
+  price: z.string().min(1, { message: "Price is required" }).max(3, { message: "Price is too high" }),
 });
 
 export const BasicInfoForm = () => {
@@ -20,6 +21,7 @@ export const BasicInfoForm = () => {
       name: "Micheal John",
       title: "Front End Developer",
       bio: "A passionate and creative frontend developer with a keen eye for design and user experience.",
+      price: "20",
     },
   });
   const { isSubmitting } = form.formState;
@@ -57,7 +59,6 @@ export const BasicInfoForm = () => {
                       disabled={isSubmitting}
                       placeholder="e.g. Front End Developer"
                       type="text"
-                      className=""
                     />
                   </FormControl>
                   <FormMessage className="ps-3 text-xs" />
@@ -75,8 +76,20 @@ export const BasicInfoForm = () => {
                       {...field}
                       disabled={isSubmitting}
                       placeholder="e.g. A passionate and creative frontend developer with a keen eye for design and user experience."
-                      className=""
                     />
+                  </FormControl>
+                  <FormMessage className="ps-3 text-xs" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className="ps-3">Price</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={isSubmitting} placeholder="e.g. 20" type="number" />
                   </FormControl>
                   <FormMessage className="ps-3 text-xs" />
                 </FormItem>
