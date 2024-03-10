@@ -14,6 +14,7 @@ import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
 
 import { ChatPage } from "./pages/chat";
+import { MentorEditPage } from "./pages/mentor/edit";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
@@ -38,6 +39,7 @@ export const Router = createBrowserRouter(
         {/* Mentor Routes */}
         <Route path="mentor/:id" element={<MentorViewerPage />} />
         <Route path="mentor/me/:id" element={<MentorMePage />} />
+        <Route path="/mentor/me/:id/edit" element={<MentorEditPage />} />
         {/* Chat Routes */}
         <Route path="chat/learnovate-assistant" element={<ChatPage />} />
       </Route>
