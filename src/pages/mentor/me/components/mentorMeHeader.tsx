@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 
 import { Badge } from "@/components/ui/badge";
-import { Navbar } from "@/layouts/Navbar";
 import { useGetData } from "@/hooks/useApi";
+import { Navbar } from "@/layouts/Navbar";
 
 type TViewerHeader = {
   name: string;
@@ -12,10 +12,10 @@ type TViewerHeader = {
 };
 
 export const MeHeader = ({ name, jobTitle, description, image }: TViewerHeader) => {
-  const {id} = useParams();
-  const {data} = useGetData(`/mentors/${id}`)
+  const { id } = useParams();
+  const { data } = useGetData(`/mentors/${id}`);
   console.log(data);
-  
+
   return (
     <header className="w-full">
       <Navbar />
