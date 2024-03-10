@@ -55,4 +55,24 @@ input[type="number"] {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* width */
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .scrollbar::-webkit-scrollbar-track {
+    @apply bg-dark-navy;
+  }
+
+  /* Handle */
+  .scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-md bg-royal-blue/70;
+  }
+
+  /* Handle on hover */
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-royal-blue/90;
+  }
 }
