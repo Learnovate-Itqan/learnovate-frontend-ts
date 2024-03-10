@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-export function VideoStreamPlayer({ stream }: { stream: MediaStream }) {
+interface VideoStreamPlayerProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
+  stream: MediaStream;
+}
+export function VideoStreamPlayer({ stream, ...props }: VideoStreamPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = stream;
     }
   }, [stream]);
-  return <video ref={videoRef} autoPlay muted></video>;
+  return <video ref={videoRef} {...props}></video>;
 }
