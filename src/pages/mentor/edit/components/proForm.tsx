@@ -99,7 +99,13 @@ export const ProForm = () => {
               />
               <FormItem className="space-y-1">
                 <FormLabel className="ps-3">Languages</FormLabel>
-                <Input id=":rf:-form-item" disabled={isSubmitting} placeholder="e.g. English" type="text" onKeyDown={handleAddLanguage} />
+                <Input
+                  id=":rf:-form-item"
+                  disabled={isSubmitting}
+                  placeholder="e.g. English"
+                  type="text"
+                  onKeyDown={handleAddLanguage}
+                />
               </FormItem>
               {languages && languages.length > 0 && (
                 <div className="space-y-1">
