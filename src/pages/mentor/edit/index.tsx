@@ -2,6 +2,7 @@ import { BasicInfoForm } from "./components/basicInfoForm";
 import { CVFrom } from "./components/cvForm";
 import { Header } from "./components/header";
 import { ImageForm } from "./components/imageForm";
+import { ProForm } from "./components/proForm";
 
 export const MentorEditPage = () => {
   return (
@@ -15,7 +16,9 @@ export const MentorEditPage = () => {
           </div>
           <CVFrom />
         </div>
-        {/* <div className="basis-1/2">csasca</div> */}
+        <div className="basis-1/2">
+          <ProForm />
+        </div>
       </div>
     </main>
   );
