@@ -6,13 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-export const BasicInfoFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }).max(100, { message: "Name is too long" }),
-  title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
-  bio: z.string().min(1, { message: "Bio is required" }).max(1000, { message: "Bio is too long" }),
-  price: z.string().min(1, { message: "Price is required" }).max(3, { message: "Price is too high" }),
-});
+import { BasicInfoFormSchema } from "@/schemas/mentorSchema";
 
 export const BasicInfoForm = () => {
   const form = useForm<z.infer<typeof BasicInfoFormSchema>>({
@@ -54,12 +48,7 @@ export const BasicInfoForm = () => {
                 <FormItem className="space-y-1">
                   <FormLabel className="ps-3">Title</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isSubmitting}
-                      placeholder="e.g. Front End Developer"
-                      type="text"
-                    />
+                    <Input {...field} disabled={isSubmitting} placeholder="e.g. Front End Developer" type="text" />
                   </FormControl>
                   <FormMessage className="ps-3 text-xs" />
                 </FormItem>
