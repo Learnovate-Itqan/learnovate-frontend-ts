@@ -41,3 +41,26 @@ export const ProSectionSchema = z.object({
   experience: z.string().min(1, { message: "Experience is required" }).max(1000, { message: "Experience is too long" }),
   location: z.string().min(1, { message: "Location is required" }).max(100, { message: "Location is too long" }),
 });
+
+export const SocialMediaSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email is required" })
+    .max(100, { message: "Email is too long" })
+    .email({ message: "Invalid email" }),
+  linkedIn: z
+    .string()
+    .min(1, { message: "LinkedIn is required" })
+    .max(100, { message: "LinkedIn is too long" })
+    .url({ message: "Invalid URL" }),
+  gitHub: z
+    .string()
+    .min(1, { message: "GitHub is required" })
+    .max(100, { message: "GitHub is too long" })
+    .url({ message: "Invalid URL" }),
+  x: z
+    .string()
+    .min(1, { message: "x is required" })
+    .max(100, { message: "x is too long" })
+    .url({ message: "Invalid URL" }),
+});

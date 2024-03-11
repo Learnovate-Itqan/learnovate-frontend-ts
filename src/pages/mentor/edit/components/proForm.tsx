@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyboardEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdRemoveCircle } from "react-icons/io";
+import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ export const ProForm = () => {
   return (
     <div className="bg-gray-200 p-4 rounded-lg flex gap-4 shadow-lg">
       <div className="flex-grow">
+        <h2 className="font-semibold text-lg">Professional Data</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleFormSubmit)}>
             <div className="space-y-2 w-full">
@@ -110,8 +112,8 @@ export const ProForm = () => {
               {languages && languages.length > 0 && (
                 <div className="space-y-1">
                   <div className="flex flex-wrap gap-2 ps-3">
-                    {languages.map((lang, index) => (
-                      <div key={index} className="bg-gray-300 px-2 py-1 rounded-lg space-x-2 flex items-center">
+                    {languages.map((lang) => (
+                      <div key={uuid()} className="bg-gray-300 px-2 py-1 rounded-lg space-x-2 flex items-center">
                         <span>{lang}</span>
                         <span
                           className="cursor-pointer"
