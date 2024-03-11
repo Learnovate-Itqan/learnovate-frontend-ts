@@ -33,9 +33,9 @@ export const MessagesList = () => {
   });
 
   return (
-    <div className="text-white h-[calc(100svh-10rem)] overflow-x-hidden overflow-y-auto chatList-scrollbar pe-2">
+    <div className="text-white h-[calc(100svh-10rem)] overflow-x-hidden overflow-y-auto chatList-scrollbar pe-2 space-y-4">
       {Object.entries(categorizedMessages).map(([category, ChatTitle]) => (
-        <div key={category} className="space-y-2">
+        <div key={category} className="space-y-1">
           <h3 className="capitalize font-bold text-slate-300 text-xs ps-2">{category}</h3>
           <ul className="space-y-0.5">
             {ChatTitle.map((chat, idx) => (
