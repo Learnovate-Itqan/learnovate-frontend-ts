@@ -5,5 +5,5 @@ export const encrypt = (data: string, key: string) => {
 };
 
 export const decrypt = (data: string, key: string) => {
-  return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+  return CryptoJS.AES.decrypt(data.toString(), key).toString(CryptoJS.enc.Utf8);
 };
