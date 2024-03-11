@@ -14,13 +14,8 @@ import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
 
 import { ChatPage } from "./pages/chat";
-import { MentorEditPage } from "./pages/mentor/edit";
-import { AppLayout } from "./layouts/AppLayout";
-import { NotFoundPage } from "./pages/404";
-import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
-import { VerificationPage } from "./pages/Auth/Verification";
 import { Contact } from "./pages/contact";
-import { CoursesPage } from "./pages/courses";
+import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
 import { Track } from "./pages/track";
