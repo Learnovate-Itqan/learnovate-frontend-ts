@@ -1,13 +1,13 @@
 import { ADD_ALL_PEERS, ADD_PEER, ADD_PEER_NAME, ADD_PEER_STREAM, REMOVE_PEER } from "./peersActions";
 
 export type PeerState = {
-  [userId: string]: { stream?: MediaStream; userId: string; userName?: string };
+  [userId: string]: { stream?: MediaStream; userId: string; userName?: string; peerId?: string };
 };
 
 type PeerAction =
   | {
       type: typeof ADD_PEER;
-      payload: { userId: string; stream: MediaStream };
+      payload: { userId: string; userName: string; peerId: string };
     }
   | {
       type: typeof REMOVE_PEER;
@@ -29,10 +29,10 @@ type PeerAction =
 export function peersReducer(state: PeerState, action: PeerAction) {
   switch (action.type) {
     case ADD_PEER: {
-      const { userId, stream } = action.payload;
+      const { userId, userName, peerId } = action.payload;
       return {
         ...state,
-        [userId]: { userId, stream },
+        [userId]: { userId, userName, peerId },
       };
     }
     case REMOVE_PEER: {

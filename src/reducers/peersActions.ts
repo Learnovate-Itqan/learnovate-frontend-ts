@@ -6,12 +6,13 @@ export const ADD_ALL_PEERS = "ADD_ALL_PEERS" as const;
 export const ADD_PEER_STREAM = "ADD_PEER_STREAM" as const;
 export const ADD_PEER_NAME = "ADD_PEER_NAME" as const;
 
-export function addPeer(userId: string, stream: MediaStream) {
+export function addPeer(userId: string, userName: string, peerId: string) {
   return {
     type: ADD_PEER,
     payload: {
       userId,
-      stream,
+      userName,
+      peerId,
     },
   };
 }
