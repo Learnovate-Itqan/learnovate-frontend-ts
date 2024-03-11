@@ -43,11 +43,11 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
           <h1 className="text-dark-navy text-2xl sm:text-3xl font-semibold">Start With our Courses</h1>
           <Button className="hidden max-w-36 sm:block" text="Discover All" type="button" />
         </header>
-        <main className="grid grid-cols-auto-fit-22 xl:grid-cols-3 gap-5 my-10">
+        <main className="grid grid-cols-auto-fit-19 xl:grid-cols-3 gap-5 my-10">
           {courses.map((course) => (
             <CourseCard
               key={course.id}
-              className=""
+              className=" min-w-72"
               name={course.title}
               rate={course.rating}
               description={course.description}
@@ -56,7 +56,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
               track={course.trackName}
               duration={course.estimatedTime || 0}
               image={course.image}
-              price={course.prices}
+              price={course.price}
             />
           ))}
         </main>

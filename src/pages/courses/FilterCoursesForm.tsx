@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { Button } from "@/components/ui/Button_";
@@ -8,17 +8,18 @@ import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
 import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
+import { formatCurrency } from "@/utils/helpers";
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
-const PRICE_RANGE = [0, 500];
-const TimesRanges = ["1-2 days", "1-2 weeks", "3-6 weeks", "2-3 months", "3-6 months"];
-const CHAPTERS_RANGE = [1, 12];
+const TimesRanges = ["1-2 hours", "3-6 hours", "6-12 hours", "1-2 days", "3-6 days", "1-2 week"];
 
 type FilterCoursesFormProps = {
   onCloseModal?: () => void;
+  defaultChaptersRange: number[];
+  defaultPricesRange: number[];
 };
 
-export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
+export function FilterCoursesForm({ onCloseModal, defaultChaptersRange, defaultPricesRange }: FilterCoursesFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
@@ -27,7 +28,7 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
     searchParams
       .get("time")
       ?.split(",")
-      .map((item) => Number(item)) || PRICE_RANGE
+      .map((item) => Number(item)) || defaultPricesRange
   );
   const [timeRange, setTimeRange] = useState<string[]>(searchParams.get("time")?.split(",") || []);
   const [rating, setRating] = useState(searchParams.get("rating") ? Number(searchParams.get("rating")) : 0);
@@ -35,7 +36,7 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
     searchParams
       .get("chapters")
       ?.split(",")
-      .map((item) => Number(item)) || CHAPTERS_RANGE
+      .map((item) => Number(item)) || defaultChaptersRange
   );
 
   const handleLevelChange = (value: string) => {
@@ -67,10 +68,10 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
   const handleReset = () => {
     setSelectedLevels([]);
     setKeywords([]);
-    setPriceRange(PRICE_RANGE);
+    setPriceRange(defaultPricesRange);
     setTimeRange([]);
     setRating(0);
-    setChaptersRange(CHAPTERS_RANGE);
+    setChaptersRange(defaultChaptersRange);
   };
 
   const handleApplyFilters = () => {
@@ -80,7 +81,7 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
     if (keywords.length > 0) searchParams.set("keywords", keywords.join(","));
     else searchParams.delete("keywords");
 
-    if (priceRange[0] !== PRICE_RANGE[0] || priceRange[1] !== PRICE_RANGE[1])
+    if (priceRange[0] !== defaultPricesRange[0] || priceRange[1] !== defaultPricesRange[1])
       searchParams.set("price", priceRange.join(","));
     else searchParams.delete("price");
 
@@ -90,13 +91,18 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
     if (rating > 0) searchParams.set("rating", rating.toString());
     else searchParams.delete("rating");
 
-    if (chaptersRange[0] !== CHAPTERS_RANGE[0] || chaptersRange[1] !== CHAPTERS_RANGE[1])
+    if (chaptersRange[0] !== defaultChaptersRange[0] || chaptersRange[1] !== defaultChaptersRange[1])
       searchParams.set("chapters", chaptersRange.join(","));
     else searchParams.delete("chapters");
 
+    searchParams.set("page", "1");
     setSearchParams(searchParams, { replace: true });
     onCloseModal && onCloseModal();
   };
+  useEffect(() => {
+    setPriceRange(defaultPricesRange);
+    setChaptersRange(defaultChaptersRange);
+  }, [defaultPricesRange, defaultChaptersRange]);
   return (
     <div className="flex flex-col  gap-2 xl:min-w-[40rem] 3xl:min-w-[50rem] ">
       <FilterTemplate header="Level">
@@ -120,12 +126,12 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
       <FilterTemplate header="Price">
         <div className="max-w-[28rem]">
           <RangeSlider
-            min={PRICE_RANGE[0]}
-            max={PRICE_RANGE[1]}
+            min={defaultPricesRange[0]}
+            max={defaultPricesRange[1]}
             values={priceRange}
             onChange={handlePriceRangeChange}
-            leftLabel={`$${priceRange[0].toFixed(1)}`}
-            rightLabel={`$${priceRange[1].toFixed(1)}`}
+            leftLabel={formatCurrency(priceRange[0])}
+            rightLabel={formatCurrency(priceRange[1])}
           />
         </div>
       </FilterTemplate>
@@ -146,8 +152,8 @@ export function FilterCoursesForm({ onCloseModal }: FilterCoursesFormProps) {
       <FilterTemplate header="number of chapters">
         <div className="max-w-[28rem]">
           <RangeSlider
-            min={CHAPTERS_RANGE[0]}
-            max={CHAPTERS_RANGE[1]}
+            min={defaultChaptersRange[0]}
+            max={defaultChaptersRange[1]}
             values={chaptersRange}
             onChange={handleChaptersRangeChange}
             leftLabel={`${chaptersRange[0]}`}

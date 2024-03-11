@@ -1,10 +1,16 @@
+import { PageHeader } from "@/components/ui/PageHeader";
+
+import headerImage from "../../assets/books-coursesPage.jpg";
 import { AllCoursesSection } from "./AllCoursesSection";
-import { CoursesHeader } from "./CoursesHeader";
 
 export function CoursesPage() {
   return (
     <>
-      <CoursesHeader />
+      <PageHeader
+        title="Courses"
+        description="Learn about the technological courses provided to you by Learnovate."
+        image={headerImage}
+      />
       <AllCoursesSection />
     </>
   );

@@ -7,15 +7,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { closeNav } from "@/redux/slices/navSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
+import { userSchema } from "@/schemas/userSchema";
 
-import person from "../assets/home/Mentor.png";
 import Logo from "../assets/white logo.svg";
 
-export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.infer<typeof trackSchema>[] }) {
+type SmallNavbarProps = {
+  isAuth: boolean;
+  tracks: z.infer<typeof trackSchema>[];
+  user: z.infer<typeof userSchema>;
+  logout: () => void;
+};
+
+export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) {
   const isOpen = useSelector((state: RootState) => state.nav.isOpen);
   const dispatcher = useDispatch();
   const navRef = useOutsideClick(() => dispatcher(closeNav()));
@@ -41,7 +49,7 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
           {tracks && <TracksDropDownMenu tracks={tracks} handleCloseNav={() => dispatcher(closeNav())} />}
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/"} onClick={() => dispatcher(closeNav())}>
+          <Link className="hover:opacity-80 transition-opacity" to={"/mentors"} onClick={() => dispatcher(closeNav())}>
             Mentors
           </Link>
         </li>
@@ -51,8 +59,8 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/about"} onClick={() => dispatcher(closeNav())}>
-            About
+          <Link className="hover:opacity-80 transition-opacity" to={"/pricing"} onClick={() => dispatcher(closeNav())}>
+            Pricing
           </Link>
         </li>
         <li>
@@ -64,11 +72,12 @@ export function SmallNavbar({ isAuth, tracks }: { isAuth: boolean; tracks: z.inf
       {isAuth ? (
         <div className="flex justify-between items-center">
           <Link to="/profile" onClick={() => dispatcher(closeNav())}>
-            <img src={person} className="w-12 aspect-square rounded-full object-contain bg-dark-navy" />
+            <UserAvatar imageUrl={user?.image} name={user?.name} />
           </Link>
           <button
             title="log out"
             className=" border-2 border-dark-navy hover:bg-dark-navy/30 transition-colors rounded-md py-2 px-1"
+            onClick={logout}
           >
             <LuLogOut className="text-dark-navy" size={30} />
           </button>
@@ -127,10 +136,13 @@ function TracksDropDownMenu({ tracks, handleCloseNav }: DropDownMenuProps) {
         <div className="flex flex-col gap-2 items-end font-[500] p-4 ">
           {tracks.map((track) => (
             <Link
-              to={`/tracks/${track?.name}`}
+              to={`/track/${track?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
               className={`flex items-center gap-1 hover:text-dark-navy/70 `}
               key={track.id}
-              onClick={handleCloseNav}
+              onClick={() => {
+                setIsOpened(false);
+                handleCloseNav();
+              }}
             >
               <span>{track.name}</span>
             </Link>

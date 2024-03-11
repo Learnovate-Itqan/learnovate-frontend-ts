@@ -20,8 +20,11 @@ export const authSlice = createSlice({
     setUser: (state, action: { payload: z.infer<typeof userSchema> }) => {
       return { ...state, ...action.payload };
     },
+    resetUser: (state) => {
+      return { ...state, ...initialState };
+    },
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, resetUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;

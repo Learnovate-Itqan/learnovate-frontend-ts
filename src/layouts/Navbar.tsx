@@ -1,7 +1,12 @@
-import React from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoPersonCircleSharp } from "react-icons/io5";
+import { LuLogOut } from "react-icons/lu";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -9,22 +14,66 @@ import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button_";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
-import { useGetData } from "@/hooks/useApi";
+import { UserAvatar } from "@/components/ui/UserAvatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useGetData, usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { resetUser } from "@/redux/slices/authSlice";
+import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
+import { userSchema } from "@/schemas/userSchema";
 
-import person from "../assets/home/Mentor.png";
 import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
-  const { data } = useGetData("/nav");
-  const { tracks, user } = data?.data || {};
-  const { loggedIn: isAuth } = user || {};
+  const dispatcher = useDispatch();
+  const { authStatus, ...userSlice } = useSelector((state: RootState) => state.auth);
+  const { data: response } = useGetData("/nav");
+  const { tracks, user } = response?.data || {};
+  const { loggedIn, data } = user || {};
+  const isAuth = loggedIn || authStatus;
+  const userData =
+    data && !(Object.keys(data).length === 0)
+      ? (data as z.infer<typeof userSchema>)
+      : (userSlice as z.infer<typeof userSchema>) || null;
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const logoutRequest = usePostData("/auth/logout");
+
+  const logout = async () => {
+    const toastId = toast.loading("Logging out...");
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    console.log(token);
+    const response = await logoutRequest.mutateAsync({ token });
+    console.log(response);
+    if (response?.status === "success") {
+      queryClient.clear();
+      localStorage.removeItem("token");
+      dispatcher(resetUser());
+      queryClient.invalidateQueries({
+        queryKey: ["/nav"],
+      });
+      toast.success("Logged out successfully", { id: toastId });
+      navigate("/");
+    } else {
+      toast.error("Something went wrong, please try again later", { id: toastId });
+    }
+  };
+
+  useEffect(() => {
+    if (tracks) {
+      queryClient.setQueryData(["tracks"], tracks);
+    }
+  }, [tracks, queryClient]);
+
   return (
     <nav className="bg-dark-navy min-w-full h-[4.6rem] container relative py-5 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
       <SmallNavbar tracks={tracks} isAuth={isAuth} />
+    <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
+      <SmallNavbar tracks={tracks} isAuth={isAuth} user={userData} logout={logout} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
           <img src={Logo} />
@@ -34,7 +83,7 @@ export function Navbar() {
         <ul className="flex space-x-5 text-white">
           <li className="relative">{tracks && <TracksDropDownMenu tracks={tracks} />}</li>
           <li>
-            <Link className="hover:opacity-80 transition-opacity" to={"/"}>
+            <Link className="hover:opacity-80 transition-opacity" to={"/mentors"}>
               Mentors
             </Link>
           </li>
@@ -44,8 +93,8 @@ export function Navbar() {
             </Link>
           </li>
           <li>
-            <Link className="hover:opacity-80 transition-opacity" to={"/about"}>
-              About
+            <Link className="hover:opacity-80 transition-opacity" to={"/pricing"}>
+              Pricing
             </Link>
           </li>
           <li>
@@ -55,7 +104,7 @@ export function Navbar() {
           </li>
         </ul>
       </div>
-      {isAuth === undefined ? null : !isAuth ? (
+      {response === undefined ? null : !isAuth ? (
         <div className="space-x-5 min-w-fit hidden lg:flex">
           <button
             className="text-white py-2 px-5 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"
@@ -67,13 +116,35 @@ export function Navbar() {
         </div>
       ) : (
         <div className="text-white justify-end grow items-center gap-5 hidden lg:flex">
-          <SearchBar className=" text-white min-w-56 max-w-80 bg-white/10 *:placeholder:text-white/80 has-[:focus]:bg-white/20" />
+          <SearchBar
+            className=" text-white min-w-56 max-w-80 bg-white/10 *:placeholder:text-white/80 has-[:focus]:bg-white/20"
+            onChange={() => null}
+            value=""
+          />
           <button>
             <GoBell size={22} />
           </button>
-          <Link to="/profile">
-            <img src={person} className="w-10 min-w-8 aspect-square rounded-full" />
-          </Link>
+          <Popover>
+            <PopoverTrigger>
+              <UserAvatar imageUrl={userData?.image} name={userData?.name || "User"} />
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col gap-3 w-48 mt-2 mr-10 text-dark-navy divide-y-[1px]">
+              <Link
+                to="/profile"
+                className="transition-colors flex items-center gap-1 font-semibold hover:text-zinc-600 "
+              >
+                <IoPersonCircleSharp size={25} />
+                Profile
+              </Link>
+              <button
+                className="text-left transition-colors flex pt-3 items-center gap-1 font-semibold hover:text-zinc-600 "
+                onClick={logout}
+              >
+                <LuLogOut className="text-dark-navy" size={25} />
+                Logout
+              </button>
+            </PopoverContent>
+          </Popover>
         </div>
       )}
       <div className="flex justify-center items-center gap-1 lg:hidden">
@@ -137,13 +208,22 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
           <main className="px-4 pb-2 grow flex justify-between flex-col">
             <p className=" font-semibold text-base mb-4">Related Topics</p>
             <div className="flex flex-col grow">
-              {selectedTrack?.relatedTopics.map((topic, index) => (
-                <Link to={`/tracks/${selectedTrack.name}`} className="hover:text-dark-navy/70" key={index}>
+              {selectedTrack?.relatedTopics?.map((topic, index) => (
+                <Link
+                  to={`/track/${selectedTrack?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+                  className="hover:text-dark-navy/70"
+                  key={index}
+                  onClick={handleDropDownMenuClick}
+                >
                   {topic}
                 </Link>
               ))}
             </div>
-            <Link to={`/tracks/${selectedTrack?.name}`} className="text-royal-blue text-base mt-4 block">
+            <Link
+              to={`/track/${selectedTrack?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+              className="text-royal-blue text-base mt-4 block"
+              onClick={handleDropDownMenuClick}
+            >
               Explore the track
             </Link>
           </main>

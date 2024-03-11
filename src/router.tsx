@@ -15,6 +15,15 @@ import { MentorViewerPage } from "@/pages/mentor/viewer";
 
 import { ChatPage } from "./pages/chat";
 import { MentorEditPage } from "./pages/mentor/edit";
+import { AppLayout } from "./layouts/AppLayout";
+import { NotFoundPage } from "./pages/404";
+import { EmailVerificationPage } from "./pages/Auth/EmailVerification";
+import { VerificationPage } from "./pages/Auth/Verification";
+import { Contact } from "./pages/contact";
+import { CoursesPage } from "./pages/courses";
+import MentorPage from "./pages/mentors";
+import { Pricing } from "./pages/pricing";
+import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
 
 export const Router = createBrowserRouter(
@@ -25,6 +34,10 @@ export const Router = createBrowserRouter(
           <Route index element={<HomePage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/about" element={<HomePage />} />
+          <Route path="/mentors" element={<MentorPage />} />
+          <Route path="/track/:id" element={<Track />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Route>
         {/* Authentication Routes */}
         <Route element={<AuthRoutes />}>
