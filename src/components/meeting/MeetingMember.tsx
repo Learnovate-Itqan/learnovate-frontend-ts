@@ -10,9 +10,25 @@ export function MeetingMember({ memberId }: { memberId: string }) {
   const userId = useSelector((state: RootState) => state.auth?.id);
   const { myStream, peers } = useRoom();
   if (!memberId) return null;
-  if (memberId === userId) return <VideoStreamPlayer stream={myStream} className="" muted autoPlay playsInline />;
+  if (memberId === userId)
+    return (
+      <div className=" relative gap-3 grow overflow-hidden bg-[#222C54] text-white rounded-md w-full">
+        <VideoStreamPlayer stream={myStream} className="object-cover w-full" muted autoPlay playsInline />
+        <span className="text-zinc-300 absolute bottom-2 left-2">{memberId}</span>
+      </div>
+    );
   if (peers[memberId]?.stream) {
-    return <VideoStreamPlayer stream={peers[memberId].stream || new MediaStream()} className="" autoPlay playsInline />;
+    return (
+      <div className=" relative  gap-3 grow overflow-hidden bg-[#222C54] text-white rounded-md w-full">
+        <VideoStreamPlayer
+          className=" w-full  object-cover"
+          stream={peers[memberId].stream || new MediaStream()}
+          autoPlay
+          playsInline
+        />
+        <span className=" text-zinc-300 absolute bottom-2 left-2">{memberId}</span>
+      </div>
+    );
   }
   return (
     <div className=" p-10 flex flex-col justify-center items-center gap-3 grow overflow-hidden bg-[#222C54] text-white rounded-md w-full">
