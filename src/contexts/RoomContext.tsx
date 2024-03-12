@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 
 import { usePeerConnection } from "@/hooks/usePeerConnection";
-import { addAllPeers, addPeerName, addPeerStream, removePeer } from "@/reducers/peersActions";
+import { addAllPeers, addPeer, addPeerStream, removePeer } from "@/reducers/peersActions";
 import { PeerState, peersReducer } from "@/reducers/peersReducer";
 import { addAllScreenPeers, addScreenPeer, addScreenPeerName, removeScreenPeer } from "@/reducers/screenPeerActions";
 import { ScreenPeerState, screenPeersReducer } from "@/reducers/screenPeerReducer";
@@ -27,7 +27,8 @@ const RoomContext = createContext<RoomContextValues>({
 });
 export default function RoomProvider({ children }: { children: React.ReactNode }) {
   const userName = useSelector((state: RootState) => state.auth.name);
-  const { myPeer, myStream, userId } = usePeerConnection();
+  const myId = useSelector((state: RootState) => state.auth.id);
+  const { myPeer, myStream } = usePeerConnection();
   const [screenStream, setScreenStream] = useState<MediaStream>();
   const [shareScreenPeer, setShareScreenPeer] = useState<Peer>();
   const [peers, peersDispatcher] = useReducer(peersReducer, {});
@@ -35,22 +36,22 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
 
   //   function to stop the screen sharing
   function closeShareScreen(sharingPeer: Peer) {
-    if (!userId) return;
+    if (!myId) return;
     if (sharingPeer) {
       // stop the screen sharing in case closing it from the browser prompt
-      shareScreenPeers[userId]?.stream?.getTracks().forEach((track) => track.stop());
+      shareScreenPeers[myId]?.stream?.getTracks().forEach((track) => track.stop());
 
       // remove and destroy the connection
-      dispatchShareScreenPeers(removeScreenPeer(userId));
+      dispatchShareScreenPeers(removeScreenPeer(myId));
       sharingPeer.destroy();
       setShareScreenPeer(undefined);
       setScreenStream(undefined);
-      socket.emit("stop-share-screen", { userId });
+      socket.emit("stop-share-screen", { myId });
     }
   }
 
   function shareScreen() {
-    if (!userId) return;
+    if (!myId) return;
     // check if the user is streaming his screen, if so close the stream
     if (shareScreenPeer) {
       closeShareScreen(shareScreenPeer);
@@ -64,12 +65,12 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     navigator.mediaDevices.getDisplayMedia({}).then((stream) => {
       // store the stream
       setScreenStream(stream);
-      dispatchShareScreenPeers(addScreenPeer(userId, shareScreenId, stream));
+      dispatchShareScreenPeers(addScreenPeer(myId, shareScreenId, stream));
       //   call each peer in the room to share the stream
       Object.keys(peers).forEach((peerId) => {
         if (peerId === myPeer?.id) return;
         sharingScreenPeer?.call(peerId, stream, {
-          metadata: { callerName: userName, isSharingScreen: true, userId },
+          metadata: { callerName: userName, isSharingScreen: true, myId },
         });
       });
 
@@ -77,7 +78,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       stream.getVideoTracks()[0].onended = () => {
         closeShareScreen(sharingScreenPeer);
       };
-      socket.emit("share-screen", { shareScreenId, userId, userName });
+      socket.emit("share-screen", { shareScreenId, myId, userName });
     });
   }
 
@@ -108,48 +109,53 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     if (!myPeer || !myStream) return;
 
     // add listener for new user joined
-    socket.on("new-user-joined", ({ userId, userName: name }: { userId: string; userName: string }) => {
-      console.log("new user joined", userId);
-      const call = myPeer.call(userId, myStream, {
-        metadata: { callerName: userName, isSharingScreen: false },
-      });
-      console.log("calling new user", call);
-      // add listener for streams from the new user
-      call.on("stream", (userVideoStream) => {
-        peersDispatcher(addPeerStream(userId, userVideoStream));
-      });
-      // store the new user's name
-      peersDispatcher(addPeerName(userId, name));
+    socket.on(
+      "new-user-joined",
+      ({ userId, userName: name, peerId }: { userId: string; userName: string; peerId: string }) => {
+        console.log("new user joined", peerId);
+        const call = myPeer.call(peerId, myStream, {
+          metadata: { callerName: userName, isSharingScreen: false, userId: myId },
+        });
+        console.log("calling new user", call);
+        // add listener for streams from the new user
+        call.on("stream", (userVideoStream) => {
+          peersDispatcher(addPeerStream(userId, userVideoStream));
+        });
+        // store the new user's name
+        peersDispatcher(addPeer(userId, name, peerId));
 
-      if (screenStream === undefined) return;
-      shareScreenPeer?.call(userId, screenStream, {
-        metadata: { callerName: userName, isSharingScreen: true },
-      });
-    });
+        if (screenStream === undefined) return;
+        shareScreenPeer?.call(userId, screenStream, {
+          metadata: { callerName: userName, isSharingScreen: true, userId: myId },
+        });
+      }
+    );
 
     // add listener for call
     myPeer.on("call", (call) => {
-      const { isSharingScreen, callerName, userId: streamerId } = call.metadata;
+      const { isSharingScreen, callerName, userId: callerId } = call.metadata;
+      const callerPeerId = call.peer;
       //   check if the call is screen sharing
       if (isSharingScreen) {
         call.answer();
         call.on("stream", (userVideoStream) => {
-          dispatchShareScreenPeers(addScreenPeer(streamerId, call.peer, userVideoStream));
-          dispatchShareScreenPeers(addScreenPeerName(streamerId, callerName));
+          dispatchShareScreenPeers(addScreenPeer(callerId, callerPeerId, userVideoStream));
+          dispatchShareScreenPeers(addScreenPeerName(callerId, callerName));
         });
         call.on("close", () => {
-          dispatchShareScreenPeers(removeScreenPeer(streamerId));
+          dispatchShareScreenPeers(removeScreenPeer(callerId));
         });
         return;
       }
       // answer the call and send my stream
       console.log("answering call", call);
       //   store caller's name
-      peersDispatcher(addPeerName(call.peer, callerName));
+      peersDispatcher(addPeer(callerId, callerName, callerPeerId));
       call.answer(myStream);
       // add listener for streams from the caller peer
       call.on("stream", (userVideoStream) => {
-        peersDispatcher(addPeerStream(call.peer, userVideoStream));
+        console.log("stream from caller", userVideoStream);
+        peersDispatcher(addPeerStream(callerId, userVideoStream));
       });
     });
 
@@ -158,7 +164,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       socket.off("new-user-joined");
       myPeer.off("call");
     };
-  }, [myPeer, myStream, userName, screenStream, shareScreenPeer]);
+  }, [myPeer, myStream, userName, screenStream, shareScreenPeer, myId]);
 
   return (
     <RoomContext.Provider
