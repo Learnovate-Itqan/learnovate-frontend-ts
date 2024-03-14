@@ -17,7 +17,11 @@ type RoomContextValues = {
   screenStream: MediaStream | undefined;
   peers: PeerState;
   shareScreenPeers: ScreenPeerState;
+  isCameraEnabled: boolean;
+  isMicEnabled: boolean;
   shareScreen: () => void;
+  toggleCamera?: () => void;
+  toggleMic?: () => void;
 };
 const RoomContext = createContext<RoomContextValues>({
   myPeer: new Peer(),
@@ -25,12 +29,15 @@ const RoomContext = createContext<RoomContextValues>({
   peers: {},
   screenStream: new MediaStream(),
   shareScreenPeers: {},
+  isCameraEnabled: true,
+  isMicEnabled: true,
   shareScreen: () => {},
+  toggleCamera: () => {},
+  toggleMic: () => {},
 });
 export default function RoomProvider({ children }: { children: React.ReactNode }) {
-  const userName = useSelector((state: RootState) => state.auth.name);
-  const myId = useSelector((state: RootState) => state.auth.id);
-  const { myPeer, myStream } = usePeerConnection();
+  const { id: myId, name: userName } = useSelector((state: RootState) => state.auth);
+  const { myPeer, myStream, toggleCamera, toggleMic, isCameraEnabled, isMicEnabled } = usePeerConnection();
   const [screenStream, setScreenStream] = useState<MediaStream>();
   const [shareScreenPeer, setShareScreenPeer] = useState<Peer>();
   const [peers, peersDispatcher] = useReducer(peersReducer, {});
@@ -181,6 +188,10 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
         peers,
         shareScreen,
         shareScreenPeers,
+        toggleCamera,
+        toggleMic,
+        isCameraEnabled,
+        isMicEnabled,
       }}
     >
       {children}
