@@ -14,6 +14,7 @@ import { socket } from "@/socket";
 type RoomContextValues = {
   myPeer: Peer;
   myStream: MediaStream;
+  screenStream: MediaStream | undefined;
   peers: PeerState;
   shareScreenPeers: ScreenPeerState;
   shareScreen: () => void;
@@ -22,6 +23,7 @@ const RoomContext = createContext<RoomContextValues>({
   myPeer: new Peer(),
   myStream: new MediaStream(),
   peers: {},
+  screenStream: new MediaStream(),
   shareScreenPeers: {},
   shareScreen: () => {},
 });
@@ -67,11 +69,14 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       setScreenStream(stream);
       dispatchShareScreenPeers(addScreenPeer(myId, shareScreenId, stream));
       //   call each peer in the room to share the stream
-      Object.keys(peers).forEach((peerId) => {
-        if (peerId === myPeer?.id) return;
-        sharingScreenPeer?.call(peerId, stream, {
-          metadata: { callerName: userName, isSharingScreen: true, myId },
-        });
+      Object.keys(peers).forEach((userId) => {
+        if (userId === myId) return;
+        const peerId = peers[userId].peerId;
+        if (peerId) {
+          sharingScreenPeer?.call(peerId, stream, {
+            metadata: { callerName: userName, isSharingScreen: true, userId: myId },
+          });
+        }
       });
 
       //   add eventlistener to be triggered in the end of the stream
@@ -139,6 +144,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       if (isSharingScreen) {
         call.answer();
         call.on("stream", (userVideoStream) => {
+          console.log("stream from caller", callerId);
           dispatchShareScreenPeers(addScreenPeer(callerId, callerPeerId, userVideoStream));
           dispatchShareScreenPeers(addScreenPeerName(callerId, callerName));
         });
@@ -171,6 +177,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       value={{
         myPeer: myPeer || new Peer(),
         myStream: myStream || new MediaStream(),
+        screenStream,
         peers,
         shareScreen,
         shareScreenPeers,

@@ -13,7 +13,7 @@ import { MeetingSidebar } from "./MeetingSidebar";
 
 export function Meeting() {
   const { id: roomId } = useParams();
-  const { myStream, myPeer, peers } = useRoom();
+  const { myStream, myPeer } = useRoom();
   const userName = useSelector((state: RootState) => state.auth?.name);
   const userId = useSelector((state: RootState) => state.auth?.id);
 
@@ -26,7 +26,6 @@ export function Meeting() {
     };
   }, [myPeer, myStream, roomId, userName, userId]);
 
-  console.log(peers);
   return (
     <section className="flex">
       <main className="relative w-full h-dvh overflow-hidden">

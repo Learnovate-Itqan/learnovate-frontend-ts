@@ -7,10 +7,12 @@ import { IoMdSettings } from "react-icons/io";
 import { RiMicOffFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useRoom } from "@/contexts/RoomContext";
 import { toggleAside } from "@/redux/slices/meetingSlice";
 import { RootState } from "@/redux/store";
 
 export function MeetingControllers() {
+  const { shareScreen, screenStream } = useRoom();
   const isAsideOpen = useSelector((state: RootState) => state.meeting.isAsideOpen);
   const dispatcher = useDispatch();
   return (
@@ -20,7 +22,10 @@ export function MeetingControllers() {
       </button>
       <div className="flex-1"></div>
 
-      <button className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400">
+      <button
+        className={`p-3 flex justify-center transition-colors rounded-full text-zinc-300 hover:text-zinc-400 ${screenStream ? " bg-red-700" : "bg-dark-navy"}`}
+        onClick={shareScreen}
+      >
         <BsArrowUpSquareFill className="w-6 h-6  " />
       </button>
       <button className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400">
