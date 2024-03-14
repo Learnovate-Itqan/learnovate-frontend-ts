@@ -11,40 +11,39 @@ import { useRoom } from "@/contexts/RoomContext";
 import { toggleAside } from "@/redux/slices/meetingSlice";
 import { RootState } from "@/redux/store";
 
+const BUTTON_CLASS = "p-3 flex justify-center transition-colors rounded-full text-zinc-300 hover:text-zinc-400";
+
 export function MeetingControllers() {
-  const { shareScreen, screenStream } = useRoom();
+  const { shareScreen, screenStream, toggleCamera, toggleMic, myStream } = useRoom();
   const isAsideOpen = useSelector((state: RootState) => state.meeting.isAsideOpen);
   const dispatcher = useDispatch();
+  const isMicEnabled = myStream?.getTracks()?.find((track) => track.kind === "audio")?.enabled;
+  const isCameraEnabled = myStream?.getTracks()?.find((track) => track.kind === "video")?.enabled;
+
   return (
     <div className=" absolute bottom-10 flex z-20 gap-4 justify-center w-full items-center px-20">
-      <button className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400">
+      <button className={`${BUTTON_CLASS} bg-dark-navy`}>
         <HiSpeakerWave className="w-6 h-6  " />
       </button>
       <div className="flex-1"></div>
 
-      <button
-        className={`p-3 flex justify-center transition-colors rounded-full text-zinc-300 hover:text-zinc-400 ${screenStream ? " bg-red-700" : "bg-dark-navy"}`}
-        onClick={shareScreen}
-      >
+      <button className={`${BUTTON_CLASS} ${screenStream ? " bg-red-700" : "bg-dark-navy"}`} onClick={shareScreen}>
         <BsArrowUpSquareFill className="w-6 h-6  " />
       </button>
-      <button className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400">
+      <button className={`${BUTTON_CLASS} ${!isMicEnabled ? "bg-red-700" : "bg-dark-navy"}`} onClick={toggleMic}>
         <RiMicOffFill className="w-6 h-6  " />
       </button>
       <button className="p-3 flex justify-center bg-red-500 transition-colors rounded-full hover:bg-red-600">
         <ImPhoneHangUp className="w-10 h-10 text-white" />
       </button>
-      <button className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400">
+      <button className={`${BUTTON_CLASS} ${!isCameraEnabled ? "bg-red-700" : "bg-dark-navy"}`} onClick={toggleCamera}>
         <BiSolidVideoOff className="w-6 h-6  " />
       </button>
-      <button className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400">
+      <button className={`${BUTTON_CLASS} bg-dark-navy`}>
         <IoMdSettings className="w-6 h-6  " />
       </button>
       <div className="flex-1"></div>
-      <button
-        className="p-3 flex justify-center bg-dark-navy transition-colors rounded-full text-zinc-300 hover:text-zinc-400"
-        onClick={() => dispatcher(toggleAside())}
-      >
+      <button className={`${BUTTON_CLASS} bg-dark-navy`} onClick={() => dispatcher(toggleAside())}>
         {!isAsideOpen ? <FaExpandArrowsAlt className="w-6 h-6  " /> : <FaCompressArrowsAlt className="w-6 h-6  " />}
       </button>
     </div>
