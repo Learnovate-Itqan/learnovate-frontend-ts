@@ -3,16 +3,11 @@ import { VideoStreamPlayer } from "./VideoStreamPlayer";
 
 export function MeetingMember({ memberId, stream }: { memberId: string; stream?: MediaStream }) {
   if (!memberId) return null;
-  if (stream) {
+
+  if (stream?.getTracks().find((track) => track.kind === "video")?.enabled) {
     return (
-      <div className=" relative max-h-fit  gap-3  overflow-hidden bg-[#222C54] text-white rounded-md w-full">
-        <VideoStreamPlayer
-          className=" w-full  object-cover"
-          stream={stream || new MediaStream()}
-          autoPlay
-          muted
-          playsInline
-        />
+      <div className=" relative max-h-fit gap-3 overflow-hidden bg-[#222C54] text-white rounded-md w-full">
+        <VideoStreamPlayer className=" w-full  object-cover" stream={stream} autoPlay muted playsInline />
         <span className=" absolute bottom-2 left-2">{memberId}</span>
       </div>
     );
