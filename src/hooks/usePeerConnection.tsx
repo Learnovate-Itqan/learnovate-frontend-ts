@@ -6,6 +6,8 @@ export function usePeerConnection() {
   const [myPeer, setMyPeer] = useState<Peer>();
   const [myStream, setMyStream] = useState<MediaStream>();
   const [userId, setUserId] = useState<string>();
+  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
+  const [isMicEnabled, setIsMicEnabled] = useState(true);
   useEffect(() => {
     // create a new peer connection to make calls and answer calls
 
@@ -16,7 +18,9 @@ export function usePeerConnection() {
     // store the user id and peer connection
     setUserId(userId);
     setMyPeer(peer);
+  }, []);
 
+  useEffect(() => {
     // get user media(camera and mic)
     try {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
@@ -26,5 +30,23 @@ export function usePeerConnection() {
       console.error(err);
     }
   }, []);
-  return { myPeer, myStream, userId };
+
+  function toggleCamera() {
+    if (!myStream) return;
+    const videoTrack = myStream.getVideoTracks()[0];
+    if (videoTrack) {
+      videoTrack.enabled = !isCameraEnabled;
+      setIsCameraEnabled(!isCameraEnabled);
+    }
+  }
+
+  function toggleMic() {
+    if (!myStream) return;
+    const audioTrack = myStream.getTracks().find((track) => track.kind === "audio");
+    if (audioTrack) {
+      audioTrack.enabled = !isMicEnabled;
+      setIsMicEnabled(!isMicEnabled);
+    }
+  }
+  return { myPeer, myStream, userId, toggleCamera, toggleMic, isCameraEnabled, isMicEnabled };
 }
