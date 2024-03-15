@@ -1,15 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { RiMicOffFill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
 
+import { changeMainStream } from "@/redux/slices/meetingSlice";
 import { socket } from "@/socket";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { VideoStreamPlayer } from "./VideoStreamPlayer";
 
-export function MeetingMember({ memberId, stream }: { memberId: string; stream?: MediaStream }) {
+export function MeetingMember({
+  memberId,
+  stream,
+  isSharingScreen = false,
+}: {
+  memberId: string;
+  stream?: MediaStream;
+  isSharingScreen?: boolean;
+}) {
   const [isMicEnable, setIsMicEnable] = useState(false);
   const [isCameraEnable, setIsCameraEnable] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const dispatcher = useDispatch();
+  const isMe = memberId === "you";
+
+  function handleMemberClick() {
+    if (isMe) return;
+    dispatcher(changeMainStream({ userId: memberId, isSharingScreen }));
+  }
 
   useEffect(() => {
     socket.on("camera-status-changed", ({ userId, isCameraEnabled }) => {
@@ -31,7 +48,10 @@ export function MeetingMember({ memberId, stream }: { memberId: string; stream?:
   if (!memberId) return null;
 
   return (
-    <div className=" relative flex  grow gap-3 overflow-hidden bg-[#222C54] text-white rounded-md w-full">
+    <div
+      className=" relative flex  grow gap-3 overflow-hidden bg-[#222C54] text-white rounded-md w-full cursor-pointer"
+      onClick={handleMemberClick}
+    >
       {isCameraEnable && stream?.getTracks().find((track) => track.kind === "video")?.enabled ? (
         <VideoStreamPlayer
           className=" w-full aspect-video  object-contain "
