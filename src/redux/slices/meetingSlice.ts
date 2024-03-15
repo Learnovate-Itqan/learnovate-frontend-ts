@@ -1,13 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export type MainStreamType = {
+  userId: string;
+  isSharingScreen: boolean;
+};
+
 type stateType = {
   isAsideOpen: boolean;
   asideVariant: "MEMBERS" | "CHAT";
+  mainStream: MainStreamType | null;
 };
 
 const initialState: stateType = {
   isAsideOpen: false,
   asideVariant: "MEMBERS",
+  mainStream: null,
 };
 
 const meetingSlice = createSlice({
@@ -23,8 +30,11 @@ const meetingSlice = createSlice({
     changeAsideVariant: (state, action) => {
       state.asideVariant = action.payload;
     },
+    changeMainStream: (state, action) => {
+      state.mainStream = action.payload;
+    },
   },
 });
 
-export const { toggleAside, closeAside, changeAsideVariant } = meetingSlice.actions;
+export const { toggleAside, closeAside, changeAsideVariant, changeMainStream } = meetingSlice.actions;
 export const meetingReducer = meetingSlice.reducer;
