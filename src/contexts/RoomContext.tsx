@@ -1,6 +1,7 @@
 import Peer from "peerjs";
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { v4 } from "uuid";
 
 import { usePeerConnection } from "@/hooks/usePeerConnection";
@@ -22,6 +23,7 @@ type RoomContextValues = {
   shareScreen: () => void;
   toggleCamera?: () => void;
   toggleMic?: () => void;
+  endCall?: () => void;
 };
 const RoomContext = createContext<RoomContextValues>({
   myPeer: new Peer(),
@@ -34,6 +36,7 @@ const RoomContext = createContext<RoomContextValues>({
   shareScreen: () => {},
   toggleCamera: () => {},
   toggleMic: () => {},
+  endCall: () => {},
 });
 export default function RoomProvider({ children }: { children: React.ReactNode }) {
   const { id: myId, name: userName } = useSelector((state: RootState) => state.auth);
@@ -42,6 +45,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
   const [shareScreenPeer, setShareScreenPeer] = useState<Peer>();
   const [peers, peersDispatcher] = useReducer(peersReducer, {});
   const [shareScreenPeers, dispatchShareScreenPeers] = useReducer(screenPeersReducer, {});
+  const navigate = useNavigate();
 
   //   function to stop the screen sharing
   function closeShareScreen(sharingPeer: Peer) {
@@ -94,6 +98,13 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     });
   }
 
+  function endCall() {
+    if (!myPeer || !myStream) return;
+    myPeer.destroy();
+    myStream.getTracks().forEach((track) => track.stop());
+    socket.close();
+    navigate("/", { replace: true });
+  }
   useEffect(() => {
     // add listener to get-users after joining room
     function getUsers({ users, screensSharing }: { users: PeerState; screensSharing: ScreenPeerState }) {
@@ -129,6 +140,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
           metadata: { callerName: userName, isSharingScreen: false, userId: myId },
         });
         console.log("calling new user", call);
+
         // add listener for streams from the new user
         call.on("stream", (userVideoStream) => {
           peersDispatcher(addPeerStream(userId, userVideoStream));
@@ -192,6 +204,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
         toggleMic,
         isCameraEnabled,
         isMicEnabled,
+        endCall,
       }}
     >
       {children}
