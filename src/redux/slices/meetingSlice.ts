@@ -33,8 +33,11 @@ const meetingSlice = createSlice({
     changeMainStream: (state, action) => {
       state.mainStream = action.payload;
     },
+    removeMainStream: (state) => {
+      state.mainStream = null;
+    },
   },
 });
 
-export const { toggleAside, closeAside, changeAsideVariant, changeMainStream } = meetingSlice.actions;
+export const { toggleAside, closeAside, changeAsideVariant, changeMainStream, removeMainStream } = meetingSlice.actions;
 export const meetingReducer = meetingSlice.reducer;
