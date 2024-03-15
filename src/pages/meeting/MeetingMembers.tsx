@@ -18,6 +18,7 @@ export function MeetingMembers() {
         return (
           <MeetingMember
             key={userId}
+            isSharingScreen={true}
             memberId={shareScreenPeers[userId].userId === myId ? "you" : shareScreenPeers[userId].userId}
             stream={shareScreenPeers[userId].stream}
           />
