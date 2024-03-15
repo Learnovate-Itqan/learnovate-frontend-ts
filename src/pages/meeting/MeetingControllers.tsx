@@ -14,11 +14,9 @@ import { RootState } from "@/redux/store";
 const BUTTON_CLASS = "p-3 flex justify-center transition-colors rounded-full text-zinc-300 hover:text-zinc-400";
 
 export function MeetingControllers() {
-  const { shareScreen, screenStream, toggleCamera, toggleMic, myStream } = useRoom();
+  const { shareScreen, screenStream, toggleCamera, toggleMic, endCall, isCameraEnabled, isMicEnabled } = useRoom();
   const isAsideOpen = useSelector((state: RootState) => state.meeting.isAsideOpen);
   const dispatcher = useDispatch();
-  const isMicEnabled = myStream?.getTracks()?.find((track) => track.kind === "audio")?.enabled;
-  const isCameraEnabled = myStream?.getTracks()?.find((track) => track.kind === "video")?.enabled;
 
   return (
     <div className=" absolute bottom-10 flex z-20 gap-4 justify-center w-full items-center px-20">
@@ -33,7 +31,10 @@ export function MeetingControllers() {
       <button className={`${BUTTON_CLASS} ${!isMicEnabled ? "bg-red-700" : "bg-dark-navy"}`} onClick={toggleMic}>
         <RiMicOffFill className="w-6 h-6  " />
       </button>
-      <button className="p-3 flex justify-center bg-red-500 transition-colors rounded-full hover:bg-red-600">
+      <button
+        className="p-3 flex justify-center bg-red-500 transition-colors rounded-full hover:bg-red-600"
+        onClick={endCall}
+      >
         <ImPhoneHangUp className="w-10 h-10 text-white" />
       </button>
       <button className={`${BUTTON_CLASS} ${!isCameraEnabled ? "bg-red-700" : "bg-dark-navy"}`} onClick={toggleCamera}>
