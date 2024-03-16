@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { RiMicOffFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
+import { twMerge } from "tailwind-merge";
 
 import { changeMainStream } from "@/redux/slices/meetingSlice";
 import { socket } from "@/socket";
@@ -12,7 +13,9 @@ export function MeetingMember({
   memberId,
   stream,
   isSharingScreen = false,
+  className = "",
 }: {
+  className?: string;
   memberId: string;
   stream?: MediaStream;
   isSharingScreen?: boolean;
@@ -37,6 +40,10 @@ export function MeetingMember({
       if (userId !== memberId) return;
       setIsMicEnable(isMicEnabled);
     });
+    return () => {
+      socket.off("camera-status-changed");
+      socket.off("mic-status-changed");
+    };
   }, [memberId]);
 
   useEffect(() => {
@@ -49,7 +56,10 @@ export function MeetingMember({
 
   return (
     <div
-      className=" relative flex  grow gap-3 overflow-hidden bg-[#222C54] text-white rounded-md w-full cursor-pointer"
+      className={twMerge(
+        " relative flex  grow gap-3 overflow-hidden bg-[#222C54] text-white rounded-md w-full cursor-pointer",
+        className
+      )}
       onClick={handleMemberClick}
     >
       {isCameraEnable && stream?.getTracks().find((track) => track.kind === "video")?.enabled ? (
