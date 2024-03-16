@@ -3,11 +3,11 @@ import { TiVideo } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { VideoStreamPlayer } from "@/components/meeting/VideoStreamPlayer";
 import { useRoom } from "@/contexts/RoomContext";
 import { RootState } from "@/redux/store";
 import { socket } from "@/socket";
 
+import MainStream from "./MainStream";
 import { MeetingControllers } from "./MeetingControllers";
 import { MeetingSidebar } from "./MeetingSidebar";
 
@@ -27,15 +27,9 @@ export function Meeting() {
   }, [myPeer, myStream, roomId, userName, userId]);
 
   return (
-    <section className="flex">
+    <section className="flex bg-black/85">
       <main className="relative w-full h-dvh overflow-hidden">
-        <VideoStreamPlayer
-          className="absolute aspect-video z-10 inset-0  h-dvh w-full  bg-black/90 "
-          stream={myStream}
-          muted
-          autoPlay
-          playsInline
-        />
+        <MainStream />
         <h1 className=" absolute top-3 left-5 right-5 flex   justify-start gap-2 items-center text-white z-20 bg-dark-navy/70 p-3  rounded-lg">
           <TiVideo className="inline-block mr-2 w-6 h-6 text-royal-blue" />
           <span>Meeting with Kareem</span>
