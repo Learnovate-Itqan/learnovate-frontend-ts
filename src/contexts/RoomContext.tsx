@@ -1,6 +1,6 @@
 import Peer from "peerjs";
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 } from "uuid";
 
@@ -9,6 +9,7 @@ import { addAllPeers, addPeer, addPeerStream, removePeer } from "@/reducers/peer
 import { PeerState, peersReducer } from "@/reducers/peersReducer";
 import { addAllScreenPeers, addScreenPeer, addScreenPeerName, removeScreenPeer } from "@/reducers/screenPeerActions";
 import { ScreenPeerState, screenPeersReducer } from "@/reducers/screenPeerReducer";
+import { changeMainStream } from "@/redux/slices/meetingSlice";
 import { RootState } from "@/redux/store";
 import { socket } from "@/socket";
 
@@ -46,7 +47,8 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
   const [peers, peersDispatcher] = useReducer(peersReducer, {});
   const [shareScreenPeers, dispatchShareScreenPeers] = useReducer(screenPeersReducer, {});
   const navigate = useNavigate();
-
+  const mainStream = useSelector((state: RootState) => state.meeting.mainStream);
+  const dispatch = useDispatch();
   //   function to stop the screen sharing
   function closeShareScreen(sharingPeer: Peer) {
     if (!myId) return;
@@ -116,6 +118,9 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     // add listener to remove disconnected user
     function removeDisconnectedUser({ userId }: { userId: string }) {
       console.log("user disconnected", userId);
+      if (userId === mainStream?.userId) {
+        dispatch(changeMainStream(null));
+      }
       peersDispatcher(removePeer(userId));
     }
     socket.on("user-disconnected", removeDisconnectedUser);
@@ -125,7 +130,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       socket.off("get-users");
       socket.off("user-disconnected");
     };
-  }, []);
+  }, [dispatch, mainStream?.userId]);
 
   useEffect(() => {
     // if myPeer or myStream is not available return
@@ -168,6 +173,9 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
           dispatchShareScreenPeers(addScreenPeerName(callerId, callerName));
         });
         call.on("close", () => {
+          if (callerId === mainStream?.userId) {
+            dispatch(changeMainStream(null));
+          }
           dispatchShareScreenPeers(removeScreenPeer(callerId));
         });
         return;
@@ -189,7 +197,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       socket.off("new-user-joined");
       myPeer.off("call");
     };
-  }, [myPeer, myStream, userName, screenStream, shareScreenPeer, myId]);
+  }, [myPeer, myStream, userName, screenStream, shareScreenPeer, myId, dispatch, mainStream]);
 
   return (
     <RoomContext.Provider
