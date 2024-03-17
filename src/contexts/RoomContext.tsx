@@ -140,16 +140,30 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     socket.on(
       "new-user-joined",
       ({ userId, userName: name, peerId }: { userId: string; userName: string; peerId: string }) => {
+        let isCallReceived = false;
         console.log("new user joined", peerId);
-        const call = myPeer.call(peerId, myStream, {
+        let call = myPeer.call(peerId, myStream, {
           metadata: { callerName: userName, isSharingScreen: false, userId: myId },
         });
         console.log("calling new user", call);
-
         // add listener for streams from the new user
         call.on("stream", (userVideoStream) => {
+          isCallReceived = true;
           peersDispatcher(addPeerStream(userId, userVideoStream));
         });
+        setTimeout(() => {
+          if (!isCallReceived) {
+            call = myPeer.call(peerId, myStream, {
+              metadata: { callerName: userName, isSharingScreen: false, userId: myId },
+            });
+            console.log("calling new user again", call);
+            call.on("stream", (userVideoStream) => {
+              isCallReceived = true;
+              peersDispatcher(addPeerStream(userId, userVideoStream));
+            });
+          }
+        }, 1000);
+
         // store the new user's name
         peersDispatcher(addPeer(userId, name, peerId));
 
