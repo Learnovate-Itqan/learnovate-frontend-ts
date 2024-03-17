@@ -24,7 +24,7 @@ export const MentorSmallCalendar = ({ availability }: { availability: z.infer<ty
         return time.startTime;
       });
   }, [availability]);
-  
+
   async function handleBookSession() {
     if (!date || selectedDate.length === 0) return;
     const toastId = toast.loading("Loading");
@@ -36,12 +36,9 @@ export const MentorSmallCalendar = ({ availability }: { availability: z.infer<ty
       endTime: 16,
     };
     const { data } = await bookSession.mutateAsync(sessionData);
-    if (data.status === "Fail") {
-      toast.dismiss(toastId);
-      toast.error(data.errors[0].msg);
-    } else if (data.status === "Success") {
-      toast.success("Session reserved successfully");
-    }
+    if (data.status === "Fail") toast.error(data.errors[0].msg);
+    else if (data.status === "Success") toast.success("Session reserved successfully");
+
     toast.dismiss(toastId);
   }
 
