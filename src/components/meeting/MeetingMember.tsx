@@ -3,6 +3,7 @@ import { RiMicOffFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
 
+import { useRoom } from "@/contexts/RoomContext";
 import { changeMainStream } from "@/redux/slices/meetingSlice";
 import { socket } from "@/socket";
 
@@ -20,31 +21,37 @@ export function MeetingMember({
   stream?: MediaStream;
   isSharingScreen?: boolean;
 }) {
-  const [isMicEnable, setIsMicEnable] = useState(false);
-  const [isCameraEnable, setIsCameraEnable] = useState(true);
+  const isMe = memberId === "you";
+  const { isMicEnabled: isMyMicEnabled, isCameraEnabled: isMyCameraEnabled } = useRoom();
+  const [isUserMicEnable, setIsUserMicEnable] = useState(false);
+  const [isUserCameraEnable, setIsUserCameraEnable] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const dispatcher = useDispatch();
-  const isMe = memberId === "you";
 
+  // if the user is sharing screen then the camera is enabled
+  // if the user is me then the camera state is the state of my camera
+  const isCameraEnable = isSharingScreen ? true : isMe ? isMyCameraEnabled : isUserCameraEnable;
+  const isMicEnable = isMe ? isMyMicEnabled : isUserMicEnable;
   function handleMemberClick() {
-    if (isMe) return;
+    if (isMe || !isCameraEnable) return;
     dispatcher(changeMainStream({ userId: memberId, isSharingScreen }));
   }
 
   useEffect(() => {
+    if (isMe) return;
     socket.on("camera-status-changed", ({ userId, isCameraEnabled }) => {
       if (userId !== memberId) return;
-      setIsCameraEnable(isCameraEnabled);
+      setIsUserCameraEnable(isCameraEnabled);
     });
     socket.on("mic-status-changed", ({ userId, isMicEnabled }) => {
       if (userId !== memberId) return;
-      setIsMicEnable(isMicEnabled);
+      setIsUserMicEnable(isMicEnabled);
     });
     return () => {
       socket.off("camera-status-changed");
       socket.off("mic-status-changed");
     };
-  }, [memberId]);
+  }, [memberId, isMe]);
 
   useEffect(() => {
     if (stream && audioRef.current) {
@@ -62,7 +69,7 @@ export function MeetingMember({
       )}
       onClick={handleMemberClick}
     >
-      {isCameraEnable && stream?.getTracks().find((track) => track.kind === "video")?.enabled ? (
+      {(isCameraEnable || isSharingScreen) && stream?.getTracks().find((track) => track.kind === "video")?.enabled ? (
         <VideoStreamPlayer
           className=" w-full aspect-video  object-contain "
           stream={stream}
