@@ -12,7 +12,7 @@ export function usePeerConnection() {
   const { id: roomId } = useParams();
   const [myPeer, setMyPeer] = useState<Peer>();
   const [myStream, setMyStream] = useState<MediaStream>();
-  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
+  const [isCameraEnabled, setIsCameraEnabled] = useState(false);
   const [isMicEnabled, setIsMicEnabled] = useState(false);
   useEffect(() => {
     // create a new peer connection to make calls and answer calls
@@ -29,7 +29,7 @@ export function usePeerConnection() {
     // get user media(camera and mic)
     try {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-        stream.getVideoTracks()[0].enabled = true;
+        stream.getVideoTracks()[0].enabled = false;
         stream.getAudioTracks()[0].enabled = false;
 
         setMyStream(stream);
