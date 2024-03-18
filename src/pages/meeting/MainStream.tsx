@@ -24,7 +24,7 @@ export default function MainStream() {
     });
   }, [mainStream?.userId, dispatch]);
 
-  if (!mainStream)
+  if (!currentMainStream)
     return (
       <div className=" flex gap-3 justify-center h-full items-center p-20  ">
         <MeetingMember className="grow" memberId={"you"} />
