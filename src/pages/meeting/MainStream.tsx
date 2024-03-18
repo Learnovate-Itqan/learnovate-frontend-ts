@@ -9,7 +9,7 @@ import { RootState } from "@/redux/store";
 import { socket } from "@/socket";
 
 export default function MainStream() {
-  const { peers, shareScreenPeers, myStream } = useRoom();
+  const { peers, shareScreenPeers } = useRoom();
   const myId = useSelector((state: RootState) => state.auth?.id);
   const mainStream = useSelector((state: RootState) => state.meeting.mainStream);
   const dispatch = useDispatch();
@@ -27,10 +27,10 @@ export default function MainStream() {
   if (!mainStream)
     return (
       <div className=" flex gap-3 justify-center h-full items-center p-20  ">
-        <MeetingMember className="grow" memberId={"you"} stream={myStream} />
+        <MeetingMember className="grow" memberId={"you"} />
         {Object.keys(peers).map((userId) => {
           if (myId === userId) return null;
-          return <MeetingMember key={userId} memberId={peers[userId].userId} stream={peers[userId].stream} />;
+          return <MeetingMember key={userId} memberId={peers[userId].userId} />;
         })}
         {Object.keys(shareScreenPeers).map((userId) => {
           return (
@@ -38,7 +38,6 @@ export default function MainStream() {
               key={userId}
               isSharingScreen={true}
               memberId={shareScreenPeers[userId].userId === myId ? "you" : shareScreenPeers[userId].userId}
-              stream={shareScreenPeers[userId].stream}
             />
           );
         })}
