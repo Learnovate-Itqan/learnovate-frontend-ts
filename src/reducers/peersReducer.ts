@@ -1,7 +1,23 @@
-import { ADD_ALL_PEERS, ADD_PEER, ADD_PEER_NAME, ADD_PEER_STREAM, REMOVE_PEER } from "./peersActions";
+import {
+  ADD_ALL_PEERS,
+  ADD_PEER,
+  ADD_PEER_NAME,
+  ADD_PEER_STREAM,
+  CHANGE_CAMERA_STATE,
+  CHANGE_MIC_STATE,
+  REMOVE_PEER,
+} from "./peersActions";
 
+export type PeerUser = {
+  stream?: MediaStream;
+  userId: string;
+  userName?: string;
+  peerId?: string;
+  isCameraEnabled?: boolean;
+  isMicEnabled?: boolean;
+};
 export type PeerState = {
-  [userId: string]: { stream?: MediaStream; userId: string; userName?: string; peerId?: string };
+  [userId: string]: PeerUser;
 };
 
 type PeerAction =
@@ -24,6 +40,14 @@ type PeerAction =
   | {
       type: typeof ADD_PEER_NAME;
       payload: { userId: string; userName: string };
+    }
+  | {
+      type: typeof CHANGE_CAMERA_STATE;
+      payload: { userId: string; isCameraEnabled: boolean };
+    }
+  | {
+      type: typeof CHANGE_MIC_STATE;
+      payload: { userId: string; isMicEnabled: boolean };
     };
 
 export function peersReducer(state: PeerState, action: PeerAction) {
@@ -57,6 +81,20 @@ export function peersReducer(state: PeerState, action: PeerAction) {
       return {
         ...state,
         [userId]: { ...state[userId], userName },
+      };
+    }
+    case CHANGE_CAMERA_STATE: {
+      const { userId, isCameraEnabled } = action.payload;
+      return {
+        ...state,
+        [userId]: { ...state[userId], isCameraEnabled },
+      };
+    }
+    case CHANGE_MIC_STATE: {
+      const { userId, isMicEnabled } = action.payload;
+      return {
+        ...state,
+        [userId]: { ...state[userId], isMicEnabled },
       };
     }
   }
