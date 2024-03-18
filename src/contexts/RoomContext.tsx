@@ -90,6 +90,8 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
 
       // remove and destroy the connection
       dispatchShareScreenPeers(removeScreenPeer(myId));
+      sharingPeer.removeAllListeners();
+      sharingPeer.disconnect();
       sharingPeer.destroy();
       setShareScreenPeer(undefined);
       setScreenStream(undefined);
@@ -134,6 +136,8 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
 
   function endCall() {
     if (!myPeer || !myStream) return;
+    myPeer.removeAllListeners();
+    myPeer.disconnect();
     myPeer.destroy();
     myStream.getTracks().forEach((track) => track.stop());
     socket.close();
