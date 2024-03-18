@@ -1,63 +1,54 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { RiMicOffFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
 
 import { useRoom } from "@/contexts/RoomContext";
 import { changeMainStream } from "@/redux/slices/meetingSlice";
-import { socket } from "@/socket";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { VideoStreamPlayer } from "./VideoStreamPlayer";
 
 export function MeetingMember({
   memberId,
-  stream,
   isSharingScreen = false,
   className = "",
 }: {
   className?: string;
   memberId: string;
-  stream?: MediaStream;
   isSharingScreen?: boolean;
 }) {
-  const isMe = memberId === "you";
-  const { isMicEnabled: isMyMicEnabled, isCameraEnabled: isMyCameraEnabled } = useRoom();
-  const [isUserMicEnable, setIsUserMicEnable] = useState(false);
-  const [isUserCameraEnable, setIsUserCameraEnable] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const dispatcher = useDispatch();
+  const isMe = memberId === "you";
+  const {
+    isMicEnabled: isMyMicEnabled,
+    isCameraEnabled: isMyCameraEnabled,
+    peers,
+    shareScreenPeers,
+    myStream,
+    screenStream,
+  } = useRoom();
+
+  const { isMicEnabled: isUserMicEnable, isCameraEnabled: isUserCameraEnable } = peers[memberId] || {};
+  const { stream } = (!isSharingScreen ? peers[memberId] : shareScreenPeers[memberId]) || {};
 
   // if the user is sharing screen then the camera is enabled
   // if the user is me then the camera state is the state of my camera
   const isCameraEnable = isSharingScreen ? true : isMe ? isMyCameraEnabled : isUserCameraEnable;
   const isMicEnable = isMe ? isMyMicEnabled : isUserMicEnable;
+  const currentStream = isMe ? (isSharingScreen ? screenStream : myStream) : stream;
+
   function handleMemberClick() {
-    if (isMe || !isCameraEnable) return;
+    if (isMe || !isCameraEnable || !stream?.getVideoTracks()[0]?.enabled) return;
     dispatcher(changeMainStream({ userId: memberId, isSharingScreen }));
   }
 
-  useEffect(() => {
-    if (isMe) return;
-    socket.on("camera-status-changed", ({ userId, isCameraEnabled }) => {
-      if (userId !== memberId) return;
-      setIsUserCameraEnable(isCameraEnabled);
-    });
-    socket.on("mic-status-changed", ({ userId, isMicEnabled }) => {
-      if (userId !== memberId) return;
-      setIsUserMicEnable(isMicEnabled);
-    });
-    return () => {
-      socket.off("camera-status-changed");
-      socket.off("mic-status-changed");
-    };
-  }, [memberId, isMe]);
-
-  useEffect(() => {
-    if (stream && audioRef.current) {
-      audioRef.current.srcObject = stream;
-    }
-  }, [stream]);
+  // useEffect(() => {
+  //   if (stream && audioRef.current) {
+  //     audioRef.current.srcObject = stream;
+  //   }
+  // }, [stream]);
 
   if (!memberId) return null;
 
@@ -69,10 +60,10 @@ export function MeetingMember({
       )}
       onClick={handleMemberClick}
     >
-      {(isCameraEnable || isSharingScreen) && stream?.getTracks().find((track) => track.kind === "video")?.enabled ? (
+      {isCameraEnable || isSharingScreen ? (
         <VideoStreamPlayer
           className=" w-full aspect-video  object-contain "
-          stream={stream}
+          stream={currentStream}
           autoPlay
           muted
           playsInline
