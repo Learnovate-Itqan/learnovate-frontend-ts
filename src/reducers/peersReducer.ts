@@ -23,7 +23,7 @@ export type PeerState = {
 type PeerAction =
   | {
       type: typeof ADD_PEER;
-      payload: { userId: string; userName: string; peerId: string };
+      payload: { userId: string; userName: string; peerId: string; isCameraEnabled?: boolean; isMicEnabled?: boolean };
     }
   | {
       type: typeof REMOVE_PEER;
@@ -53,10 +53,10 @@ type PeerAction =
 export function peersReducer(state: PeerState, action: PeerAction) {
   switch (action.type) {
     case ADD_PEER: {
-      const { userId, userName, peerId } = action.payload;
+      const { userId, userName, peerId, isCameraEnabled, isMicEnabled } = action.payload;
       return {
         ...state,
-        [userId]: { userId, userName, peerId },
+        [userId]: { userId, userName, peerId, isCameraEnabled, isMicEnabled },
       };
     }
     case REMOVE_PEER: {
