@@ -1,7 +1,7 @@
 import Peer from "peerjs";
 import React, { createContext, useCallback, useContext, useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { v4 } from "uuid";
 
 import { usePeerConnection } from "@/hooks/usePeerConnection";
@@ -47,7 +47,6 @@ const RoomContext = createContext<RoomContextValues>({
   endCall: () => {},
 });
 export default function RoomProvider({ children }: { children: React.ReactNode }) {
-  const { id: roomId } = useParams();
   const { id: myId, name: userName } = useSelector((state: RootState) => state.auth);
   const { myPeer, myStream, toggleCamera, toggleMic, isCameraEnabled, isMicEnabled } = usePeerConnection();
   const [screenStream, setScreenStream] = useState<MediaStream>();
@@ -140,16 +139,6 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     socket.close();
     navigate("/", { replace: true });
   }
-
-  useEffect(() => {
-    if (!(myPeer?.id && myStream && roomId && userName)) return;
-    socket.emit("join-room", { roomId, peerId: myPeer.id, userName, myId, isCameraEnabled, isMicEnabled });
-
-    return () => {
-      socket.off("join-room");
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [myPeer, myStream, roomId, userName, myId]);
 
   useEffect(() => {
     // add listener to get-users after joining room
