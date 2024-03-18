@@ -1,12 +1,19 @@
 import Peer from "peerjs";
-import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 } from "uuid";
 
 import { usePeerConnection } from "@/hooks/usePeerConnection";
-import { addAllPeers, addPeer, addPeerStream, removePeer } from "@/reducers/peersActions";
-import { PeerState, peersReducer } from "@/reducers/peersReducer";
+import {
+  addAllPeers,
+  addPeer,
+  addPeerStream,
+  changeCameraStatus,
+  changeMicStatus,
+  removePeer,
+} from "@/reducers/peersActions";
+import { PeerState, PeerUser, peersReducer } from "@/reducers/peersReducer";
 import { addAllScreenPeers, addScreenPeer, addScreenPeerName, removeScreenPeer } from "@/reducers/screenPeerActions";
 import { ScreenPeerState, screenPeersReducer } from "@/reducers/screenPeerReducer";
 import { changeMainStream } from "@/redux/slices/meetingSlice";
@@ -132,40 +139,60 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     };
   }, [dispatch, mainStream?.userId]);
 
+  const callUser = useCallback(
+    (userId: string, peerId: string) => {
+      if (!myPeer || !myStream) return;
+
+      let isCallReceived = false;
+      console.log("new user joined", peerId);
+      const call = myPeer.call(peerId, myStream, {
+        metadata: { callerName: userName, isSharingScreen: false, userId: myId, isCameraEnabled, isMicEnabled },
+      });
+      console.log("calling new user", call);
+      // add listener for streams from the new user
+      call.on("stream", (userVideoStream) => {
+        isCallReceived = true;
+        peersDispatcher(addPeerStream(userId, userVideoStream));
+      });
+      setTimeout(() => {
+        if (!isCallReceived) {
+          callUser(userId, peerId);
+        }
+      }, 1000);
+    },
+    [myPeer, myStream, myId, userName, isCameraEnabled, isMicEnabled]
+  );
+
+  useEffect(() => {
+    socket.on("camera-status-changed", ({ userId, isCameraEnabled }) => {
+      peersDispatcher(changeCameraStatus(userId, isCameraEnabled));
+    });
+    socket.on("mic-status-changed", ({ userId, isMicEnabled }) => {
+      peersDispatcher(changeMicStatus(userId, isMicEnabled));
+    });
+    return () => {
+      socket.off("camera-status-changed");
+      socket.off("mic-status-changed");
+    };
+  }, []);
+
   useEffect(() => {
     // if myPeer or myStream is not available return
     if (!myPeer || !myStream) return;
-
     // add listener for new user joined
     socket.on(
       "new-user-joined",
-      ({ userId, userName: name, peerId }: { userId: string; userName: string; peerId: string }) => {
-        let isCallReceived = false;
-        console.log("new user joined", peerId);
-        let call = myPeer.call(peerId, myStream, {
-          metadata: { callerName: userName, isSharingScreen: false, userId: myId },
-        });
-        console.log("calling new user", call);
-        // add listener for streams from the new user
-        call.on("stream", (userVideoStream) => {
-          isCallReceived = true;
-          peersDispatcher(addPeerStream(userId, userVideoStream));
-        });
-        setTimeout(() => {
-          if (!isCallReceived) {
-            call = myPeer.call(peerId, myStream, {
-              metadata: { callerName: userName, isSharingScreen: false, userId: myId },
-            });
-            console.log("calling new user again", call);
-            call.on("stream", (userVideoStream) => {
-              isCallReceived = true;
-              peersDispatcher(addPeerStream(userId, userVideoStream));
-            });
-          }
-        }, 1000);
-
+      ({
+        userId,
+        userName: name,
+        peerId,
+        isCameraEnabled: isUserCameraEnabled,
+        isMicEnabled: isUserMicEnabled,
+      }: PeerUser) => {
+        if (!peerId || !name) return;
+        callUser(userId, peerId);
         // store the new user's name
-        peersDispatcher(addPeer(userId, name, peerId));
+        peersDispatcher(addPeer(userId, name, peerId, isUserCameraEnabled, isUserMicEnabled));
 
         if (screenStream === undefined) return;
         shareScreenPeer?.call(userId, screenStream, {
@@ -176,7 +203,13 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
 
     // add listener for call
     myPeer.on("call", (call) => {
-      const { isSharingScreen, callerName, userId: callerId } = call.metadata;
+      const {
+        isSharingScreen,
+        callerName,
+        userId: callerId,
+        isCameraEnabled: isUserCameraEnabled,
+        isMicEnabled: isUserMicEnabled,
+      } = call.metadata;
       const callerPeerId = call.peer;
       //   check if the call is screen sharing
       if (isSharingScreen) {
@@ -196,12 +229,11 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       }
       // answer the call and send my stream
       console.log("answering call", call);
-      //   store caller's name
-      peersDispatcher(addPeer(callerId, callerName, callerPeerId));
+      // store caller's information
+      peersDispatcher(addPeer(callerId, callerName, callerPeerId, isUserCameraEnabled, isUserMicEnabled));
       call.answer(myStream);
       // add listener for streams from the caller peer
       call.on("stream", (userVideoStream) => {
-        console.log("stream from caller", userVideoStream);
         peersDispatcher(addPeerStream(callerId, userVideoStream));
       });
     });
@@ -211,7 +243,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       socket.off("new-user-joined");
       myPeer.off("call");
     };
-  }, [myPeer, myStream, userName, screenStream, shareScreenPeer, myId, dispatch, mainStream]);
+  }, [callUser, myPeer, myStream, screenStream, shareScreenPeer, userName, myId, dispatch, mainStream?.userId]);
 
   return (
     <RoomContext.Provider
