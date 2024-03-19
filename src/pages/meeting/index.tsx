@@ -9,6 +9,7 @@ import { socket } from "@/socket";
 import MainStream from "./MainStream";
 import { MeetingControllers } from "./MeetingControllers";
 import { MeetingSidebar } from "./MeetingSidebar";
+import MeetingSmallScreensHeader from "./MeetingSmallScreensHeader";
 
 export function Meeting() {
   const { id: roomId } = useParams();
@@ -29,8 +30,8 @@ export function Meeting() {
   return (
     <section className="flex bg-black/85">
       <main className="relative w-full h-dvh overflow-hidden">
+        <MeetingSmallScreensHeader />
         <MainStream />
-
         <MeetingControllers />
       </main>
       <MeetingSidebar />
