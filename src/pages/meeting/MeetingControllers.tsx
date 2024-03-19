@@ -19,7 +19,7 @@ export function MeetingControllers() {
   const dispatcher = useDispatch();
 
   return (
-    <div className=" absolute bottom-10 flex z-20 gap-4 justify-center w-full items-center px-20">
+    <div className=" absolute bottom-5 flex z-20 gap-4 justify-center w-full items-center px-20">
       <button className={`${BUTTON_CLASS} bg-dark-navy`}>
         <HiSpeakerWave className="w-6 h-6  " />
       </button>
