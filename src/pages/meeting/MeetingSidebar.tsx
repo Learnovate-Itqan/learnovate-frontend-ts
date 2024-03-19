@@ -1,8 +1,9 @@
 import { BsChatDotsFill } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 
-import { changeAsideVariant } from "@/redux/slices/meetingSlice";
+import { changeAsideVariant, toggleAside } from "@/redux/slices/meetingSlice";
 import { RootState } from "@/redux/store";
 
 import { MeetingChat } from "./MeetingChat";
@@ -13,8 +14,19 @@ export function MeetingSidebar() {
   const dispatcher = useDispatch();
   return (
     <aside
-      className={` w-[450px] h-screen flex flex-col justify-evenly gap-2 bg-dark-navy overflow-hidden transition-[max-width]  ${isAsideOpen ? " max-w-full " : " max-w-0"}`}
+      className={`flex w-screen md:w-[450px] absolute z-30 md:relative md:z-0  h-screen flex-col justify-evenly gap-2 bg-dark-navy overflow-hidden transition-[max-width]  ${isAsideOpen ? " max-w-full " : " max-w-0"}`}
     >
+      <header className="relative">
+        <h1 className=" bg-[#222c54] text-white p-3 text-xl text-center">
+          Meeting {asideVariant === "CHAT" ? "Chat" : "Members"}
+        </h1>
+        <button
+          className=" absolute top-2 text-white p-2 left-2 z-20 bg-transparent"
+          onClick={() => dispatcher(toggleAside())}
+        >
+          <IoMdArrowRoundBack className="w-6 h-6" />
+        </button>
+      </header>
       {asideVariant === "CHAT" ? <MeetingChat /> : <MeetingMembers />}
 
       <footer className="bg-[#222c54] grid grid-cols-2 m-2 rounded-md p-1 overflow-hidden">
