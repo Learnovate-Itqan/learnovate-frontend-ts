@@ -7,7 +7,6 @@ export function MeetingChat() {
 
   return (
     <div className="grow flex flex-col text-white">
-      <h1 className=" bg-[#222c54] p-3 text-xl text-center">Meeting Chat</h1>
       <div className="flex-1 flex flex-col gap-4 m-2 mt-4 max-h-[calc(100dvh-195px)] overflow-y-auto overflow-x-hidden scrollbar">
         {
           // map through messages
