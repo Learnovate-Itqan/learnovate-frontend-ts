@@ -1,28 +1,32 @@
 import { BiSolidVideoOff } from "react-icons/bi";
 import { BsArrowUpSquareFill } from "react-icons/bs";
 import { FaCompressArrowsAlt, FaExpandArrowsAlt } from "react-icons/fa";
-import { HiSpeakerWave } from "react-icons/hi2";
+import { HiMiniRectangleStack, HiSpeakerWave } from "react-icons/hi2";
 import { ImPhoneHangUp } from "react-icons/im";
-import { IoMdSettings } from "react-icons/io";
 import { RiMicOffFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useRoom } from "@/contexts/RoomContext";
-import { toggleAside } from "@/redux/slices/meetingSlice";
+import { removeMainStream, toggleAside, toggleMute } from "@/redux/slices/meetingSlice";
 import { RootState } from "@/redux/store";
 
 const BUTTON_CLASS = "p-3 flex justify-center transition-colors rounded-full text-zinc-300 hover:text-zinc-400";
 
 export function MeetingControllers() {
   const { shareScreen, screenStream, toggleCamera, toggleMic, endCall, isCameraEnabled, isMicEnabled } = useRoom();
-  const isAsideOpen = useSelector((state: RootState) => state.meeting.isAsideOpen);
+  const { isAsideOpen, isMuted, mainStream } = useSelector((state: RootState) => state.meeting);
   const dispatcher = useDispatch();
 
   return (
     <div className=" absolute bottom-0 pb-5 bg-gradient-to-t from-black/40 via-black/20 to-transparent flex z-20 gap-4 justify-center w-full items-center px-20">
-      <button className={`${BUTTON_CLASS} bg-dark-navy hidden md:block`}>
-        <HiSpeakerWave className="w-6 h-6  " />
-      </button>
+      {mainStream && (
+        <button
+          className={`${BUTTON_CLASS} bg-dark-navy hidden md:block`}
+          onClick={() => dispatcher(removeMainStream())}
+        >
+          <HiMiniRectangleStack className="w-6 h-6  " />
+        </button>
+      )}
       <div className="flex-1"></div>
       <button className={`${BUTTON_CLASS} ${screenStream ? " bg-red-700" : "bg-dark-navy"}`} onClick={shareScreen}>
         <BsArrowUpSquareFill className="w-6 h-6  " />
@@ -39,8 +43,11 @@ export function MeetingControllers() {
       <button className={`${BUTTON_CLASS} ${!isCameraEnabled ? "bg-red-700" : "bg-dark-navy"}`} onClick={toggleCamera}>
         <BiSolidVideoOff className="w-6 h-6  " />
       </button>
-      <button className={`${BUTTON_CLASS} bg-dark-navy`}>
-        <IoMdSettings className="w-6 h-6  " />
+      <button
+        className={`${BUTTON_CLASS} ${isMuted ? "bg-red-700" : "bg-dark-navy"}`}
+        onClick={() => dispatcher(toggleMute())}
+      >
+        <HiSpeakerWave className="w-6 h-6  " />
       </button>
       <div className="flex-1"></div>
       <button className={`${BUTTON_CLASS} bg-dark-navy hidden md:block`} onClick={() => dispatcher(toggleAside())}>
