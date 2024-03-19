@@ -9,12 +9,14 @@ type stateType = {
   isAsideOpen: boolean;
   asideVariant: "MEMBERS" | "CHAT";
   mainStream: MainStreamType | null;
+  isMuted: boolean;
 };
 
 const initialState: stateType = {
   isAsideOpen: false,
   asideVariant: "MEMBERS",
   mainStream: null,
+  isMuted: false,
 };
 
 const meetingSlice = createSlice({
@@ -36,8 +38,12 @@ const meetingSlice = createSlice({
     removeMainStream: (state) => {
       state.mainStream = null;
     },
+    toggleMute: (state) => {
+      state.isMuted = !state.isMuted;
+    },
   },
 });
 
-export const { toggleAside, closeAside, changeAsideVariant, changeMainStream, removeMainStream } = meetingSlice.actions;
+export const { toggleAside, closeAside, changeAsideVariant, changeMainStream, removeMainStream, toggleMute } =
+  meetingSlice.actions;
 export const meetingReducer = meetingSlice.reducer;
