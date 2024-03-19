@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { TiVideo } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 
 import { MeetingMember } from "@/components/meeting/MeetingMember";
@@ -16,6 +17,7 @@ export default function MainStream() {
   const currentMainStream = mainStream?.isSharingScreen
     ? Object.values(shareScreenPeers).find((peer) => peer.userId === mainStream?.userId)?.stream
     : Object.values(peers).find((peer) => peer.userId === mainStream?.userId)?.stream;
+  const currentMainStreamUser = mainStream?.userId ? peers[mainStream?.userId]?.userName : "no one";
 
   useEffect(() => {
     socket.on("camera-status-changed", ({ userId, isCameraEnabled }) => {
@@ -26,17 +28,24 @@ export default function MainStream() {
 
   if (!currentMainStream)
     return (
-      <div className=" flex gap-3 justify-center h-full items-center p-20  ">
-        <MeetingMember className="grow" memberId={"you"} />
+      <div className="grid grid-cols-2 grid-rows-2 place-content-start gap-3 lg:flex lg:justify-center lg:flex-wrap h-full scrollbar bg-dark-navy/50 overflow-y-auto  lg:p-20  ">
+        <MeetingMember className="lg:w-1/4 lg:max-w-[50%] h-full lg:h-auto" memberId={"you"} />
         {Object.keys(peers).map((userId) => {
           if (myId === userId) return null;
-          return <MeetingMember key={userId} memberId={peers[userId].userId} />;
+          return (
+            <MeetingMember
+              key={userId}
+              className="lg:w-1/4 lg:max-w-[50%] h-full lg:h-auto"
+              memberId={peers[userId].userId}
+            />
+          );
         })}
         {Object.keys(shareScreenPeers).map((userId) => {
           return (
             <MeetingMember
               key={userId}
               isSharingScreen={true}
+              className="lg:w-1/4 lg:max-w-[50%] h-full lg:h-auto"
               memberId={shareScreenPeers[userId].userId === myId ? "you" : shareScreenPeers[userId].userId}
             />
           );
@@ -45,12 +54,12 @@ export default function MainStream() {
     );
 
   return (
-    <VideoStreamPlayer
-      className="absolute aspect-video z-10 inset-0  h-dvh w-full  "
-      stream={currentMainStream}
-      muted
-      autoPlay
-      playsInline
-    />
+    <main className="relative aspect-video z-10 inset-0  h-full w-full">
+      <h1 className=" absolute top-3 left-5 right-5 flex   justify-start gap-2 items-center text-white z-20 bg-dark-navy/70 p-3  rounded-lg">
+        <TiVideo className="inline-block mr-2 w-6 h-6 text-royal-blue" />
+        <span>Meeting with {currentMainStreamUser}</span>
+      </h1>
+      <VideoStreamPlayer className="h-full w-full " stream={currentMainStream} muted autoPlay playsInline />
+    </main>
   );
 }
