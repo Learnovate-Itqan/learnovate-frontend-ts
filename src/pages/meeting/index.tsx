@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { TiVideo } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -31,10 +30,7 @@ export function Meeting() {
     <section className="flex bg-black/85">
       <main className="relative w-full h-dvh overflow-hidden">
         <MainStream />
-        <h1 className=" absolute top-3 left-5 right-5 flex   justify-start gap-2 items-center text-white z-20 bg-dark-navy/70 p-3  rounded-lg">
-          <TiVideo className="inline-block mr-2 w-6 h-6 text-royal-blue" />
-          <span>Meeting with Kareem</span>
-        </h1>
+
         <MeetingControllers />
       </main>
       <MeetingSidebar />
