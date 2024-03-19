@@ -19,12 +19,11 @@ export function MeetingControllers() {
   const dispatcher = useDispatch();
 
   return (
-    <div className=" absolute bottom-5 flex z-20 gap-4 justify-center w-full items-center px-20">
-      <button className={`${BUTTON_CLASS} bg-dark-navy`}>
+    <div className=" absolute bottom-0 pb-5 bg-gradient-to-t from-black/40 via-black/20 to-transparent flex z-20 gap-4 justify-center w-full items-center px-20">
+      <button className={`${BUTTON_CLASS} bg-dark-navy hidden md:block`}>
         <HiSpeakerWave className="w-6 h-6  " />
       </button>
       <div className="flex-1"></div>
-
       <button className={`${BUTTON_CLASS} ${screenStream ? " bg-red-700" : "bg-dark-navy"}`} onClick={shareScreen}>
         <BsArrowUpSquareFill className="w-6 h-6  " />
       </button>
@@ -44,7 +43,7 @@ export function MeetingControllers() {
         <IoMdSettings className="w-6 h-6  " />
       </button>
       <div className="flex-1"></div>
-      <button className={`${BUTTON_CLASS} bg-dark-navy`} onClick={() => dispatcher(toggleAside())}>
+      <button className={`${BUTTON_CLASS} bg-dark-navy hidden md:block`} onClick={() => dispatcher(toggleAside())}>
         {!isAsideOpen ? <FaExpandArrowsAlt className="w-6 h-6  " /> : <FaCompressArrowsAlt className="w-6 h-6  " />}
       </button>
     </div>
