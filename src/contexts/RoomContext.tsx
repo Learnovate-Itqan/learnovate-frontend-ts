@@ -62,6 +62,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       if (!myPeer || !myStream) return;
 
       let isCallReceived = false;
+      let callsCount = 0;
       console.log("new user joined", peerId);
       const call = myPeer.call(peerId, myStream, {
         metadata: { callerName: userName, isSharingScreen: false, userId: myId, isCameraEnabled, isMicEnabled },
@@ -73,7 +74,9 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
         peersDispatcher(addPeerStream(userId, userVideoStream));
       });
       setTimeout(() => {
-        if (!isCallReceived) {
+        if (!isCallReceived && callsCount < 5) {
+          call.close();
+          callsCount++;
           callUser(userId, peerId);
         }
       }, 1000);
