@@ -111,7 +111,11 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     }
     // create a new peer connection for streaming the screen
     const shareScreenId = v4();
-    const sharingScreenPeer = new Peer(shareScreenId);
+    const sharingScreenPeer = new Peer(shareScreenId, {
+      host: "localhost",
+      port: 9001,
+      path: "/",
+    });
     setShareScreenPeer(sharingScreenPeer);
     // get the screen stream
     navigator.mediaDevices.getDisplayMedia({}).then((stream) => {
@@ -122,7 +126,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       Object.keys(peers).forEach((userId) => {
         if (userId === myId) return;
         const peerId = peers[userId].peerId;
-        if (peerId) {
+        if (peerId && sharingScreenPeer && stream) {
           sharingScreenPeer?.call(peerId, stream, {
             metadata: { callerName: userName, isSharingScreen: true, userId: myId },
           });
@@ -133,7 +137,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       stream.getVideoTracks()[0].onended = () => {
         closeShareScreen(sharingScreenPeer);
       };
-      socket.emit("share-screen", { shareScreenId, myId, userName });
+      socket.emit("share-screen", { shareScreenId, userId: myId, userName });
     });
   }
 
@@ -224,7 +228,6 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
       if (isSharingScreen) {
         call.answer();
         call.on("stream", (userVideoStream) => {
-          console.log("stream from caller", callerId);
           dispatchShareScreenPeers(addScreenPeer(callerId, callerPeerId, userVideoStream));
           dispatchShareScreenPeers(addScreenPeerName(callerId, callerName));
         });
