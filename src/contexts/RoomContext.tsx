@@ -111,11 +111,7 @@ export default function RoomProvider({ children }: { children: React.ReactNode }
     }
     // create a new peer connection for streaming the screen
     const shareScreenId = v4();
-    const sharingScreenPeer = new Peer(shareScreenId, {
-      host: "localhost",
-      port: 9001,
-      path: "/",
-    });
+    const sharingScreenPeer = new Peer(shareScreenId);
     setShareScreenPeer(sharingScreenPeer);
     // get the screen stream
     navigator.mediaDevices.getDisplayMedia({}).then((stream) => {
