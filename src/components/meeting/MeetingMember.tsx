@@ -62,7 +62,7 @@ export function MeetingMember({
     >
       {isCameraEnable || isSharingScreen ? (
         <VideoStreamPlayer
-          className=" w-full aspect-video  object-contain "
+          className=" w-full h-full object-cover md:object-contain sm:aspect-video "
           stream={currentStream}
           autoPlay
           muted
