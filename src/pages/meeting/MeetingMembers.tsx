@@ -8,7 +8,7 @@ export function MeetingMembers() {
   const { peers, shareScreenPeers } = useRoom();
   const myId = useSelector((state: RootState) => state.auth?.id);
   return (
-    <div className=" grid gap-3 grow m-2 mb-0 max-h-[calc(100dvh-90px)] overflow-y-auto overflow-x-hidden scrollbar">
+    <div className=" grid gap-3 grow m-2 mb-0 max-h-[calc(100dvh-108px)] overflow-y-auto overflow-x-hidden scrollbar">
       <MeetingMember memberId={"you"} className=" min-h-48" />
       {Object.keys(peers).map((userId) => {
         if (myId === userId) return null;

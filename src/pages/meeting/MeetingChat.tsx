@@ -6,7 +6,7 @@ export function MeetingChat() {
   const { chat } = useChat();
 
   return (
-    <div className="grow flex flex-col text-white">
+    <div className="grow flex flex-col text-white max-h-[calc(100dvh-108px)]">
       <div className="flex-1 flex flex-col gap-4 m-2 mt-4 max-h-[calc(100dvh-195px)] overflow-y-auto overflow-x-hidden scrollbar">
         {
           // map through messages
