@@ -28,14 +28,14 @@ export default function MainStream() {
 
   if (!currentMainStream)
     return (
-      <div className="grid grid-cols-2 grid-rows-2 place-content-start gap-3 lg:flex lg:justify-center lg:flex-wrap h-full scrollbar bg-dark-navy/50 overflow-y-auto  lg:p-20  ">
-        <MeetingMember className="lg:w-1/4 lg:max-w-[50%] h-full lg:h-auto" memberId={"you"} />
+      <div className="grid grid-cols-2 grid-rows-2 place-content-start gap-3 md:flex md:justify-center md:flex-wrap h-[calc(100dvh-45px)] md:h-full scrollbar bg-dark-navy/50 overflow-y-auto  md:p-20  ">
+        <MeetingMember className="md:w-1/4 md:max-w-[50%] h-full md:h-auto" memberId={"you"} />
         {Object.keys(peers).map((userId) => {
           if (myId === userId) return null;
           return (
             <MeetingMember
               key={userId}
-              className="lg:w-1/4 lg:max-w-[50%] h-full lg:h-auto"
+              className="md:w-1/4 md:max-w-[50%] h-full md:h-auto"
               memberId={peers[userId].userId}
             />
           );
@@ -45,7 +45,7 @@ export default function MainStream() {
             <MeetingMember
               key={userId}
               isSharingScreen={true}
-              className="lg:w-1/4 lg:max-w-[50%] h-full lg:h-auto"
+              className="md:w-1/4 md:max-w-[50%] h-full md:h-auto"
               memberId={shareScreenPeers[userId].userId === myId ? "you" : shareScreenPeers[userId].userId}
             />
           );
