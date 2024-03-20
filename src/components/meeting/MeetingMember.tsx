@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { RiMicOffFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
@@ -18,7 +17,6 @@ export function MeetingMember({
   memberId: string;
   isSharingScreen?: boolean;
 }) {
-  const audioRef = useRef<HTMLAudioElement>(null);
   const dispatcher = useDispatch();
   const isMe = memberId === "you";
   const {
@@ -44,12 +42,6 @@ export function MeetingMember({
     dispatcher(changeMainStream({ userId: memberId, isSharingScreen }));
   }
 
-  // useEffect(() => {
-  //   if (stream && audioRef.current) {
-  //     audioRef.current.srcObject = stream;
-  //   }
-  // }, [stream]);
-
   if (!memberId) return null;
 
   return (
@@ -71,7 +63,6 @@ export function MeetingMember({
       ) : (
         <BigUserAvatar memberId={memberId} />
       )}
-      <audio className=" absolute opacity-0 -z-10" controls ref={audioRef}></audio>
       <p className=" flex gap-2 items-center text-zinc-200 absolute bottom-2 left-2 shadow-2xl shadow-dark-navy p-1 rounded-lg ">
         <span>{memberId}</span>
         {!isMicEnable && <RiMicOffFill size={14} />}
