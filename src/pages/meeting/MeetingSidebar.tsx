@@ -14,7 +14,7 @@ export function MeetingSidebar() {
   const dispatcher = useDispatch();
   return (
     <aside
-      className={`flex w-screen md:w-[450px] absolute z-30 md:relative md:z-0  h-screen flex-col justify-evenly gap-2 bg-dark-navy overflow-hidden transition-[max-width]  ${isAsideOpen ? " max-w-full " : " max-w-0"}`}
+      className={`flex w-screen md:w-[450px] absolute z-30 md:relative md:z-0  h-dvh flex-col justify-evenly gap-2 bg-dark-navy overflow-hidden transition-[max-width]  ${isAsideOpen ? " max-w-full " : " max-w-0"}`}
     >
       <header className="relative">
         <h1 className=" bg-[#222c54] text-white p-3 text-xl text-center">
