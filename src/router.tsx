@@ -13,8 +13,11 @@ import { HomePage } from "@/pages/home";
 import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
 
+import { ChatProvider } from "./contexts/ChatContext";
+import RoomProvider from "./contexts/RoomContext";
 import { ChatPage } from "./pages/chat";
 import { Contact } from "./pages/contact";
+import { Meeting } from "./pages/meeting";
 import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
@@ -34,6 +37,16 @@ export const Router = createBrowserRouter(
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing />} />
         </Route>
+        <Route
+          path="/meeting/:id"
+          element={
+            <RoomProvider>
+              <ChatProvider>
+                <Meeting />
+              </ChatProvider>
+            </RoomProvider>
+          }
+        />
         {/* Authentication Routes */}
         <Route element={<AuthRoutes />}>
           <Route path="auth/login" element={<LoginPage />} />

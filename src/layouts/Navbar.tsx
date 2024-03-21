@@ -18,7 +18,7 @@ import { UserAvatar } from "@/components/ui/UserAvatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useGetData, usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { resetUser } from "@/redux/slices/authSlice";
+import { resetUser, setUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
 import { userSchema } from "@/schemas/userSchema";
@@ -68,6 +68,12 @@ export function Navbar() {
       queryClient.setQueryData(["tracks"], tracks);
     }
   }, [tracks, queryClient]);
+  useEffect(() => {
+    if (userData) {
+      if (!userData?.name) return;
+      dispatcher(setUser({ ...userData, authStatus: true }));
+    }
+  }, [dispatcher, userData]);
 
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
