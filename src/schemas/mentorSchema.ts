@@ -2,6 +2,15 @@ import { z } from "zod";
 
 import { userSchema } from "./userSchema";
 
+export const MentorAvailabilitySchema = z.object({
+  id: z.string().uuid(),
+  mentorID: z.string().uuid(),
+  date: z.date(),
+  startTime: z.number(),
+  endTime: z.number(),
+  isBooked: z.boolean(),
+});
+
 export const mentorSchema = z.object({
   id: z.string().uuid(),
   mentorID: z.string().uuid(),
@@ -10,7 +19,7 @@ export const mentorSchema = z.object({
   rating: z.number(),
   title: z.string(),
   about: z.string(),
-  experience: z.string(),
+  experience: z.number(),
   skills: z.array(z.string()),
   resume: z.string(),
   education: z.string(),
@@ -21,8 +30,11 @@ export const mentorSchema = z.object({
   twitter: z.string(),
   languages: z.array(z.string()),
   trackID: z.string().uuid(),
+  location: z.string(),
+  timeZones: z.string(),
   user: userSchema,
   track: z.object({ name: z.string(), id: z.string().uuid() }),
+  availability: z.array(MentorAvailabilitySchema),
 });
 
 export const BasicInfoFormSchema = z.object({

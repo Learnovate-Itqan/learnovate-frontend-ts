@@ -6,14 +6,24 @@ import { MeStats } from "./components/meStats";
 import { MeHeader } from "./components/mentorMeHeader";
 
 export const MentorMePage = () => {
+  const skills = mentor.skills.map((skill) => skill.name);
   return (
     <>
       <MeHeader {...mentor} />
       <main className="w-full py-10 *:text-dark-navy">
         <div className="container">
-          <SkillsBox skills={mentor.skills} />
+          <SkillsBox skills={skills} />
           <div className="my-8 flex flex-col sm:flex-row gap-y-8 gap-x-4 justify-between">
-            <MentorInfo {...mentor} />
+            <MentorInfo
+              experience={mentor.workExperience}
+              workExperience={mentor.workExperience}
+              education={mentor.education}
+              rating={mentor.rating}
+              resume={mentor.resume}
+              languages={mentor.languages}
+              location={mentor.location}
+              timeZones={mentor.timeZones}
+            />
             <MeStats />
           </div>
         </div>

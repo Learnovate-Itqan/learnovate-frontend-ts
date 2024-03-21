@@ -1,8 +1,5 @@
 type TSkillsBox = {
-  skills: {
-    id: string;
-    name: string;
-  }[];
+  skills: string[];
 };
 
 export const SkillsBox = ({ skills }: TSkillsBox) => {
@@ -10,9 +7,9 @@ export const SkillsBox = ({ skills }: TSkillsBox) => {
     <div className="space-y-3">
       <h3 className="font-medium text-xl">Skills:</h3>
       <ul className="flex items-center flex-wrap gap-y-2.5 gap-x-3">
-        {skills.map((skill) => (
-          <li key={skill.id} className="px-3 py-1.5 border-2 border-royal-blue rounded-lg text-royal-blue select-none">
-            {skill.name}
+        {skills.map((skill, index) => (
+          <li key={index} className="px-3 py-1.5 border-2 border-royal-blue rounded-lg text-royal-blue select-none">
+            {skill}
           </li>
         ))}
       </ul>

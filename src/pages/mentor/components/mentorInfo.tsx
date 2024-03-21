@@ -1,9 +1,20 @@
 import { RatingStars } from "./stars";
 
+// type TMentorInfo = {
+//   workExperience: string;
+//   education: string;
+//   jobExperience: string;
+//   rating: number;
+//   resume: string;
+//   languages: string[];
+//   location: string;
+//   timeZones: string;
+// };
+
 type TMentorInfo = {
   workExperience: string;
   education: string;
-  jobExperience: string;
+  experience: string | number;
   rating: number;
   resume: string;
   languages: string[];
@@ -14,7 +25,7 @@ type TMentorInfo = {
 export const MentorInfo = ({
   workExperience,
   education,
-  jobExperience,
+  experience,
   rating,
   resume,
   languages,
@@ -34,7 +45,7 @@ export const MentorInfo = ({
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Experience:</h4>
-          <p className="text-balance max-w-xl">{jobExperience}</p>
+          <p className="text-balance max-w-xl">{experience}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Rating:</h4>
