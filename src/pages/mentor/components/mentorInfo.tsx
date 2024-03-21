@@ -1,7 +1,3 @@
-import { z } from "zod";
-
-import { mentorSchema } from "@/schemas/mentorSchema";
-
 import { RatingStars } from "./stars";
 
 // type TMentorInfo = {
@@ -15,6 +11,17 @@ import { RatingStars } from "./stars";
 //   timeZones: string;
 // };
 
+type TMentorInfo = {
+  workExperience: string;
+  education: string;
+  experience: string | number;
+  rating: number;
+  resume: string;
+  languages: string[];
+  location: string;
+  timeZones: string;
+};
+
 export const MentorInfo = ({
   workExperience,
   education,
@@ -24,7 +31,7 @@ export const MentorInfo = ({
   languages,
   location,
   timeZones,
-}: z.infer<typeof mentorSchema>) => {
+}: TMentorInfo) => {
   return (
     <div className="space-y-2.5 basis-full shadow-xl px-4 pt-4 pb-6">
       <div className="space-y-4">
