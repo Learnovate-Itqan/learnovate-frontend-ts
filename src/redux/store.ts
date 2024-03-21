@@ -11,7 +11,6 @@ export const store = configureStore({
     nav: navReducer,
     meeting: meetingReducer,
     aiChat: aiChatReducer,
-
   },
 });
 
