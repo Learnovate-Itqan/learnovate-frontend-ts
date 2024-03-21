@@ -1,6 +1,6 @@
+import { format } from "date-fns";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -11,31 +11,32 @@ import { MentorAvailabilitySchema } from "@/schemas/mentorSchema";
 import { CalendarCarousel } from "./calendarCarousel";
 
 const MENTOR_ID = "dc7ab0d7-4d1a-4d14-8814-c159fe6027c8";
-const STUDENT_ID = "344444443";
 export const MentorSmallCalendar = ({ availability }: { availability: z.infer<typeof MentorAvailabilitySchema>[] }) => {
   const bookSession = usePostData(`/students/book-session/${MENTOR_ID}`);
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [selectedDate, setSelectedDate] = useState<number[]>([]);
-  const { mentorId } = useParams();
-  const availabilityTimes: number[] = useMemo(() => {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedTime, setSelectedTime] = useState<number>();
+  const availabilityTimes: { startTime: number; isBooked: boolean }[] = useMemo(() => {
+    setSelectedTime(undefined);
     return availability
-      ?.filter((time) => !time.isBooked)
+      ?.filter((time) => {
+        const date = new Date(time.date);
+        return date.toDateString() === selectedDate?.toDateString();
+      })
       .map((time) => {
-        return time.startTime;
+        return { startTime: time.startTime, isBooked: time.isBooked };
       });
-  }, [availability]);
+  }, [availability, selectedDate]);
 
   async function handleBookSession() {
-    if (!date || selectedDate.length === 0) return;
-    const toastId = toast.loading("Loading");
+    if (!selectedDate || !selectedTime) return toast.error("Please select a time");
+    const toastId = toast.loading("booking session...");
     const sessionData = {
-      mentorID: mentorId || MENTOR_ID,
-      studentID: STUDENT_ID,
-      date: "2024-03-18",
-      startTime: 15,
-      endTime: 16,
+      date: format(selectedDate, "yyyy-MM-dd"),
+      startTime: selectedTime,
+      endTime: selectedTime + 1,
     };
     const { data } = await bookSession.mutateAsync(sessionData);
+    console.log(data);
     if (data.status === "Fail") toast.error(data.errors[0].msg);
     else if (data.status === "Success") toast.success("Session reserved successfully");
 
@@ -48,10 +49,10 @@ export const MentorSmallCalendar = ({ availability }: { availability: z.infer<ty
         <h5 className="text-xl font-medium pb-2.5">Availability</h5>
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
+          selected={selectedDate}
+          onSelect={setSelectedDate}
           fromDate={new Date()}
-          toDate={new Date(new Date().setDate(new Date().getDate() + 14))}
+          toDate={new Date(new Date().setDate(new Date().getDate() + 7))}
           className="p-0 w-fit"
           showOutsideDays
           fixedWeeks
@@ -62,8 +63,8 @@ export const MentorSmallCalendar = ({ availability }: { availability: z.infer<ty
           <div className="space-y-3">
             <h5 className="text-xl font-medium pb-2.5 text-center sm:text-start">Schedule</h5>
             <CalendarCarousel
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
               availability={availabilityTimes}
             />
           </div>
