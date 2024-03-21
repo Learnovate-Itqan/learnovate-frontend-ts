@@ -28,7 +28,12 @@ export const MentorViewerPage = () => {
         <div className="container">
           <SkillsBox skills={mentor.skills} />
           <div className="my-8 flex flex-col sm:flex-row gap-y-8 gap-x-4 justify-between">
-            <MentorInfo {...mentor} />
+            <MentorInfo
+              {...mentor}
+              workExperience={`${mentor.experience} ${mentor.experience === 1 ? "year" : "years"}`}
+              location="Egypt"
+              timeZones="UTC+2"
+            />
             <MentorSmallCalendar availability={mentor.availability} />
           </div>
         </div>
