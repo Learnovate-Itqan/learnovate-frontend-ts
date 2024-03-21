@@ -22,7 +22,7 @@ export const mentorSchema = z.object({
   experience: z.string(),
   skills: z.array(z.string()),
   resume: z.string(),
-  education: z.string(),
+  education: z.number(),
   workExperience: z.string(),
   linkedIn: z.string(),
   gitHub: z.string(),
