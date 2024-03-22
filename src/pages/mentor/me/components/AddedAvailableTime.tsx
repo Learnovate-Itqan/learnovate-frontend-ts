@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { IoTrash } from "react-icons/io5";
+
+import { Button } from "@/components/ui/button";
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function AddedAvailableTime({
   times,
@@ -11,11 +12,10 @@ export function AddedAvailableTime({
   times: { startTime: number; endTime: number; isBooked: boolean };
   onDeleteTime: (startTime: number, endTime: number) => void;
 }) {
-
-  function handleDeleteTime(){
+  function handleDeleteTime() {
     if (times.startTime === undefined || times.endTime === undefined) return;
-    if(times.isBooked) return toast.error("This time is already booked!");
-    onDeleteTime(times.startTime, times.endTime)
+    if (times.isBooked) return toast.error("This time is already booked!");
+    onDeleteTime(times.startTime, times.endTime);
   }
   return (
     <div className="flex items-center justify-center h-14 gap-4">
@@ -27,8 +27,8 @@ export function AddedAvailableTime({
             : undefined
         }
       >
-        <SelectTrigger>
-          <SelectValue>{format(new Date().setHours(times.startTime), "hh:00 a")}</SelectValue>
+        <SelectTrigger className=" disabled:opacity-90 text-dark-navy">
+          <SelectValue className=" ">{format(new Date().setHours(times.startTime), "hh:00 a")}</SelectValue>
         </SelectTrigger>
       </Select>
       <span> to </span>
@@ -38,7 +38,7 @@ export function AddedAvailableTime({
           times.endTime || times.endTime === 0 ? format(new Date().setHours(times.endTime + 1), "hh:00 a") : undefined
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className=" disabled:opacity-90 text-dark-navy">
           <SelectValue>{format(new Date().setHours(times.endTime), "hh:00 a")}</SelectValue>
         </SelectTrigger>
       </Select>
