@@ -1,4 +1,3 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { mentor } from "@/db/mentor";
 
 import { MentorInfo } from "../components/mentorInfo";
@@ -6,6 +5,7 @@ import { SkillsBox } from "../components/skillsBox";
 import { AvailabilityEditor } from "./components/AvailabilityEditor";
 import { MeStats } from "./components/meStats";
 import { MeHeader } from "./components/mentorMeHeader";
+import { BookedSessions } from "./components/BookedSessions";
 
 export const MentorMePage = () => {
   const skills = mentor.skills.map((skill) => skill.name);
@@ -29,9 +29,9 @@ export const MentorMePage = () => {
             />
             <MeStats />
           </div>
-          <div className="my-8 flex flex-col sm:flex-row gap-y-8 gap-x-4 justify-between">
+          <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
             <AvailabilityEditor />
-            <ScrollArea className=" shadow-custom h-96 rounded-lg basis-full">asdasd</ScrollArea>
+            <BookedSessions />
           </div>
         </div>
       </main>
