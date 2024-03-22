@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
 import { IoTrash } from "react-icons/io5";
 
 export function AddedAvailableTime({
@@ -10,6 +11,12 @@ export function AddedAvailableTime({
   times: { startTime: number; endTime: number; isBooked: boolean };
   onDeleteTime: (startTime: number, endTime: number) => void;
 }) {
+
+  function handleDeleteTime(){
+    if (times.startTime === undefined || times.endTime === undefined) return;
+    if(times.isBooked) return toast.error("This time is already booked!");
+    onDeleteTime(times.startTime, times.endTime)
+  }
   return (
     <div className="flex items-center justify-center h-14 gap-4">
       <Select
@@ -38,7 +45,7 @@ export function AddedAvailableTime({
       <Button
         variant="ghost"
         className="text-red-500 hover:bg-transparent hover:text-red-600  rounded-lg px-4 py-2"
-        onClick={() => onDeleteTime(times.startTime, times.endTime)}
+        onClick={handleDeleteTime}
       >
         <IoTrash className="text-2xl" />
       </Button>
