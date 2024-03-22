@@ -113,6 +113,7 @@ export function AvailabilityEditor() {
                   (time) =>
                     isSameDay(day.date, time.date) && (
                       <AddedAvailableTime
+                        key={`${time.times.startTime}-${time.times.endTime}`}
                         times={time.times}
                         onDeleteTime={(startTime, endTime) =>
                           handleDeleteTime({ startTime, endTime, date: time.date, day: day.day })
