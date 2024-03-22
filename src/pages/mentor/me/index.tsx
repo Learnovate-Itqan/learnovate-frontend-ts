@@ -1,5 +1,6 @@
 import { eachDayOfInterval, format, isSameDay } from "date-fns";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -25,12 +26,14 @@ type AvailableTimeType = {
 
 export const MentorMePage = () => {
   const skills = mentor.skills.map((skill) => skill.name);
-  const days = eachDayOfInterval({
-    start: new Date(),
-    end: new Date(new Date().setDate(new Date().getDate() + 7)),
-  }).map((day) => {
-    return { day: format(day, "EEEE"), date: format(day, "yyyy-MM-dd") };
-  });
+  const [days, setDays] = useState(() =>
+    eachDayOfInterval({
+      start: new Date(),
+      end: new Date(new Date().setDate(new Date().getDate() + 7)),
+    }).map((day) => {
+      return { day: format(day, "EEEE"), date: format(day, "yyyy-MM-dd"), isOpen: false };
+    })
+  );
 
   const [availableTimes, setAvailableTimes] = useState<AvailableTimeType[]>([]);
 
@@ -45,6 +48,7 @@ export const MentorMePage = () => {
     day: string;
     date: Date;
   }) {
+    if (days.find((d) => isSameDay(d.date, date) && d.isOpen)) return toast.error("This day is locked by you!");
     setAvailableTimes((prev) => [
       ...prev,
       {
@@ -105,9 +109,19 @@ export const MentorMePage = () => {
                 <Accordion type="single" collapsible className="px-1">
                   {days.map((day) => (
                     <AccordionItem value={day.date} className="hover:no-underline">
-                      <AccordionTrigger className=" text-xl text-left gap-4 font-semibold hover:no-underline focus:ring-royal-blue">
+                      <AccordionTrigger
+                        className={` text-xl text-left gap-4 font-semibold hover:no-underline focus:ring-royal-blue ${!day.isOpen ? "text-zinc-400" : "text-dark-navy"}`}
+                      >
                         <div className="flex gap-4 justify-start items-center">
-                          <Switch className=" focus-visible:ring-1 focus-visible:ring-royal-blue" />
+                          <Switch
+                            checked={day.isOpen}
+                            className=" focus-visible:ring-1 z-40 focus-visible:ring-royal-blue"
+                            onCheckedChange={(checked) => {
+                              setDays((prev) =>
+                                prev.map((d) => (isSameDay(day.date, d.date) ? { ...d, isOpen: checked } : d))
+                              );
+                            }}
+                          />
                           <span>{day.day}</span>
                           <span className=" text-sm text-zinc-400 font-normal place-self-end">{day.date}</span>
                         </div>
