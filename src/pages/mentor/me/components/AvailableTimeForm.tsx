@@ -18,14 +18,14 @@ export function AvailableTimeForm({ onAddTime }: { onAddTime: (startTime: number
   }
   console.log(selectedTime);
   return (
-    <div className="flex items-center justify-center h-14 gap-4">
+    <div className="flex flex-col sm:flex-row items-center justify-center md:h-14 gap-4">
       <Select
         onValueChange={(val) => setSelectedTime(Number(val))}
         value={selectedTime || selectedTime === 0 ? format(new Date().setHours(selectedTime), "hh:00 a") : undefined}
       >
         <SelectTrigger className=" focus:ring-1 focus:ring-royal-blue *:stroke-royal-blue *:opacity-100  ">
-          <SelectValue placeholder="select time">
-            {selectedTime || selectedTime === 0 ? format(new Date().setHours(selectedTime), "hh:00 a") : "select time"}
+          <SelectValue placeholder="start time">
+            {selectedTime || selectedTime === 0 ? format(new Date().setHours(selectedTime), "hh:00 a") : "start time"}
           </SelectValue>
         </SelectTrigger>
         <SelectContent className="max-h-48">
@@ -36,7 +36,7 @@ export function AvailableTimeForm({ onAddTime }: { onAddTime: (startTime: number
           ))}
         </SelectContent>
       </Select>
-      <span> to </span>
+      {/* <span> to </span> */}
       <Select
         disabled
         value={
@@ -44,19 +44,20 @@ export function AvailableTimeForm({ onAddTime }: { onAddTime: (startTime: number
         }
       >
         <SelectTrigger>
-          <SelectValue placeholder="select time">
-            {selectedTime || selectedTime === 0
-              ? format(new Date().setHours(selectedTime + 1), "hh:00 a")
-              : "select time"}
+          <SelectValue placeholder="end time">
+            {selectedTime || selectedTime === 0 ? format(new Date().setHours(selectedTime + 1), "hh:00 a") : "end time"}
           </SelectValue>
         </SelectTrigger>
       </Select>
+
       <Button
         aria-label="Add Time"
         variant="ghost"
         onClick={handleAddTime}
-        className="text-royal-blue hover:bg-transparent hover:text-royal-blue/80  rounded-lg px-4 py-2"
+        className="text-royal-blue hover:bg-transparent hover:text-royal-blue/80 place-self-end   rounded-lg px-4 py-2"
       >
+        <span className=" sm:hidden">Add time</span>
+
         <IoAddCircleOutline className="text-2xl" />
       </Button>
     </div>

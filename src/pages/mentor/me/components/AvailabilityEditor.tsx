@@ -95,11 +95,11 @@ export function AvailabilityEditor() {
                 />
                 <AccordionTrigger
                   disabled={!day.isOpen}
-                  className={` text-xl text-left gap-4 font-semibold flex hover:no-underline ${!day.isOpen ? "text-zinc-400" : "text-dark-navy"}`}
+                  className={`text-base md:text-xl text-left gap-4 font-semibold flex hover:no-underline ${!day.isOpen ? "text-zinc-400" : "text-dark-navy"}`}
                 >
                   <span className="flex gap-4">
                     <span>{day.day}</span>
-                    <span className=" text-sm text-zinc-400 font-normal place-self-end">{day.date}</span>
+                    <span className=" text-xs md:text-sm text-zinc-400 font-normal place-self-end">{day.date}</span>
                   </span>
                 </AccordionTrigger>
               </div>
