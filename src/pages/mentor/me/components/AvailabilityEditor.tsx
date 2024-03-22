@@ -3,11 +3,11 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Switch } from "@/components/ui/switch";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AvailableTimeForm } from "./AvailableTimeForm";
-import { AddedAvailableTime } from "./AddedAvailableTime";
+import { Switch } from "@/components/ui/switch";
 
+import { AddedAvailableTime } from "./AddedAvailableTime";
+import { AvailableTimeForm } from "./AvailableTimeForm";
 
 type AvailableTimeType = {
   day: string;
@@ -40,7 +40,7 @@ export function AvailabilityEditor() {
     day: string;
     date: Date;
   }) {
-    if (days.find((d) => isSameDay(d.date, date) && d.isOpen)) return toast.error("This day is locked by you!");
+    if (days.find((d) => isSameDay(d.date, date) && !d.isOpen)) return toast.error("This day is locked by you!");
     setAvailableTimes((prev) => [
       ...prev,
       {
@@ -81,22 +81,28 @@ export function AvailabilityEditor() {
       <ScrollArea className=" h-96 py-4 px-7 ">
         <Accordion type="single" collapsible className="px-1">
           {days.map((day) => (
-            <AccordionItem value={day.date} className="hover:no-underline">
-              <AccordionTrigger
-                className={` text-xl text-left gap-4 font-semibold hover:no-underline focus:ring-royal-blue ${!day.isOpen ? "text-zinc-400" : "text-dark-navy"}`}
-              >
-                <div className="flex gap-4 justify-start items-center">
-                  <Switch
-                    checked={day.isOpen}
-                    className=" focus-visible:ring-1 z-40 focus-visible:ring-royal-blue"
-                    onCheckedChange={(checked) => {
-                      setDays((prev) => prev.map((d) => (isSameDay(day.date, d.date) ? { ...d, isOpen: checked } : d)));
-                    }}
-                  />
-                  <span>{day.day}</span>
-                  <span className=" text-sm text-zinc-400 font-normal place-self-end">{day.date}</span>
-                </div>
-              </AccordionTrigger>
+            <AccordionItem key={day.date} value={day.date} className="hover:no-underline">
+              <div className="flex items-center gap-4 *:grow">
+                <Switch
+                  checked={day.isOpen}
+                  className=" focus-visible:ring-1 max-w-11 focus-visible:ring-royal-blue"
+                  onCheckedChange={(checked) => {
+                    if (availableTimes.find((time) => isSameDay(day.date, time.date))) {
+                      return toast.error("You can't lock a day with available times!");
+                    }
+                    setDays((prev) => prev.map((d) => (isSameDay(day.date, d.date) ? { ...d, isOpen: checked } : d)));
+                  }}
+                />
+                <AccordionTrigger
+                  disabled={!day.isOpen}
+                  className={` text-xl text-left gap-4 font-semibold flex hover:no-underline ${!day.isOpen ? "text-zinc-400" : "text-dark-navy"}`}
+                >
+                  <span className="flex gap-4">
+                    <span>{day.day}</span>
+                    <span className=" text-sm text-zinc-400 font-normal place-self-end">{day.date}</span>
+                  </span>
+                </AccordionTrigger>
+              </div>
               <AccordionContent className="text-neutral-gray text-balance text-base px-1">
                 <AvailableTimeForm
                   onAddTime={(startTime, endTime) =>
