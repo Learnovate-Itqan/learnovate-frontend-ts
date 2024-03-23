@@ -21,6 +21,7 @@ import { Meeting } from "./pages/meeting";
 import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
+import Profile from "./pages/profile";
 import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
 
@@ -57,6 +58,8 @@ export const Router = createBrowserRouter(
           <Route path="auth/reset-password" element={<ResetPassword />} />
         </Route>
 
+        {/* Profile Route */}
+        <Route path="profile" element={<Profile />} />
         {/* Mentor Routes */}
         <Route path="mentor/:id" element={<MentorViewerPage />} />
         <Route path="mentor/me/:id" element={<MentorMePage />} />
