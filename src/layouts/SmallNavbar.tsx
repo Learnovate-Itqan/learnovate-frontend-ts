@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { MdOutlineChat, MdOutlinePolicy } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -70,14 +71,22 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
         </li>
       </ul>
       {isAuth ? (
-        <div className="flex justify-between items-center">
-          <Link to="/profile" onClick={() => dispatcher(closeNav())}>
+        <div className="flex  justify-between items-center">
+          <Link title="profile" to="/profile" onClick={() => dispatcher(closeNav())}>
             <UserAvatar imageUrl={user?.image} name={user?.name} />
+          </Link>
+          <Link title="Ai Assistant" to="/chat/learnovate-assistant" onClick={() => dispatcher(closeNav())}>
+            <MdOutlineChat size={30} />
+          </Link>
+          <Link title="Privacy Policy" to="/privacy-policy" onClick={() => dispatcher(closeNav())}>
+            <MdOutlinePolicy size={30} />
           </Link>
           <button
             title="log out"
-            className=" border-2 border-dark-navy hover:bg-dark-navy/30 transition-colors rounded-md py-2 px-1"
-            onClick={logout}
+            onClick={() => {
+              dispatcher(closeNav());
+              logout;
+            }}
           >
             <TbLogout className="text-dark-navy" size={30} />
           </button>
