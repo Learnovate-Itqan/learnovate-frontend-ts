@@ -1,4 +1,4 @@
-import { addDays, format, isSameDay, isToday, subDays } from "date-fns";
+import { addDays, differenceInCalendarDays, format, isSameDay, isToday, subDays } from "date-fns";
 import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -79,7 +79,13 @@ export function BookedSessions() {
           </h2>
           <span className="text-zinc-400 text-xs sm:text-sm">{format(currentDay, "dd-MM-yyyy")}</span>
         </div>
-        <Button variant="link" className="md:text-lg" onClick={() => setCurrentDay((prev) => addDays(prev, 1))}>
+        <Button
+          variant="link"
+          className="md:text-lg"
+          onClick={() =>
+            setCurrentDay((prev) => (differenceInCalendarDays(prev, new Date()) > 5 ? prev : addDays(prev, 1)))
+          }
+        >
           Tomorrow
           <IoIosArrowForward />
         </Button>
