@@ -157,15 +157,16 @@ export function StudentProfilePage() {
     <main>
       <StudentHeader name="mohamed Ebrahim" studentImage={studentImageDefault} id="2135464646645" />
       <main className="container pb-20">
-        <section className="flex grow flex-col gap-5 py-10 lg:flex-row">
+        <section className="flex basis-1/2 flex-col gap-5 py-10 lg:flex-row">
           <StudentInfo
             education="Bachelor's degree in Computer Science from XYZ University."
             dateOfBirth={new Date("2001-02-27")}
             location="Egypt"
           />
-          <div className="grid gap-5 sm:grid-cols-2 lg:max-w-xl">
+          <div className=" grid gap-5 sm:grid-cols-2 lg:flex basis-1/2  lg:max-w-xl">
             <TracksProgress tracks={tracks} />
             <SocialCard
+              className="min-w-fit "
               mail="Learnovate@gmail.com"
               github="Github.com/learnovate"
               linkedin="Linkedin.com/learnovate"
