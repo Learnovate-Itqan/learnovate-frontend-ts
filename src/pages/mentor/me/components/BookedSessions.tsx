@@ -2,6 +2,7 @@ import { addDays, differenceInCalendarDays, format, isSameDay, isToday, subDays 
 import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
+import BookedSession from "@/components/ui/bookedSession";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -95,22 +96,11 @@ export function BookedSessions() {
           {SESSIONS.map((session) => {
             if (!isSameDay(session.date, currentDay)) return null;
             return (
-              <div
-                key={session.id}
-                className="flex justify-between bg-zinc-100 px-3 py-3 rounded-lg items-baseline gap-4"
-              >
-                <div className="flex gap-1 flex-col">
-                  <span className=" text-sm sm:text-base font-semibold">Meeting With {session.student.name}</span>
-                  <span className=" text-xs sm:text-sm text-zinc-500">
-                    {format(new Date().setHours(session.startTime), "hh:00 a")} -{" "}
-                    {format(new Date().setHours(session.endTime), "hh:00 a")}
-                  </span>
-                </div>
-                <Button variant="link" className="text-wrap flex items-center  text-royal-blue">
-                  Go to meeting
-                  <IoIosArrowForward className=" hidden md:block" />
-                </Button>
-              </div>
+              <BookedSession
+                startTime={session.startTime}
+                endTime={session.endTime}
+                meetingWith={session.student.name}
+              />
             );
           })}
         </div>
