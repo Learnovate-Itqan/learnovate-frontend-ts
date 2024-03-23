@@ -65,7 +65,7 @@ export function BookedSessions() {
   const [currentDay, setCurrentDay] = useState(new Date());
 
   return (
-    <section className=" shadow-custom container py-5 rounded-lg">
+    <section className=" shadow-custom container md:max-lg:px-2 py-5 rounded-lg">
       <header className="flex justify-between items-center">
         {!isToday(currentDay) && (
           <Button variant="link" className=" md:text-lg" onClick={() => setCurrentDay((prev) => subDays(prev, 1))}>
