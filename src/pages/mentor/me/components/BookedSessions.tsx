@@ -1,69 +1,31 @@
 import { addDays, differenceInCalendarDays, format, isSameDay, isToday, subDays } from "date-fns";
 import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import { twMerge } from "tailwind-merge";
 
 import BookedSession from "@/components/ui/bookedSession";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const SESSIONS = [
-  {
-    id: 1,
-    date: new Date("2024-03-22"),
-    startTime: 10,
-    endTime: 11,
+type BookedSessionsProps = {
+  sessions: {
+    id: number;
+    date: Date;
+    startTime: number;
+    endTime: number;
     student: {
-      name: "Matthew Lane",
-    },
-  },
-  {
-    id: 2,
-    date: new Date("2024-03-23"),
-    startTime: 12,
-    endTime: 13,
-    student: {
-      name: "Mildred Waters",
-    },
-  },
-  {
-    id: 3,
-    date: new Date("2024-03-22"),
-    startTime: 14,
-    endTime: 15,
-    student: {
-      name: "David Ingram",
-    },
-  },
-  {
-    id: 4,
-    date: new Date("2024-03-22"),
-    startTime: 16,
-    endTime: 17,
-    student: {
-      name: "Duane Cruz",
-    },
-  },
-  {
-    id: 5,
-    date: new Date("2024-03-23"),
-    startTime: 18,
-    endTime: 19,
-    student: {
-      name: "Gene Cummings",
-    },
-  },
-  {
-    id: 6,
-    date: new Date("2024-03-24"),
-    startTime: 20,
-    endTime: 21,
-    student: {
-      name: "Edgar Rogers",
-    },
-  },
-];
-export function BookedSessions() {
+      name: string;
+    };
+    mentor: {
+      name: string;
+    };
+  }[];
+  userRole: "student" | "mentor";
+  className?: string;
+};
+export function BookedSessions({ sessions, userRole = "student", className = "" }: BookedSessionsProps) {
   const [currentDay, setCurrentDay] = useState(new Date());
+  const todaySessions = sessions.filter((session) => isSameDay(session.date, currentDay));
 
   return (
     <section className=" shadow-custom container md:max-lg:px-2 py-5 rounded-lg">
@@ -91,18 +53,21 @@ export function BookedSessions() {
           <IoIosArrowForward />
         </Button>
       </header>
-      <ScrollArea className=" h-72 pr-3">
-        <div className="grid grid-cols-1 gap-4 mt-4">
-          {SESSIONS.map((session) => {
-            if (!isSameDay(session.date, currentDay)) return null;
-            return (
-              <BookedSession
-                startTime={session.startTime}
-                endTime={session.endTime}
-                meetingWith={session.student.name}
-              />
-            );
-          })}
+      <ScrollArea className={twMerge("h-72 pr-3", className)}>
+        <div className="grid h-full grid-cols-1 gap-4 mt-4">
+          {todaySessions.length > 0 ? (
+            todaySessions.map((session) => {
+              return (
+                <BookedSession
+                  startTime={session.startTime}
+                  endTime={session.endTime}
+                  meetingWith={userRole === "mentor" ? session?.student.name : session?.mentor.name}
+                />
+              );
+            })
+          ) : (
+            <p className="text-zinc-500 mt-14 text-xl text-center my-auto">No schedule today</p>
+          )}
         </div>
       </ScrollArea>
     </section>
