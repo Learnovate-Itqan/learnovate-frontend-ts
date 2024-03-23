@@ -11,7 +11,7 @@ type track = {
 
 export function TracksProgress({ tracks }: { tracks: track[] }) {
   return (
-    <section className="container shadow-custom rounded-md py-3 ">
+    <section className=" shadow-custom rounded-md min-w-48 p-3 ">
       <div className="flex justify-center items-center h-full">
         {!tracks || tracks.length === 0 ? (
           <p className="text-xl text-center text-zinc-400">you are not assigned to any track</p>
