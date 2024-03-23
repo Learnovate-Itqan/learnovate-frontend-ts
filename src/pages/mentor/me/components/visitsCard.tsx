@@ -71,7 +71,7 @@ const Chart = () => {
 
 export const StatsCard = () => {
   return (
-    <div className="shadow-xl p-6 rounded-md space-y-2">
+    <div className="shadow-custom p-6 rounded-md space-y-2">
       <div>
         <h5 className="font-medium text-xl">profile visits</h5>
         <span>last 30 days</span>

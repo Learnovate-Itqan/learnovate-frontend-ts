@@ -5,7 +5,7 @@ import { RiTwitterXLine } from "react-icons/ri";
 
 export const SocialCard = () => {
   return (
-    <div className="shadow-xl flex flex-col gap-y-4 justify-center p-6 rounded-md *:text-dark-navy text-xl">
+    <div className="shadow-custom flex flex-col gap-y-4 justify-center p-6 rounded-md *:text-dark-navy text-xl">
       <a href="mailto:Learnovate@gmail.com" className="flex items-center gap-2 w-fit">
         <MdEmail className="text-2xl" />
         <span>Learnovate@gmail.com</span>
