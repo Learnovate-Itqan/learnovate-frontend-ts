@@ -4,8 +4,6 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoPersonCircleSharp } from "react-icons/io5";
-import { LuLogOut } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -14,8 +12,7 @@ import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button_";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
-import { UserAvatar } from "@/components/ui/UserAvatar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import UserPopover from "@/components/ui/UserPopover";
 import { useGetData, usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { resetUser, setUser } from "@/redux/slices/authSlice";
@@ -67,20 +64,19 @@ export function Navbar() {
     if (tracks) {
       queryClient.setQueryData(["tracks"], tracks);
     }
-  }, [tracks, queryClient]);
-  useEffect(() => {
     if (userData) {
       if (!userData?.name) return;
       dispatcher(setUser({ ...userData, authStatus: true }));
     }
-  }, [dispatcher, userData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tracks, queryClient]);
 
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
       <SmallNavbar tracks={tracks} isAuth={isAuth} user={userData} logout={logout} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
-          <img src={Logo} />
+          <img src={Logo} alt="Learnovate-Logo" />
         </Link>
       </div>
       <div className="grow hidden mx-5 lg:block">
@@ -128,27 +124,7 @@ export function Navbar() {
           <button>
             <GoBell size={22} />
           </button>
-          <Popover>
-            <PopoverTrigger>
-              <UserAvatar imageUrl={userData?.image} name={userData?.name || "User"} />
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-3 w-48 mt-2 mr-10 text-dark-navy divide-y-[1px]">
-              <Link
-                to="/profile"
-                className="transition-colors flex items-center gap-1 font-semibold hover:text-zinc-600 "
-              >
-                <IoPersonCircleSharp size={25} />
-                Profile
-              </Link>
-              <button
-                className="text-left transition-colors flex pt-3 items-center gap-1 font-semibold hover:text-zinc-600 "
-                onClick={logout}
-              >
-                <LuLogOut className="text-dark-navy" size={25} />
-                Logout
-              </button>
-            </PopoverContent>
-          </Popover>
+          <UserPopover userData={userData} logout={logout} />
         </div>
       )}
       <div className="flex justify-center items-center gap-1 lg:hidden">

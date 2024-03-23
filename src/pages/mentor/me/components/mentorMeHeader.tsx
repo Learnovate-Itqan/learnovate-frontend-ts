@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 import { Badge } from "@/components/ui/badge";
 // import { useGetData } from "@/hooks/useApi";
-import { Navbar } from "@/layouts/Navbar";
 
 type TViewerHeader = {
   name: string;
@@ -18,7 +17,6 @@ export const MeHeader = ({ name, jobTitle, description, image }: TViewerHeader) 
 
   return (
     <header className="w-full">
-      <Navbar />
       <div className="w-full relative">
         <div className="z-0 text-dark-navy py-12">
           <div className="container h-full flex gap-x-10 gap-y-4 flex-col sm:flex-row sm:items-center">

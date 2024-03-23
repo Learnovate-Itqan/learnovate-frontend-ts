@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { LuLogOut } from "react-icons/lu";
+import { MdOutlineChat, MdOutlinePolicy } from "react-icons/md";
+import { TbLogout } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -31,7 +32,7 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
   return (
     <nav
       ref={navRef}
-      className={`xl:hidden h-dvh fixed w-60 bg-royal-blue z-[100] top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
+      className={`xl:hidden min-h-dvh h-full fixed w-60 bg-royal-blue z-[100] top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
     >
       <header>
         <div className="flex justify-between">
@@ -70,16 +71,24 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
         </li>
       </ul>
       {isAuth ? (
-        <div className="flex justify-between items-center">
-          <Link to="/profile" onClick={() => dispatcher(closeNav())}>
+        <div className="flex  justify-between items-center">
+          <Link title="profile" to="/profile" onClick={() => dispatcher(closeNav())}>
             <UserAvatar imageUrl={user?.image} name={user?.name} />
+          </Link>
+          <Link title="Ai Assistant" to="/chat/learnovate-assistant" onClick={() => dispatcher(closeNav())}>
+            <MdOutlineChat size={30} />
+          </Link>
+          <Link title="Privacy Policy" to="/privacy-policy" onClick={() => dispatcher(closeNav())}>
+            <MdOutlinePolicy size={30} />
           </Link>
           <button
             title="log out"
-            className=" border-2 border-dark-navy hover:bg-dark-navy/30 transition-colors rounded-md py-2 px-1"
-            onClick={logout}
+            onClick={() => {
+              dispatcher(closeNav());
+              logout;
+            }}
           >
-            <LuLogOut className="text-dark-navy" size={30} />
+            <TbLogout className="text-dark-navy" size={30} />
           </button>
         </div>
       ) : (
