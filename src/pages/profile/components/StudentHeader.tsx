@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export function StudentHeader({ name, id, studentImage }: { name: string; id: string; studentImage: string }) {
   const navigate = useNavigate();
   return (
-    <header className="relative py-3 flex items-end min-h-[calc(24rem-85px)] mb-10 md:mb-20 bg-dark-navy/50">
+    <header className="relative py-3 flex items-end min-h-[calc(24rem-85px)] md:mb-20 bg-dark-navy/50">
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
         className=" absolute inset-0 -z-10 bg-no-repeat  bg-dark-navy bg-cover bg-center after:content-[''] after:top-0 after:left-0 after:absolute after:-z-1 after:w-full  after:h-[20%]  after:bg-gradient-to-b after:from-dark-navy after:via-dark-navy/20"
