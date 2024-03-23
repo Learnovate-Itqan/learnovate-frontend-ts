@@ -12,19 +12,18 @@ type track = {
 export function TracksProgress({ tracks }: { tracks: track[] }) {
   return (
     <section className="container shadow-custom rounded-md py-3 ">
-      <h1 className="text-lg font-semibold mb-10">Tracks Progress</h1>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center h-full">
         {!tracks || tracks.length === 0 ? (
           <p className="text-xl text-center text-zinc-400">you are not assigned to any track</p>
         ) : (
-          <Carousel className=" flex flex-col items-center pb-5">
+          <Carousel className=" flex flex-col justify-between h-full items-center pb-5">
             <CarouselContent>
               {tracks.map((track) => (
                 <CarouselItem key={track.id}>
                   <CircularProgressbarWithChildren value={track.progress} key={track.id}>
                     <h1 className="text-5xl text-royal-blue font-semibold mb-2">{track.progress}%</h1>
-                    <p className="text-zinc-500 text-lg max-w-xs text-center">{track.title}</p>
-                    <p className="text-zinc-500 text-lg max-w-xs text-center">track progress</p>
+                    <p className="text-zinc-500 text-sm sm:text-md max-w-xs text-center">{track.title}</p>
+                    <p className="text-zinc-500 text-xs sm:text-sm max-w-xs text-center">track progress</p>
                   </CircularProgressbarWithChildren>
                 </CarouselItem>
               ))}
