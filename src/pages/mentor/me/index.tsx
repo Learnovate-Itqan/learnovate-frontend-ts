@@ -3,9 +3,9 @@ import { mentor } from "@/db/mentor";
 import { MentorInfo } from "../components/mentorInfo";
 import { SkillsBox } from "../components/skillsBox";
 import { AvailabilityEditor } from "./components/AvailabilityEditor";
+import { BookedSessions } from "./components/BookedSessions";
 import { MeStats } from "./components/meStats";
 import { MeHeader } from "./components/mentorMeHeader";
-import { BookedSessions } from "./components/BookedSessions";
 
 export const MentorMePage = () => {
   const skills = mentor.skills.map((skill) => skill.name);
