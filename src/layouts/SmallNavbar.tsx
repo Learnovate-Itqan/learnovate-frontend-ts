@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { LuLogOut } from "react-icons/lu";
+import { TbLogout } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -31,7 +31,7 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
   return (
     <nav
       ref={navRef}
-      className={`xl:hidden h-dvh fixed w-60 bg-royal-blue z-[100] top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
+      className={`xl:hidden min-h-dvh h-full fixed w-60 bg-royal-blue z-[100] top-0 transition-all duration-300 p-6 flex flex-col justify-between gap-2 ${isOpen ? " right-0" : " -right-60"}`}
     >
       <header>
         <div className="flex justify-between">
@@ -79,7 +79,7 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
             className=" border-2 border-dark-navy hover:bg-dark-navy/30 transition-colors rounded-md py-2 px-1"
             onClick={logout}
           >
-            <LuLogOut className="text-dark-navy" size={30} />
+            <TbLogout className="text-dark-navy" size={30} />
           </button>
         </div>
       ) : (
