@@ -1,7 +1,7 @@
 import { Navbar } from "@/layouts/Navbar";
 
 import { MentorMePage } from "../mentor/me";
-import StudentProfilePage from "./StudentProfilePage";
+import { StudentProfilePage } from "./StudentProfilePage";
 
 const UserType = {
   mentor: <MentorMePage />,
