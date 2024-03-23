@@ -18,7 +18,7 @@ export function AddedAvailableTime({
     onDeleteTime(times.startTime, times.endTime);
   }
   return (
-    <div className="flex items-center justify-center h-14 gap-4">
+    <div className="flex flex-col sm:flex-row items-center justify-center sm:h-14 gap-2 md:gap-4">
       <Select
         disabled
         value={
@@ -27,26 +27,28 @@ export function AddedAvailableTime({
             : undefined
         }
       >
-        <SelectTrigger className=" disabled:opacity-90 text-dark-navy">
+        <SelectTrigger className=" disabled:opacity-80 text-dark-navy">
           <SelectValue className=" ">{format(new Date().setHours(times.startTime), "hh:00 a")}</SelectValue>
         </SelectTrigger>
       </Select>
-      <span> to </span>
+      <span className=" hidden sm:inline-block md:max-lg:hidden"> to </span>
       <Select
         disabled
         value={
           times.endTime || times.endTime === 0 ? format(new Date().setHours(times.endTime + 1), "hh:00 a") : undefined
         }
       >
-        <SelectTrigger className=" disabled:opacity-90 text-dark-navy">
+        <SelectTrigger className=" disabled:opacity-80 text-dark-navy">
           <SelectValue>{format(new Date().setHours(times.endTime), "hh:00 a")}</SelectValue>
         </SelectTrigger>
       </Select>
       <Button
         variant="ghost"
-        className="text-red-500 hover:bg-transparent hover:text-red-600  rounded-lg px-4 py-2"
+        className="text-red-500 hover:bg-transparent space-x-1 hover:text-red-600 place-self-end  sm:place-self-center  rounded-lg px-4 py-2"
         onClick={handleDeleteTime}
       >
+        <span className=" sm:hidden">delete time</span>
+
         <IoTrash className="text-2xl" />
       </Button>
     </div>

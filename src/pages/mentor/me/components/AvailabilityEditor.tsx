@@ -103,7 +103,7 @@ export function AvailabilityEditor() {
                   </span>
                 </AccordionTrigger>
               </div>
-              <AccordionContent className="text-neutral-gray text-balance text-base px-1">
+              <AccordionContent className="text-neutral-gray text-balance text-base px-1 space-y-2">
                 <AvailableTimeForm
                   onAddTime={(startTime, endTime) =>
                     handleAddTime({ startTime, endTime, day: day.day, date: new Date(day.date) })

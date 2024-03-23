@@ -18,7 +18,7 @@ export function AvailableTimeForm({ onAddTime }: { onAddTime: (startTime: number
   }
   console.log(selectedTime);
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-center md:h-14 gap-4">
+    <div className="flex flex-col sm:flex-row items-center justify-center md:h-14 gap-2 md:gap-4">
       <Select
         onValueChange={(val) => setSelectedTime(Number(val))}
         value={selectedTime || selectedTime === 0 ? format(new Date().setHours(selectedTime), "hh:00 a") : undefined}
@@ -36,7 +36,7 @@ export function AvailableTimeForm({ onAddTime }: { onAddTime: (startTime: number
           ))}
         </SelectContent>
       </Select>
-      {/* <span> to </span> */}
+      <span className=" hidden sm:inline-block md:max-lg:hidden"> to </span>
       <Select
         disabled
         value={
@@ -54,7 +54,7 @@ export function AvailableTimeForm({ onAddTime }: { onAddTime: (startTime: number
         aria-label="Add Time"
         variant="ghost"
         onClick={handleAddTime}
-        className="text-royal-blue hover:bg-transparent hover:text-royal-blue/80 place-self-end   rounded-lg px-4 py-2"
+        className="text-royal-blue hover:bg-transparent space-x-1 hover:text-royal-blue/80 place-self-end sm:place-self-center rounded-lg px-4 py-2"
       >
         <span className=" sm:hidden">Add time</span>
 
