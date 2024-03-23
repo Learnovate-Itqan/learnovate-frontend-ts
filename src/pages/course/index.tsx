@@ -31,122 +31,32 @@ const courseChapters = [
   {
     id: "31",
     name: "lorem ipsum",
-    content: [
-      {
-        id: "6410",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-      },
-      {
-        id: "3412",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/softPN4pRxE?si=h-N1ss2UdHnIlxOb",
-      },
-      {
-        id: "83515",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/_Yhyp-_hX2s?si=OR3QC_IST8pRP-kI",
-      },
-    ],
+    duration: "4:33",
+    cLink: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
   },
   {
     id: "11",
     name: "lorem ipsum",
-    content: [
-      {
-        id: "3210",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/lH7vAzmmB-M?si=EM0V30z2e5ymxRj1",
-      },
-      {
-        id: "5112",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/4VWVcwytbpM?si=PyEFeRMIxeCBnvkq",
-      },
-      {
-        id: "15",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/xW-zNOT4P1A?si=svOvHZXUJSigrijA",
-      },
-    ],
+    duration: "4:33",
+    cLink: "https://www.youtube.com/lH7vAzmmB-M?si=EM0V30z2e5ymxRj1",
   },
   {
     id: "17",
     name: "lorem ipsum",
-    content: [
-      {
-        id: "4010",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/MIIvpZLaVMo?si=gVsiW5gle_Yicf6C",
-      },
-      {
-        id: "8612",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/C3bT_FiEEpE?si=O_3BTx6Jeluujm1f",
-      },
-      {
-        id: "61415",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/-gubfQmImik?si=KoxIplQyNprVRkRK",
-      },
-    ],
+    duration: "4:33",
+    cLink: "https://www.youtube.com/MIIvpZLaVMo?si=gVsiW5gle_Yicf6C",
   },
   {
     id: "73",
     name: "lorem ipsum",
-    content: [
-      {
-        id: "810",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/fyP-T6DEHgA?si=pg4FWu_FbqeXNCAt",
-      },
-      {
-        id: "5712",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/U2nm2DAOqvE?si=stSokm4N0qyFvNnu",
-      },
-      {
-        id: "66115",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/RVwD5bZSl1o?si=pObFcXuOc6YhFICt",
-      },
-    ],
+    duration: "4:33",
+    cLink: "https://www.youtube.com/fyP-T6DEHgA?si=pg4FWu_FbqeXNCAt",
   },
   {
     id: "1",
     name: "lorem ipsum",
-    content: [
-      {
-        id: "6910",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/OL-tStCYoFM?si=3ZikLxiD6yvZtyBw",
-      },
-      {
-        id: "6912",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/HmbIb8WsgGI?si=90SM6GiQk8p33nOz",
-      },
-      {
-        id: "47515",
-        name: "lorem ipsum",
-        duration: "4:33",
-        cLink: "https://www.youtube.com/HtIZZXeiNDU?si=Xzebjqt4ecIyzdmg",
-      },
-    ],
+    duration: "4:33",
+    cLink: "https://www.youtube.com/OL-tStCYoFM?si=3ZikLxiD6yvZtyBw",
   },
 ];
 

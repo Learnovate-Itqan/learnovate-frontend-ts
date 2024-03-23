@@ -1,7 +1,5 @@
-import { IoMdPlayCircle } from "react-icons/io";
 import { useSearchParams } from "react-router-dom";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -9,24 +7,17 @@ type CourseContentsProps = {
   courseChapters: {
     id: string;
     name: string;
-    content: {
-      id: string;
-      name: string;
-      duration: string;
-      cLink: string;
-    }[];
+    duration: string;
+    cLink: string;
   }[];
   progress: number;
 };
 
 export function CourseContents({ courseChapters, progress }: CourseContentsProps) {
   const [searchParam, setSearchParam] = useSearchParams();
-  const currentVideo = searchParam.get("lecture") || courseChapters[0].content[0].id;
-  const currentChapter =
-    courseChapters.find((chapter) => chapter.content.some((content) => content.id === currentVideo)) ||
-    courseChapters[0];
+  const currentVideo = searchParam.get("chapter") || courseChapters[0].id;
   const handleVideoClick = (id: string) => {
-    searchParam.set("lecture", id);
+    searchParam.set("chapter", id);
     setSearchParam(searchParam);
   };
 
@@ -40,38 +31,25 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
       </header>
       <main className="py-5 text-dark-navy">
         <ScrollArea type="always" className="h-64 xl:h-[350px] 2xl:h-[465px] 3xl:h-[668px]">
-          <Accordion type="single" collapsible defaultValue={currentChapter.id}>
+          <div className="flex flex-col gap-4 p-3">
             {courseChapters.map((chapter, index) => (
-              <>
-                <AccordionItem value={chapter.id} key={chapter.id} className=" border-b-0 px-5">
-                  <AccordionTrigger className=" text-left flex justify-between items-center gap-4 hover:no-underline">
-                    <span className="flex gap-4">
-                      <span className=" text-sm flex justify-center items-center border-2 rounded-full w-6 aspect-square border-dark-navy font-semibold">
-                        {index + 1}
-                      </span>
-                      {chapter.name}
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className=" text-balance space-y-1 text-base">
-                    {chapter.content.map((content) => (
-                      <button
-                        key={content.id}
-                        className={`flex justify-between transition-colors duration-150 w-full text-sm items-center gap-4 px-1 ${currentVideo === content.id ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
-                        onClick={() => handleVideoClick(content.id)}
-                      >
-                        <aside className="flex items-center gap-4">
-                          <IoMdPlayCircle />
-                          <span>{content.name}</span>
-                        </aside>
-                        <span className="text-zinc-400">{content.duration}</span>
-                      </button>
-                    ))}
-                  </AccordionContent>
-                </AccordionItem>
-                <hr className=" border-zinc-300" />
-              </>
+              <button
+                key={chapter.id}
+                className={`flex justify-between transition-colors duration-150 w-full text-xl items-center gap-4 px-1 ${currentVideo === chapter.id ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
+                onClick={() => handleVideoClick(chapter.id)}
+              >
+                <span className="flex gap-4">
+                  <span
+                    className={` text-sm flex justify-center items-center border-2 rounded-full w-7 h-7 aspect-square border-dark-navy font-semibold ${currentVideo === chapter.id ? " text-royal-blue" : " hover:text-royal-blue/70"}`}
+                  >
+                    {index + 1}
+                  </span>
+                  {chapter.name}
+                </span>
+                <span className="text-zinc-400">{chapter.duration}</span>
+              </button>
             ))}
-          </Accordion>
+          </div>
         </ScrollArea>
       </main>
     </div>
