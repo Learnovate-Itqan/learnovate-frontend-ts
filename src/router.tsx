@@ -8,7 +8,6 @@ import { ResetPassword } from "@/pages/Auth/ResetPassword";
 import { VerificationPage } from "@/pages/Auth/Verification";
 import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
-import { CoursesPage } from "@/pages/courses";
 import { HomePage } from "@/pages/home";
 import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
