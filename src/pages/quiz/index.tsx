@@ -1,14 +1,16 @@
-import { CircularProgressbar } from "react-circular-progressbar";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 import { Navbar } from "@/layouts/Navbar";
 
 import Questions from "./components/Questions";
+import Timer from "./components/Timer";
 
 const QUIZ = {
   header: {
     title: "Mentor Quiz",
     description: "Non quia ipsum rem animi dolor eum voluptatum necessitatibus",
-    time: 12 * 60,
+    time: 1 * 20,
   },
   questions: [
     {
@@ -35,6 +37,11 @@ const QUIZ = {
 };
 
 export function Quiz() {
+  const [isTimeFinished, setIsTimeFinished] = useState(false);
+  function handleTimesUp() {
+    toast.error("Times up! 🕒");
+    setIsTimeFinished(true);
+  }
   return (
     <>
       <Navbar />
@@ -46,28 +53,12 @@ export function Quiz() {
               <p>{QUIZ.header.description}</p>
             </section>
             <section className=" w-1/2 place-self-start md:w-fit md:place-self-end max-w-48">
-              <CircularProgressbar
-                styles={{
-                  path: {
-                    stroke: "#3498DB",
-                  },
-                  trail: {
-                    stroke: "#293560",
-                  },
-                  text: {
-                    fill: "#fff",
-                    fontSize: "24px",
-                    fontWeight: 500,
-                  },
-                }}
-                value={50}
-                text={`${12}:${23}`}
-              />
+              <Timer time={QUIZ.header.time} onTimesUp={handleTimesUp} />
             </section>
           </main>
         </header>
         <main className="container py-16">
-          <Questions questions={QUIZ.questions} />
+          <Questions questions={QUIZ.questions} isTimeFinished={isTimeFinished} />
         </main>
       </main>
     </>
