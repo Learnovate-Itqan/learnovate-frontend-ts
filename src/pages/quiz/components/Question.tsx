@@ -23,11 +23,11 @@ export default function Question({
 }: QuestionProps) {
   return (
     <div className="container bg-zinc-200 rounded-md shadow-custom py-10">
-      <header className="flex justify-between">
+      <header className="flex justify-between flex-wrap">
         <h1 className=" font-semibold text-2xl">
           Question {currentQuestionNumber} of {questionsCount}
         </h1>
-        <Badge className="bg-dark-navy text-white">{pointsPerQuestion} points</Badge>
+        <Badge className="bg-dark-navy text-white whitespace-nowrap">{pointsPerQuestion} points</Badge>
       </header>
       <main>
         <h2 className="text-xl font-semibold mt-5">{question}</h2>
