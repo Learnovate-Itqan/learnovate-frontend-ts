@@ -1,4 +1,5 @@
 import Hero from "@/assets/home/landing-page.png";
+import { JoinMeetingBtn } from "@/components/meeting/joinMeetingBtn";
 import { AppStoreButton } from "@/components/ui/AppStoreButton";
 import { Button } from "@/components/ui/Button_";
 import { PlayStoreButton } from "@/components/ui/PlayStoreButton";
@@ -26,6 +27,9 @@ export default function HeroSection() {
         </p>
         <div className="md:w-1/4 md:max-w-48 min-w-36">
           <Button text="Get Start" type="button" />
+        </div>
+        <div className="md:w-1/4 md:max-w-48 min-w-36">
+          <JoinMeetingBtn roomId="123" />
         </div>
         <div className="flex flex-col xs:flex-row gap-2 justify-center md:justify-start sm:gap-4">
           <AppStoreButton />

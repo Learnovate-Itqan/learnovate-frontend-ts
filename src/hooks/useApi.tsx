@@ -4,18 +4,21 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
 import { decrypt } from "@/utils/crypto";
 
-const token = localStorage.getItem("token");
-const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET) : "";
+export const api = () => {
+  const token = localStorage.getItem("token");
+  const decryptedToken = token ? decrypt(token, import.meta.env.VITE_TOKEN_SECRET) : "";
 
-export const api: AxiosInstance = axios.create({
-  baseURL: "https://learnovate-server.onrender.com/api/v1",
+  const instance: AxiosInstance = axios.create({
+    baseURL: "https://learnovate-server.onrender.com/api/v1",
 
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${decryptedToken}`,
-  },
-});
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${decryptedToken}`,
+    },
+  });
+  return instance;
+};
 
 type TStatus = "success" | "failed";
 
@@ -52,7 +55,7 @@ export const globalResponseFormat = (res: unknown) => {
 // GET request
 export async function getRequest(endpoint: string) {
   try {
-    const response = await api.get(endpoint);
+    const response = await api().get(endpoint);
     return response;
   } catch (error) {
     return error;
@@ -71,7 +74,7 @@ export function useGetData(endpoint: string) {
 // POST request
 export async function postRequest<T>(endpoint: string, data: T) {
   try {
-    const response = await api.post(endpoint, data);
+    const response = await api().post(endpoint, data);
     return response;
   } catch (error) {
     return error;
@@ -91,7 +94,7 @@ export function usePostData<T>(endpoint: string) {
 // PATCH request
 export async function patchRequest<T>(endpoint: string, data: T) {
   try {
-    const response = await api.patch(endpoint, data);
+    const response = await api().patch(endpoint, data);
     return response;
   } catch (error) {
     return error;
@@ -111,7 +114,7 @@ export function usePatchData<T>(endpoint: string) {
 // DELETE request
 export async function deleteRequest(endpoint: string) {
   try {
-    const response = await api.delete(endpoint);
+    const response = await api().delete(endpoint);
     return response;
   } catch (error) {
     return error;
