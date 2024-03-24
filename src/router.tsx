@@ -23,6 +23,7 @@ import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
 import Profile from "./pages/profile";
+import { Quiz } from "./pages/quiz";
 import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
 
@@ -40,6 +41,7 @@ export const Router = createBrowserRouter(
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/course/:id" element={<Course />} />
         </Route>
+        <Route path="/quiz/:id" element={<Quiz />} />
         <Route
           path="/meeting/:id"
           element={
