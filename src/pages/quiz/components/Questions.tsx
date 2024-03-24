@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -7,12 +7,13 @@ import Question from "./Question";
 
 type QuestionsProps = {
   questions: { question: string; options: string[]; points: number }[];
+  isTimeFinished: boolean;
 };
 type Answers = {
   [question: string]: { answer: string | null; points: number };
 };
 
-export default function Questions({ questions }: QuestionsProps) {
+export default function Questions({ questions, isTimeFinished }: QuestionsProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Answers>(() => {
     return questions.reduce((acc, question) => {
@@ -20,10 +21,16 @@ export default function Questions({ questions }: QuestionsProps) {
       return acc;
     }, {} as Answers);
   });
+  const handleFinish = useCallback(() => {
+    console.log(answers);
+  }, [answers]);
 
   const answeredQuestions = Object.values(answers).filter((answer) => answer.answer !== null).length;
   function handleNextQuestion() {
-    if (currentQuestion === questions.length - 1) return;
+    if (currentQuestion === questions.length - 1) {
+      handleFinish();
+      return;
+    }
     setCurrentQuestion((prev) => prev + 1);
   }
   function handlePreviousQuestion() {
@@ -38,6 +45,12 @@ export default function Questions({ questions }: QuestionsProps) {
       };
     });
   }
+
+  useEffect(() => {
+    if (isTimeFinished) {
+      handleFinish();
+    }
+  }, [isTimeFinished, handleFinish]);
   return (
     <>
       <Progress
