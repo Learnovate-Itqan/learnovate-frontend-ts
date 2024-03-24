@@ -8,7 +8,6 @@ import { ResetPassword } from "@/pages/Auth/ResetPassword";
 import { VerificationPage } from "@/pages/Auth/Verification";
 import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
-import { CoursesPage } from "@/pages/courses";
 import { HomePage } from "@/pages/home";
 import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
@@ -17,6 +16,8 @@ import { ChatProvider } from "./contexts/ChatContext";
 import RoomProvider from "./contexts/RoomContext";
 import { ChatPage } from "./pages/chat";
 import { Contact } from "./pages/contact";
+import { Course } from "./pages/course";
+import { CoursesPage } from "./pages/courses";
 import { Meeting } from "./pages/meeting";
 import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
@@ -37,6 +38,7 @@ export const Router = createBrowserRouter(
           <Route path="/track/:id" element={<Track />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/course/:id" element={<Course />} />
         </Route>
         <Route
           path="/meeting/:id"

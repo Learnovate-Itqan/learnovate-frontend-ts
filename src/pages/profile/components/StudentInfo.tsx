@@ -10,8 +10,10 @@ type StudentInfoProps = {
 };
 
 export function StudentInfo({ education, dateOfBirth, location }: StudentInfoProps) {
-  const countryImage = location &&
-    COUNTRIES.find((country) => country.name.toLocaleLowerCase() === location.toLocaleLowerCase())?.image || "";
+  const countryImage =
+    (location &&
+      COUNTRIES.find((country) => country.name.toLocaleLowerCase() === location.toLocaleLowerCase())?.image) ||
+    "";
   return (
     <section className="space-y-2.5 rounded-md container shadow-custom py-4">
       <div className="space-y-1">
