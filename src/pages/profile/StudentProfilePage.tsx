@@ -181,25 +181,24 @@ export function StudentProfilePage() {
       <main className="container pb-20">
         <section className="flex basis-1/2 flex-col gap-5 py-10 lg:flex-row">
           <StudentInfo
-            education={student.user.bio || "Bachelor's degree in Computer Science from XYZ University."}
-            dateOfBirth={new Date("2001-02-27")}
-            location={student.user.country || "Egypt"}
+            bio={student.user.bio}
+            dateOfBirth={student.user.dateOfBirth}
+            country={student.user.country}
+            city={student.user.city}
           />
           <div className=" grid gap-5 sm:grid-cols-2 lg:flex basis-1/2  lg:max-w-xl">
             <TracksProgress tracks={student.tracks} />
             <SocialCard
               className="min-w-fit "
-              mail={student.user.email || "Learnovate@gmail.com"}
-              github={student.gitHub || "Github.com/learnovate"}
-              linkedin={student.linkedIn || "Linkedin.com/learnovate"}
-              facebook={student.facebook || "Facebook.com/learnovate"}
-              twitter={student.twitter || "Twitter.com/learnovate"}
+              mail={student.user.email}
+              github={student.gitHub}
+              linkedin={student.linkedIn}
+              facebook={student.facebook}
               href={{
-                mail: student.user.email || "",
-                github: student.gitHub || "",
-                linkedin: student.linkedIn || "",
-                facebook: student.facebook || "",
-                twitter: student.twitter || "",
+                mail: student.user.email,
+                github: student.gitHub,
+                linkedin: student.linkedIn,
+                facebook: student.facebook,
               }}
             />
           </div>
