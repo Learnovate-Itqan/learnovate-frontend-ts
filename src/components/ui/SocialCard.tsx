@@ -1,69 +1,71 @@
 import { BsTwitterX } from "react-icons/bs";
 import { BsFacebook } from "react-icons/bs";
-import { BsInstagram } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
 import { BsGithub } from "react-icons/bs";
 import { HiMail } from "react-icons/hi";
 
 type SocialCardProps = {
-  mail?: string;
-  twitter?: string;
-  facebook?: string;
-  instagram?: string;
-  linkedin?: string;
-  github?: string;
-  className?: string;
+  mail?: string | null;
+  twitter?: string | null;
+  facebook?: string | null;
+  linkedin?: string | null;
+  github?: string | null;
+  className?: string | null;
   href?: {
-    mail?: string;
-    twitter?: string;
-    facebook?: string;
-    instagram?: string;
-    linkedin?: string;
-    github?: string;
+    mail?: string | null;
+    twitter?: string | null;
+    facebook?: string | null;
+    linkedin?: string | null;
+    github?: string | null;
   };
 };
 
-export function SocialCard({
-  mail,
-  twitter,
-  facebook,
-  instagram,
-  github,
-  linkedin,
-  className = "",
-  href,
-}: SocialCardProps) {
+export function SocialCard({ mail, twitter, facebook, github, linkedin, className = "", href }: SocialCardProps) {
   return (
     <div className={`rounded-xl shadow-custom p-5 ${className}`}>
       <div className=" flex flex-col gap-4 *:flex *:justify-start *:items-center *:gap-2 *:cursor-pointer *:transition-colors *:duration-150">
-        {mail && (
-          <a href={href?.mail && `https://${mail}`} target="_blank" className=" hover:text-royal-blue ">
-            <HiMail size={18} /> {mail}
+        {mail !== undefined && (
+          <a
+            href={href?.mail ? `https://${mail}` : undefined}
+            target="_blank"
+            className=" text-zinc-800 hover:text-royal-blue "
+          >
+            <HiMail size={18} /> {mail ? mail : <span className=" text-zinc-400">email is not provided</span>}
           </a>
         )}
-        {facebook && (
-          <a href={href?.facebook && `https://${facebook}`} target="_blank" className=" hover:text-royal-blue ">
-            <BsFacebook size={18} /> {facebook}
+        {facebook !== undefined && (
+          <a
+            href={href?.facebook ? `https://${facebook}` : undefined}
+            target="_blank"
+            className=" hover:text-royal-blue "
+          >
+            <BsFacebook size={18} />{" "}
+            {facebook ? facebook : <span className=" text-zinc-400">facebook is not provided</span>}
           </a>
         )}
-        {twitter && (
-          <a href={href?.twitter && `https://${twitter}`} target="_blank" className=" hover:text-royal-blue ">
-            <BsTwitterX size={18} /> {twitter}
+        {twitter !== undefined && (
+          <a
+            href={href?.twitter ? `https://${twitter}` : undefined}
+            target="_blank"
+            className=" hover:text-royal-blue "
+          >
+            <BsTwitterX size={18} />{" "}
+            {twitter ? twitter : <span className=" text-zinc-400">twitter is not provided</span>}
           </a>
         )}
-        {instagram && (
-          <a href={href?.instagram && `https://${instagram}`} target="_blank" className=" hover:text-royal-blue ">
-            <BsInstagram size={18} /> {instagram}
+        {linkedin !== undefined && (
+          <a
+            href={href?.linkedin ? `https://${linkedin}` : undefined}
+            target="_blank"
+            className=" hover:text-royal-blue "
+          >
+            <BsLinkedin size={18} />{" "}
+            {linkedin ? linkedin : <span className=" text-zinc-400">linkedin is not provided</span>}
           </a>
         )}
-        {linkedin && (
-          <a href={href?.linkedin && `https://${linkedin}`} target="_blank" className=" hover:text-royal-blue ">
-            <BsLinkedin size={18} /> {linkedin}
-          </a>
-        )}
-        {github && (
-          <a href={href?.github && `https://${github}`} target="_blank" className=" hover:text-royal-blue ">
-            <BsGithub size={18} /> {github}
+        {github !== undefined && (
+          <a href={href?.github ? `https://${github}` : undefined} target="_blank" className=" hover:text-royal-blue ">
+            <BsGithub size={18} /> {github ? github : <span className=" text-zinc-400">github is not provided</span>}
           </a>
         )}
       </div>
