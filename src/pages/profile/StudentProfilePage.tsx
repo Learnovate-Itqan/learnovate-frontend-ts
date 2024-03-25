@@ -1,110 +1,114 @@
+import { z } from "zod";
+
 import ThumbnailImage from "@/assets/learnovate-thumbnail-course.png";
-import studentImageDefault from "@/assets/mentors/Muhammad-Ibrahim.webp";
 import CourseCard from "@/components/ui/CourseCard";
 import { SocialCard } from "@/components/ui/SocialCard";
+import { Spinner } from "@/components/ui/Spinner";
 import { Button } from "@/components/ui/button";
+import { useGetData } from "@/hooks/useApi";
+import { studentSchema } from "@/schemas/studentSchema";
 
 import { BookedSessions } from "../mentor/me/components/BookedSessions";
 import { StudentHeader } from "./components/StudentHeader";
 import { StudentInfo } from "./components/StudentInfo";
 import { TracksProgress } from "./components/TracksProgress";
 
-const tracks = [
-  {
-    id: "1",
-    title: "Frontend",
-    progress: 50,
-  },
-  {
-    id: "2",
-    title: "Backend",
-    progress: 30,
-  },
-  {
-    id: "3",
-    title: "DevOps",
-    progress: 70,
-  },
-  {
-    id: "4",
-    title: "UI/UX",
-    progress: 90,
-  },
-];
-const SESSIONS = [
-  {
-    id: 1,
-    date: new Date("2024-03-22"),
-    startTime: 10,
-    endTime: 11,
-    student: {
-      name: "Matthew Lane",
-    },
-    mentor: {
-      name: "Matthew Lane",
-    },
-  },
-  {
-    id: 2,
-    date: new Date("2024-03-23"),
-    startTime: 12,
-    endTime: 13,
-    student: {
-      name: "Mildred Waters",
-    },
-    mentor: {
-      name: "Mildred Waters",
-    },
-  },
-  {
-    id: 3,
-    date: new Date("2024-03-22"),
-    startTime: 14,
-    endTime: 15,
-    student: {
-      name: "David Ingram",
-    },
-    mentor: {
-      name: "David Ingram",
-    },
-  },
-  {
-    id: 4,
-    date: new Date("2024-03-22"),
-    startTime: 16,
-    endTime: 17,
-    student: {
-      name: "Duane Cruz",
-    },
-    mentor: {
-      name: "Duane Cruz",
-    },
-  },
-  {
-    id: 5,
-    date: new Date("2024-03-23"),
-    startTime: 18,
-    endTime: 19,
-    student: {
-      name: "Gene Cummings",
-    },
-    mentor: {
-      name: "Gene Cummings",
-    },
-  },
-  {
-    id: 6,
-    date: new Date("2024-03-24"),
-    startTime: 20,
-    endTime: 21,
-    student: {
-      name: "Edgar Rogers",
-    },
-    mentor: {
-      name: "Edgar Rogers",
-    },
-  },
-];
+// const tracks = [
+//   {
+//     id: "1",
+//     title: "Frontend",
+//     progress: 50,
+//   },
+//   {
+//     id: "2",
+//     title: "Backend",
+//     progress: 30,
+//   },
+//   {
+//     id: "3",
+//     title: "DevOps",
+//     progress: 70,
+//   },
+//   {
+//     id: "4",
+//     title: "UI/UX",
+//     progress: 90,
+//   },
+// ];
+// const SESSIONS = [
+//   {
+//     id: 1,
+//     date: new Date("2024-03-22"),
+//     startTime: 10,
+//     endTime: 11,
+//     student: {
+//       name: "Matthew Lane",
+//     },
+//     mentor: {
+//       name: "Matthew Lane",
+//     },
+//   },
+//   {
+//     id: 2,
+//     date: new Date("2024-03-23"),
+//     startTime: 12,
+//     endTime: 13,
+//     student: {
+//       name: "Mildred Waters",
+//     },
+//     mentor: {
+//       name: "Mildred Waters",
+//     },
+//   },
+//   {
+//     id: 3,
+//     date: new Date("2024-03-22"),
+//     startTime: 14,
+//     endTime: 15,
+//     student: {
+//       name: "David Ingram",
+//     },
+//     mentor: {
+//       name: "David Ingram",
+//     },
+//   },
+//   {
+//     id: 4,
+//     date: new Date("2024-03-22"),
+//     startTime: 16,
+//     endTime: 17,
+//     student: {
+//       name: "Duane Cruz",
+//     },
+//     mentor: {
+//       name: "Duane Cruz",
+//     },
+//   },
+//   {
+//     id: 5,
+//     date: new Date("2024-03-23"),
+//     startTime: 18,
+//     endTime: 19,
+//     student: {
+//       name: "Gene Cummings",
+//     },
+//     mentor: {
+//       name: "Gene Cummings",
+//     },
+//   },
+//   {
+//     id: 6,
+//     date: new Date("2024-03-24"),
+//     startTime: 20,
+//     endTime: 21,
+//     student: {
+//       name: "Edgar Rogers",
+//     },
+//     mentor: {
+//       name: "Edgar Rogers",
+//     },
+//   },
+// ];
 const wishlist = [
   {
     id: "1",
@@ -153,29 +157,55 @@ const wishlist = [
 ];
 
 export function StudentProfilePage() {
+  const { data: response } = useGetData("students/profile");
+  const { status, data } = response?.data || {};
+  const { student }: { student: z.infer<typeof studentSchema> } = data || {};
+  if (!status) {
+    return (
+      <div className="w-full flex justify-center items-center h-screen">
+        <Spinner className=" w-32 h-32 stroke-zinc-500" />
+      </div>
+    );
+  }
+  if (!(status === "Success")) {
+    return (
+      <div className="w-full flex flex-col gap-3 justify-center items-center h-screen">
+        <h1 className="text-4xl font-semibold text-zinc-700 ">Something went wrong</h1>
+        <p className="text-2xl font-semibold  text-zinc-600">Please try again later...</p>
+      </div>
+    );
+  }
   return (
     <main>
-      <StudentHeader name="mohamed Ebrahim" studentImage={studentImageDefault} id="2135464646645" />
+      <StudentHeader name={student.user.name} studentImage={student.user.image} id={student.id} />
       <main className="container pb-20">
         <section className="flex basis-1/2 flex-col gap-5 py-10 lg:flex-row">
           <StudentInfo
-            education="Bachelor's degree in Computer Science from XYZ University."
+            education={student.user.bio || "Bachelor's degree in Computer Science from XYZ University."}
             dateOfBirth={new Date("2001-02-27")}
-            location="Egypt"
+            location={student.user.country || "Egypt"}
           />
           <div className=" grid gap-5 sm:grid-cols-2 lg:flex basis-1/2  lg:max-w-xl">
-            <TracksProgress tracks={tracks} />
+            <TracksProgress tracks={student.tracks} />
             <SocialCard
               className="min-w-fit "
-              mail="Learnovate@gmail.com"
-              github="Github.com/learnovate"
-              linkedin="Linkedin.com/learnovate"
-              facebook="Facebook.com/learnovate"
+              mail={student.user.email || "Learnovate@gmail.com"}
+              github={student.gitHub || "Github.com/learnovate"}
+              linkedin={student.linkedIn || "Linkedin.com/learnovate"}
+              facebook={student.facebook || "Facebook.com/learnovate"}
+              twitter={student.twitter || "Twitter.com/learnovate"}
+              href={{
+                mail: student.user.email || "",
+                github: student.gitHub || "",
+                linkedin: student.linkedIn || "",
+                facebook: student.facebook || "",
+                twitter: student.twitter || "",
+              }}
             />
           </div>
         </section>
         <section className="py-10">
-          <BookedSessions sessions={SESSIONS} userRole="student" className="h-48" />
+          <BookedSessions sessions={student.sessions || []} userRole="student" className="h-48" />
         </section>
         <section className="py-10">
           <div className="flex justify-between items-baseline">
