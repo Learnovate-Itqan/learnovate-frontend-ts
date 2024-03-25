@@ -4,6 +4,7 @@ import { IoTrash } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useDeleteData } from "@/hooks/useApi";
 
 export function AddedAvailableTime({
   times,
@@ -12,10 +13,18 @@ export function AddedAvailableTime({
   times: { startTime: number; endTime: number; isBooked: boolean };
   onDeleteTime: (startTime: number, endTime: number) => void;
 }) {
-  function handleDeleteTime() {
+  const deleteSession = useDeleteData("/sessions/delete-session/1b3f67eb-f38d-42d2-91f1-273b393c119e");
+  async function handleDeleteTime() {
     if (times.startTime === undefined || times.endTime === undefined) return;
     if (times.isBooked) return toast.error("This time is already booked!");
-    onDeleteTime(times.startTime, times.endTime);
+    const res = await deleteSession.mutateAsync();
+    const toastId = toast.loading("Deleting session...");
+    console.log(res);
+    if (res.status === "success") {
+      onDeleteTime(times.startTime, times.endTime);
+    } else {
+      toast.error("Failed to delete the session", { id: toastId });
+    }
   }
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center sm:h-14 gap-2 md:gap-4">
