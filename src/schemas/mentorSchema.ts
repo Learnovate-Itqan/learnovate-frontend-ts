@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { sessionSchema } from "./sessionSchema";
 import { userSchema } from "./userSchema";
 
 export const MentorAvailabilitySchema = z.object({
@@ -35,6 +36,7 @@ export const mentorSchema = z.object({
   user: userSchema,
   track: z.object({ name: z.string(), id: z.string().uuid() }),
   availability: z.array(MentorAvailabilitySchema),
+  sessions: z.array(sessionSchema),
 });
 
 export const BasicInfoFormSchema = z.object({
