@@ -1,4 +1,9 @@
-import { mentor } from "@/db/mentor";
+import { z } from "zod";
+
+import { Spinner } from "@/components/ui/Spinner";
+// import { mentor } from "@/db/mentor";
+import { useGetData } from "@/hooks/useApi";
+import { mentorSchema } from "@/schemas/mentorSchema";
 
 import { MentorInfo } from "../components/mentorInfo";
 import { SkillsBox } from "../components/skillsBox";
@@ -7,89 +12,33 @@ import { BookedSessions } from "./components/BookedSessions";
 import { MeStats } from "./components/meStats";
 import { MeHeader } from "./components/mentorMeHeader";
 
-const SESSIONS = [
-  {
-    id: 1,
-    date: new Date("2024-03-22"),
-    startTime: 10,
-    endTime: 11,
-    student: {
-      name: "Matthew Lane",
-    },
-    mentor: {
-      name: "Matthew Lane",
-    },
-  },
-  {
-    id: 2,
-    date: new Date("2024-03-23"),
-    startTime: 12,
-    endTime: 13,
-    student: {
-      name: "Mildred Waters",
-    },
-    mentor: {
-      name: "Mildred Waters",
-    },
-  },
-  {
-    id: 3,
-    date: new Date("2024-03-22"),
-    startTime: 14,
-    endTime: 15,
-    student: {
-      name: "David Ingram",
-    },
-    mentor: {
-      name: "David Ingram",
-    },
-  },
-  {
-    id: 4,
-    date: new Date("2024-03-22"),
-    startTime: 16,
-    endTime: 17,
-    student: {
-      name: "Duane Cruz",
-    },
-    mentor: {
-      name: "Duane Cruz",
-    },
-  },
-  {
-    id: 5,
-    date: new Date("2024-03-23"),
-    startTime: 18,
-    endTime: 19,
-    student: {
-      name: "Gene Cummings",
-    },
-    mentor: {
-      name: "Gene Cummings",
-    },
-  },
-  {
-    id: 6,
-    date: new Date("2024-03-24"),
-    startTime: 20,
-    endTime: 21,
-    student: {
-      name: "Edgar Rogers",
-    },
-    mentor: {
-      name: "Edgar Rogers",
-    },
-  },
-];
 export const MentorMePage = () => {
-  const skills = mentor.skills.map((skill) => skill.name);
+  const { data: response } = useGetData(`/mentors/profile`);
+  const { data, status } = response || {};
+  const { mentor }: { mentor: z.infer<typeof mentorSchema> } = data || {};
+  console.log(mentor);
+  if (!status) {
+    return (
+      <div className="w-full flex justify-center items-center h-screen">
+        <Spinner className=" w-32 h-32 stroke-zinc-500" />
+      </div>
+    );
+  }
+  if (!(status === "success")) {
+    return (
+      <div className="w-full flex flex-col gap-3 justify-center items-center h-screen">
+        <h1 className="text-4xl font-semibold text-zinc-700 ">Something went wrong</h1>
+        <p className="text-2xl font-semibold  text-zinc-600">Please try again later...</p>
+      </div>
+    );
+  }
 
   return (
     <>
-      <MeHeader {...mentor} />
+      <MeHeader name={mentor.user.name} jobTitle={mentor.title} description={mentor.about} image={mentor.user.image} />
       <main className="w-full py-10 *:text-dark-navy">
         <div className="container">
-          <SkillsBox skills={skills} />
+          <SkillsBox skills={mentor.skills} />
           <div className="my-8 flex flex-col sm:flex-row gap-y-8 gap-x-4 justify-between">
             <MentorInfo
               experience={mentor.workExperience}
@@ -101,11 +50,11 @@ export const MentorMePage = () => {
               location={mentor.location}
               timeZones={mentor.timeZones}
             />
-            <MeStats />
+            <MeStats mentor={mentor} />
           </div>
           <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
             <AvailabilityEditor />
-            <BookedSessions sessions={SESSIONS} userRole="mentor" />
+            <BookedSessions sessions={mentor.sessions} userRole="mentor" />
           </div>
         </div>
       </main>
