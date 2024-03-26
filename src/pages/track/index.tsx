@@ -13,7 +13,6 @@ import { trackSchema } from "@/schemas/trackSchema";
 import { PageSkelton } from "./PageSkelton";
 import { TrackHeader } from "./TrackHeader";
 
-
 export function Track() {
   const navigate = useNavigate();
   const { id } = useParams();
