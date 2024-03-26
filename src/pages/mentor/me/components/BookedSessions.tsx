@@ -50,6 +50,7 @@ export function BookedSessions({ sessions, userRole = "student", className = "" 
             todaySessions.map((session) => {
               return (
                 <BookedSession
+                key={session.id}
                   startTime={session.startTime}
                   endTime={session.endTime}
                   meetingWith={userRole === "mentor" ? session?.student.name : session?.mentor.name}
