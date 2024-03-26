@@ -22,12 +22,12 @@ export function TrackHeader({ track }: TrackHeaderProps) {
       />
       {track ? (
         <main className="container flex flex-col gap-4 justify-center items-start z-20">
-          <h1 className="text-5xl font-semibold">{track?.name}</h1>
+          <h1 className="text-5xl font-semibold">{track?.title}</h1>
           <p className="text-lg ">{track?.subtitle}</p>
           <div className="flex gap-5">
             <Tag className="bg-[#374573] select-none text-white">
               <HiStar className="text-yellow-500" size={18} />
-              {track?.rating.toFixed(1)}
+              {track?.rating?.toFixed(1)}
             </Tag>
             <Tag className="bg-[#374573] select-none flex gap-2 text-white">
               <FaUser className="text-royal-blue" /> {track?.noStudentsEnrolled}+ learners
