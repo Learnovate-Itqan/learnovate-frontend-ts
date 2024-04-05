@@ -23,14 +23,13 @@ type SocialCardProps = {
 export function SocialCard({ mail, twitter, facebook, github, linkedin, className = "", href }: SocialCardProps) {
   return (
     <div className={`rounded-xl shadow-custom p-5 ${className}`}>
-      <div className=" flex flex-col gap-4 *:flex *:justify-start *:items-center *:gap-2 *:cursor-pointer *:transition-colors *:duration-150">
+      <div className=" flex flex-col text-lg gap-4 *:flex *:justify-start *:items-center *:gap-2 *:cursor-pointer *:transition-colors *:duration-150">
         {mail !== undefined && (
           <a
-            href={href?.mail ? `https://${mail}` : undefined}
-            target="_blank"
+            href={href?.mail ? `mailto:${mail}` : undefined}
             className=" text-zinc-800 hover:text-royal-blue "
           >
-            <HiMail size={18} /> {mail ? mail : <span className=" text-zinc-400">email is not provided</span>}
+            <HiMail size={24} /> {mail ? mail : <span className=" text-zinc-400">email is not provided</span>}
           </a>
         )}
         {facebook !== undefined && (
@@ -39,7 +38,7 @@ export function SocialCard({ mail, twitter, facebook, github, linkedin, classNam
             target="_blank"
             className=" hover:text-royal-blue "
           >
-            <BsFacebook size={18} />{" "}
+            <BsFacebook size={24} />{" "}
             {facebook ? facebook : <span className=" text-zinc-400">facebook is not provided</span>}
           </a>
         )}
@@ -49,7 +48,7 @@ export function SocialCard({ mail, twitter, facebook, github, linkedin, classNam
             target="_blank"
             className=" hover:text-royal-blue "
           >
-            <BsTwitterX size={18} />{" "}
+            <BsTwitterX size={24} />{" "}
             {twitter ? twitter : <span className=" text-zinc-400">twitter is not provided</span>}
           </a>
         )}
@@ -59,13 +58,13 @@ export function SocialCard({ mail, twitter, facebook, github, linkedin, classNam
             target="_blank"
             className=" hover:text-royal-blue "
           >
-            <BsLinkedin size={18} />{" "}
+            <BsLinkedin size={24} />{" "}
             {linkedin ? linkedin : <span className=" text-zinc-400">linkedin is not provided</span>}
           </a>
         )}
         {github !== undefined && (
           <a href={href?.github ? `https://${github}` : undefined} target="_blank" className=" hover:text-royal-blue ">
-            <BsGithub size={18} /> {github ? github : <span className=" text-zinc-400">github is not provided</span>}
+            <BsGithub size={24} /> {github ? github : <span className=" text-zinc-400">github is not provided</span>}
           </a>
         )}
       </div>
