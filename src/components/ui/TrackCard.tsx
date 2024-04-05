@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 type TrackCardProps = {
   name: string;
   image?: string | undefined;
-  id : string;
+  id: string;
 };
 
 export default function TrackCard({ name, image, id }: TrackCardProps) {

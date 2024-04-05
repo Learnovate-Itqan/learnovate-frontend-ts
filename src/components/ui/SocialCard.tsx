@@ -25,10 +25,7 @@ export function SocialCard({ mail, twitter, facebook, github, linkedin, classNam
     <div className={`rounded-xl shadow-custom p-5 ${className}`}>
       <div className=" flex flex-col text-lg gap-4 *:flex *:justify-start *:items-center *:gap-2 *:cursor-pointer *:transition-colors *:duration-150">
         {mail !== undefined && (
-          <a
-            href={href?.mail ? `mailto:${mail}` : undefined}
-            className=" text-zinc-800 hover:text-royal-blue "
-          >
+          <a href={href?.mail ? `mailto:${mail}` : undefined} className=" text-zinc-800 hover:text-royal-blue ">
             <HiMail size={24} /> {mail ? mail : <span className=" text-zinc-400">email is not provided</span>}
           </a>
         )}
