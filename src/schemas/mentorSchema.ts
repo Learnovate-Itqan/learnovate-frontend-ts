@@ -2,6 +2,11 @@ import { z } from "zod";
 
 import { sessionSchema } from "./sessionSchema";
 import { userSchema } from "./userSchema";
+// Visit
+// : 
+// 26/03/2024
+// : 
+// 28
 
 export const MentorAvailabilitySchema = z.object({
   id: z.string().uuid(),
@@ -37,6 +42,8 @@ export const mentorSchema = z.object({
   track: z.object({ name: z.string(), id: z.string().uuid() }),
   availability: z.array(MentorAvailabilitySchema),
   sessions: z.array(sessionSchema),
+  visits: z.array(z.object({ date: z.date(), visits: z.number() })),
+  Visit: z.record(z.number()),
 });
 
 export const BasicInfoFormSchema = z.object({
