@@ -1,35 +1,5 @@
+import { format, subDays } from "date-fns";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, TooltipProps } from "recharts";
-
-const data = [
-  { name: "1 Feb", visits: 0 },
-  { name: "2 Feb", visits: 1398 },
-  { name: "3 Feb", visits: 9800 },
-  { name: "4 Feb", visits: 3908 },
-  { name: "5 Feb", visits: 4800 },
-  { name: "6 Feb", visits: 3800 },
-  { name: "7 Feb", visits: 4300 },
-  { name: "8 Feb", visits: 2400 },
-  { name: "9 Feb", visits: 1398 },
-  { name: "10 Feb", visits: 9800 },
-  { name: "11 Feb", visits: 3908 },
-  { name: "12 Feb", visits: 4800 },
-  { name: "13 Feb", visits: 3800 },
-  { name: "14 Feb", visits: 4300 },
-  { name: "15 Feb", visits: 4300 },
-  { name: "16 Feb", visits: 4300 },
-  { name: "17 Feb", visits: 4300 },
-  { name: "18 Feb", visits: 4300 },
-  { name: "19 Feb", visits: 4300 },
-  { name: "20 Feb", visits: 1398 },
-  { name: "21 Feb", visits: 4300 },
-  { name: "22 Feb", visits: 2908 },
-  { name: "23 Feb", visits: 4300 },
-  { name: "24 Feb", visits: 6000 },
-  { name: "25 Feb", visits: 4300 },
-  { name: "26 Feb", visits: 4300 },
-  { name: "27 Feb", visits: 4300 },
-  { name: "28 Feb", visits: 0 },
-];
 
 const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
@@ -44,7 +14,14 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   return null;
 };
 
-const Chart = () => {
+const Chart = ({
+  data,
+}: {
+  data: {
+    name: string;
+    visits: number;
+  }[];
+}) => {
   return (
     <ResponsiveContainer width="100%" height={250}>
       <AreaChart
@@ -69,14 +46,30 @@ const Chart = () => {
   );
 };
 
-export const StatsCard = () => {
+export const StatsCard = ({ visits }: { visits: Record<string, number> }) => {
+  const last30Days: { name: string; visits: number }[] = [];
+
+  // Get today's date
+  let currentDate = new Date();
+
+  // Loop to get the dates for the last 30 days
+  for (let i = 0; i < 30; i++) {
+    // Format the date as "yyyy-MM-dd"
+    last30Days.push({
+      name: format(currentDate, "d MMM"),
+      visits: visits[format(currentDate, "dd/MM/yyyy")] || 0,
+    });
+
+    // Subtract 1 day from the current date
+    currentDate = subDays(currentDate, 1);
+  }
   return (
     <div className="shadow-custom p-6 rounded-md space-y-2">
       <div>
         <h5 className="font-medium text-xl">profile visits</h5>
         <span>last 30 days</span>
       </div>
-      <Chart />
+      <Chart data={last30Days.reverse()} />
     </div>
   );
 };
