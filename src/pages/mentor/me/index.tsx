@@ -39,7 +39,7 @@ export const MentorMePage = () => {
       <main className="w-full py-10 *:text-dark-navy">
         <div className="container">
           <SkillsBox skills={mentor.skills} />
-          <div className="my-8 flex flex-col sm:flex-row gap-y-8 gap-x-4 justify-between">
+          <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
             <MentorInfo
               experience={mentor.workExperience}
               workExperience={mentor.workExperience}
