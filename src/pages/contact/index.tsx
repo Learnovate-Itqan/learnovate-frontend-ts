@@ -25,7 +25,6 @@ export function Contact() {
             twitter="twitter.com/Learnovate"
             linkedin="linkedin.com/Learnovate"
             github="github.com/Learnovate"
-            instagram="instagram.com/Learnovate"
           />
         </div>
       </main>
