@@ -1,0 +1,48 @@
+import { Badge } from "@/components/ui/badge";
+
+import { Option } from "./Option";
+
+type QuestionProps = {
+  questionsCount: number;
+  question: string;
+  options: string[];
+  currentQuestionNumber: number;
+  pointsPerQuestion: number;
+  currentAnswer: string | null;
+  onAnswerChange: (question: string, value: string) => void;
+};
+
+export default function Question({
+  questionsCount,
+  question,
+  options,
+  currentQuestionNumber,
+  currentAnswer,
+  pointsPerQuestion,
+  onAnswerChange,
+}: QuestionProps) {
+  return (
+    <div className="container bg-zinc-200 rounded-md shadow-custom py-10">
+      <header className="flex justify-between flex-wrap">
+        <h1 className=" font-semibold text-2xl">
+          Question {currentQuestionNumber} of {questionsCount}
+        </h1>
+        <Badge className="bg-dark-navy text-white whitespace-nowrap">{pointsPerQuestion} points</Badge>
+      </header>
+      <main>
+        <h2 className="text-xl font-semibold mt-5">{question}</h2>
+        <section className="grid gap-3 mt-5">
+          {options.map((option, index) => (
+            <Option
+              key={index}
+              option={option}
+              value={option}
+              onChange={(value) => onAnswerChange(question, value)}
+              checked={currentAnswer === option}
+            />
+          ))}
+        </section>
+      </main>
+    </div>
+  );
+}
