@@ -1,16 +1,8 @@
 import { RatingStars } from "./stars";
 
-// type TMentorInfo = {
-//   workExperience: string;
-//   education: string;
-//   jobExperience: string;
-//   rating: number;
-//   resume: string;
-//   languages: string[];
-//   location: string;
-//   timeZones: string;
-// };
-
+const NotProvided = () => {
+  return <span className="text-zinc-400">Not provided yet</span>;
+};
 type TMentorInfo = {
   workExperience: string;
   education: string;
@@ -37,15 +29,15 @@ export const MentorInfo = ({
       <div className="space-y-4">
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Work experience:</h4>
-          <p className="text-balance max-w-2xl">{workExperience}</p>
+          <p className="text-balance max-w-2xl">{workExperience ? workExperience : <NotProvided />}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Education:</h4>
-          <p className="text-balance max-w-xl">{education}</p>
+          <p className="text-balance max-w-xl">{education ? education : <NotProvided />}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Experience:</h4>
-          <p className="text-balance max-w-xl">{experience}</p>
+          <p className="text-balance max-w-xl">{experience ? experience : <NotProvided />}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Rating:</h4>
@@ -69,15 +61,15 @@ export const MentorInfo = ({
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Languages:</h4>
-          <p className="text-balance max-w-xl">{languages.join(", ")}</p>
+          <p className="text-balance max-w-xl">{languages?.length ? languages.join(", ") : <NotProvided />}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Location:</h4>
-          <p className="text-balance max-w-xl">{location}</p>
+          <p className="text-balance max-w-xl">{location ? location : <NotProvided />}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Timezone:</h4>
-          <p className="text-balance max-w-xl">{timeZones}</p>
+          <p className="text-balance max-w-xl">{timeZones ? timeZones : <NotProvided />}</p>
         </div>
       </div>
     </div>

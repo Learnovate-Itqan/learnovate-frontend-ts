@@ -2,24 +2,15 @@ import { addDays, differenceInCalendarDays, format, isSameDay, isToday, subDays 
 import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 import BookedSession from "@/components/ui/bookedSession";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { sessionSchema } from "@/schemas/sessionSchema";
 
 type BookedSessionsProps = {
-  sessions: {
-    id: number;
-    date: Date;
-    startTime: number;
-    endTime: number;
-    student: {
-      name: string;
-    };
-    mentor: {
-      name: string;
-    };
-  }[];
+  sessions: z.infer<typeof sessionSchema>[];
   userRole: "student" | "mentor";
   className?: string;
 };
@@ -59,6 +50,7 @@ export function BookedSessions({ sessions, userRole = "student", className = "" 
             todaySessions.map((session) => {
               return (
                 <BookedSession
+                  key={session.id}
                   startTime={session.startTime}
                   endTime={session.endTime}
                   meetingWith={userRole === "mentor" ? session?.student.name : session?.mentor.name}

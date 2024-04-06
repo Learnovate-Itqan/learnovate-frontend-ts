@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
+import { usePostData } from "@/hooks/useApi";
 
 import { AddedAvailableTime } from "./AddedAvailableTime";
 import { AvailableTimeForm } from "./AvailableTimeForm";
@@ -19,6 +20,7 @@ type AvailableTimeType = {
   };
 };
 export function AvailabilityEditor() {
+  const addAvailableTime = usePostData("/sessions/add-session");
   const [days, setDays] = useState(() =>
     eachDayOfInterval({
       start: new Date(),
@@ -29,7 +31,7 @@ export function AvailabilityEditor() {
   );
 
   const [availableTimes, setAvailableTimes] = useState<AvailableTimeType[]>([]);
-  function handleAddTime({
+  async function handleAddTime({
     startTime,
     endTime,
     day,
@@ -41,18 +43,24 @@ export function AvailabilityEditor() {
     date: Date;
   }) {
     if (days.find((d) => isSameDay(d.date, date) && !d.isOpen)) return toast.error("This day is locked by you!");
-    setAvailableTimes((prev) => [
-      ...prev,
-      {
-        day: day,
-        date: date,
-        times: {
-          startTime: startTime,
-          endTime: endTime,
-          isBooked: false,
+
+    const res = await addAvailableTime.mutateAsync({ startTime, endTime, date });
+    const toastId = toast.loading("Adding session...");
+    if (res.status === "success") {
+      toast.success("session added successfully!", { id: toastId });
+      setAvailableTimes((prev) => [
+        ...prev,
+        {
+          day: day,
+          date: date,
+          times: {
+            startTime: startTime,
+            endTime: endTime,
+            isBooked: false,
+          },
         },
-      },
-    ]);
+      ]);
+    }
   }
   function handleDeleteTime({
     day,
