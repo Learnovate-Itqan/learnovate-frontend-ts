@@ -1,31 +1,31 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from "react-hook-form";
+// import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { BasicInfoFormSchema } from "@/schemas/mentorSchema";
+// import { Button } from "@/components/ui/button";
+// import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+// import { Input } from "@/components/ui/input";
+// import { Textarea } from "@/components/ui/textarea";
+// import { BasicInfoFormSchema } from "@/schemas/mentorSchema";
 
 export const BasicInfoForm = () => {
-  const form = useForm<z.infer<typeof BasicInfoFormSchema>>({
-    resolver: zodResolver(BasicInfoFormSchema),
-    defaultValues: {
-      name: "Micheal John",
-      title: "Front End Developer",
-      bio: "A passionate and creative frontend developer with a keen eye for design and user experience.",
-      price: "20",
-    },
-  });
-  const { isSubmitting } = form.formState;
+  // const form = useForm<z.infer<typeof BasicInfoFormSchema>>({
+  //   resolver: zodResolver(BasicInfoFormSchema),
+  //   defaultValues: {
+  //     name: "Micheal John",
+  //     title: "Front End Developer",
+  //     bio: "A passionate and creative frontend developer with a keen eye for design and user experience.",
+  //     price: "20",
+  //   },
+  // });
+  // const { isSubmitting } = form.formState;
 
-  const handleFormSubmit = (values: z.infer<typeof BasicInfoFormSchema>) => {
-    console.log(values);
-  };
+  // const handleFormSubmit = (values: z.infer<typeof BasicInfoFormSchema>) => {
+  //   console.log(values);
+  // };
   return (
     <div className="flex-grow">
-      <Form {...form}>
+      {/* <Form {...form}>
         <form onSubmit={form.handleSubmit(handleFormSubmit)}>
           <div className="space-y-2 w-full">
             <FormField
@@ -91,7 +91,7 @@ export const BasicInfoForm = () => {
             </div>
           </div>
         </form>
-      </Form>
+      </Form> */}
     </div>
   );
 };
