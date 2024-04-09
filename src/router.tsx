@@ -19,6 +19,7 @@ import { Contact } from "./pages/contact";
 import { Course } from "./pages/course";
 import { CoursesPage } from "./pages/courses";
 import { Meeting } from "./pages/meeting";
+import BeMentorForm from "./pages/mentor/beMentor";
 import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
@@ -39,6 +40,7 @@ export const Router = createBrowserRouter(
           <Route path="/track/:id" element={<Track />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/be-a-mentor" element={<BeMentorForm />} />
           <Route path="/course/:id" element={<Course />} />
         </Route>
         <Route path="/quiz/:id" element={<Quiz />} />
