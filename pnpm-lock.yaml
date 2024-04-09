@@ -77,6 +77,9 @@ dependencies:
   embla-carousel-react:
     specifier: 8.0.0-rc22
     version: 8.0.0-rc22(react@18.2.0)
+  framer-motion:
+    specifier: ^11.0.25
+    version: 11.0.25(react-dom@18.2.0)(react@18.2.0)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -3357,6 +3360,25 @@ packages:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
     dev: true
 
+  /framer-motion@11.0.25(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-mRt7vQGzA7++wTgb+PW1TrlXXgndqR6hCiJ48fXr2X9alte2hPQiAq556HRwDCt0Q5X98MNvcSe4KUa27Gm5Lg==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      tslib: 2.6.2
+    dev: false
+
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
@@ -4002,15 +4024,6 @@ packages:
       react: 18.2.0
     dev: false
 
-  /media-captions@1.0.2:
-    resolution: {integrity: sha512-QxAFc+XTGZeMx+ZvLtMxEDgAjd0kr1LJ2NekLr1cw/UKENOxK7B9g6HwtuTQzCXxmb4Dknd4T8M7FOqqCK9buA==}
-    engines: {node: '>=16'}
-    dev: false
-
-  /merge-stream@2.0.0:
-    resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
-    dev: true
-
   /mdast-util-from-markdown@2.0.0:
     resolution: {integrity: sha512-n7MTOr/z+8NAX/wmhhDji8O3bRvPTV/U0oTCaZJkjhPSKTPhS3xufVhKGF8s1pJ7Ox4QgoIU7KHseh09S+9rTA==}
     dependencies:
@@ -4114,6 +4127,11 @@ packages:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
     dependencies:
       '@types/mdast': 4.0.3
+    dev: false
+
+  /media-captions@1.0.2:
+    resolution: {integrity: sha512-QxAFc+XTGZeMx+ZvLtMxEDgAjd0kr1LJ2NekLr1cw/UKENOxK7B9g6HwtuTQzCXxmb4Dknd4T8M7FOqqCK9buA==}
+    engines: {node: '>=16'}
     dev: false
 
   /merge2@1.4.1:

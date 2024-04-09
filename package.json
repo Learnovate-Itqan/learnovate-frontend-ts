@@ -59,6 +59,7 @@
     "dexie": "^3.2.5",
     "dexie-react-hooks": "^1.1.7",
     "embla-carousel-react": "8.0.0-rc22",
+    "framer-motion": "^11.0.25",
     "lodash": "^4.17.21",
     "lucide-react": "^0.323.0",
     "peerjs": "^1.5.2",
