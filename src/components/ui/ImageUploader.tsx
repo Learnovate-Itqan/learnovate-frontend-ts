@@ -5,15 +5,13 @@ import { IoCamera } from "react-icons/io5";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ImageUploader = forwardRef((props: ControllerRenderProps<FieldValues>, _ref) => {
   const hiddenInputRef = useRef<HTMLInputElement>();
-  console.log("props", props.value);
-  const [preview, setPreview] = useState<string | null>(props.value);
+  const urlImage = props.value ? URL.createObjectURL(props.value) : null;
+  const [preview, setPreview] = useState<string | null>(urlImage);
   const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files === null) return;
-    console.log("event.target.files", event.target.files);
     const file = event.target.files[0];
-    props.onChange(event);
+    props.onChange(file);
     const urlImage = URL.createObjectURL(file);
-    console.log("urlImage", urlImage);
     setPreview(urlImage);
   };
 
@@ -35,7 +33,7 @@ export const ImageUploader = forwardRef((props: ControllerRenderProps<FieldValue
           hiddenInputRef.current = e as HTMLInputElement;
         }}
         accept="image/*"
-        value={props.value?.name || ""} // Set value to props.value?.name
+        value={""} // Set value to props.value?.name
         className=" absolute hidden cursor-pointer w-24 h-24"
       />
     </div>
