@@ -9,7 +9,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { BasicInfoFormSchema } from "@/schemas/mentorSchema";
 
-export function InfoForm({ onNext, data }: { onNext: (data:z.infer<typeof BasicInfoFormSchema>) => void; data: z.infer<typeof BasicInfoFormSchema> }) {
+export function InfoForm({
+  onNext,
+  data,
+}: {
+  onNext: (data: z.infer<typeof BasicInfoFormSchema>) => void;
+  data: z.infer<typeof BasicInfoFormSchema>;
+}) {
   const form = useForm<z.infer<typeof BasicInfoFormSchema>>({
     resolver: zodResolver(BasicInfoFormSchema),
     defaultValues: data,

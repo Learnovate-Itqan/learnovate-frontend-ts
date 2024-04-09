@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { sessionSchema } from "./sessionSchema";
-import { userSchema } from "./userSchema";
 import { imageSchema } from "./imageSchema";
 import { pdfSchema } from "./pdfSchema";
+import { sessionSchema } from "./sessionSchema";
+import { userSchema } from "./userSchema";
 
 export const MentorAvailabilitySchema = z.object({
   id: z.string().uuid(),

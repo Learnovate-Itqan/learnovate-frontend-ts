@@ -101,44 +101,44 @@ export default function BeMentorForm() {
         <header>
           <h1 className="text-2xl font-semibold"> {STEPS[currentStep]?.description} </h1>
         </header>
-          <AnimatePresence mode="wait">
-            {currentStep === 0 && (
-              <motion.div
-                key={currentStep}
-                className="w-full grow"
-                initial={{ x: "-100vw", width: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100vw" }}
-                transition={{ duration: 0.3 }}
-              >
-                <InfoForm data={basicInfo} onNext={handleBasicInfo} />
-              </motion.div>
-            )}
-            {currentStep === 1 && (
-              <motion.div
-                key={currentStep}
-                className="w-full grow"
-                initial={{ x: `${currentStep < prevStep ? "-" : ""}100vw`, width: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: `${currentStep < prevStep ? "" : "-"}100vw` }}
-                transition={{ duration: 0.3 }}
-              >
-                <EducationForm data={educationInfo} onPrevious={handlePrevious} onNext={handleEducationInfo} />
-              </motion.div>
-            )}
-            {currentStep === 2 && (
-              <motion.div
-                key={currentStep}
-                className="w-full grow"
-                initial={{ x: "100vw", width: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100vw" }}
-                transition={{ duration: 0.3 }}
-              >
-                <ContactForm data={contactInfo} onNext={handleContactInfo} onPrevious={handlePrevious} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+        <AnimatePresence mode="wait">
+          {currentStep === 0 && (
+            <motion.div
+              key={currentStep}
+              className="w-full grow"
+              initial={{ x: "-100vw", width: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100vw" }}
+              transition={{ duration: 0.3 }}
+            >
+              <InfoForm data={basicInfo} onNext={handleBasicInfo} />
+            </motion.div>
+          )}
+          {currentStep === 1 && (
+            <motion.div
+              key={currentStep}
+              className="w-full grow"
+              initial={{ x: `${currentStep < prevStep ? "-" : ""}100vw`, width: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: `${currentStep < prevStep ? "" : "-"}100vw` }}
+              transition={{ duration: 0.3 }}
+            >
+              <EducationForm data={educationInfo} onPrevious={handlePrevious} onNext={handleEducationInfo} />
+            </motion.div>
+          )}
+          {currentStep === 2 && (
+            <motion.div
+              key={currentStep}
+              className="w-full grow"
+              initial={{ x: "100vw", width: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100vw" }}
+              transition={{ duration: 0.3 }}
+            >
+              <ContactForm data={contactInfo} onNext={handleContactInfo} onPrevious={handlePrevious} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
     </main>
   );
