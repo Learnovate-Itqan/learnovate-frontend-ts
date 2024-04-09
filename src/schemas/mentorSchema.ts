@@ -2,6 +2,8 @@ import { z } from "zod";
 
 import { sessionSchema } from "./sessionSchema";
 import { userSchema } from "./userSchema";
+import { imageSchema } from "./imageSchema";
+import { pdfSchema } from "./pdfSchema";
 
 export const MentorAvailabilitySchema = z.object({
   id: z.string().uuid(),
@@ -42,7 +44,7 @@ export const mentorSchema = z.object({
 });
 
 export const BasicInfoFormSchema = z.object({
-  image: z.string().min(1, { message: "Image is required" }),
+  image: imageSchema,
   name: z.string().min(1, { message: "Name is required" }).max(100, { message: "Name is too long" }),
   email: z
     .string()
@@ -71,7 +73,7 @@ export const ProSectionSchema = z.object({
   experience: z.string().min(1, { message: "Experience is required" }).max(100, { message: "Experience is too long" }),
   title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
   about: z.string().min(1, { message: "About is required" }).max(1000, { message: "About is too long" }),
-  cv: z.string().min(1, { message: "CV is required" }),
+  cv: pdfSchema,
 });
 
 export const SocialMediaSchema = z.object({
