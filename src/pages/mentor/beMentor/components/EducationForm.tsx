@@ -24,8 +24,7 @@ export function EducationForm({
   });
   const { isSubmitting } = form.formState;
 
-  async function handleSubmit(formData: z.infer<typeof ProSectionSchema>) {
-    console.log("submitted", data);
+  function handleSubmit(formData: z.infer<typeof ProSectionSchema>) {
     onNext(formData);
   }
   return (

@@ -22,8 +22,7 @@ export function ContactForm({
   });
   const { isSubmitting } = form.formState;
 
-  async function handleSubmit(formData: z.infer<typeof SocialMediaSchema>) {
-    console.log("submitted", data);
+  function handleSubmit(formData: z.infer<typeof SocialMediaSchema>) {
     onNext(formData);
   }
   return (

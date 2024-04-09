@@ -3,7 +3,6 @@ import { z } from "zod";
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 function checkFileType(file: File) {
   if (!file) return false;
-  console.log(file.type);
   if (file?.name) {
     const fileType = file.name.split(".").pop();
     if (fileType === "docx" || fileType === "pdf") return true;
