@@ -31,7 +31,7 @@ export default function BeMentorForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [prevStep, setPrevStep] = useState(0);
   const [basicInfo, setBasicInfo] = useState<z.infer<typeof BasicInfoFormSchema>>({
-    image: "",
+    image: undefined,
     name: "",
     email: "",
     mobileNumber: "",
@@ -46,7 +46,7 @@ export default function BeMentorForm() {
     experience: "",
     about: "",
     title: "",
-    cv: "",
+    cv: undefined,
   });
   const [contactInfo, setContactInfo] = useState<z.infer<typeof SocialMediaSchema>>({
     facebook: "",
