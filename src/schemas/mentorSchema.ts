@@ -42,10 +42,24 @@ export const mentorSchema = z.object({
 });
 
 export const BasicInfoFormSchema = z.object({
+  image: z.string().min(1, { message: "Image is required" }),
   name: z.string().min(1, { message: "Name is required" }).max(100, { message: "Name is too long" }),
-  title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
-  bio: z.string().min(1, { message: "Bio is required" }).max(1000, { message: "Bio is too long" }),
-  price: z.string().min(1, { message: "Price is required" }).max(3, { message: "Price is too high" }),
+  email: z
+    .string()
+    .email({ message: "Invalid email" })
+    .min(1, { message: "Email is required" })
+    .max(100, { message: "Email is too long" }),
+  mobileNumber: z
+    .string()
+    .min(8, { message: "Mobile number is required" })
+    .max(100, { message: "Mobile number is too long" }),
+  dateOfBirth: z.date({
+    required_error: "A date of birth is required.",
+  }),
+
+  country: z.string().min(1, { message: "Country is required" }).max(100, { message: "Country is too long" }),
+  city: z.string().min(1, { message: "City is required" }).max(100, { message: "City is too long" }),
+  languages: z.array(z.string()).min(1, { message: "Languages are required" }),
 });
 
 export const ProSectionSchema = z.object({
@@ -54,8 +68,10 @@ export const ProSectionSchema = z.object({
     .min(1, { message: "Work experience is required" })
     .max(1000, { message: "Work experience is too long" }),
   education: z.string().min(1, { message: "Education is required" }).max(100, { message: "Education is too long" }),
-  experience: z.string().min(1, { message: "Experience is required" }).max(1000, { message: "Experience is too long" }),
-  location: z.string().min(1, { message: "Location is required" }).max(100, { message: "Location is too long" }),
+  experience: z.string().min(1, { message: "Experience is required" }).max(100, { message: "Experience is too long" }),
+  title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
+  about: z.string().min(1, { message: "About is required" }).max(1000, { message: "About is too long" }),
+  cv: z.string().min(1, { message: "CV is required" }),
 });
 
 export const SocialMediaSchema = z.object({
@@ -63,20 +79,10 @@ export const SocialMediaSchema = z.object({
     .string()
     .min(1, { message: "Email is required" })
     .max(100, { message: "Email is too long" })
-    .email({ message: "Invalid email" }),
-  linkedIn: z
-    .string()
-    .min(1, { message: "LinkedIn is required" })
-    .max(100, { message: "LinkedIn is too long" })
-    .url({ message: "Invalid URL" }),
-  gitHub: z
-    .string()
-    .min(1, { message: "GitHub is required" })
-    .max(100, { message: "GitHub is too long" })
-    .url({ message: "Invalid URL" }),
-  x: z
-    .string()
-    .min(1, { message: "x is required" })
-    .max(100, { message: "x is too long" })
-    .url({ message: "Invalid URL" }),
+    .email({ message: "Invalid email" })
+    .optional(),
+  linkedIn: z.string().optional(),
+  facebook: z.string().optional(),
+  github: z.string().optional(),
+  x: z.string().optional(),
 });
