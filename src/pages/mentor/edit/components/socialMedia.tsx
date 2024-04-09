@@ -1,30 +1,30 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from "react-hook-form";
+// import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { SocialMediaSchema } from "@/schemas/mentorSchema";
+// import { Button } from "@/components/ui/button";
+// import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+// import { Input } from "@/components/ui/input";
+// import { SocialMediaSchema } from "@/schemas/mentorSchema";
 
 export const SocialMediaForm = () => {
-  const form = useForm<z.infer<typeof SocialMediaSchema>>({
-    resolver: zodResolver(SocialMediaSchema),
-    defaultValues: {
-      email: "example@mail.com",
-      linkedIn: "https://www.linkedin.com/in/example",
-      gitHub: "https://www.github.com/example",
-      x: "https://www.x.com/example",
-    },
-  });
-  const { isSubmitting } = form.formState;
+  //   const form = useForm<z.infer<typeof SocialMediaSchema>>({
+  //     resolver: zodResolver(SocialMediaSchema),
+  //     defaultValues: {
+  //       email: "example@mail.com",
+  //       linkedIn: "https://www.linkedin.com/in/example",
+  //       gitHub: "https://www.github.com/example",
+  //       x: "https://www.x.com/example",
+  //     },
+  //   });
+  //   const { isSubmitting } = form.formState;
 
-  const handleFormSubmit = (values: z.infer<typeof SocialMediaSchema>) => {
-    console.log(values);
-  };
+  //   const handleFormSubmit = (values: z.infer<typeof SocialMediaSchema>) => {
+  //     console.log(values);
+  //   };
   return (
     <div className="bg-gray-200 p-4 rounded-lg flex gap-4 shadow-lg">
-      <div className="flex-grow">
+      {/* <div className="flex-grow">
         <h2 className="font-semibold text-lg">Social Media</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleFormSubmit)}>
@@ -104,7 +104,7 @@ export const SocialMediaForm = () => {
             </div>
           </form>
         </Form>
-      </div>
+      </div> */}
     </div>
   );
 };

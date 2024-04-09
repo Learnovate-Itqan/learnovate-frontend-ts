@@ -1,49 +1,49 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { KeyboardEvent, useState } from "react";
-import { useForm } from "react-hook-form";
-import { IoMdRemoveCircle } from "react-icons/io";
-import { v4 as uuid } from "uuid";
-import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { KeyboardEvent, useState } from "react";
+// import { useForm } from "react-hook-form";
+// import { IoMdRemoveCircle } from "react-icons/io";
+// import { v4 as uuid } from "uuid";
+// import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { ProSectionSchema } from "@/schemas/mentorSchema";
+// import { Button } from "@/components/ui/button";
+// import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+// import { Input } from "@/components/ui/input";
+// import { Textarea } from "@/components/ui/textarea";
+// import { ProSectionSchema } from "@/schemas/mentorSchema";
 
 export const ProForm = () => {
-  const form = useForm<z.infer<typeof ProSectionSchema>>({
-    resolver: zodResolver(ProSectionSchema),
-    defaultValues: {
-      workExp: "I have worked as a front end developer for 5 years",
-      education: "I have a degree in computer science",
-      experience: "I have worked with many companies and have a lot of experience",
-      location: "New York",
-    },
-  });
-  const [languages, setLanguages] = useState<string[]>(["English", "Spanish"]);
-  const { isSubmitting } = form.formState;
+  // const form = useForm<z.infer<typeof ProSectionSchema>>({
+  //   resolver: zodResolver(ProSectionSchema),
+  //   defaultValues: {
+  //     workExp: "I have worked as a front end developer for 5 years",
+  //     education: "I have a degree in computer science",
+  //     experience: "I have worked with many companies and have a lot of experience",
+  //     location: "New York",
+  //   },
+  // });
+  // const [languages, setLanguages] = useState<string[]>(["English", "Spanish"]);
+  // const { isSubmitting } = form.formState;
 
-  const handleFormSubmit = (values: z.infer<typeof ProSectionSchema>) => {
-    console.log(values);
-    console.log(languages);
-  };
+  // const handleFormSubmit = (values: z.infer<typeof ProSectionSchema>) => {
+  //   console.log(values);
+  //   console.log(languages);
+  // };
 
-  const handleAddLanguage = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (e.currentTarget.value) {
-        const lang = e.currentTarget.value.trim();
-        setLanguages((prev) => [...prev, lang]);
-        e.currentTarget.value = "";
-      }
-    }
-  };
+  // const handleAddLanguage = (e: KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     if (e.currentTarget.value) {
+  //       const lang = e.currentTarget.value.trim();
+  //       setLanguages((prev) => [...prev, lang]);
+  //       e.currentTarget.value = "";
+  //     }
+  //   }
+  // };
 
-  const handleRemoveLanguage = (lang: string) => setLanguages((prev) => prev.filter((l) => l !== lang));
+  // const handleRemoveLanguage = (lang: string) => setLanguages((prev) => prev.filter((l) => l !== lang));
   return (
     <div className="bg-gray-200 p-4 rounded-lg flex gap-4 shadow-lg">
-      <div className="flex-grow">
+      {/* <div className="flex-grow">
         <h2 className="font-semibold text-lg">Professional Data</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleFormSubmit)}>
@@ -148,7 +148,7 @@ export const ProForm = () => {
             </div>
           </form>
         </Form>
-      </div>
+      </div> */}
     </div>
   );
 };
