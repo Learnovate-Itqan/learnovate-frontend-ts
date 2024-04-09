@@ -18,7 +18,7 @@ export function InfoForm({
 }) {
   const form = useForm<z.infer<typeof BasicInfoFormSchema>>({
     resolver: zodResolver(BasicInfoFormSchema),
-    defaultValues: data,
+    defaultValues: { ...data, dateOfBirth: undefined },
   });
   const { isSubmitting } = form.formState;
 
