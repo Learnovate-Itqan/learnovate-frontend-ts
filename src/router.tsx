@@ -18,6 +18,7 @@ import { ChatPage } from "./pages/chat";
 import { Contact } from "./pages/contact";
 import { Course } from "./pages/course";
 import { CoursesPage } from "./pages/courses";
+import { EditProfile } from "./pages/editProfile";
 import { Meeting } from "./pages/meeting";
 import BeMentorForm from "./pages/mentor/beMentor";
 import { MentorEditPage } from "./pages/mentor/edit";
@@ -66,6 +67,7 @@ export const Router = createBrowserRouter(
 
         {/* Profile Route */}
         <Route path="profile" element={<Profile />} />
+        <Route path="profile/edit" element={<EditProfile />} />
         {/* Mentor Routes */}
         <Route path="mentor/:id" element={<MentorViewerPage />} />
         <Route path="mentor/me/:id" element={<MentorMePage />} />
