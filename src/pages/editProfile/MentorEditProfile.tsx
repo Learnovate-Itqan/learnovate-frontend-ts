@@ -21,9 +21,7 @@ export type TMentorEditProfileForm = z.infer<typeof BasicInfoFormSchema> &
 export function MentorEditProfile() {
   const editForm = useForm<TMentorEditProfileForm>({
     resolver: zodResolver(
-      BasicInfoFormSchema.extend(ProSectionSchema.shape)
-        .extend(SocialMediaSchema.shape)
-        .and(changePasswordSchema)
+      BasicInfoFormSchema.extend(ProSectionSchema.shape).extend(SocialMediaSchema.shape).and(changePasswordSchema)
     ),
     defaultValues: {
       name: "",
@@ -59,7 +57,10 @@ export function MentorEditProfile() {
       </header>
       <main>
         <Form {...editForm}>
-          <form className="grid lg:grid-cols-[250px_1fr] gap-10" onSubmit={editForm.handleSubmit(handleBasicInfoSubmit)}>
+          <form
+            className="grid lg:grid-cols-[250px_1fr] gap-10"
+            onSubmit={editForm.handleSubmit(handleBasicInfoSubmit)}
+          >
             <aside className="flex flex-col items-center gap-2 mb-10 ">
               <FormField
                 control={editForm.control}

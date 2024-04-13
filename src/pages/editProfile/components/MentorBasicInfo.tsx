@@ -11,7 +11,6 @@ type MentorBasicInfoProps = {
   form: UseFormReturn<TMentorEditProfileForm, any, undefined>;
 };
 export const MentorBasicInfo = ({ form }: MentorBasicInfoProps) => {
-
   const { isSubmitting } = form.formState;
 
   return (
@@ -40,7 +39,7 @@ export const MentorBasicInfo = ({ form }: MentorBasicInfoProps) => {
           control={form.control}
           name="mobileNumber"
           render={({ field }) => (
-            <FormItem >
+            <FormItem>
               <FormLabel>Mobile Number</FormLabel>
               <FormControl>
                 <Input
