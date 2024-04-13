@@ -11,3 +11,7 @@ export const imageSchema = z
     (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file?.type),
     "Only .jpg, .jpeg, .png and .webp formats are supported."
   );
+
+export const imageFormSchema = z.object({
+  image: imageSchema,
+});
