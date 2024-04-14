@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { ImageUploader } from "@/components/ui/ImageUploader";
@@ -19,6 +20,7 @@ export type TMentorEditProfileForm = z.infer<typeof BasicInfoFormSchema> &
   z.infer<typeof SocialMediaSchema>;
 
 export function MentorEditProfile() {
+  const navigate = useNavigate();
   const editForm = useForm<TMentorEditProfileForm>({
     resolver: zodResolver(
       BasicInfoFormSchema.extend(ProSectionSchema.shape).extend(SocialMediaSchema.shape).and(changePasswordSchema)
@@ -108,7 +110,12 @@ export function MentorEditProfile() {
                 <ContactsForm form={editForm} />
               </div>
               <footer className="flex items-center justify-end gap-2">
-                <Button type="reset" variant={"ghost"} className="text-royal-blue hover:text-royal-blue/80">
+                <Button
+                  type="reset"
+                  variant={"ghost"}
+                  className="text-royal-blue hover:text-royal-blue/80"
+                  onClick={() => navigate("/profile")}
+                >
                   Cancel
                 </Button>
                 <Button type="submit">Save Changes</Button>
