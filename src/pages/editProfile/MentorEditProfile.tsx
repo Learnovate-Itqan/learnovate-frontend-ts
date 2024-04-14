@@ -93,7 +93,7 @@ export function MentorEditProfile() {
                   <h1 className="text-xl font-semibold">Password</h1>
                   <hr className="my-2 bg-zinc-300" />
                 </header>
-                <PasswordForm form={editForm} />
+                <PasswordForm form={editForm} formType={{} as TMentorEditProfileForm} />
               </div>
               <div>
                 <header>
@@ -107,7 +107,7 @@ export function MentorEditProfile() {
                   <h1 className="text-xl font-semibold">Contacts</h1>
                   <hr className="my-2 bg-zinc-300" />
                 </header>
-                <ContactsForm form={editForm} />
+                <ContactsForm form={editForm} formType={{} as TMentorEditProfileForm} />
               </div>
               <footer className="flex items-center justify-end gap-2">
                 <Button
