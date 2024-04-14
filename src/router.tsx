@@ -16,7 +16,7 @@ import { ChatProvider } from "./contexts/ChatContext";
 import RoomProvider from "./contexts/RoomContext";
 import { ChatPage } from "./pages/chat";
 import { Contact } from "./pages/contact";
-import { Course } from "./pages/course";
+import { CourseVideo } from "./pages/courseVideo";
 import { CoursesPage } from "./pages/courses";
 import { EditProfile } from "./pages/editProfile";
 import { Meeting } from "./pages/meeting";
@@ -28,6 +28,7 @@ import Profile from "./pages/profile";
 import { Quiz } from "./pages/quiz";
 import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
+import { CourseInfo } from "./pages/courseInfo";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,7 +43,8 @@ export const Router = createBrowserRouter(
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/be-a-mentor" element={<BeMentorForm />} />
-          <Route path="/course/:id" element={<Course />} />
+          <Route path="/course/lecture/:id" element={<CourseVideo />} />
+          <Route path="/course/:id" element={<CourseInfo />} />
         </Route>
         <Route path="/quiz/:id" element={<Quiz />} />
         <Route
