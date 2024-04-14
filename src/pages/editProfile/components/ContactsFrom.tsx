@@ -1,23 +1,26 @@
-import { UseFormReturn } from "react-hook-form";
+import { Control, UseFormReturn } from "react-hook-form";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { TMentorEditProfileForm } from "../MentorEditProfile";
+import { TStudentEditProfileForm } from "../StudentEditProfile";
 
 type ContactsFormProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: UseFormReturn<TMentorEditProfileForm, any, undefined>;
+  form: UseFormReturn<TMentorEditProfileForm, any, undefined> | UseFormReturn<TStudentEditProfileForm, any, undefined>;
+  formType:  TMentorEditProfileForm | TStudentEditProfileForm;
+
 };
 
-export const ContactsForm = ({ form }: ContactsFormProps) => {
+export const ContactsForm = ({ form, formType }: ContactsFormProps) => {
   const { isSubmitting } = form.formState;
 
   return (
     <div className={` min-w-full flex flex-col justify-between h-full`}>
       <div className=" flex flex-col gap-4 grow">
         <FormField
-          control={form.control}
+          control={form.control as Control<typeof formType>}
           name="facebook"
           render={({ field }) => (
             <FormItem>
@@ -36,7 +39,7 @@ export const ContactsForm = ({ form }: ContactsFormProps) => {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.control as Control<typeof formType>}
           name="linkedIn"
           render={({ field }) => (
             <FormItem>
@@ -55,7 +58,7 @@ export const ContactsForm = ({ form }: ContactsFormProps) => {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.control as Control<typeof formType>}
           name="github"
           render={({ field }) => (
             <FormItem>
