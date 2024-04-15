@@ -15,7 +15,7 @@ export function CourseContent({ courseChapters }: CourseContentProps) {
       <div className="divide-y-2">
         {courseChapters.map((chapter, index) => (
           <button key={chapter.id} className={`flex py-4 transition-colors duration-150 w-full text-xl items-center  `}>
-            <span className="flex gap-4 text-sm">
+            <span className="flex items-center gap-4 text-sm">
               <span
                 className={` text-sm flex justify-center items-center border-2 rounded-full w-7 h-7 aspect-square border-dark-navy font-semibold `}
               >
