@@ -16,6 +16,7 @@ import { ChatProvider } from "./contexts/ChatContext";
 import RoomProvider from "./contexts/RoomContext";
 import { ChatPage } from "./pages/chat";
 import { Contact } from "./pages/contact";
+import { CourseInfo } from "./pages/courseInfo";
 import { CourseVideo } from "./pages/courseVideo";
 import { CoursesPage } from "./pages/courses";
 import { EditProfile } from "./pages/editProfile";
@@ -28,7 +29,6 @@ import Profile from "./pages/profile";
 import { Quiz } from "./pages/quiz";
 import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
-import { CourseInfo } from "./pages/courseInfo";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
