@@ -162,26 +162,11 @@ const relatedCourses: z.infer<typeof courseSchema>[] = [
 export function CourseInfo() {
   return (
     <main>
-      <div className="">
-        <header className="container py-5 space-y-5">
-          <div>
-            <h1 className="text-2xl font-semibold text-dark-navy">{COURSE.title}</h1>
-            <p className="text-zinc-500 text-lg">{COURSE.trackName}</p>
-          </div>
-          <img src={COURSE.image} alt={COURSE.title} className=" rounded-xl" loading="lazy" />
-          <Keywords keywords={COURSE.keywords} />
-
-          <h1 className="text-4xl text-dark-navy font-semibold">{formatCurrency(COURSE.price)}</h1>
-          <div className="grid gap-2">
-            <Button>Buy Now</Button>
-            <Button variant={"outline"} className="text-royal-blue border-royal-blue hover:text-royal-blue">
-              Add to wishlist
-            </Button>
-          </div>
-        </header>
-        <section className="bg-dark-navy text-white py-10 space-y-4">
+      <main className="grid lg:grid-cols-[1fr_28rem] lg:grid-rows-[minmax(min,1fr)_1fr]">
+        <section className="bg-dark-navy text-white py-10 space-y-4 ">
           <div className="container space-y-2">
-            <h2 className="text-2xl">Course Description :</h2>
+            <h1 className="text-4xl font-semibold hidden lg:block">{COURSE.title}</h1>
+            <h2 className="text-2xl lg:hidden">Course Description :</h2>
             <p className="text-lg">{COURSE.description}</p>
           </div>
           <CourseDetails {...COURSE} />
@@ -190,30 +175,48 @@ export function CourseInfo() {
             <span className="text-xl">Instructor: Micheal Johnson</span>
           </div>
         </section>
+        <div className=" container py-10 lg:pt-10 lg:px-5 lg:bg-dark-navy relative row-start-1 lg:row-start-auto ">
+          <header className=" lg:absolute lg:me-10 lg:p-5 grid gap-5  lg:shadow-custom rounded-xl bg-white">
+            <div className=" lg:hidden">
+              <h1 className="text-2xl font-semibold text-dark-navy">{COURSE.title}</h1>
+              <p className="text-zinc-500 text-lg">{COURSE.trackName}</p>
+            </div>
+            <img src={COURSE.image} alt={COURSE.title} className=" lg:rounded-xl" loading="lazy" />
+            <Keywords keywords={COURSE.keywords} />
+
+            <h1 className="text-4xl text-dark-navy font-semibold">{formatCurrency(COURSE.price)}</h1>
+            <div className="grid gap-2">
+              <Button>Buy Now</Button>
+              <Button variant={"outline"} className="text-royal-blue border-royal-blue hover:text-royal-blue">
+                Add to wishlist
+              </Button>
+            </div>
+          </header>
+        </div>
         <section className="py-10 container grid gap-3">
           <h1 className="text-3xl font-semibold">Course Content :</h1>
           <CourseContent courseChapters={courseChapters} />
         </section>
-        <section className="container py-10">
-          <h1 className="text-3xl font-semibold">Related courses:</h1>
-          <div className=" grid grid-cols-auto-fit-19 gap-3">
-            {relatedCourses.map((course) => (
-              <CourseCard
-                key={course.id}
-                id={course.id}
-                name={course.title}
-                description={course.description}
-                image={course.image}
-                rate={course.rating}
-                level={course.cLevel}
-                price={course.price}
-                track={course.trackName}
-                duration={course.estimatedTime}
-              />
-            ))}
-          </div>
-        </section>
-      </div>
+      </main>
+      <section className="container py-10">
+        <h1 className="text-3xl font-semibold">Related courses:</h1>
+        <div className=" grid grid-cols-auto-fit-19 gap-3">
+          {relatedCourses.map((course) => (
+            <CourseCard
+              key={course.id}
+              id={course.id}
+              name={course.title}
+              description={course.description}
+              image={course.image}
+              rate={course.rating}
+              level={course.cLevel}
+              price={course.price}
+              track={course.trackName}
+              duration={course.estimatedTime}
+            />
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
