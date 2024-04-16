@@ -76,7 +76,7 @@ const mentor = {
   noTracks: 10,
 };
 
-export function Course() {
+export function CourseVideo() {
   return (
     <div className="sm:container sm:space-y-5 pb-10 sm:py-10">
       <header className="hidden sm:block">

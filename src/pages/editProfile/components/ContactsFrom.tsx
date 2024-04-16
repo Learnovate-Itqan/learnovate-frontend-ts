@@ -9,8 +9,7 @@ import { TStudentEditProfileForm } from "../StudentEditProfile";
 type ContactsFormProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<TMentorEditProfileForm, any, undefined> | UseFormReturn<TStudentEditProfileForm, any, undefined>;
-  formType:  TMentorEditProfileForm | TStudentEditProfileForm;
-
+  formType: TMentorEditProfileForm | TStudentEditProfileForm;
 };
 
 export const ContactsForm = ({ form, formType }: ContactsFormProps) => {
