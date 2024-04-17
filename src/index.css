@@ -75,6 +75,10 @@ input[type="number"] {
   .scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-royal-blue/90;
   }
+
+  .dashboard> .active {
+    @apply bg-[#293560];
+  }
 }
 
 @layer utilities {
