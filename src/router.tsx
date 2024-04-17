@@ -20,6 +20,10 @@ import { Contact } from "./pages/contact";
 import { CourseInfo } from "./pages/courseInfo";
 import { CourseVideo } from "./pages/courseVideo";
 import { CoursesPage } from "./pages/courses";
+import { DashboardCourses } from "./pages/dashboard/courses";
+import { DashboardMain } from "./pages/dashboard/main";
+import { DashboardMentors } from "./pages/dashboard/mentors";
+import { DashboardOrders } from "./pages/dashboard/ordersList";
 import { EditProfile } from "./pages/editProfile";
 import { Meeting } from "./pages/meeting";
 import BeMentorForm from "./pages/mentor/beMentor";
@@ -68,7 +72,10 @@ export const Router = createBrowserRouter(
           <Route path="auth/reset-password" element={<ResetPassword />} />
         </Route>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          
+          <Route path="main" element={<DashboardMain />} />
+          <Route path="courses" element={<DashboardCourses />} />
+          <Route path="mentors" element={<DashboardMentors />} />
+          <Route path="orders-list" element={<DashboardOrders />} />
         </Route>
 
         {/* Profile Route */}
