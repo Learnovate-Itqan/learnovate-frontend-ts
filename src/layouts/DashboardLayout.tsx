@@ -49,7 +49,7 @@ export function DashboardLayout() {
         <ul className="mt-10 grid gap-1 *:w-full *:dashboard">
           <li>
             <NavLink
-              to={"/dashboard"}
+              to={"main"}
               className="flex justify-start items-center gap-3 py-4 px-3  rounded-xl w-full active:bg-[#293560] hover:bg-[#293560]/50"
             >
               <BsGrid1X2 className="inline-block" size={22} />
@@ -59,7 +59,7 @@ export function DashboardLayout() {
 
           <li>
             <NavLink
-              to={"/courses"}
+              to={"courses"}
               className={
                 "flex justify-start items-center gap-3 py-4 px-3  rounded-xl w-full active:bg-[#293560] hover:bg-[#293560]/50"
               }
@@ -70,7 +70,7 @@ export function DashboardLayout() {
           </li>
           <li>
             <NavLink
-              to={"/mentors"}
+              to={"mentors"}
               className={
                 "flex justify-start items-center gap-3 py-4 px-3  rounded-xl w-full active:bg-[#293560] hover:bg-[#293560]/50"
               }
@@ -81,7 +81,7 @@ export function DashboardLayout() {
           </li>
           <li>
             <NavLink
-              to={"/chat"}
+              to={"orders-list"}
               className={
                 "flex justify-start items-center gap-3 py-4 px-3  rounded-xl w-full active:bg-[#293560] hover:bg-[#293560]/50"
               }
@@ -110,7 +110,6 @@ export function DashboardLayout() {
         </footer>
       </nav>
       <main className="container py-10">
-        main
         <Outlet />
       </main>
     </main>
