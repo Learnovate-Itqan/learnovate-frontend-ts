@@ -41,7 +41,7 @@ export function DashboardLayout() {
     }
   };
   return (
-    <main className="grid grid-cols-[300px_1fr] min-h-dvh">
+    <main className="grid grid-cols-[300px_1fr] min-h-dvh relative">
       <nav className="bg-dark-navy text-white px-3 py-10 flex flex-col">
         <Link to={"/"}>
           <img src={Logo} alt="Learnovate-Logo" className="w-48 px-2" loading="lazy" />
@@ -109,7 +109,7 @@ export function DashboardLayout() {
           </button>
         </footer>
       </nav>
-      <main className="container py-10">
+      <main className="container py-10 h-dvh overflow-auto ">
         <Outlet />
       </main>
     </main>
