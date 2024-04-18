@@ -11,44 +11,58 @@ type MentorTableProps = {
 
 export function MentorsTable({ mentors }: MentorTableProps) {
   return (
-    <div className=" shadow-custom rounded-xl py-6">
-      <h1 className=" text-2xl font-semibold px-6">Top Mentors</h1>
-      <main>
-        <Table className="mt-2">
-          <TableHeader>
-            <TableRow className="*:text-dark-navy *:font-semibold">
-              <TableHead>No</TableHead>
-              <TableHead>Id Mentor</TableHead>
-              <TableHead>Mentor Name</TableHead>
-              <TableHead>Track</TableHead>
-              <TableHead>Learner</TableHead>
-              <TableHead>Rate</TableHead>
-              <TableHead>Price/hr</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {mentors.map((mentor, index) => (
-              <TableRow key={mentor.id}>
-                <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
-                <TableCell>#{mentor?.id}</TableCell>
-                <TableCell className="flex justify-start items-center gap-2">
-                  <UserAvatar
-                    fallbackClassName="text-xs text-white"
-                    name={mentor?.user?.name}
-                    imageUrl={mentor?.user?.image}
-                    className=" w-6 h-6"
-                  />
-                  {mentor?.user?.name}
-                </TableCell>
-                <TableCell>{mentor?.track?.name}</TableCell>
-                <TableCell>{mentor?.noStudents}</TableCell>
-                <TableCell>{mentor?.rating}</TableCell>
-                <TableCell>{formatCurrency(mentor?.pricePerHour)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </main>
-    </div>
+    <Table className="mt-2">
+      <TableHeader>
+        <TableRow className="*:text-dark-navy *:font-semibold">
+          <TableHead>No</TableHead>
+          <TableHead>Id Mentor</TableHead>
+          <TableHead>Mentor Name</TableHead>
+          <TableHead>Track</TableHead>
+          <TableHead>Learner</TableHead>
+          <TableHead>Rate</TableHead>
+          <TableHead>Price/hr</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <TableRow key={index}>
+            <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
+            <TableCell>#{index + 1}</TableCell>
+            <TableCell className="flex justify-start items-center gap-2">
+              <UserAvatar
+                fallbackClassName="text-xs text-white"
+                name={"Khaled Ahmed"}
+                imageUrl={""}
+                className=" w-6 h-6"
+              />
+              {"Khaled Ahmed"}
+            </TableCell>
+            <TableCell>{"Data Science"}</TableCell>
+            <TableCell>{1200}</TableCell>
+            <TableCell>{4.5}</TableCell>
+            <TableCell>{formatCurrency(60)}</TableCell>
+          </TableRow>
+        ))}
+        {mentors.map((mentor, index) => (
+          <TableRow key={mentor.id}>
+            <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
+            <TableCell>#{mentor?.id}</TableCell>
+            <TableCell className="flex justify-start items-center gap-2">
+              <UserAvatar
+                fallbackClassName="text-xs text-white"
+                name={mentor?.user?.name}
+                imageUrl={mentor?.user?.image}
+                className=" w-6 h-6"
+              />
+              {mentor?.user?.name}
+            </TableCell>
+            <TableCell>{mentor?.track?.name}</TableCell>
+            <TableCell>{mentor?.noStudents}</TableCell>
+            <TableCell>{mentor?.rating}</TableCell>
+            <TableCell>{formatCurrency(mentor?.pricePerHour)}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
