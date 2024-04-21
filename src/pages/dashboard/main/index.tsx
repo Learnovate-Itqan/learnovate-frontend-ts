@@ -74,10 +74,34 @@ export function DashboardMain() {
   return (
     <main>
       <section className=" grid grid-cols-4 gap-3">
-        <Statistic Icon={BsFillPeopleFill} title="Learners" value={1200} color="#3D42DF" trend={8.5} />
-        <Statistic Icon={RiPresentationLine} title="Mentors" value={1200} color="#C94E08" trend={8.5} />
-        <Statistic Icon={PiBooksBold} title="Courses" value={1200} color="#3498DB" trend={8.5} />
-        <Statistic Icon={FaMoneyCheckDollar} title="Profits" value={1200} color="#2ECC71" trend={-8.5} />
+        <Statistic
+          Icon={BsFillPeopleFill}
+          title="Learners"
+          value={1200}
+          IconClassName={"bg-[#3D42DF]/20 text-[#3D42DF]"}
+          trend={8.5}
+        />
+        <Statistic
+          Icon={RiPresentationLine}
+          title="Mentors"
+          value={1200}
+          IconClassName={"bg-[#C94E08]/20 text-[#C94E08]"}
+          trend={8.5}
+        />
+        <Statistic
+          Icon={PiBooksBold}
+          title="Courses"
+          value={1200}
+          IconClassName={"bg-[#3498DB]/20 text-[#3498DB]"}
+          trend={8.5}
+        />
+        <Statistic
+          Icon={FaMoneyCheckDollar}
+          title="Profits"
+          value={1200}
+          IconClassName={"bg-[#2ECC71]/20 text-[#2ECC71]"}
+          trend={-8.5}
+        />
       </section>
       <section className="py-4 grid grid-cols-[1.5fr_2fr] gap-3">
         <TopTracksChart data={topTracks} />

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { HiTrendingUp } from "react-icons/hi";
 import { HiTrendingDown } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
@@ -6,11 +7,11 @@ type StatisticProps = {
   Icon: IconType;
   title: string;
   value: number;
-  color: string;
+  IconClassName?: string;
   trend: number;
 };
 
-export function Statistic({ Icon, title, value, color, trend }: StatisticProps) {
+export function Statistic({ Icon, title, value, IconClassName="", trend }: StatisticProps) {
   const TrendIcon = trend > 0 ? HiTrendingUp : HiTrendingDown;
   const trendColor = trend > 0 ? "#00B69B" : "#F93C65";
   return (
@@ -20,7 +21,7 @@ export function Statistic({ Icon, title, value, color, trend }: StatisticProps) 
           <span className=" text-gray-500">{title}</span>
           <h1 className="text-3xl font-semibold">{value}</h1>
         </div>
-        <div className={` flex items-center rounded-2xl gap-2 px-4 py-1 bg-[${color}]/20  text-[${color}]`}>
+        <div className={cn(` flex items-center rounded-2xl gap-2 px-4 py-1`, IconClassName)}>
           <Icon size={26} />
         </div>
       </main>
