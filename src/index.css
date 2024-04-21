@@ -76,7 +76,7 @@ input[type="number"] {
     @apply bg-royal-blue/90;
   }
 
-  .dashboard> .active {
+  .dashboard > .active {
     @apply bg-[#293560];
   }
 }

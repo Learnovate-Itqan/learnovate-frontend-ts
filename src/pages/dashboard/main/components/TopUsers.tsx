@@ -1,6 +1,5 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-
 type Data = {
   name: string;
   user: number;

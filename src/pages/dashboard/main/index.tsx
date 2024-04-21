@@ -7,9 +7,9 @@ import { z } from "zod";
 import { mentorSchema } from "@/schemas/mentorSchema";
 
 import { Statistic } from "./components/Statistic";
+import { TopMentors } from "./components/TopMentors";
 import { TopTracksChart } from "./components/TopTracksChart";
 import { TopUsers } from "./components/TopUsers";
-import { TopMentors } from "./components/TopMentors";
 
 const topTracks = [
   { name: "Data Science", value: 900 },
