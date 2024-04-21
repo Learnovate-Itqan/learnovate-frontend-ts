@@ -12,9 +12,14 @@ export const courseSchema = z.object({
   noChapters: z.number(),
   noStudentsEnrolled: z.number(),
   rating: z.number(),
-  cLevel: z.string(),
+  cLevel: z.literal("beginner").or(z.literal("intermediate")).or(z.literal("hard")),
   cLink: z.string(),
   trackID: z.string().uuid(),
   trackName: z.string(),
   price: z.number(),
+  publisher: z.object({
+    id: z.string().uuid(),
+    name: z.string(),
+    image: z.string().url(),
+  }),
 });
