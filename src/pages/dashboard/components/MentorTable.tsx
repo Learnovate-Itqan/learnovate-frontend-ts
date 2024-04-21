@@ -43,7 +43,7 @@ export function MentorsTable({ mentors }: MentorTableProps) {
             <TableCell>{formatCurrency(60)}</TableCell>
           </TableRow>
         ))}
-        {mentors.map((mentor, index) => (
+        {mentors?.map((mentor, index) => (
           <TableRow key={mentor.id}>
             <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
             <TableCell>#{mentor?.id}</TableCell>
