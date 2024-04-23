@@ -23,6 +23,7 @@ import { CoursesPage } from "./pages/courses";
 import { DashboardCourses } from "./pages/dashboard/courses";
 import { DashboardMain } from "./pages/dashboard/main";
 import { DashboardMentors } from "./pages/dashboard/mentors";
+import { OrderDetails } from "./pages/dashboard/orderDetails";
 import { DashboardOrders } from "./pages/dashboard/ordersList";
 import { EditProfile } from "./pages/editProfile";
 import { Meeting } from "./pages/meeting";
@@ -76,6 +77,7 @@ export const Router = createBrowserRouter(
           <Route path="courses" element={<DashboardCourses />} />
           <Route path="mentors" element={<DashboardMentors />} />
           <Route path="orders-list" element={<DashboardOrders />} />
+          <Route path="orders-list/:orderId" element={<OrderDetails />} />
         </Route>
 
         {/* Profile Route */}
