@@ -76,6 +76,13 @@ export function OrdersTable({ orders }: MentorTableProps) {
             </TableCell>
           </TableRow>
         ))}
+        {(!orders || orders?.length === 0) && (
+          <TableRow className=" cursor-pointer">
+            <TableCell colSpan={7} className="text-center font-semibold py-10">
+              No Orders Found
+            </TableCell>
+          </TableRow>
+        )}
         {orders?.map((mentor, index) => (
           <TableRow
             key={index}
