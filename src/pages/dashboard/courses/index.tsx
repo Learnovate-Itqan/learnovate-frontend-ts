@@ -3,12 +3,14 @@ import { FaPlus } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 
+import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
 
 import { CoursesTable } from "../components/CoursesTable";
+import { AddCourseForm } from "./components/AddCourseForm";
 
 export function DashboardCourses() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,9 +38,17 @@ export function DashboardCourses() {
               }}
               className="min-w-48 bg-gray-100"
             />
-            <Button size={"sm"} className="flex gap-2 py-0">
-              <FaPlus /> Add
-            </Button>
+            <Modal>
+              <Modal.Open opens="addCourse">
+                <Button size={"sm"} className="flex gap-2 py-0">
+                  <FaPlus /> Add
+                </Button>
+              </Modal.Open>
+
+              <Modal.Window name="addCourse">
+                <AddCourseForm />
+              </Modal.Window>
+            </Modal>
           </div>
         </header>
         <CoursesTable courses={courses} />
