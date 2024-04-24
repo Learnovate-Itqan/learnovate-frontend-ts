@@ -1,7 +1,8 @@
-import { cn } from "@/lib/utils";
 import { HiTrendingUp } from "react-icons/hi";
 import { HiTrendingDown } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
+
+import { cn } from "@/lib/utils";
 
 type StatisticProps = {
   Icon: IconType;
@@ -11,7 +12,7 @@ type StatisticProps = {
   trend: number;
 };
 
-export function Statistic({ Icon, title, value, IconClassName="", trend }: StatisticProps) {
+export function Statistic({ Icon, title, value, IconClassName = "", trend }: StatisticProps) {
   const TrendIcon = trend > 0 ? HiTrendingUp : HiTrendingDown;
   const trendColor = trend > 0 ? "#00B69B" : "#F93C65";
   return (

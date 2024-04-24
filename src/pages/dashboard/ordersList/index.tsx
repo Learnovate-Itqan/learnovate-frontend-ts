@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 
+import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { useGetData } from "@/hooks/useApi";
 
 import { OrdersTable } from "../components/OrdersTable";
-import { Paginate } from "@/components/ui/Paginate";
 
 export function DashboardOrders() {
   const [searchParams, setSearchParams] = useSearchParams();

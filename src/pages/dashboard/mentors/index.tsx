@@ -34,7 +34,6 @@ export function DashboardMentors() {
               }}
               className="min-w-48 bg-gray-100"
             />
-           
           </div>
         </header>
         <MentorsTable mentors={courses} />
