@@ -21,7 +21,10 @@ export function WishListButton({ className = "", courseId, isWishListed }: WishL
   }
   return (
     <button
-      className={cn(" bg-white p-2 rounded-lg flex items-center gap-2  z-20 text-royal-blue font-[500]", className)}
+      className={cn(
+        " bg-white p-2 rounded-lg flex items-center gap-2  z-20 text-royal-blue font-[500] hover:bg-gray-100 transition-colors duration-200",
+        className
+      )}
       onClick={(e) => {
         e.preventDefault();
         handleWishList();
