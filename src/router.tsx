@@ -33,9 +33,9 @@ import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
 import Profile from "./pages/profile";
 import { Quiz } from "./pages/quiz";
+import { Roadmap } from "./pages/roadmap";
 import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
-import { Roadmap } from "./pages/roadmap";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
