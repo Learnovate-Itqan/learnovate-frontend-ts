@@ -111,7 +111,9 @@ export function DashboardLayout() {
             Logout
           </button>
         </footer>
-        <BurgerBtn />
+        <div className="md:hidden">
+          <BurgerBtn />
+        </div>
       </nav>
       <main className="container py-10 min-h-[calc(100dvh-68px)] md:h-dvh md:overflow-auto ">
         <Outlet />
