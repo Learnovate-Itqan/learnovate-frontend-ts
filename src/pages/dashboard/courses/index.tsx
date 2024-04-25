@@ -27,9 +27,9 @@ export function DashboardCourses() {
   return (
     <main>
       <section className=" shadow-custom rounded-xl py-6 mb-10">
-        <header className="flex justify-between items-center px-6 mb-5">
+        <header className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center px-6 mb-5">
           <h1 className=" text-2xl font-semibold ">Courses</h1>
-          <div className="flex gap-2 justify-end items-center">
+          <div className="flex gap-2 justify-between md:justify-end items-center">
             <SearchBar
               value={search}
               onChange={(value) => {
@@ -45,7 +45,7 @@ export function DashboardCourses() {
                 </Button>
               </Modal.Open>
 
-              <Modal.Window name="addCourse">
+              <Modal.Window name="addCourse" className=" container max-h-[95%] w-5/6 md:w-4/6  max-w-4xl ">
                 <AddCourseForm />
               </Modal.Window>
             </Modal>
