@@ -3,6 +3,7 @@ import { z } from "zod";
 import CourseCard from "@/components/ui/CourseCard";
 import { Keywords } from "@/components/ui/Keywords";
 import { UserAvatar } from "@/components/ui/UserAvatar";
+import { WishListButton } from "@/components/ui/WishListButton";
 import { Button } from "@/components/ui/button";
 import { courseSchema } from "@/schemas/courseSchema";
 import { formatCurrency } from "@/utils/helpers";
@@ -150,9 +151,14 @@ export function CourseInfo() {
             <h1 className="text-4xl text-dark-navy font-semibold">{formatCurrency(COURSE.price)}</h1>
             <div className="grid gap-2">
               <Button>Buy Now</Button>
-              <Button variant={"outline"} className="text-royal-blue border-royal-blue hover:text-royal-blue">
+              {/* <Button variant={"outline"} className="text-royal-blue border-royal-blue hover:text-royal-blue">
                 Add to wishlist
-              </Button>
+              </Button> */}
+              <WishListButton
+                className=" justify-center border-[1px] border-royal-blue"
+                courseId={COURSE.id}
+                isWishListed={false}
+              />
             </div>
           </header>
         </div>
