@@ -12,9 +12,7 @@ export function TopMentors({ mentors }: TopMentorsProps) {
   return (
     <div className=" shadow-custom rounded-xl py-6">
       <h1 className=" text-2xl font-semibold px-6">Top Mentors</h1>
-      <main>
-        <MentorsTable mentors={mentors} />
-      </main>
+      <MentorsTable mentors={mentors} />
     </div>
   );
 }
