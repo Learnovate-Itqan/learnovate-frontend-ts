@@ -11,51 +11,19 @@ import headerImage from "../../assets/pricingHeaderImage.jpg";
 import { PricingCard } from "../../components/ui/PricingCard";
 import AccordionSkelton from "./AccordionSkelton";
 
-const PLANS = [
-  {
-    name: "Standard",
-    description:
-      "Lorem ipsum dolor sit amet. Qui autem modi et nobis dicta vel impedit dolore sed esse ratione quo distinctio totam.",
-    price: 25,
-    recommended: false,
-    features: [
-      "Lorem ipsum dolor sit amet.",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-    ],
-  },
-  {
-    name: "Pro",
-    description:
-      "Lorem ipsum dolor sit amet. Qui autem modi et nobis dicta vel impedit dolore sed esse ratione quo distinctio totam.",
-    price: 50,
-    recommended: true,
-
-    features: [
-      "Lorem ipsum dolor sit amet.",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-    ],
-  },
-  {
-    name: "Enterprise",
-    description:
-      "Lorem ipsum dolor sit amet. Qui autem modi et nobis dicta vel impedit dolore sed esse ratione quo distinctio totam.",
-    price: 125,
-    recommended: false,
-    features: [
-      "Lorem ipsum dolor sit amet.",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-      "Qui autem modi et nobis dicta vel impedi",
-    ],
-  },
-];
+const PLAN = {
+  name: "Upgrade to Plus",
+  description:
+    "Lorem ipsum dolor sit amet. Qui autem modi et nobis dicta vel impedit dolore sed esse ratione quo distinctio totam.",
+  price: 25,
+  features: [
+    "Lorem ipsum dolor sit amet.",
+    "Lorem ipsum dolor sit Qui autem modi et nobis dicta vel impedi .",
+    "Qui autem modi et nobis dicta vel impedi",
+    "Qui autem modi et nobis dicta vel impedi",
+    "Qui autem modi et nobis dicta vel impedi",
+  ],
+};
 
 const FAQS = [
   {
@@ -89,7 +57,6 @@ type Plan = {
   name: string;
   description: string;
   price: number;
-  recommended: boolean;
   features: string[];
 };
 type Faq = {
@@ -103,9 +70,9 @@ export function Pricing() {
   // fetch Data
   const { data: response } = useGetData(`/pricing`);
   const { data, status } = response || {};
-  const { plans, faqs }: { plans: Plan[]; faqs: Faq[] } = { plans: PLANS, faqs: FAQS } || data || {};
+  const { plan, faqs }: { plan: Plan; faqs: Faq[] } = { plan: PLAN, faqs: FAQS } || data || {};
 
-  if (status === "failed" && !PLANS) {
+  if (status === "failed" && !PLAN) {
     return (
       <div className="flex flex-col items-center justify-center gap-3 py-20 ">
         <h1 className="text-3xl font-semibold ">Something went wrong</h1>
@@ -129,13 +96,7 @@ export function Pricing() {
             Choose your suitable plan
           </h1>
           <main className=" flex flex-wrap gap-10 justify-center my-10 ">
-            {plans ? (
-              plans.map((plan, index) => (
-                <PricingCard className={` ${plan?.recommended && " bg-dark-navy text-white"} `} key={index} {...plan} />
-              ))
-            ) : (
-              <Spinner className=" stroke-royal-blue w-44 h-44" />
-            )}
+            {plan ? <PricingCard {...plan} /> : <Spinner className=" stroke-royal-blue w-44 h-44" />}
           </main>
         </section>
         <section className="flex flex-col gap-2 pt-10">
