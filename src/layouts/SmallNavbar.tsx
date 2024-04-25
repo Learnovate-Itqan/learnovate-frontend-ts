@@ -69,6 +69,11 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
             Contact
           </Link>
         </li>
+        <li>
+          <Link className="hover:opacity-80 transition-opacity" to={"/dashboard"} onClick={() => dispatcher(closeNav())}>
+            Dashboard
+          </Link>
+        </li>
       </ul>
       {isAuth ? (
         <div className="flex  justify-between items-center">

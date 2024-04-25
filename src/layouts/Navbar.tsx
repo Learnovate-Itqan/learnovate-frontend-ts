@@ -102,6 +102,11 @@ export function Navbar() {
               Contact
             </Link>
           </li>
+          <li>
+            <Link className="hover:opacity-80 transition-opacity" to={"/dashboard"}>
+              Dashboard
+            </Link>
+          </li>
         </ul>
       </div>
       {response === undefined ? null : !isAuth ? (
