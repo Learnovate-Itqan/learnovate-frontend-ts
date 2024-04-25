@@ -24,11 +24,38 @@ const COURSE: z.infer<typeof courseSchema> = {
   noChapters: 10,
   noStudentsEnrolled: 1000,
   rating: 4.5,
-  cLevel: "Beginner",
+  cLevel: "beginner",
   cLink: "https://learnovate.com/courses/python",
   trackID: "1",
   trackName: "Python",
   price: 50,
+  chapters: [
+    {
+      title: "lorem ipsum",
+      link: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/lH7vAzmmB-M?si=EM0V30z2e5ymxRj1",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/MIIvpZLaVMo?si=gVsiW5gle_Yicf6C",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/fyP-T6DEHgA?si=pg4FWu_FbqeXNCAt",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/OL-tStCYoFM?si=3ZikLxiD6yvZtyBw",
+    },
+  ],
+  publisher: {
+    id: "1",
+    name: "John Doe",
+    image: "",
+  },
 };
 
 const courseChapters = [
@@ -94,71 +121,7 @@ const courseChapters = [
   },
 ];
 
-const relatedCourses: z.infer<typeof courseSchema>[] = [
-  {
-    id: "22",
-    title: "Foundations of Python",
-    publishTime: "2021-09-01T00:00:00.000Z",
-    description:
-      "Unlock the secrets to creating captivating digital experiences with our UI/UX Design Mastery track. In this comprehensive program, you'll delve into the art and science of User Interface (UI) and User Experience (UX) design.",
-    keywords: "Python, Programming, Coding, Beginner, Intermediate, Advanced"
-      .split(",")
-      .map((keyword) => keyword.trim()),
-    image: courseImage,
-    progress: 0,
-    estimatedTime: 10,
-    noChapters: 10,
-    noStudentsEnrolled: 1000,
-    rating: 4.5,
-    cLevel: "Beginner",
-    cLink: "https://learnovate.com/courses/python",
-    trackID: "1",
-    trackName: "Python",
-    price: 50,
-  },
-  {
-    id: "15",
-    title: "Foundations of Python",
-    publishTime: "2021-09-01T00:00:00.000Z",
-    description:
-      "Unlock the secrets to creating captivating digital experiences with our UI/UX Design Mastery track. In this comprehensive program, you'll delve into the art and science of User Interface (UI) and User Experience (UX) design.",
-    keywords: "Python, Programming, Coding, Beginner, Intermediate, Advanced"
-      .split(",")
-      .map((keyword) => keyword.trim()),
-    image: courseImage,
-    progress: 0,
-    estimatedTime: 10,
-    noChapters: 10,
-    noStudentsEnrolled: 1000,
-    rating: 4.5,
-    cLevel: "Beginner",
-    cLink: "https://learnovate.com/courses/python",
-    trackID: "1",
-    trackName: "Python",
-    price: 50,
-  },
-  {
-    id: "5",
-    title: "Foundations of Python",
-    publishTime: "2021-09-01T00:00:00.000Z",
-    description:
-      "Unlock the secrets to creating captivating digital experiences with our UI/UX Design Mastery track. In this comprehensive program, you'll delve into the art and science of User Interface (UI) and User Experience (UX) design.",
-    keywords: "Python, Programming, Coding, Beginner, Intermediate, Advanced"
-      .split(",")
-      .map((keyword) => keyword.trim()),
-    image: courseImage,
-    progress: 0,
-    estimatedTime: 10,
-    noChapters: 10,
-    noStudentsEnrolled: 1000,
-    rating: 4.5,
-    cLevel: "Beginner",
-    cLink: "https://learnovate.com/courses/python",
-    trackID: "1",
-    trackName: "Python",
-    price: 50,
-  },
-];
+const relatedCourses: z.infer<typeof courseSchema>[] = [COURSE, COURSE, COURSE];
 export function CourseInfo() {
   return (
     <main>
