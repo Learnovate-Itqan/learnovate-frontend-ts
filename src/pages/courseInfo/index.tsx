@@ -3,6 +3,7 @@ import { z } from "zod";
 import CourseCard from "@/components/ui/CourseCard";
 import { Keywords } from "@/components/ui/Keywords";
 import { UserAvatar } from "@/components/ui/UserAvatar";
+import { WishListButton } from "@/components/ui/WishListButton";
 import { Button } from "@/components/ui/button";
 import { courseSchema } from "@/schemas/courseSchema";
 import { formatCurrency } from "@/utils/helpers";
@@ -10,7 +11,6 @@ import { formatCurrency } from "@/utils/helpers";
 import courseImage from "../../assets/learnovate-thumbnail-course.png";
 import { CourseContent } from "./components/CourseContent";
 import { CourseDetails } from "./components/courseDetails";
-import { WishListButton } from "@/components/ui/WishListButton";
 
 const COURSE: z.infer<typeof courseSchema> = {
   id: "22",
@@ -154,7 +154,11 @@ export function CourseInfo() {
               {/* <Button variant={"outline"} className="text-royal-blue border-royal-blue hover:text-royal-blue">
                 Add to wishlist
               </Button> */}
-              <WishListButton className=" justify-center border-[1px] border-royal-blue" courseId={COURSE.id} isWishListed={false} />
+              <WishListButton
+                className=" justify-center border-[1px] border-royal-blue"
+                courseId={COURSE.id}
+                isWishListed={false}
+              />
             </div>
           </header>
         </div>
