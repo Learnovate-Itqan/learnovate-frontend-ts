@@ -107,7 +107,7 @@ export function DashboardMain() {
         <TopTracksChart data={topTracks} />
         <TopUsers data={totalUsers} />
       </section>
-      <section >
+      <section>
         <TopMentors mentors={TOP_MENTORS} />
       </section>
     </main>

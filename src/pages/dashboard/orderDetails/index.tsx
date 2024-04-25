@@ -96,7 +96,7 @@ export function OrderDetails() {
         <h2 className="text-lg font-semibold">Social information</h2>
         <div className=" grid  sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-5 *:break-words ">
           <OrderField header="FaceBook">
-            <span >Khalidahmed@gmail.com</span>
+            <span>Khalidahmed@gmail.com</span>
           </OrderField>
           <OrderField header="Linkedin">
             <span>Khalidahmed@gmail.com</span>

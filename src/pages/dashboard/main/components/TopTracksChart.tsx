@@ -23,7 +23,7 @@ export function DashboardPieChart({ data }: { data: Data[] }) {
         </Pie>
         <Legend
           verticalAlign="middle"
-          wrapperStyle={{ lineHeight: 2.5, textAlign: "center", fontSize: ".8rem"}}
+          wrapperStyle={{ lineHeight: 2.5, textAlign: "center", fontSize: ".8rem" }}
           iconType="circle"
           layout="vertical"
           align="right"
