@@ -20,13 +20,16 @@ export function OrderDetails() {
         <hr className=" border-[1px] border-zinc-300" />
       </header>
       <section className=" space-y-3">
-        <h2 className="text-lg font-semibold">Basic information</h2>
-        <div className="flex gap-5">
+        <header className=" flex justify-between flex-wrap items-center ">
+          <h2 className="text-lg font-semibold">Basic information</h2>
           <OrderImageField
             className=" grow-0 "
             image="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
           />
-          <div className=" grid grid-cols-3 h-min place-self-center gap-5 grow *:grow">
+        </header>
+        <div className="flex flex-col gap-5">
+          {/* grid sm:grid-cols-3 h-min place-self-center gap-5 grow *:grow */}
+          <div className=" w-full flex flex-wrap gap-5 grow *:grow">
             <OrderField header="Full Name">
               <span>John Doe</span>
             </OrderField>
@@ -38,7 +41,7 @@ export function OrderDetails() {
             </OrderField>
           </div>
         </div>
-        <div className=" grid grid-cols-4 gap-5 ">
+        <div className=" grid sm:grid-cols-2 lg:grid-cols-4 gap-5 ">
           <OrderField header="Date of birth">
             <span>26/22/2044</span>
           </OrderField>
@@ -49,7 +52,7 @@ export function OrderDetails() {
             <span>cairo</span>
           </OrderField>
           <OrderField header="Languages">
-            <span>English, Arabic</span>
+            <span className=" text-wrap">English, Arabic</span>
           </OrderField>
         </div>
         <OrderField header="About">
@@ -63,7 +66,7 @@ export function OrderDetails() {
       </section>
       <section className=" space-y-3">
         <h2 className="text-lg font-semibold">Education information</h2>
-        <div className="grid grid-cols-3 gap-5 ">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 ">
           <OrderField header="Education">
             <span>Bachelor's degree in Computer Science from X University.</span>
           </OrderField>
@@ -82,7 +85,7 @@ export function OrderDetails() {
               href={"https://www.google.com"}
               target="_blank"
               rel="noreferrer"
-              className="w-fit max-w-xl text-royal-blue hover:underline underline-offset-2"
+              className="w-fit max-w-xl text-royal-blue  hover:underline underline-offset-2"
             >
               khalidahmedcv.pdf
             </a>
@@ -91,7 +94,7 @@ export function OrderDetails() {
       </section>
       <section className=" space-y-3">
         <h2 className="text-lg font-semibold">Social information</h2>
-        <div className=" grid grid-cols-3 gap-5 ">
+        <div className=" grid  sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-5 ">
           <OrderField header="FaceBook">
             <span>Khalidahmed@gmail.com</span>
           </OrderField>
@@ -103,8 +106,8 @@ export function OrderDetails() {
           </OrderField>
         </div>
       </section>
-      <footer className="flex justify-between items-center">
-        <div className="flex gap-5">
+      <footer className="flex flex-col justify-between gap-3 items-center">
+        <div className="flex flex-wrap place-self-start  gap-2 md:gap-5">
           {Statuses.map((status) => (
             <RoundedCheckbox
               label={status}
@@ -114,7 +117,7 @@ export function OrderDetails() {
             />
           ))}
         </div>
-        <Button className=" px-8">submit</Button>
+        <Button className=" place-self-end px-8">submit</Button>
       </footer>
     </main>
   );
