@@ -23,7 +23,7 @@ export function DashboardMentors() {
   return (
     <main>
       <section className=" shadow-custom rounded-xl py-6 mb-10">
-        <header className="flex justify-between items-center px-6 mb-5">
+        <header className="flex flex-col sm:flex-row  sm:justify-between sm:items-center gap-3 px-6 mb-5">
           <h1 className=" text-2xl font-semibold ">Mentors</h1>
           <div className="flex gap-2 justify-end items-center">
             <SearchBar
