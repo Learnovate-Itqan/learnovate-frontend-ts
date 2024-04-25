@@ -23,7 +23,7 @@ export function CourseChaptersForm({ noChapters, handleCourseChapters, onPrev }:
   const { isSubmitting } = courseChapterForm.formState;
   return (
     <Form {...courseChapterForm}>
-      <form onSubmit={courseChapterForm.handleSubmit(handleCourseChapters)} className="h-full min-w-[35rem] space-y-3">
+      <form onSubmit={courseChapterForm.handleSubmit(handleCourseChapters)} className="h-full space-y-3">
         <Accordion type="single" collapsible>
           {Array.from({ length: noChapters }).map((_, index) => (
             <AccordionItem value={`Chapter ${index + 1}`} key={index} className="hover:no-underline ">
