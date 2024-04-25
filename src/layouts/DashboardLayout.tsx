@@ -7,11 +7,13 @@ import { TbLogout } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
+import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { usePostData } from "@/hooks/useApi";
 import { resetUser } from "@/redux/slices/authSlice";
 
 import Logo from "../assets/logo-inline.webp";
+import { SmallDashboardNavbar } from "./SmallDashboardNavbar";
 
 export function DashboardLayout() {
   const dispatcher = useDispatch();
@@ -41,12 +43,13 @@ export function DashboardLayout() {
     }
   };
   return (
-    <main className="grid grid-cols-[300px_1fr] min-h-dvh relative">
-      <nav className="bg-dark-navy text-white px-3 py-10 flex flex-col">
+    <main className="grid md:grid-cols-[300px_1fr] min-h-dvh relative w-dvw overflow-hidden">
+      <SmallDashboardNavbar logout={logout} />
+      <nav className="bg-dark-navy text-white px-3 md:py-10 py-5 flex md:flex-col justify-between">
         <Link to={"/"}>
           <img src={Logo} alt="Learnovate-Logo" className="w-48 px-2" loading="lazy" />
         </Link>
-        <ul className="mt-10 grid gap-1 *:w-full *:dashboard">
+        <ul className="mt-10 hidden md:grid gap-1 *:w-full *:dashboard">
           <li>
             <NavLink
               to={"main"}
@@ -91,8 +94,8 @@ export function DashboardLayout() {
             </NavLink>
           </li>
         </ul>
-        <div className="flex-1" />
-        <footer>
+        <div className="flex-1 hidden md:block " />
+        <footer className="hidden md:block ">
           <Link
             to={"/profile"}
             className="flex justify-start items-center gap-3 w-full rounded-xl py-4 px-3 hover:bg-[#293560]/50 "
@@ -108,8 +111,9 @@ export function DashboardLayout() {
             Logout
           </button>
         </footer>
+        <BurgerBtn />
       </nav>
-      <main className="container py-10 h-dvh overflow-auto ">
+      <main className="container py-10 min-h-[calc(100dvh-68px)] md:h-dvh md:overflow-auto ">
         <Outlet />
       </main>
     </main>
