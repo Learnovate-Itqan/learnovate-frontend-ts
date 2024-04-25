@@ -35,6 +35,7 @@ import Profile from "./pages/profile";
 import { Quiz } from "./pages/quiz";
 import { Track } from "./pages/track";
 import { AuthRoutes } from "./routes/Auth";
+import { Roadmap } from "./pages/roadmap";
 
 export const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,6 +52,7 @@ export const Router = createBrowserRouter(
           <Route path="/be-a-mentor" element={<BeMentorForm />} />
           <Route path="/course/lecture/:id" element={<CourseVideo />} />
           <Route path="/course/:id" element={<CourseInfo />} />
+          <Route path="/roadmap/:id" element={<Roadmap />} />
         </Route>
         <Route path="/quiz/:id" element={<Quiz />} />
         <Route
