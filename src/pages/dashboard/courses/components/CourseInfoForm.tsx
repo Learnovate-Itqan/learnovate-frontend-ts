@@ -29,12 +29,12 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
         })}
         className="h-full"
       >
-        <div className=" grid grid-cols-3 gap-x-5 gap-y-1">
+        <div className=" grid md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-1">
           <FormField
             control={addCourseForm.control}
             name="image"
             render={({ field }) => (
-              <FormItem className=" row-span-2">
+              <FormItem className=" md:row-span-2">
                 <FormControl>
                   <ImageUploader className="w-full h-36  rounded-lg" {...field} />
                 </FormControl>
@@ -46,7 +46,7 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
             control={addCourseForm.control}
             name="title"
             render={({ field }) => (
-              <FormItem className=" col-span-2">
+              <FormItem className=" col-span-1 lg:col-span-2">
                 <FormLabel>Course Title</FormLabel>
                 <FormControl>
                   <Input
@@ -65,7 +65,7 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
             control={addCourseForm.control}
             name="trackName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className=" col-span-1">
                 <FormLabel>Track</FormLabel>
                 <FormControl>
                   <Input
@@ -163,7 +163,7 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
             control={addCourseForm.control}
             name="keywords"
             render={({ field }) => (
-              <FormItem className="col-span-3">
+              <FormItem className="md:col-span-2 lg:col-span-3">
                 <FormLabel>Keywords</FormLabel>
                 <FormControl>
                   <KeyWordsForm
@@ -185,7 +185,7 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
             control={addCourseForm.control}
             name="description"
             render={({ field }) => (
-              <FormItem className="col-span-3">
+              <FormItem className="md:col-span-2 lg:col-span-3">
                 <FormLabel>About</FormLabel>
                 <FormControl>
                   <Textarea
