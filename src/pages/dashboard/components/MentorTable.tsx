@@ -13,7 +13,7 @@ export function MentorsTable({ mentors }: MentorTableProps) {
   return (
     <Table className="mt-2">
       <TableHeader>
-        <TableRow className="*:text-dark-navy *:font-semibold">
+        <TableRow className="*:text-dark-navy *:font-semibold *:whitespace-nowrap">
           <TableHead>No</TableHead>
           <TableHead>Id Mentor</TableHead>
           <TableHead>Mentor Name</TableHead>
