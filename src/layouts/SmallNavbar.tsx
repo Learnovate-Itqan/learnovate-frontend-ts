@@ -70,7 +70,11 @@ export function SmallNavbar({ isAuth, tracks, user, logout }: SmallNavbarProps) 
           </Link>
         </li>
         <li>
-          <Link className="hover:opacity-80 transition-opacity" to={"/dashboard"} onClick={() => dispatcher(closeNav())}>
+          <Link
+            className="hover:opacity-80 transition-opacity"
+            to={"/dashboard"}
+            onClick={() => dispatcher(closeNav())}
+          >
             Dashboard
           </Link>
         </li>
