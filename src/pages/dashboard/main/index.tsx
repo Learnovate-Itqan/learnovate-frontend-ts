@@ -73,7 +73,7 @@ const TOP_MENTORS: z.infer<typeof mentorSchema>[] = [];
 export function DashboardMain() {
   return (
     <main>
-      <section className=" grid grid-cols-4 gap-3">
+      <section className=" grid xl:grid-cols-4 sm:grid-cols-2 gap-3">
         <Statistic
           Icon={BsFillPeopleFill}
           title="Learners"
@@ -103,11 +103,11 @@ export function DashboardMain() {
           trend={-8.5}
         />
       </section>
-      <section className="py-4 grid grid-cols-[1.5fr_2fr] gap-3">
+      <section className="py-4 grid xl:grid-cols-[1.5fr_2fr] gap-3">
         <TopTracksChart data={topTracks} />
         <TopUsers data={totalUsers} />
       </section>
-      <section>
+      <section >
         <TopMentors mentors={TOP_MENTORS} />
       </section>
     </main>
