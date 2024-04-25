@@ -20,11 +20,38 @@ const course: z.infer<typeof courseSchema> = {
   noChapters: 10,
   noStudentsEnrolled: 100,
   rating: 4.5,
-  cLevel: "Beginner",
+  cLevel: "beginner",
   cLink: "https://www.youtube.com/watch?v=UEIHZBjzOuI",
   trackID: "1",
   trackName: "Frontend",
   price: 0,
+  chapters: [
+    {
+      title: "lorem ipsum",
+      link: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/lH7vAzmmB-M?si=EM0V30z2e5ymxRj1",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/MIIvpZLaVMo?si=gVsiW5gle_Yicf6C",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/fyP-T6DEHgA?si=pg4FWu_FbqeXNCAt",
+    },
+    {
+      title: "lorem ipsum",
+      link: "https://www.youtube.com/OL-tStCYoFM?si=3ZikLxiD6yvZtyBw",
+    },
+  ],
+  publisher: {
+    id: "1",
+    name: "John Doe",
+    image: "",
+  },
 };
 
 const courseChapters = [
@@ -93,7 +120,7 @@ export function CourseVideo() {
             <h1 className="text-xl sm:text-3xl font-semibold text-dark-navy">{course.title}</h1>
             <p className="text-zinc-500">{mentor.name}</p>
           </header>
-          <CourseContents courseChapters={courseChapters} progress={course?.progress} />
+          <CourseContents courseChapters={courseChapters} progress={course?.progress || 0} />
           <AboutInstructor mentor={mentor} />
         </section>
         <section className="px-4 sm:px-0 col-span-2 xl:col-span-1 ">
