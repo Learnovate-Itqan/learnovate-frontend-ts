@@ -6,44 +6,46 @@ import { Button } from "@/components/ui/button";
 type PricingCardProps = {
   name: string;
   description: string;
-  recommended?: boolean;
   price: number;
   features: string[];
   className?: string;
 };
 
-export function PricingCard({ name, description, price, features, recommended, className }: PricingCardProps) {
+export function PricingCard({ name, description, price, features, className }: PricingCardProps) {
   return (
     <div
       className={twMerge(
-        " p-4 py-6 flex flex-col  gap-5 rounded-xl shadow-xl font-poppins grow bg-gray-200 w-96",
+        "  py-10 grid lg:grid-cols-2 gap-5  rounded-xl  font-poppins grow bg-dark-navy text-white",
         className
       )}
     >
-      <header className="flex justify-between items-center">
-        <h1 className="text-3xl font-semibold capitalize" title={name}>
-          {name}
-        </h1>
-        {recommended && <span className="px-3 py-1 capitalize text-[12px] rounded-xl bg-royal-blue">Recommended</span>}
-      </header>
-      <p>{description}</p>
-      <p>
-        <span className="text-6xl font-semibold"> ${price}</span> /per month
-      </p>
-      <Button className="w-full">Try 7 days for free</Button>
-      <h2 className="text-2xl font-[500] ">Features</h2>
-      <ul className="grid gap-4">
-        {features.map((feature, index) => (
-          <li className="flex gap-2 items-center" key={index} title={feature}>
-            <span
-              className={`w-5 h-5 transition-colors duration-30 border-2 grid place-content-center text-white rounded-full bg-royal-blue border-royal-blue`}
-            >
-              <IoCheckmark size={15} className=" stroke-2" />
-            </span>
-            {feature}
-          </li>
-        ))}
-      </ul>
+      <section className="container grid gap-2">
+        <header className="flex justify-between items-center">
+          <h1 className="text-4xl font-semibold capitalize" title={name}>
+            {name}
+          </h1>
+        </header>
+        <p className=" text-zinc-300">{description}</p>
+        <p>
+          <span className="text-2xl font-semibold"> ${price}</span> /per month
+        </p>
+        <Button className="w-full">Upgrade now</Button>
+      </section>
+      <section className=" border-t-2 py-5 lg:py-0 lg:border-t-0 lg:border-l-2 border-zinc-400  container ">
+        <h2 className="text-2xl font-[500] place mb-3 ">Features</h2>
+        <ul className="grid gap-3">
+          {features.map((feature, index) => (
+            <li className="flex gap-2 items-center" key={index} title={feature}>
+              <span
+                className={`w-5 h-5 transition-colors duration-30 border-2 grid place-content-center text-white rounded-full bg-royal-blue border-royal-blue`}
+              >
+                <IoCheckmark size={15} className=" stroke-2" />
+              </span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }
