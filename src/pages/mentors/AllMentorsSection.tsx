@@ -90,7 +90,7 @@ export default function AllMentorsSection() {
                   rating={mentor.rating}
                   image={mentor.user.image}
                   title={mentor.track.name}
-                  id={"Mentor.id"}
+                  id={mentor.id}
                 />
               ))}
             </aside>
