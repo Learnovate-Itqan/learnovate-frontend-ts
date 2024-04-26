@@ -41,7 +41,12 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
       <section className="container py-20">
         <header className="flex flex-col gap-4 sm:flex-row justify-between items-center">
           <h1 className="text-dark-navy text-2xl sm:text-3xl font-semibold">Start With our Courses</h1>
-          <Button className="hidden max-w-36 sm:block" text="Discover All" type="button" />
+          <Button
+            className="hidden max-w-36 sm:block"
+            text="Discover All"
+            type="button"
+            onClick={() => navigate("/courses")}
+          />
         </header>
         <main className="grid grid-cols-auto-fit-19 xl:grid-cols-3 gap-5 my-10">
           {courses.map((course) => (
