@@ -66,7 +66,7 @@ export default function AllMentorsSection() {
           </aside>
           {!mentors ? (
             <div className="py-20 grow flex justify-center items-center">
-              <Spinner className="w-36 h-36 stroke-royal-blue" />
+              <Spinner className="w-36 h-36 stroke-zinc-500" />
             </div>
           ) : mentors.length === 0 ? (
             <div className="container py-20 w-full flex ">
