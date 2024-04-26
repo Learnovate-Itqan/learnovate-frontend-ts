@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 import Hero from "@/assets/home/landing-page.png";
-import { JoinMeetingBtn } from "@/components/meeting/joinMeetingBtn";
 import { AppStoreButton } from "@/components/ui/AppStoreButton";
-import { Button } from "@/components/ui/Button_";
 import { PlayStoreButton } from "@/components/ui/PlayStoreButton";
+import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
   return (
     <section className="relative flex justify-start items-center py-24 md:min-h-[calc(100dvh-82px)] min-h-[calc(100dvh-77px)] bg-gradient-to-b from-dark-navy via-dark-navy/90 to-dark-navy/80 md:from-transparent md:to-transparent md:via-transparent md:bg-dark-navy ">
       <div
@@ -26,10 +28,9 @@ export default function HeroSection() {
           ipsum.{" "}
         </p>
         <div className="md:w-1/4 md:max-w-48 min-w-36">
-          <Button text="Get Start" type="button" />
-        </div>
-        <div className="md:w-1/4 md:max-w-48 min-w-36">
-          <JoinMeetingBtn roomId="123" />
+          <Button size={"lg"} onClick={() => navigate("/mentors")} className="w-full text-lg rounded-xl">
+            Get Start
+          </Button>
         </div>
         <div className="flex flex-col xs:flex-row gap-2 justify-center md:justify-start sm:gap-4">
           <AppStoreButton />
