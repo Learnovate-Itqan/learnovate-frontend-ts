@@ -45,7 +45,7 @@ export function DashboardLayout() {
   };
   const outlet = Outlet({});
   useEffect(() => {
-    if (outlet === null) navigate("/dashboard/main");
+    if (outlet === null) navigate("/dashboard/main", { replace: true });
   }, [navigate, outlet]);
   return (
     <main className="grid md:grid-cols-[300px_1fr] min-h-dvh relative w-dvw overflow-hidden">
