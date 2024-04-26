@@ -59,6 +59,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
               level={course.cLevel}
               id={course.id}
               track={course.trackName}
+              trackId={course.trackID}
               duration={course.estimatedTime || 0}
               image={course.image}
               price={course.price}
