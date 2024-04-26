@@ -76,6 +76,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
 }
 
 function BeMentor() {
+  const navigate = useNavigate();
   return (
     <section className="container mb-20 flex flex-col md:flex-row gap-5 justify-evenly items-center">
       <aside className="md:max-w-96 max-w-72">
@@ -91,7 +92,7 @@ function BeMentor() {
           ducimus!{" "}
         </p>
         <div className="inline">
-          <Button text="Discover All" type="button" />
+          <Button text="Be a mentor" type="button" onClick={() => navigate("/be-a-mentor")} />
         </div>
       </aside>
     </section>
