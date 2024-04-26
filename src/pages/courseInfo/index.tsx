@@ -181,6 +181,7 @@ export function CourseInfo() {
               level={course.cLevel}
               price={course.price}
               track={course.trackName}
+              trackId={course.trackID}
               duration={course.estimatedTime}
             />
           ))}

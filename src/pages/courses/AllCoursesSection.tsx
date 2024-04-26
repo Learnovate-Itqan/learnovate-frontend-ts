@@ -120,6 +120,7 @@ export function AllCoursesSection() {
               id={course.id}
               name={course.title}
               track={course.trackName || "Data Science"}
+              trackId={course.trackID}
               duration={course.estimatedTime}
               level={course.cLevel}
               rate={course.rating}

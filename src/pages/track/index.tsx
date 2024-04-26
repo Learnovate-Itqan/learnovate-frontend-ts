@@ -79,6 +79,7 @@ export function Track() {
                     description={course.description}
                     rate={course.rating}
                     track={course.trackName}
+                    trackId={course.trackID}
                     duration={course.estimatedTime}
                     level={course.cLevel}
                     image={course.image || courseImage}
