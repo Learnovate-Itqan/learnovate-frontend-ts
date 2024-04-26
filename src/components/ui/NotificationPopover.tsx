@@ -1,5 +1,6 @@
 import { GoBell } from "react-icons/go";
 import { Link } from "react-router-dom";
+import { Fragment } from "react/jsx-runtime";
 
 import mentorImage from "@/assets/mentors/Muhammad-Selim.webp";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -150,9 +151,8 @@ export function NotificationPopover() {
           <Separator className="my-2" />
           <main className=" grid px-2 ">
             {notifications.map((notification) => (
-              <>
+              <Fragment key={notification.id}>
                 <Link
-                  key={notification.id}
                   to={notification.content.link}
                   className="hover:bg-gray-100 p-2 transition-colors divide-y-2 rounded-lg"
                 >
@@ -171,7 +171,7 @@ export function NotificationPopover() {
                   </div>
                 </Link>
                 <Separator className="my-1 last-of-type:hidden" />
-              </>
+              </Fragment>
             ))}
           </main>
         </ScrollArea>
