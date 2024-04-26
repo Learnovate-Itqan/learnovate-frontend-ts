@@ -2,7 +2,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +9,7 @@ import { z } from "zod";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { Button } from "@/components/ui/Button_";
+import { NotificationPopover } from "@/components/ui/NotificationPopover";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import UserPopover from "@/components/ui/UserPopover";
@@ -126,14 +126,13 @@ export function Navbar() {
             onChange={() => null}
             value=""
           />
-          <button>
-            <GoBell size={22} />
-          </button>
+          <NotificationPopover />
           <UserPopover userData={userData} logout={logout} />
         </div>
       )}
-      <div className="flex justify-center items-center gap-1 lg:hidden">
+      <div className="flex justify-center text-white items-center gap-3 lg:hidden">
         <SmallSearchBar />
+        <NotificationPopover />
         <BurgerBtn />
       </div>
     </nav>
@@ -195,7 +194,7 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
             <div className="flex flex-col grow">
               {selectedTrack?.relatedTopics?.map((topic, index) => (
                 <Link
-                  to={`/track/${selectedTrack?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+                  to={`/track/${selectedTrack?.id}`}
                   className="hover:text-dark-navy/70"
                   key={index}
                   onClick={handleDropDownMenuClick}
@@ -205,7 +204,7 @@ function TracksDropDownMenu({ tracks }: { tracks: z.infer<typeof trackSchema>[] 
               ))}
             </div>
             <Link
-              to={`/track/${selectedTrack?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+              to={`/track/${selectedTrack?.id}`}
               className="text-royal-blue text-base mt-4 block"
               onClick={handleDropDownMenuClick}
             >
