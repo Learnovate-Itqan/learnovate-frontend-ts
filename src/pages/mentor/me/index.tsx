@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Spinner } from "@/components/ui/Spinner";
 // import { mentor } from "@/db/mentor";
 import { useGetData } from "@/hooks/useApi";
@@ -11,7 +12,6 @@ import { AvailabilityEditor } from "./components/AvailabilityEditor";
 import { BookedSessions } from "./components/BookedSessions";
 import { MeStats } from "./components/meStats";
 import { MeHeader } from "./components/mentorMeHeader";
-import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 
 export const MentorMePage = () => {
   const { data: response } = useGetData(`/mentors/profile`);
@@ -26,14 +26,17 @@ export const MentorMePage = () => {
     );
   }
   if (!(status === "success")) {
-    return (
-      <SomethingWentWrong />
-    );
+    return <SomethingWentWrong />;
   }
 
   return (
     <>
-      <MeHeader name={mentor?.user?.name} jobTitle={mentor?.title} description={mentor?.about} image={mentor?.user?.image} />
+      <MeHeader
+        name={mentor?.user?.name}
+        jobTitle={mentor?.title}
+        description={mentor?.about}
+        image={mentor?.user?.image}
+      />
       <main className="w-full py-10 *:text-dark-navy">
         <div className="container">
           <SkillsBox skills={mentor?.skills} />
