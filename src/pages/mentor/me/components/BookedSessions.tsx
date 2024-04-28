@@ -16,7 +16,7 @@ type BookedSessionsProps = {
 };
 export function BookedSessions({ sessions, userRole = "student", className = "" }: BookedSessionsProps) {
   const [currentDay, setCurrentDay] = useState(new Date());
-  const todaySessions = sessions.filter((session) => isSameDay(session.date, currentDay));
+  const todaySessions = sessions?.filter((session) => isSameDay(session.date, currentDay));
 
   return (
     <section className=" shadow-custom container md:max-lg:px-2 py-5 rounded-lg">
@@ -46,7 +46,7 @@ export function BookedSessions({ sessions, userRole = "student", className = "" 
       </header>
       <ScrollArea className={twMerge("h-72 pr-3", className)}>
         <div className="grid h-full grid-cols-1 gap-4 mt-4">
-          {todaySessions.length > 0 ? (
+          {todaySessions?.length > 0 ? (
             todaySessions.map((session) => {
               return (
                 <BookedSession

@@ -35,26 +35,26 @@ export const MentorMePage = () => {
 
   return (
     <>
-      <MeHeader name={mentor.user.name} jobTitle={mentor.title} description={mentor.about} image={mentor.user.image} />
+      <MeHeader name={mentor?.user?.name} jobTitle={mentor?.title} description={mentor?.about} image={mentor?.user?.image} />
       <main className="w-full py-10 *:text-dark-navy">
         <div className="container">
-          <SkillsBox skills={mentor.skills} />
+          <SkillsBox skills={mentor?.skills} />
           <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
             <MentorInfo
-              experience={mentor.workExperience}
-              workExperience={mentor.workExperience}
-              education={mentor.education}
-              rating={mentor.rating}
-              resume={mentor.resume}
-              languages={mentor.languages}
-              location={mentor.location}
-              timeZones={mentor.timeZones}
+              experience={mentor?.workExperience}
+              workExperience={mentor?.workExperience}
+              education={mentor?.education}
+              rating={mentor?.rating}
+              resume={mentor?.resume}
+              languages={mentor?.languages}
+              location={mentor?.location}
+              timeZones={mentor?.timeZones}
             />
             <MeStats mentor={mentor} />
           </div>
           <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
             <AvailabilityEditor />
-            <BookedSessions sessions={mentor.sessions} userRole="mentor" />
+            <BookedSessions sessions={mentor?.sessions} userRole="mentor" />
           </div>
         </div>
       </main>
