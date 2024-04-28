@@ -5,7 +5,7 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   authStatus: z.boolean(),
-  role: z.union([z.literal("student"), z.literal("mentor"), z.literal(undefined)]),
+  role: z.union([z.literal("student"), z.literal("mentor"), z.literal("admin"), z.literal(undefined)]),
   image: z.string().url(),
   age: z.union([z.number().int().positive(), z.null()]).optional(),
   dateOfBirth: z.union([z.date(), z.null()]).optional(),
