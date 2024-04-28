@@ -81,7 +81,7 @@ export function MentorEditProfile() {
               />
 
               <h1 className="font-semibold text-2xl">{user.name}</h1>
-              <p className="text-zinc-400">{user.name}</p>
+              <p className="text-zinc-400">{user.email}</p>
             </aside>
             <section className=" space-y-10">
               <div>
