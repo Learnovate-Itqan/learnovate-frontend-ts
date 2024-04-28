@@ -1,11 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { ImageUploader } from "@/components/ui/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { RootState } from "@/redux/store";
 import { changePasswordSchema } from "@/schemas/changePasswordSchema";
 import { SocialMediaSchema } from "@/schemas/mentorSchema";
 import { studentBasicInfoFormSchema } from "@/schemas/studentSchema";
@@ -19,6 +21,7 @@ export type TStudentEditProfileForm = z.infer<typeof studentBasicInfoFormSchema>
   z.infer<typeof SocialMediaSchema>;
 
 export function StudentEditProfile() {
+  const user = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const editForm = useForm<TStudentEditProfileForm>({
     resolver: zodResolver(studentBasicInfoFormSchema.extend(SocialMediaSchema.shape).and(changePasswordSchema)),
@@ -36,7 +39,7 @@ export function StudentEditProfile() {
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
-      image: undefined,
+      image: user.image,
       dateOfBirth: undefined,
     },
   });
@@ -69,8 +72,8 @@ export function StudentEditProfile() {
                 )}
               />
 
-              <h1 className="font-semibold text-2xl">Kareem Khalaf</h1>
-              <p className="text-zinc-400">Kareemkhalaf1722@gmail.com</p>
+              <h1 className="font-semibold text-2xl">{user.name}</h1>
+              <p className="text-zinc-400">{user.email}</p>
             </aside>
             <section className=" space-y-10">
               <div>

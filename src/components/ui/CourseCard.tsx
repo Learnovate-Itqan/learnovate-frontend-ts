@@ -16,6 +16,7 @@ type CourseCardProps = {
   duration: number;
   price: number;
   track: string;
+  trackId: string;
   description: string;
   className?: string;
 };
@@ -29,6 +30,7 @@ export default function CourseCard({
   image,
   price,
   id,
+  trackId,
   description,
   className,
 }: CourseCardProps) {
@@ -45,7 +47,7 @@ export default function CourseCard({
         </Link>
       </div>
       <div className=" px-3 py-4 md:p-6 bg-white flex flex-col justify-between grow gap-2">
-        <Link to={`/track/${track}`} className=" text-royal-blue font-semibold w-fit hover:underline">
+        <Link to={`/track/${trackId}`} className=" text-royal-blue font-semibold w-fit hover:underline">
           {track}
         </Link>
         <Link to={`/course/${id}`} className="text-lg font-semibold w-fit">

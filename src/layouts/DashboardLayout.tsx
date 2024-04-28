@@ -5,13 +5,14 @@ import { BsGrid1X2, BsPeople } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
 import { PiBooksBold } from "react-icons/pi";
 import { TbLogout } from "react-icons/tb";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { usePostData } from "@/hooks/useApi";
 import { resetUser } from "@/redux/slices/authSlice";
+import { RootState } from "@/redux/store";
 
 import Logo from "../assets/logo-inline.webp";
 import { SmallDashboardNavbar } from "./SmallDashboardNavbar";
@@ -20,7 +21,7 @@ export function DashboardLayout() {
   const dispatcher = useDispatch();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
+  const user = useSelector((state: RootState) => state.auth);
   const logoutRequest = usePostData("/auth/logout");
 
   const logout = async () => {
@@ -45,7 +46,7 @@ export function DashboardLayout() {
   };
   const outlet = Outlet({});
   useEffect(() => {
-    if (outlet === null) navigate("/dashboard/main");
+    if (outlet === null) navigate("/dashboard/main", { replace: true });
   }, [navigate, outlet]);
   return (
     <main className="grid md:grid-cols-[300px_1fr] min-h-dvh relative w-dvw overflow-hidden">
@@ -105,8 +106,8 @@ export function DashboardLayout() {
             to={"/profile"}
             className="flex justify-start items-center gap-3 w-full rounded-xl py-4 px-3 hover:bg-[#293560]/50 "
           >
-            <UserAvatar imageUrl="" name=" Micheal Johnson" className=" h-6 w-6" />
-            <span className=" select-none">Micheal Johnson</span>
+            <UserAvatar imageUrl={user.image} name={user.name} className=" h-6 w-6" />
+            <span className=" select-none">{user.name}</span>
           </Link>
           <button
             className="text-left transition-colors flex w-full rounded-xl py-4 px-3 items-center gap-3 hover:bg-[#293560]/50 "

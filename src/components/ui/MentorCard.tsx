@@ -30,11 +30,11 @@ export default function MentorCard({ name, id, rating, image, title, className }
         </div>
       </div>
       <Link
-        to={`/mentors/${id}`}
+        to={`/mentor/${id}`}
         className="bg-[#222C54] py-2 text-white  min-h-fit flex flex-col justify-center items-center"
       >
         <h1 className="text-base sm:text-xl text-center font-semibold">{name || "fake Mentor"}</h1>
-        <p className=" text-center text-sm sm:text-base whitespace-nowrap">{title || "fake title"}</p>
+        <p className=" text-center text-sm sm:text-base whitespace-nowrap">{title || "Web Developer"}</p>
       </Link>
     </div>
   );

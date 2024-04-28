@@ -96,7 +96,7 @@ export function Pricing() {
             Choose your suitable plan
           </h1>
           <main className=" flex flex-wrap gap-10 justify-center my-10 ">
-            {plan ? <PricingCard {...plan} /> : <Spinner className=" stroke-royal-blue w-44 h-44" />}
+            {plan ? <PricingCard {...plan} /> : <Spinner className=" stroke-zinc-500 w-44 h-44" />}
           </main>
         </section>
         <section className="flex flex-col gap-2 pt-10">

@@ -3,6 +3,7 @@ import { z } from "zod";
 import ThumbnailImage from "@/assets/learnovate-thumbnail-course.png";
 import CourseCard from "@/components/ui/CourseCard";
 import { SocialCard } from "@/components/ui/SocialCard";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Spinner } from "@/components/ui/Spinner";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
@@ -13,102 +14,6 @@ import { StudentHeader } from "./components/StudentHeader";
 import { StudentInfo } from "./components/StudentInfo";
 import { TracksProgress } from "./components/TracksProgress";
 
-// const tracks = [
-//   {
-//     id: "1",
-//     title: "Frontend",
-//     progress: 50,
-//   },
-//   {
-//     id: "2",
-//     title: "Backend",
-//     progress: 30,
-//   },
-//   {
-//     id: "3",
-//     title: "DevOps",
-//     progress: 70,
-//   },
-//   {
-//     id: "4",
-//     title: "UI/UX",
-//     progress: 90,
-//   },
-// ];
-// const SESSIONS = [
-//   {
-//     id: 1,
-//     date: new Date("2024-03-22"),
-//     startTime: 10,
-//     endTime: 11,
-//     student: {
-//       name: "Matthew Lane",
-//     },
-//     mentor: {
-//       name: "Matthew Lane",
-//     },
-//   },
-//   {
-//     id: 2,
-//     date: new Date("2024-03-23"),
-//     startTime: 12,
-//     endTime: 13,
-//     student: {
-//       name: "Mildred Waters",
-//     },
-//     mentor: {
-//       name: "Mildred Waters",
-//     },
-//   },
-//   {
-//     id: 3,
-//     date: new Date("2024-03-22"),
-//     startTime: 14,
-//     endTime: 15,
-//     student: {
-//       name: "David Ingram",
-//     },
-//     mentor: {
-//       name: "David Ingram",
-//     },
-//   },
-//   {
-//     id: 4,
-//     date: new Date("2024-03-22"),
-//     startTime: 16,
-//     endTime: 17,
-//     student: {
-//       name: "Duane Cruz",
-//     },
-//     mentor: {
-//       name: "Duane Cruz",
-//     },
-//   },
-//   {
-//     id: 5,
-//     date: new Date("2024-03-23"),
-//     startTime: 18,
-//     endTime: 19,
-//     student: {
-//       name: "Gene Cummings",
-//     },
-//     mentor: {
-//       name: "Gene Cummings",
-//     },
-//   },
-//   {
-//     id: 6,
-//     date: new Date("2024-03-24"),
-//     startTime: 20,
-//     endTime: 21,
-//     student: {
-//       name: "Edgar Rogers",
-//     },
-//     mentor: {
-//       name: "Edgar Rogers",
-//     },
-//   },
-// ];
 const wishlist = [
   {
     id: "1",
@@ -117,6 +22,7 @@ const wishlist = [
     description: "Learn how to build modern web applications using React",
     cLevel: "Beginner",
     trackName: "Frontend",
+    trackID: "1",
     estimatedTime: 10,
     image: ThumbnailImage,
     price: 10,
@@ -128,6 +34,7 @@ const wishlist = [
     description: "Learn how to build scalable backend applications using Node.js",
     cLevel: "Intermediate",
     trackName: "Backend",
+    trackID: "1",
     estimatedTime: 20,
     image: ThumbnailImage,
     price: 20,
@@ -140,6 +47,7 @@ const wishlist = [
     cLevel: "Intermediate",
     trackName: "DevOps",
     estimatedTime: 20,
+    trackID: "1",
     image: ThumbnailImage,
     price: 20,
   },
@@ -151,6 +59,7 @@ const wishlist = [
     cLevel: "Intermediate",
     trackName: "UI/UX",
     estimatedTime: 20,
+    trackID: "1",
     image: ThumbnailImage,
     price: 20,
   },
@@ -168,12 +77,7 @@ export function StudentProfilePage() {
     );
   }
   if (!(status === "Success")) {
-    return (
-      <div className="w-full flex flex-col gap-3 justify-center items-center h-screen">
-        <h1 className="text-4xl font-semibold text-zinc-700 ">Something went wrong</h1>
-        <p className="text-2xl font-semibold  text-zinc-600">Please try again later...</p>
-      </div>
-    );
+    return <SomethingWentWrong />;
   }
   return (
     <main>
@@ -229,6 +133,7 @@ export function StudentProfilePage() {
                 duration={course.estimatedTime || 0}
                 image={course.image}
                 price={course.price}
+                trackId={course.trackID}
               />
             ))}
           </main>
@@ -249,6 +154,7 @@ export function StudentProfilePage() {
                 className=" min-w-72"
                 name={course.title}
                 rate={course.rating}
+                trackId={course.trackID}
                 description={course.description}
                 level={course.cLevel}
                 id={course.id}

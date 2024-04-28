@@ -41,7 +41,12 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
       <section className="container py-20">
         <header className="flex flex-col gap-4 sm:flex-row justify-between items-center">
           <h1 className="text-dark-navy text-2xl sm:text-3xl font-semibold">Start With our Courses</h1>
-          <Button className="hidden max-w-36 sm:block" text="Discover All" type="button" />
+          <Button
+            className="hidden max-w-36 sm:block"
+            text="Discover All"
+            type="button"
+            onClick={() => navigate("/courses")}
+          />
         </header>
         <main className="grid grid-cols-auto-fit-19 xl:grid-cols-3 gap-5 my-10">
           {courses.map((course) => (
@@ -54,6 +59,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
               level={course.cLevel}
               id={course.id}
               track={course.trackName}
+              trackId={course.trackID}
               duration={course.estimatedTime || 0}
               image={course.image}
               price={course.price}
@@ -70,6 +76,7 @@ export default function CourseSection({ courses }: { courses: z.infer<typeof cou
 }
 
 function BeMentor() {
+  const navigate = useNavigate();
   return (
     <section className="container mb-20 flex flex-col md:flex-row gap-5 justify-evenly items-center">
       <aside className="md:max-w-96 max-w-72">
@@ -85,7 +92,7 @@ function BeMentor() {
           ducimus!{" "}
         </p>
         <div className="inline">
-          <Button text="Discover All" type="button" />
+          <Button text="Be a mentor" type="button" onClick={() => navigate("/be-a-mentor")} />
         </div>
       </aside>
     </section>
