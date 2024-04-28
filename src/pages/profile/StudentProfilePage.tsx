@@ -3,6 +3,7 @@ import { z } from "zod";
 import ThumbnailImage from "@/assets/learnovate-thumbnail-course.png";
 import CourseCard from "@/components/ui/CourseCard";
 import { SocialCard } from "@/components/ui/SocialCard";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Spinner } from "@/components/ui/Spinner";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
@@ -12,7 +13,6 @@ import { BookedSessions } from "../mentor/me/components/BookedSessions";
 import { StudentHeader } from "./components/StudentHeader";
 import { StudentInfo } from "./components/StudentInfo";
 import { TracksProgress } from "./components/TracksProgress";
-import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 
 const wishlist = [
   {
