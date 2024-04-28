@@ -8,7 +8,11 @@ export const ImageUploader = forwardRef(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ({ className, ...props }: ControllerRenderProps<FieldValues> & { className?: string }, _ref) => {
     const hiddenInputRef = useRef<HTMLInputElement>();
-    const urlImage = props.value ? URL.createObjectURL(props.value) : null;
+    const urlImage = props.value
+      ? typeof props.value === "string"
+        ? props.value
+        : URL.createObjectURL(props.value)
+      : null;
     const [preview, setPreview] = useState<string | null>(urlImage);
     const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files === null) return;
