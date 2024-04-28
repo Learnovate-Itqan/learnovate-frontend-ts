@@ -22,7 +22,6 @@ export function Track() {
   const { data: response } = useGetData(`/tracks/${id}`);
   const { data, status } = response || {};
   const { data: track }: { data: z.infer<typeof trackSchema> } = data || {};
-  console.log(data);
 
   if (status === "failed") {
     return <SomethingWentWrong />;
@@ -47,15 +46,22 @@ export function Track() {
                 </Tag>
               ))}
             </div>
-            <section className="flex flex-col lg:flex-row gap-6 justify-between">
+            <section className=" grid md:grid-cols-[1fr_300px] gap-5">
               <aside className="flex flex-col gap-2">
                 <h4 className="font-semibold text-lg">Description:</h4>
                 <p className="max-w-[900px] leading-5">{track?.description}</p>
               </aside>
-              <aside className="flex flex-col mr-6 gap-2">
-                <h4 className="font-semibold text-lg">Estimated time:</h4>
-                <p className="max-w-[850px] leading-5">{track?.estimatedTime} hours</p>
-                <Button className="max-w-60" type="button">
+              <aside className="flex flex-col mr-6 gap-2 ">
+                <Button
+                  size={"lg"}
+                  variant={"outline"}
+                  className="w-full border-royal-blue text-royal-blue hover:text-royal-blue"
+                  type="button"
+                  onClick={() => navigate(`/quiz/${track.id}`)}
+                >
+                  Take a quiz
+                </Button>
+                <Button size={"lg"} className="w-full" type="button" onClick={() => navigate(`/roadmap/${track.id}`)}>
                   Show Roadmap
                 </Button>
               </aside>
