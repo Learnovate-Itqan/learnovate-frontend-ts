@@ -1,4 +1,3 @@
-
 import { MentorMePage } from "../mentor/me";
 import { StudentProfilePage } from "./StudentProfilePage";
 
@@ -9,9 +8,5 @@ const UserType = {
 
 export default function Profile() {
   const userRole = "student";
-  return (
-    <>
-      {userRole && UserType[userRole]}
-    </>
-  );
+  return <>{userRole && UserType[userRole]}</>;
 }
