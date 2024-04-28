@@ -53,6 +53,7 @@ export function BookedSessions({ sessions, userRole = "student", className = "" 
                   key={session.id}
                   startTime={session.startTime}
                   endTime={session.endTime}
+                  roomId={session.id}
                   meetingWith={userRole === "mentor" ? session?.student.name : session?.mentor.name}
                 />
               );
