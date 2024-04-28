@@ -12,6 +12,7 @@ import { BookedSessions } from "../mentor/me/components/BookedSessions";
 import { StudentHeader } from "./components/StudentHeader";
 import { StudentInfo } from "./components/StudentInfo";
 import { TracksProgress } from "./components/TracksProgress";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 
 const wishlist = [
   {
@@ -76,12 +77,7 @@ export function StudentProfilePage() {
     );
   }
   if (!(status === "Success")) {
-    return (
-      <div className="w-full flex flex-col gap-3 justify-center items-center h-screen">
-        <h1 className="text-4xl font-semibold text-zinc-700 ">Something went wrong</h1>
-        <p className="text-2xl font-semibold  text-zinc-600">Please try again later...</p>
-      </div>
-    );
+    return <SomethingWentWrong />;
   }
   return (
     <main>
