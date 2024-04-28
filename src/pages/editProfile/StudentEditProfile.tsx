@@ -39,7 +39,7 @@ export function StudentEditProfile() {
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
-      image: undefined,
+      image: user.image,
       dateOfBirth: undefined,
     },
   });
