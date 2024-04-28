@@ -11,6 +11,7 @@ import { AvailabilityEditor } from "./components/AvailabilityEditor";
 import { BookedSessions } from "./components/BookedSessions";
 import { MeStats } from "./components/meStats";
 import { MeHeader } from "./components/mentorMeHeader";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 
 export const MentorMePage = () => {
   const { data: response } = useGetData(`/mentors/profile`);
@@ -26,10 +27,7 @@ export const MentorMePage = () => {
   }
   if (!(status === "success")) {
     return (
-      <div className="w-full flex flex-col gap-3 justify-center items-center h-screen">
-        <h1 className="text-4xl font-semibold text-zinc-700 ">Something went wrong</h1>
-        <p className="text-2xl font-semibold  text-zinc-600">Please try again later...</p>
-      </div>
+      <SomethingWentWrong />
     );
   }
 
