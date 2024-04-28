@@ -7,6 +7,7 @@ import MentorCard from "@/components/ui/MentorCard";
 import Modal from "@/components/ui/Modal";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Spinner } from "@/components/ui/Spinner";
 import { useGetData } from "@/hooks/useApi";
 import { mentorSchema } from "@/schemas/mentorSchema";
@@ -24,13 +25,7 @@ export default function AllMentorsSection() {
     data || {};
 
   if (status === "failed") {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3 py-20 ">
-        <h1 className="text-3xl font-semibold ">Something went wrong</h1>
-        <p className="text-xl text-dark-navy font-semibold"> please try again</p>
-        <Button className="max-w-48 mt-5" text="Try Again" type="button" onClick={() => navigate("/")} />
-      </div>
-    );
+    return <SomethingWentWrong />;
   }
 
   return (

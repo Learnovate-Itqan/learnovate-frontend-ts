@@ -5,6 +5,7 @@ import mentorImage from "@/assets/home/Mentor.png";
 import courseImage from "@/assets/learnovate-thumbnail-course.png";
 import CourseCard from "@/components/ui/CourseCard";
 import MentorCard from "@/components/ui/MentorCard";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Tag } from "@/components/ui/Tag";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
@@ -24,15 +25,7 @@ export function Track() {
   console.log(data);
 
   if (status === "failed") {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3 py-20 ">
-        <h1 className="text-3xl font-semibold ">Something went wrong</h1>
-        <p className="text-xl text-dark-navy font-semibold"> please try again</p>
-        <Button className="max-w-48 w-48 text-base mt-5" type="button" onClick={() => navigate("/")}>
-          Try again
-        </Button>
-      </div>
-    );
+    return <SomethingWentWrong />;
   }
 
   return (
