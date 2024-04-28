@@ -1,4 +1,3 @@
-import { Navbar } from "@/layouts/Navbar";
 
 import { MentorMePage } from "../mentor/me";
 import { StudentProfilePage } from "./StudentProfilePage";
@@ -12,7 +11,6 @@ export default function Profile() {
   const userRole = "student";
   return (
     <>
-      <Navbar />
       {userRole && UserType[userRole]}
     </>
   );

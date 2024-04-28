@@ -1,5 +1,3 @@
-import { Navbar } from "@/layouts/Navbar";
-
 import { MentorEditProfile } from "./MentorEditProfile";
 import { StudentEditProfile } from "./StudentEditProfile";
 
@@ -11,10 +9,5 @@ const UserType = {
 export function EditProfile() {
   const userRole = "mentor";
 
-  return (
-    <>
-      <Navbar />
-      {userRole && UserType[userRole]}
-    </>
-  );
+  return <>{userRole && UserType[userRole]}</>;
 }
