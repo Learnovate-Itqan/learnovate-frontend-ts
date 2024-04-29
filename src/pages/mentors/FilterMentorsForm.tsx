@@ -7,13 +7,10 @@ import { FilterTemplate } from "@/components/ui/FilterTemplate";
 import { KeyWordsForm } from "@/components/ui/KeywordsForm";
 import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
-// import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useTracksName } from "@/hooks/useTracksName";
+import { useTracks } from "@/hooks/useTracksName";
 import { formatCurrency } from "@/utils/helpers";
-
-// const levels = ["Beginner", "Intermediate", "Advanced"];
 
 type FilterCoursesFormProps = {
   onCloseModal?: () => void;
@@ -29,7 +26,7 @@ export function FilterMentorsFrom({
   const [searchParams, setSearchParams] = useSearchParams();
 
   // const [selectedLevels, setSelectedLevels] = useState<string[]>(searchParams.get("levels")?.split(",") || []);
-  const tracks = useTracksName();
+  const tracks = useTracks()?.map((track) => track.name);
   const [selectedTracks, setSelectedTrack] = useState<string[]>(searchParams.get("tracks")?.split(",") || []);
   const [skills, setSkills] = useState<string[]>(searchParams.get("skills")?.split(",") || []);
   const [hourlyRate, setHourlyRate] = useState<number[]>(
@@ -46,14 +43,6 @@ export function FilterMentorsFrom({
       .map((item) => Number(item)) || defaultExperienceRange
   );
   const [selectedCountries, setSelectedCountries] = useState<string[]>(searchParams.get("countries")?.split(",") || []);
-
-  // const handleLevelChange = (value: string) => {
-  //   if (selectedLevels.includes(value)) {
-  //     setSelectedLevels(selectedLevels.filter((level) => level !== value));
-  //   } else {
-  //     setSelectedLevels([...selectedLevels, value]);
-  //   }
-  // };
 
   const handleSkillDeletion = (skill: string) => {
     setSkills(skills.filter((word) => word !== skill));
@@ -84,7 +73,6 @@ export function FilterMentorsFrom({
   };
 
   const handleReset = () => {
-    // setSelectedLevels(() => []);
     setSelectedTrack(() => []);
     setSkills(() => []);
     setHourlyRate(() => defaultPricesRange);
@@ -94,9 +82,6 @@ export function FilterMentorsFrom({
   };
 
   const handleApplyFilters = () => {
-    // if (selectedLevels.length > 0) searchParams.set("levels", selectedLevels.join(","));
-    // else searchParams.delete("levels");
-
     if (selectedTracks.length > 0) searchParams.set("tracks", selectedTracks.join(","));
     else searchParams.delete("tracks");
 
@@ -139,22 +124,8 @@ export function FilterMentorsFrom({
   return (
     <div className="flex flex-col justify-between  min-w-min gap-2  ">
       <main className="lg:p-4 rounded-xl flex flex-col gap-3 lg:shadow-xl lg:border-[1px] grow">
-        {/* <FilterTemplate header="Level">
-          <div className="flex gap-2 flex-wrap">
-            {levels.map((level, index) => (
-              <RoundedCheckbox
-                key={index}
-                label={level}
-                checked={selectedLevels.includes(level)}
-                onChange={handleLevelChange}
-                value={level}
-              />
-            ))}
-          </div>
-        </FilterTemplate> */}
-
         <FilterTemplate header="Tracks">
-          {tracks.length ? (
+          {tracks?.length ? (
             <MultiSelection
               options={tracks}
               selectedOptions={selectedTracks}
