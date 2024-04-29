@@ -5,6 +5,7 @@ import { courseSchema } from "@/schemas/courseSchema";
 import { mentorSchema } from "@/schemas/mentorSchema";
 import { trackSchema } from "@/schemas/trackSchema";
 
+import { BeMentor } from "./BeMentor";
 import CourseSection from "./CourseSection";
 import HeroSection from "./HeroSection";
 import MentorSection from "./MentorSection";
@@ -19,6 +20,7 @@ export const HomePage = () => {
       <TrackSection tracks={tracks as z.infer<typeof trackSchema>[]} />
       <MentorSection mentors={mentors as z.infer<typeof mentorSchema>[]} />
       <CourseSection courses={courses as z.infer<typeof courseSchema>[]} />
+      <BeMentor />
     </div>
   );
 };
