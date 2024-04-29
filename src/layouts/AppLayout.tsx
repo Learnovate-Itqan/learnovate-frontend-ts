@@ -13,7 +13,7 @@ export function AppLayout() {
     localStorage.removeItem("token");
   }
   if (authStatus && user) {
-    dispatch(setUser({ ...user, authStatus }));
+    dispatch(setUser({ ...user, authStatus, role:"student" }));
   }
 
   return (
