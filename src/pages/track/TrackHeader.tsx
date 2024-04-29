@@ -1,4 +1,5 @@
 import { FaUser } from "react-icons/fa";
+import { FaClock } from "react-icons/fa6";
 import { HiStar } from "react-icons/hi2";
 import { z } from "zod";
 
@@ -24,13 +25,16 @@ export function TrackHeader({ track }: TrackHeaderProps) {
         <main className="container flex flex-col gap-4 justify-center items-start z-20">
           <h1 className="text-5xl font-semibold">{track?.title}</h1>
           <p className="text-lg ">{track?.subtitle}</p>
-          <div className="flex gap-5">
+          <div className="flex gap-5 flex-wrap">
             <Tag className="bg-[#374573] select-none text-white">
               <HiStar className="text-yellow-500" size={18} />
               {track?.rating?.toFixed(1)}
             </Tag>
             <Tag className="bg-[#374573] select-none flex gap-2 text-white">
               <FaUser className="text-royal-blue" /> {track?.noStudentsEnrolled}+ learners
+            </Tag>
+            <Tag className="bg-[#374573] select-none flex gap-2 text-white">
+              <FaClock className="text-royal-blue" /> {track?.estimatedTime} hours
             </Tag>
           </div>
           <div className="w-full flex flex-col gap-2">
