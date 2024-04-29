@@ -26,7 +26,7 @@ export default function UserPopover({ userData, logout }: UserPopoverProps) {
             <UserAvatar className="w-20 h-full " imageUrl={userData?.image || ""} name={userData?.name || "User"} />
           </Link>
           <div>
-            <Badge className="text-xs bg-royal-blue/15 hover:bg-royal-blue/15 text-royal-blue">Student</Badge>
+            <Badge className="text-xs bg-royal-blue/15 hover:bg-royal-blue/15 text-royal-blue">{userData?.role}</Badge>
             <Link to="/profile" className="text-lg font-semibold block">
               {userData?.name}
             </Link>
