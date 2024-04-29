@@ -13,7 +13,7 @@ import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Spinner } from "@/components/ui/Spinner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetData } from "@/hooks/useApi";
-import { useTracks } from "@/hooks/useTracksName";
+import { useTracks } from "@/hooks/useTracks";
 import { courseSchema } from "@/schemas/courseSchema";
 
 import { FilterCoursesForm } from "./FilterCoursesForm";

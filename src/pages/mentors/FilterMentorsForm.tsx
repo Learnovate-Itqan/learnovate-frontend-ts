@@ -9,7 +9,7 @@ import { MultiSelection } from "@/components/ui/MultiSelection";
 import { RatingInput } from "@/components/ui/RatingInput";
 import RangeSlider from "@/components/ui/rangeSlider/RangeSlider";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useTracks } from "@/hooks/useTracksName";
+import { useTracks } from "@/hooks/useTracks";
 import { formatCurrency } from "@/utils/helpers";
 
 type FilterCoursesFormProps = {

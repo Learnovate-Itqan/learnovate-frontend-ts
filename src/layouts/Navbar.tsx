@@ -15,7 +15,7 @@ import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import UserPopover from "@/components/ui/UserPopover";
 import { usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { useTracks } from "@/hooks/useTracksName";
+import { useTracks } from "@/hooks/useTracks";
 import { resetUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
