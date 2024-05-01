@@ -13,7 +13,7 @@ export const studentSchema = z.object({
   twitter: z.string().nullable(),
   mobileNumber: z.string().nullable(),
   education: z.string().nullable(),
-  gradYear: z.number().nullable(),
+  graduationYear: z.number().nullable(),
   levelOfStudent: z.string(),
   user: userSchema,
   tracks: z.array(z.object({ title: z.string(), id: z.string().uuid(), progress: z.number() })),
@@ -33,5 +33,5 @@ export const studentBasicInfoFormSchema = z.object({
   country: z.string().max(100, { message: "Country is too long" }),
   city: z.string().max(100, { message: "City is too long" }),
   education: z.string().max(100, { message: "Education is too long" }),
-  gradYear: z.number().optional(),
+  graduationYear: z.number().optional(),
 });
