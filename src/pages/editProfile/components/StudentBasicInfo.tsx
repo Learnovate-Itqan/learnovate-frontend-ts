@@ -144,7 +144,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="city"
+          name="gradYear"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Graduation year</FormLabel>
@@ -153,7 +153,8 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
                   {...field}
                   disabled={isSubmitting}
                   placeholder="e.g. 2017"
-                  type="text"
+                  type="number"
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                 />
               </FormControl>
