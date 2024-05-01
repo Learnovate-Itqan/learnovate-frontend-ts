@@ -9,7 +9,7 @@ import { FormControl } from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 type DatePickerProps = {
-  selected: Date;
+  selected: Date | undefined;
   onSelect: SelectSingleEventHandler;
 };
 export function DatePicker({ selected, onSelect }: DatePickerProps) {
