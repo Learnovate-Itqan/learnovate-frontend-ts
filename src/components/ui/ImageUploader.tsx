@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { IoCamera } from "react-icons/io5";
 
@@ -25,6 +25,15 @@ export const ImageUploader = forwardRef(
     const onUpload = () => {
       if (hiddenInputRef.current) hiddenInputRef?.current?.click();
     };
+
+    useEffect(() => {
+      const urlImage = props.value
+        ? typeof props.value === "string"
+          ? props.value
+          : URL.createObjectURL(props.value)
+        : null;
+      setPreview(urlImage);
+    }, [props.value]);
 
     return (
       <div
