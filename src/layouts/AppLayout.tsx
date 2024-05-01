@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import { useGetData } from "@/hooks/useApi";
 import { setUser } from "@/redux/slices/authSlice";
 
@@ -18,6 +19,7 @@ export function AppLayout() {
 
   return (
     <main className="grid relative min-h-dvh">
+      <ScrollToTop />
       <Outlet />
     </main>
   );
