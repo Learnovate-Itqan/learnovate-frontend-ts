@@ -13,7 +13,7 @@ import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { Spinner } from "@/components/ui/Spinner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetData } from "@/hooks/useApi";
-import { useTracksName } from "@/hooks/useTracksName";
+import { useTracks } from "@/hooks/useTracks";
 import { courseSchema } from "@/schemas/courseSchema";
 
 import { FilterCoursesForm } from "./FilterCoursesForm";
@@ -29,7 +29,7 @@ export function AllCoursesSection() {
   const { courses, totalCourses, globalMaxPrice, globalMinPrice, minNumberOfChapters, maxNumberOfChapters } =
     data || {};
 
-  const tracks = useTracksName();
+  const tracks = useTracks()?.map((track) => track.name);
   const selectedTrack = searchParams.get("track") || "all";
 
   const handleTrackChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,7 +59,7 @@ export function AllCoursesSection() {
     <main className=" py-20">
       <header className="container flex justify-center items-start flex-col-reverse gap-4 lg:flex-row lg:justify-between">
         <div className="flex justify-start gap-3 flex-wrap">
-          {tracks.length
+          {tracks?.length
             ? tracks.map((track, index) => (
                 <button
                   key={index}

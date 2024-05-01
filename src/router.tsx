@@ -9,12 +9,14 @@ import { VerificationPage } from "@/pages/Auth/Verification";
 import { LoginPage } from "@/pages/Auth/login";
 import { RegisterPage } from "@/pages/Auth/register";
 import { HomePage } from "@/pages/home";
-import { MentorMePage } from "@/pages/mentor/me";
 import { MentorViewerPage } from "@/pages/mentor/viewer";
 
 import { ChatProvider } from "./contexts/ChatContext";
 import RoomProvider from "./contexts/RoomContext";
 import { DashboardLayout } from "./layouts/DashboardLayout";
+import { FooterLayout } from "./layouts/FooterLayout";
+import { NavLayout } from "./layouts/NavLayout";
+import { ProtectedRoute } from "./layouts/ProtectedRoute";
 import { ChatPage } from "./pages/chat";
 import { Contact } from "./pages/contact";
 import { CourseInfo } from "./pages/courseInfo";
@@ -28,7 +30,6 @@ import { DashboardOrders } from "./pages/dashboard/ordersList";
 import { EditProfile } from "./pages/editProfile";
 import { Meeting } from "./pages/meeting";
 import BeMentorForm from "./pages/mentor/beMentor";
-import { MentorEditPage } from "./pages/mentor/edit";
 import MentorPage from "./pages/mentors";
 import { Pricing } from "./pages/pricing";
 import Profile from "./pages/profile";
@@ -42,29 +43,60 @@ export const Router = createBrowserRouter(
     <Route errorElement={<div>404</div>}>
       <Route path="/">
         <Route element={<AppLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/about" element={<HomePage />} />
-          <Route path="/mentors" element={<MentorPage />} />
-          <Route path="/track/:id" element={<Track />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/be-a-mentor" element={<BeMentorForm />} />
-          <Route path="/course/lecture/:id" element={<CourseVideo />} />
-          <Route path="/course/:id" element={<CourseInfo />} />
-          <Route path="/roadmap/:id" element={<Roadmap />} />
+          <Route element={<NavLayout />}>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/quiz/:id" element={<Quiz />} />
+              {/* Profile Route */}
+              <Route path="profile" element={<Profile />} />
+              <Route path="profile/edit" element={<EditProfile />} />
+            </Route>
+            {/* Mentor Routes */}
+            <Route path="mentor/:id" element={<MentorViewerPage />} />
+            <Route element={<FooterLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="/courses" element={<CoursesPage />} />
+              <Route path="/about" element={<HomePage />} />
+              <Route path="/mentors" element={<MentorPage />} />
+              <Route path="/track/:id" element={<Track />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/course/:id" element={<CourseInfo />} />
+
+              <Route element={<ProtectedRoute />}>
+                <Route path="/be-a-mentor" element={<BeMentorForm />} />
+                <Route path="/course/lecture/:id" element={<CourseVideo />} />
+                <Route path="/roadmap/:id" element={<Roadmap />} />
+              </Route>
+            </Route>
+          </Route>
+
+          <Route element={<ProtectedRoute />}>
+            {/* Meeting Route */}
+            <Route
+              path="/meeting/:id"
+              element={
+                <RoomProvider>
+                  <ChatProvider>
+                    <Meeting />
+                  </ChatProvider>
+                </RoomProvider>
+              }
+            />
+
+            {/* Dashboard Routes */}
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route path="main" element={<DashboardMain />} />
+              <Route path="courses" element={<DashboardCourses />} />
+              <Route path="mentors" element={<DashboardMentors />} />
+              <Route path="orders-list" element={<DashboardOrders />} />
+              <Route path="orders-list/:orderId" element={<OrderDetails />} />
+            </Route>
+
+            {/* Chat Routes */}
+            <Route path="chat/learnovate-assistant" element={<ChatPage />} />
+          </Route>
         </Route>
-        <Route path="/quiz/:id" element={<Quiz />} />
-        <Route
-          path="/meeting/:id"
-          element={
-            <RoomProvider>
-              <ChatProvider>
-                <Meeting />
-              </ChatProvider>
-            </RoomProvider>
-          }
-        />
+
         {/* Authentication Routes */}
         <Route element={<AuthRoutes />}>
           <Route path="auth/login" element={<LoginPage />} />
@@ -74,25 +106,9 @@ export const Router = createBrowserRouter(
           <Route path="auth/forgot-password" element={<ForgotPassword />} />
           <Route path="auth/reset-password" element={<ResetPassword />} />
         </Route>
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="main" element={<DashboardMain />} />
-          <Route path="courses" element={<DashboardCourses />} />
-          <Route path="mentors" element={<DashboardMentors />} />
-          <Route path="orders-list" element={<DashboardOrders />} />
-          <Route path="orders-list/:orderId" element={<OrderDetails />} />
-        </Route>
 
-        {/* Profile Route */}
-        <Route path="profile" element={<Profile />} />
-        <Route path="profile/edit" element={<EditProfile />} />
-        {/* Mentor Routes */}
-        <Route path="mentor/:id" element={<MentorViewerPage />} />
-        <Route path="mentor/me/:id" element={<MentorMePage />} />
-        <Route path="/mentor/me/:id/edit" element={<MentorEditPage />} />
-        {/* Chat Routes */}
-        <Route path="chat/learnovate-assistant" element={<ChatPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
-      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 );

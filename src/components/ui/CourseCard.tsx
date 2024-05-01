@@ -38,11 +38,12 @@ export default function CourseCard({
     <div className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow " + className}>
       <div className=" bg-[#B7B9C3] relative overflow-hidden aspect-video">
         <img src={image} className=" object-cover h-full w-full" alt={`${name} image`} loading="lazy" />
-        <WishListButton className="absolute top-2 right-2 text-sm shadow-custom" courseId={id} isWishListed={false} />
         <Link
           to={`/course/${id}`}
           className=" absolute inset-0 z-10 bg-black/50 hover:opacity-100 flex justify-center items-center transition-all opacity-0 "
         >
+          <WishListButton className="absolute top-2 right-2 text-sm shadow-custom" courseId={id} isWishListed={false} />
+
           <IoPlayCircleSharp className="text-white" size={50} />
         </Link>
       </div>

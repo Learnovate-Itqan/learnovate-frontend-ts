@@ -1,7 +1,11 @@
+import toast from "react-hot-toast";
 import { IoCheckmark } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 import { Button } from "@/components/ui/button";
+import { RootState } from "@/redux/store";
 
 type PricingCardProps = {
   name: string;
@@ -12,6 +16,16 @@ type PricingCardProps = {
 };
 
 export function PricingCard({ name, description, price, features, className }: PricingCardProps) {
+  const navigate = useNavigate();
+  const authStatus = useSelector((state: RootState) => state.auth.authStatus);
+
+  const handleUpgrade = () => {
+    if (!authStatus) {
+      toast.error("Please login to add to wishlist");
+      navigate("/auth/login");
+      return;
+    }
+  };
   return (
     <div
       className={twMerge(
@@ -29,7 +43,9 @@ export function PricingCard({ name, description, price, features, className }: P
         <p>
           <span className="text-2xl font-semibold"> ${price}</span> /per month
         </p>
-        <Button className="w-full">Upgrade now</Button>
+        <Button className="w-full" onClick={handleUpgrade}>
+          Upgrade now
+        </Button>
       </section>
       <section className=" border-t-2 py-5 lg:py-0 lg:border-t-0 lg:border-l-2 border-zinc-400  container ">
         <h2 className="text-2xl font-[500] place mb-3 ">Features</h2>

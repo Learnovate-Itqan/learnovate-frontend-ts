@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoIosArrowDown } from "react-icons/io";
@@ -13,29 +13,22 @@ import { NotificationPopover } from "@/components/ui/NotificationPopover";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import UserPopover from "@/components/ui/UserPopover";
-import { useGetData, usePostData } from "@/hooks/useApi";
+import { usePostData } from "@/hooks/useApi";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { resetUser, setUser } from "@/redux/slices/authSlice";
+import { useTracks } from "@/hooks/useTracks";
+import { resetUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
-import { userSchema } from "@/schemas/userSchema";
 
 import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
   const dispatcher = useDispatch();
-  const { authStatus, ...userSlice } = useSelector((state: RootState) => state.auth);
-  const { data: response } = useGetData("/nav");
-  const { tracks, user } = response?.data || {};
-  const { loggedIn, data } = user || {};
-  const isAuth = loggedIn || authStatus;
-  const userData =
-    data && !(Object.keys(data).length === 0)
-      ? (data as z.infer<typeof userSchema>)
-      : (userSlice as z.infer<typeof userSchema>) || null;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const userData = useSelector((state: RootState) => state.auth);
+  const tracks = useTracks();
 
   const logoutRequest = usePostData("/auth/logout");
 
@@ -60,20 +53,9 @@ export function Navbar() {
     }
   };
 
-  useEffect(() => {
-    if (tracks) {
-      queryClient.setQueryData(["tracks"], tracks);
-    }
-    if (userData) {
-      if (!userData?.name) return;
-      dispatcher(setUser({ ...userData, authStatus: true }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tracks, queryClient]);
-
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
-      <SmallNavbar tracks={tracks} isAuth={isAuth} user={userData} logout={logout} />
+      <SmallNavbar tracks={tracks} isAuth={userData.authStatus} user={userData} logout={logout} />
       <div className="min-w-36 max-w-48 ">
         <Link to={"/"}>
           <img src={Logo} alt="Learnovate-Logo" />
@@ -102,14 +84,16 @@ export function Navbar() {
               Contact
             </Link>
           </li>
-          <li>
-            <Link className="hover:opacity-80 transition-opacity" to={"/dashboard"}>
-              Dashboard
-            </Link>
-          </li>
+          {userData.authStatus && userData.role === "admin" && (
+            <li>
+              <Link className="hover:opacity-80 transition-opacity" to={"/dashboard"}>
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
-      {response === undefined ? null : !isAuth ? (
+      {!userData.authStatus ? (
         <div className="space-x-5 min-w-fit hidden lg:flex">
           <button
             className="text-white py-2 px-5 border-[1px] rounded-xl whitespace-nowrap hover:opacity-80 transition-opacity"

@@ -1,9 +1,7 @@
 import { z } from "zod";
 
 import { Spinner } from "@/components/ui/Spinner";
-// import { mentor } from "@/db/mentor";
 import { useGetData } from "@/hooks/useApi";
-import { Navbar } from "@/layouts/Navbar";
 import { mentorSchema } from "@/schemas/mentorSchema";
 
 import { MentorInfo } from "../components/mentorInfo";
@@ -19,7 +17,6 @@ export const MentorViewerPage = () => {
     mentorData.data?.data?.data?.mentor ?? {}; // Add nullish coalescing operator
   return (
     <main className="min-h-dvh flex flex-col">
-      <Navbar />
       {!mentor ? (
         <div className="flex justify-center items-center grow ">
           <Spinner className="w-32 h-32 stroke-gray-500" />

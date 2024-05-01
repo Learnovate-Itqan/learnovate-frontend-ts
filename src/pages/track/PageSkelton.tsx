@@ -16,10 +16,8 @@ export function PageSkelton() {
             <Skeleton className="w-1/2 h-8 " />
           </aside>
           <aside className="flex w-96 flex-col gap-2">
-            <h4 className="font-semibold text-lg">Estimated time:</h4>
-            <Skeleton className="w-72 h-8 " />
-            <Skeleton className="w-60 h-8 " />
-            <Skeleton className="w-48 h-8 " />
+            <Skeleton className="w-72 h-12 " />
+            <Skeleton className="w-72 h-12 " />
           </aside>
         </section>
       </header>
