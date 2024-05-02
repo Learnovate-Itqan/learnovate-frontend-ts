@@ -11,7 +11,7 @@ export const studentSchema = z.object({
   gitHub: z.string().nullable(),
   facebook: z.string().nullable(),
   twitter: z.string().nullable(),
-  mobileNumber: z.string().nullable(),
+  phoneNumber: z.string().nullable(),
   education: z.string().nullable(),
   graduationYear: z.number().nullable(),
   levelOfStudent: z.string(),
@@ -28,7 +28,7 @@ export const studentBasicInfoFormSchema = z.object({
     .email({ message: "Invalid email" })
     .min(1, { message: "Email is required" })
     .max(100, { message: "Email is too long" }),
-  mobileNumber: z.string().max(100, { message: "Mobile number is too long" }).optional(),
+    phoneNumber: z.string().max(100, { message: "Mobile number is too long" }).optional(),
   dateOfBirth: z.date().optional(),
   country: z.string().max(100, { message: "Country is too long" }),
   city: z.string().max(100, { message: "City is too long" }),

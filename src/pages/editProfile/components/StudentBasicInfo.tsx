@@ -57,7 +57,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="mobileNumber"
+          name="phoneNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mobile Number</FormLabel>
