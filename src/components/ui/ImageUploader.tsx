@@ -37,6 +37,7 @@ export const ImageUploader = forwardRef(
 
     return (
       <div
+        title="Upload Image"
         onClick={onUpload}
         className={cn(
           "rounded-full flex justify-center items-center overflow-hidden cursor-pointer relative w-20 h-20 shrink-0 aspect-square border-[0.1rem] bg-zinc-200 outline-none",
