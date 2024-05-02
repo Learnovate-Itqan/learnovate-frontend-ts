@@ -76,7 +76,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="dateOfBirth"
+          name="dob"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Date of birth</FormLabel>
