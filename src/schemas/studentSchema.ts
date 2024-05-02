@@ -28,8 +28,8 @@ export const studentBasicInfoFormSchema = z.object({
     .email({ message: "Invalid email" })
     .min(1, { message: "Email is required" })
     .max(100, { message: "Email is too long" }),
-    phoneNumber: z.string().max(100, { message: "Mobile number is too long" }).optional(),
-  dateOfBirth: z.date().optional(),
+  phoneNumber: z.string().max(100, { message: "Mobile number is too long" }).optional(),
+  dob: z.date().optional(),
   country: z.string().max(100, { message: "Country is too long" }),
   city: z.string().max(100, { message: "City is too long" }),
   education: z.string().max(100, { message: "Education is too long" }),
