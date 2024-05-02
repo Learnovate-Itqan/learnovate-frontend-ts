@@ -86,7 +86,7 @@ export function StudentProfilePage() {
         <section className="flex basis-1/2 flex-col gap-5 py-10 lg:flex-row">
           <StudentInfo
             bio={student.user.bio}
-            dateOfBirth={student.user.dateOfBirth}
+            dob={student.user.dob}
             country={student.user.country}
             city={student.user.city}
           />
