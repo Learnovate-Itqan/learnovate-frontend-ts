@@ -8,7 +8,7 @@ export const userSchema = z.object({
   role: z.union([z.literal("student"), z.literal("mentor"), z.literal("admin"), z.literal(undefined)]),
   image: z.string().url(),
   age: z.union([z.number().int().positive(), z.null()]).optional(),
-  dateOfBirth: z.union([z.date(), z.null()]).optional(),
+  dob: z.union([z.date(), z.null()]).optional(),
   gender: z.union([z.literal("male"), z.literal("female"), z.null()]).optional(),
   country: z.union([z.string(), z.null()]).optional(),
   city: z.union([z.string(), z.null()]).optional(),
