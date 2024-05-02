@@ -34,4 +34,5 @@ export const studentBasicInfoFormSchema = z.object({
   city: z.string().max(100, { message: "City is too long" }),
   education: z.string().max(100, { message: "Education is too long" }),
   graduationYear: z.number().optional(),
+  bio: z.string().max(500, { message: "Bio is too long" }).optional(),
 });
