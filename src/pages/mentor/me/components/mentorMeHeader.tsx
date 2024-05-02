@@ -36,10 +36,7 @@ export const MeHeader = ({ name, jobTitle, description, image }: TViewerHeader) 
                   <span className=" text-zinc-400 text-lg"> description is not provided</span>
                 )}
               </p>
-              <Link
-                to="/mentor/me/:id/edit"
-                className="w-fit text-royal-blue font-medium hover:underline underline-offset-2"
-              >
+              <Link to="edit" className="w-fit text-royal-blue font-medium hover:underline underline-offset-2">
                 Edit Profile
               </Link>
             </div>
