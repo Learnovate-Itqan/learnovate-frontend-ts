@@ -5,6 +5,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 
 import { TStudentEditProfileForm } from "../StudentEditProfile";
+import { Textarea } from "@/components/ui/textarea";
 
 type MentorBasicInfoProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -156,6 +157,24 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
                   type="number"
                   onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem className="md:col-span-2">
+              <FormLabel>About</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  disabled={isSubmitting}
+                  placeholder="e.g. I am a web developer with 5 years of experience..."
+                  className="rounded-lg resize-none border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                 />
               </FormControl>
               <FormMessage />
