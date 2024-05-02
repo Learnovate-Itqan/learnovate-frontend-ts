@@ -80,7 +80,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Date of birth</FormLabel>
-              <DatePicker selected={field.value} onSelect={field.onChange} />
+              <DatePicker {...field} />
               <FormMessage />
             </FormItem>
           )}
