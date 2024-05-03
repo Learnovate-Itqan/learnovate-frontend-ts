@@ -32,7 +32,6 @@ export function StudentEditProfile() {
     defaultValues: async () => {
       const { data: response } = (await getRequest("/students/profile")) as AxiosResponse;
       const { student }: { student: z.infer<typeof studentSchema> } = response?.data || {};
-      console.log(student);
       if (student) {
         setStudentId(student?.id);
       }
@@ -65,14 +64,11 @@ export function StudentEditProfile() {
     },
   });
 
-  async function handleBasicInfoSubmit(formData: TStudentEditProfileForm) {
-    if (!editForm.formState.isDirty) {
-      toast.error("No changes made to be updated");
-      return;
-    }
+  async function handleSubmit(formData: TStudentEditProfileForm) {
     const toastId = toast.loading("Updating profile...");
     const { oldPassword, newPassword, confirmPassword, image, ...rest } = formData;
     const updateData = { ...rest };
+    // Check if password fields are not empty
     if (oldPassword && newPassword && confirmPassword) {
       const passwordData = {
         oldPassword,
@@ -81,36 +77,27 @@ export function StudentEditProfile() {
       };
       const passwordResponse = await updatePassword.mutateAsync(passwordData);
       if (passwordResponse?.status === "failed") {
-        toast.error(passwordResponse?.data?.errors[0].msg, { id: toastId });
-        return;
+        toast.error(passwordResponse?.data?.errors[0].msg);
       }
     }
+    // Check if image is updated
     if (editForm.formState.dirtyFields.image) {
       const file = new FormData();
       file.append("image", image);
       const imageResponse = await updateImage.mutateAsync(file);
       if (imageResponse?.status === "failed") {
-        toast.error(imageResponse?.data?.errors[0].msg, { id: toastId });
-        return;
+        toast.error(imageResponse?.data?.errors[0].msg);
       }
     }
+    // Update profile if any other field is updated
     if (editForm.formState.dirtyFields) {
       const response = await updateStudent.mutateAsync(updateData);
       if (response?.status === "failed") {
         toast.error(response?.data?.errors[0].msg, { id: toastId });
         return;
-      } else {
-        toast.success("Profile updated successfully", { id: toastId });
       }
     }
-
-    const response = await updateStudent.mutateAsync(updateData);
-    if (response?.status === "failed") {
-      toast.error(response?.data?.errors[0].msg, { id: toastId });
-      return;
-    } else {
-      toast.success("Profile updated successfully", { id: toastId });
-    }
+    toast.success("Profile updated successfully", { id: toastId });
   }
 
   if (editForm.formState.isLoading) return <LoadingPage />;
@@ -121,10 +108,7 @@ export function StudentEditProfile() {
       </header>
       <main>
         <Form {...editForm}>
-          <form
-            className="grid lg:grid-cols-[250px_1fr] gap-10"
-            onSubmit={editForm.handleSubmit(handleBasicInfoSubmit, (errors) => console.log(errors))}
-          >
+          <form className="grid lg:grid-cols-[250px_1fr] gap-10" onSubmit={editForm.handleSubmit(handleSubmit)}>
             <aside className="flex flex-col items-center gap-2 mb-10 ">
               <FormField
                 control={editForm.control}
