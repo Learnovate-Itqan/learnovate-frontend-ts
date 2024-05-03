@@ -44,24 +44,29 @@ export const MentorSmallCalendar = ({ availability }: { availability: z.infer<ty
   }
 
   return (
-    <div className="border h-fit p-4 rounded-lg w-full sm:max-w-[18rem] flex-col lg:flex-row lg:max-w-fit gap-x-4 xl:gap-x-8 flex shadow-lg space-y-4 lg:space-y-0">
+    <div className=" h-fit p-4 rounded-lg w-full  flex-col lg:max-w-fit gap-x-4 flex shadow-custom space-y-4">
       <div className="w-full flex flex-col items-center sm:items-start">
-        <h5 className="text-xl font-medium pb-2.5">Availability</h5>
+        <h5 className="text-xl font-medium pb-2.5">Availability:</h5>
         <Calendar
           mode="single"
           selected={selectedDate}
           onSelect={setSelectedDate}
           fromDate={new Date()}
           toDate={new Date(new Date().setDate(new Date().getDate() + 7))}
-          className="p-0 w-fit"
+          className="p-0 px-5 w-full flex  justify-center"
+          classNames={{
+            row: "flex w-full",
+            cell: "h-9 w-9 text-center text-xs sm:me-3 p-0 relative",
+            head_cell: "text-muted-foreground/80 rounded-md w-9 font-semibold text-[0.8rem] sm:me-3",
+          }}
           showOutsideDays
           fixedWeeks
         />
       </div>
       <div className="w-full flex flex-col items-center sm:items-start">
-        <div className="space-y-4 max-w-[16rem]">
-          <div className="space-y-3">
-            <h5 className="text-xl font-medium pb-2.5 text-center sm:text-start">Schedule</h5>
+        <div className="space-y-4 w-full">
+          <div className="space-y-2">
+            <h5 className="text-xl font-medium pb-1 text-center sm:text-start">Schedule:</h5>
             <CalendarCarousel
               selectedTime={selectedTime}
               setSelectedTime={setSelectedTime}
