@@ -42,7 +42,7 @@ export const MentorMePage = () => {
           <SkillsBox skills={mentor?.skills} />
           <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
             <MentorInfo
-              experience={mentor?.workExperience}
+              experience={mentor?.experience}
               workExperience={mentor?.workExperience}
               education={mentor?.education}
               rating={mentor?.rating}
