@@ -86,6 +86,7 @@ export const MentorEducationInfo = ({ form }: MentorEducationInfoProps) => {
                   disabled={isSubmitting}
                   placeholder="e.g. 5 years"
                   type="number"
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                 />
               </FormControl>
@@ -115,7 +116,7 @@ export const MentorEducationInfo = ({ form }: MentorEducationInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="cv"
+          name="resume"
           render={({ field }) => (
             <FormItem>
               <FormLabel>CV/Resume</FormLabel>
