@@ -48,7 +48,8 @@ export const MentorMePage = () => {
               rating={mentor?.rating}
               resume={mentor?.resume}
               languages={mentor?.languages}
-              location={`${mentor?.user?.country}, ${mentor?.user?.city?.toLocaleLowerCase()}`}
+              country={mentor?.user?.country}
+              city={mentor?.user?.city}
               timeZones={mentor?.timeZones}
             />
             <MeStats mentor={mentor} />
