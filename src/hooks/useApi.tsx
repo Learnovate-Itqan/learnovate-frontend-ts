@@ -1,6 +1,6 @@
 import "@tanstack/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 import { decrypt } from "@/utils/crypto";
 
@@ -92,19 +92,19 @@ export function usePostData<T>(endpoint: string) {
 }
 
 // PATCH request
-export async function patchRequest<T>(endpoint: string, data: T) {
+export async function patchRequest<T>(endpoint: string, data: T, configs?: AxiosRequestConfig<T>) {
   try {
-    const response = await api().patch(endpoint, data);
+    const response = await api().patch(endpoint, data, configs);
     return response;
   } catch (error) {
     return error;
   }
 }
-export function usePatchData<T>(endpoint: string) {
+export function usePatchData<T>(endpoint: string, configs?: AxiosRequestConfig<T>) {
   const mutation = useMutation({
     mutationKey: [endpoint],
     mutationFn: async (data: T) => {
-      const res = await patchRequest(endpoint, data);
+      const res = await patchRequest(endpoint, data, configs);
       return globalResponseFormat(res);
     },
   });
