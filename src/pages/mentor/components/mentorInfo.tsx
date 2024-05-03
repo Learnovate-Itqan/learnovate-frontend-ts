@@ -1,3 +1,5 @@
+import { COUNTRIES } from "@/db/Countries";
+
 import { RatingStars } from "./stars";
 
 const NotProvided = () => {
@@ -10,7 +12,8 @@ type TMentorInfo = {
   rating: number;
   resume: string;
   languages: string[];
-  location: string;
+  country: string | undefined | null;
+  city: string | undefined | null;
   timeZones: string;
 };
 
@@ -21,9 +24,13 @@ export const MentorInfo = ({
   rating,
   resume,
   languages,
-  location,
+  country,
+  city,
   timeZones,
 }: TMentorInfo) => {
+  const countryImage =
+    (country && COUNTRIES.find((COUNTRY) => COUNTRY.name.toLocaleLowerCase() === country.toLocaleLowerCase())?.image) ||
+    "";
   return (
     <div className="space-y-2.5 basis-full rounded-md shadow-custom px-4 pt-4 pb-6">
       <div className="space-y-4">
@@ -65,7 +72,25 @@ export const MentorInfo = ({
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Location:</h4>
-          <p className="text-balance max-w-xl">{location ? location : <NotProvided />}</p>
+          <p className="text-balance max-w-xl flex items-center gap-2 ">
+            {country ? (
+              <>
+                <span>
+                  <img
+                    src={countryImage}
+                    alt={country}
+                    title={country}
+                    className="h-5"
+                    loading="lazy"
+                    onError={(e) => e.currentTarget.remove()}
+                  />
+                </span>
+                <span>{city ? `${city.toLocaleLowerCase()}, ${country}` : country}</span>
+              </>
+            ) : (
+              <span className="text-zinc-400">Location is not provided</span>
+            )}
+          </p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Timezone:</h4>
