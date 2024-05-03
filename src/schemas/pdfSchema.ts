@@ -10,8 +10,11 @@ function checkFileType(file: File) {
   return false;
 }
 
-export const pdfSchema = z
-  .any()
-  .refine((file: File) => file?.size > 0, "File is required")
-  .refine((file) => file?.size < MAX_FILE_SIZE, "Max size is 5MB.")
-  .refine((file) => checkFileType(file), "Only .pdf, .docx formats are supported.");
+export const pdfSchema = z.union([
+  z
+    .any()
+    .refine((file: File) => file?.size > 0, "File is required")
+    .refine((file) => file?.size < MAX_FILE_SIZE, "Max size is 5MB.")
+    .refine((file) => checkFileType(file), "Only .pdf, .docx formats are supported."),
+  z.string().url(),
+]);
