@@ -128,7 +128,7 @@ export function EducationForm({
           />
           <FormField
             control={form.control}
-            name="cv"
+            name="resume"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>CV/Resume</FormLabel>
