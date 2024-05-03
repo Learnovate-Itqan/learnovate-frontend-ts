@@ -32,7 +32,7 @@ export const MentorInfo = ({
     (country && COUNTRIES.find((COUNTRY) => COUNTRY.name.toLocaleLowerCase() === country.toLocaleLowerCase())?.image) ||
     "";
   return (
-    <div className="space-y-2.5 basis-full rounded-md shadow-custom px-4 pt-4 pb-6">
+    <div className="space-y-2.5 basis-full rounded-md px-4 pt-4 pb-6">
       <div className="space-y-4">
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Work experience:</h4>
