@@ -28,7 +28,7 @@ export const MentorViewerPage = () => {
       <main className="w-full py-10 *:text-dark-navy">
         <div className="container">
           <SkillsBox skills={mentor.skills} />
-          <div className="my-8 flex flex-col sm:flex-row gap-y-8 gap-x-4 justify-between">
+          <div className="my-8 flex flex-col lg:flex-row gap-y-8 gap-x-4 justify-between">
             <MentorInfo {...mentor} city={mentor.user.city} country={mentor.user.country} timeZones="UTC+2" />
             <MentorSmallCalendar availability={mentor.availability} />
           </div>
