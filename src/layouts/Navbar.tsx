@@ -1,9 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -13,10 +11,9 @@ import { NotificationPopover } from "@/components/ui/NotificationPopover";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { SmallSearchBar } from "@/components/ui/SmallSearchBar";
 import UserPopover from "@/components/ui/UserPopover";
-import { usePostData } from "@/hooks/useApi";
+import { useLogout } from "@/hooks/useLogout";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { useTracks } from "@/hooks/useTracks";
-import { resetUser } from "@/redux/slices/authSlice";
 import { RootState } from "@/redux/store";
 import { trackSchema } from "@/schemas/trackSchema";
 
@@ -24,34 +21,11 @@ import Logo from "../assets/logo-inline.webp";
 import { SmallNavbar } from "./SmallNavbar";
 
 export function Navbar() {
-  const dispatcher = useDispatch();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const userData = useSelector((state: RootState) => state.auth);
   const tracks = useTracks();
 
-  const logoutRequest = usePostData("/auth/logout");
-
-  const logout = async () => {
-    const toastId = toast.loading("Logging out...");
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    console.log(token);
-    const response = await logoutRequest.mutateAsync({ token });
-    console.log(response);
-    if (response?.status === "success") {
-      queryClient.clear();
-      localStorage.removeItem("token");
-      dispatcher(resetUser());
-      queryClient.invalidateQueries({
-        queryKey: ["/nav"],
-      });
-      toast.success("Logged out successfully", { id: toastId });
-      navigate("/");
-    } else {
-      toast.error("Something went wrong, please try again later", { id: toastId });
-    }
-  };
+  const logout = useLogout();
 
   return (
     <nav className="bg-dark-navy min-w-full container relative py-5 max-h-20 border-b-[1px] border-dark-navy flex justify-between items-center gap-1 ">
