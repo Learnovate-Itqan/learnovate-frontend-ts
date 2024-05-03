@@ -37,7 +37,7 @@ export const MentorInfo = ({
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Experience:</h4>
-          <p className="text-balance max-w-xl">{experience ? experience : <NotProvided />}</p>
+          <p className="text-balance max-w-xl">{experience ? `${experience} years` : <NotProvided />}</p>
         </div>
         <div className="space-y-1">
           <h4 className="font-medium text-xl text-pretty">Rating:</h4>
