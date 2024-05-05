@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
+import Modal from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
+import { EndOfQuizCard } from "../EndOfQuizCard";
 import Question from "./Question";
 
 type QuestionsProps = {
@@ -14,6 +16,7 @@ type Answers = {
 };
 
 export default function Questions({ questions, isTimeFinished }: QuestionsProps) {
+  const finishCardRef = useRef<HTMLButtonElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Answers>(() => {
     return questions.reduce((acc, question) => {
@@ -23,6 +26,7 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
   });
   const handleFinish = useCallback(() => {
     console.log(answers);
+    finishCardRef?.current?.click();
   }, [answers]);
 
   const answeredQuestions = Object.values(answers).filter((answer) => answer.answer !== null).length;
@@ -82,6 +86,16 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
           {currentQuestion === questions.length - 1 ? "Finish" : "Next"}
         </Button>
       </div>
+      <Modal>
+        <Modal.Open opens="result">
+          <Button ref={finishCardRef} className="hidden" size="lg" variant="ghost" aria-hidden>
+            Finish
+          </Button>
+        </Modal.Open>
+        <Modal.Window name="result">
+          <EndOfQuizCard />
+        </Modal.Window>
+      </Modal>
     </>
   );
 }
