@@ -35,10 +35,13 @@ const QUIZ = {
 };
 
 export function Quiz() {
-  const [isTimeFinished, setIsTimeFinished] = useState(false);
+  const [isQuizFinished, setIsQuizFinished] = useState(false);
   function handleTimesUp() {
     toast.error("Times up! 🕒");
-    setIsTimeFinished(true);
+    setIsQuizFinished(true);
+  }
+  function finishQuiz() {
+    setIsQuizFinished(true);
   }
   return (
     <main>
@@ -49,12 +52,12 @@ export function Quiz() {
             <p>{QUIZ.header.description}</p>
           </section>
           <section className=" w-1/2 place-self-start md:w-fit md:place-self-end max-w-48">
-            <Timer time={QUIZ.header.time} onTimesUp={handleTimesUp} />
+            <Timer time={QUIZ.header.time} isQuizFinished={isQuizFinished} onTimesUp={handleTimesUp} />
           </section>
         </main>
       </header>
       <main className="container py-16">
-        <Questions questions={QUIZ.questions} isTimeFinished={isTimeFinished} />
+        <Questions questions={QUIZ.questions} isQuizFinished={isQuizFinished} finishQuiz={finishQuiz} />
       </main>
     </main>
   );
