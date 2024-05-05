@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
-export default function Timer({ time, onTimesUp }: { time: number; onTimesUp: () => void }) {
+type TimerProps = {
+  time: number;
+  onTimesUp: () => void;
+  isQuizFinished: boolean;
+};
+export default function Timer({ time, onTimesUp, isQuizFinished }: TimerProps) {
   const [remainingTime, setRemainingTime] = useState(time);
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
   useEffect(() => {
+    if (isQuizFinished) return;
     const interval = setInterval(() => {
       setRemainingTime((prev) => prev - 1);
     }, 1000);
@@ -14,7 +20,7 @@ export default function Timer({ time, onTimesUp }: { time: number; onTimesUp: ()
       onTimesUp();
     }
     return () => clearInterval(interval);
-  }, [onTimesUp, remainingTime]);
+  }, [onTimesUp, remainingTime, isQuizFinished]);
   return (
     <CircularProgressbar
       styles={{
