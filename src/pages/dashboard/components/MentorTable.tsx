@@ -27,7 +27,7 @@ export function MentorsTable({ mentors }: MentorTableProps) {
         {(!mentors || mentors?.length === 0) && (
           <TableRow className=" cursor-pointer">
             <TableCell colSpan={7} className="text-center font-semibold py-10">
-              No Orders Found
+              No mentors Found
             </TableCell>
           </TableRow>
         )}
