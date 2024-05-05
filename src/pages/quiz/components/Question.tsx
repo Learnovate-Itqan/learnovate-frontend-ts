@@ -9,6 +9,7 @@ type QuestionProps = {
   currentQuestionNumber: number;
   pointsPerQuestion: number;
   currentAnswer: string | null;
+  disabled?: boolean;
   onAnswerChange: (question: string, value: string) => void;
 };
 
@@ -20,6 +21,7 @@ export default function Question({
   currentAnswer,
   pointsPerQuestion,
   onAnswerChange,
+  disabled,
 }: QuestionProps) {
   return (
     <div className="container bg-zinc-200 rounded-md shadow-custom py-10">
@@ -34,6 +36,7 @@ export default function Question({
         <section className="grid gap-3 mt-5">
           {options.map((option, index) => (
             <Option
+              disabled={disabled}
               key={index}
               option={option}
               value={option}
