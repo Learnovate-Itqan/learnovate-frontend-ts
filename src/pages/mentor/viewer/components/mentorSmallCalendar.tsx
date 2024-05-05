@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -10,9 +11,9 @@ import { MentorAvailabilitySchema } from "@/schemas/mentorSchema";
 
 import { CalendarCarousel } from "./calendarCarousel";
 
-const MENTOR_ID = "dc7ab0d7-4d1a-4d14-8814-c159fe6027c8";
 export const MentorSmallCalendar = ({ availability }: { availability: z.infer<typeof MentorAvailabilitySchema>[] }) => {
-  const bookSession = usePostData(`/students/book-session/${MENTOR_ID}`);
+  const { id: mentorId } = useParams();
+  const bookSession = usePostData(`/students/book-session/${mentorId}`);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<number>();
   const availabilityTimes: { startTime: number; isBooked: boolean }[] = useMemo(() => {
