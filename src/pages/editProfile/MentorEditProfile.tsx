@@ -1,15 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosResponse } from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { ImageUploader } from "@/components/ui/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { RootState } from "@/redux/store";
+import { getRequest, usePatchData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 import { changePasswordSchema } from "@/schemas/changePasswordSchema";
-import { BasicInfoFormSchema, ProSectionSchema, SocialMediaSchema } from "@/schemas/mentorSchema";
+import { BasicInfoFormSchema, ProSectionSchema, SocialMediaSchema, mentorSchema } from "@/schemas/mentorSchema";
 
 import { ContactsForm } from "./components/ContactsFrom";
 import { MentorBasicInfo } from "./components/MentorBasicInfo";
@@ -22,39 +25,107 @@ export type TMentorEditProfileForm = z.infer<typeof BasicInfoFormSchema> &
   z.infer<typeof SocialMediaSchema>;
 
 export function MentorEditProfile() {
+  const [mentorId, setMentorId] = useState<string | null>(null);
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth);
   const editForm = useForm<TMentorEditProfileForm>({
     resolver: zodResolver(
       BasicInfoFormSchema.extend(ProSectionSchema.shape).extend(SocialMediaSchema.shape).and(changePasswordSchema)
     ),
-    defaultValues: {
-      name: "",
-      email: "",
-      mobileNumber: "",
-      country: "",
-      city: "",
-      languages: [],
-      workExp: "",
-      education: "",
-      experience: "",
-      about: "",
-      title: "",
-      facebook: "",
-      linkedIn: "",
-      github: "",
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-      cv: undefined,
-      image: user.image,
-      dateOfBirth: undefined,
+    defaultValues: async () => {
+      const { data: response } = (await getRequest("/mentors/profile")) as AxiosResponse;
+      const { mentor }: { mentor: z.infer<typeof mentorSchema> } = response || {};
+      if (mentor) {
+        setMentorId(mentor?.id);
+      }
+      console.log(mentor);
+      return {
+        name: mentor?.user?.name,
+        email: mentor?.user?.email,
+        phoneNumber: mentor?.user.phoneNumber || "",
+        country: mentor?.user?.country || "",
+        title: mentor?.title || "",
+        city: mentor?.user?.city || "",
+        languages: mentor?.languages || [],
+        education: mentor?.education || "",
+        workExp: mentor?.workExperience || "",
+        experience: mentor?.experience || "",
+        facebook: mentor?.facebook || "",
+        linkedIn: mentor?.linkedIn || "",
+        github: mentor?.gitHub || "",
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        image: mentor?.user?.image || "",
+        dob: mentor?.user?.dob || new Date(),
+        about: mentor?.about || "",
+        resume: mentor?.resume || undefined,
+      };
     },
   });
 
-  async function handleBasicInfoSubmit(data: TMentorEditProfileForm) {
-    console.log("submitted", data);
+  const updateStudent = usePatchData(`mentors/${mentorId}`);
+  const updatePassword = usePatchData(`users/updatepassword`);
+  const updateImage = usePatchData(`users/upload/image`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  const updateCv = usePatchData(`mentors/upload/cv`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  async function handleSubmit(formData: TMentorEditProfileForm) {
+    const toastId = toast.loading("Updating profile...");
+    const { oldPassword, newPassword, confirmPassword, image, resume, ...rest } = formData;
+    const updateData = { ...rest };
+    // Update password if oldPassword, newPassword and confirmPassword are provided
+    if (oldPassword && newPassword && confirmPassword) {
+      const passwordData = {
+        oldPassword,
+        newPassword,
+        confirmPassword,
+      };
+      const passwordResponse = await updatePassword.mutateAsync(passwordData);
+      if (passwordResponse?.status === "failed") {
+        toast.error(passwordResponse?.data?.errors[0].msg);
+      }
+    }
+    // Update image if new image is provided
+    if (editForm.formState.dirtyFields.image) {
+      const file = new FormData();
+      file.append("image", image);
+      const imageResponse = await updateImage.mutateAsync(file);
+      if (imageResponse?.status === "failed") {
+        toast.error(imageResponse?.data?.errors[0].msg);
+      }
+    }
+    // Update resume if new resume is provided
+    if (editForm.formState.dirtyFields.resume) {
+      const file = new FormData();
+      file.append("cv", resume);
+      const imageResponse = await updateCv.mutateAsync(file);
+      if (imageResponse?.status === "failed") {
+        toast.error(imageResponse?.data?.errors[0].msg, { id: toastId });
+      }
+    }
+    // Update profile if any other field is updated
+    if (editForm.formState.dirtyFields) {
+      const response = await updateStudent.mutateAsync({
+        ...updateData,
+        workExperience: updateData.workExp,
+      });
+      if (response?.status === "failed") {
+        toast.error(response?.data?.errors[0].msg, { id: toastId });
+        return;
+      }
+    }
+
+    toast.success("Profile updated successfully", { id: toastId });
   }
+
+  if (editForm.formState.isLoading) return <LoadingPage />;
   return (
     <main className=" container py-10">
       <header className="mb-5">
@@ -62,10 +133,7 @@ export function MentorEditProfile() {
       </header>
       <main>
         <Form {...editForm}>
-          <form
-            className="grid lg:grid-cols-[250px_1fr] gap-10"
-            onSubmit={editForm.handleSubmit(handleBasicInfoSubmit)}
-          >
+          <form className="grid lg:grid-cols-[250px_1fr] gap-10" onSubmit={editForm.handleSubmit(handleSubmit)}>
             <aside className="flex flex-col items-center gap-2 mb-10 ">
               <FormField
                 control={editForm.control}
@@ -80,8 +148,8 @@ export function MentorEditProfile() {
                 )}
               />
 
-              <h1 className="font-semibold text-2xl">{user.name}</h1>
-              <p className="text-zinc-400">{user.email}</p>
+              <h1 className="font-semibold text-2xl">{editForm.formState.defaultValues?.name}</h1>
+              <p className="text-zinc-400">{editForm.formState.defaultValues?.email}</p>
             </aside>
             <section className=" space-y-10">
               <div>

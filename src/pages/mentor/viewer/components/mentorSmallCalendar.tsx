@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -10,9 +11,9 @@ import { MentorAvailabilitySchema } from "@/schemas/mentorSchema";
 
 import { CalendarCarousel } from "./calendarCarousel";
 
-const MENTOR_ID = "dc7ab0d7-4d1a-4d14-8814-c159fe6027c8";
 export const MentorSmallCalendar = ({ availability }: { availability: z.infer<typeof MentorAvailabilitySchema>[] }) => {
-  const bookSession = usePostData(`/students/book-session/${MENTOR_ID}`);
+  const { id: mentorId } = useParams();
+  const bookSession = usePostData(`/students/book-session/${mentorId}`);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<number>();
   const availabilityTimes: { startTime: number; isBooked: boolean }[] = useMemo(() => {
@@ -44,24 +45,29 @@ export const MentorSmallCalendar = ({ availability }: { availability: z.infer<ty
   }
 
   return (
-    <div className="border h-fit p-4 rounded-lg w-full sm:max-w-[18rem] flex-col lg:flex-row lg:max-w-fit gap-x-4 xl:gap-x-8 flex shadow-lg space-y-4 lg:space-y-0">
+    <div className=" h-fit p-4 rounded-lg w-full  flex-col lg:max-w-fit gap-x-4 flex shadow-custom space-y-4">
       <div className="w-full flex flex-col items-center sm:items-start">
-        <h5 className="text-xl font-medium pb-2.5">Availability</h5>
+        <h5 className="text-xl font-medium pb-2.5">Availability:</h5>
         <Calendar
           mode="single"
           selected={selectedDate}
           onSelect={setSelectedDate}
           fromDate={new Date()}
           toDate={new Date(new Date().setDate(new Date().getDate() + 7))}
-          className="p-0 w-fit"
+          className="p-0 px-5 w-full flex  justify-center"
+          classNames={{
+            row: "flex w-full",
+            cell: "h-9 w-9 text-center text-xs sm:me-3 p-0 relative",
+            head_cell: "text-muted-foreground/80 rounded-md w-9 font-semibold text-[0.8rem] sm:me-3",
+          }}
           showOutsideDays
           fixedWeeks
         />
       </div>
       <div className="w-full flex flex-col items-center sm:items-start">
-        <div className="space-y-4 max-w-[16rem]">
-          <div className="space-y-3">
-            <h5 className="text-xl font-medium pb-2.5 text-center sm:text-start">Schedule</h5>
+        <div className="space-y-4 w-full">
+          <div className="space-y-2">
+            <h5 className="text-xl font-medium pb-1 text-center sm:text-start">Schedule:</h5>
             <CalendarCarousel
               selectedTime={selectedTime}
               setSelectedTime={setSelectedTime}

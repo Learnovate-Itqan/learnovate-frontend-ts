@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import { TStudentEditProfileForm } from "../StudentEditProfile";
 
@@ -57,7 +58,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="mobileNumber"
+          name="phoneNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mobile Number</FormLabel>
@@ -66,7 +67,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
                   {...field}
                   disabled={isSubmitting}
                   placeholder="e.g. +20**********"
-                  type="number"
+                  type="tel"
                   className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                 />
               </FormControl>
@@ -76,11 +77,11 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="dateOfBirth"
+          name="dob"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Date of birth</FormLabel>
-              <DatePicker selected={field.value} onSelect={field.onChange} />
+              <DatePicker {...field} />
               <FormMessage />
             </FormItem>
           )}
@@ -144,7 +145,7 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
         />
         <FormField
           control={form.control}
-          name="city"
+          name="graduationYear"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Graduation year</FormLabel>
@@ -153,8 +154,27 @@ export const StudentBasicInfo = ({ form }: MentorBasicInfoProps) => {
                   {...field}
                   disabled={isSubmitting}
                   placeholder="e.g. 2017"
-                  type="text"
+                  type="number"
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem className="md:col-span-2">
+              <FormLabel>About</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  disabled={isSubmitting}
+                  placeholder="e.g. I am a web developer with 5 years of experience..."
+                  className="rounded-lg resize-none border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                 />
               </FormControl>
               <FormMessage />

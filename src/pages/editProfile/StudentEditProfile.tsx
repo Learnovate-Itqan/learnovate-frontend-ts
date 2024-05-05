@@ -1,16 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosResponse } from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { ImageUploader } from "@/components/ui/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { RootState } from "@/redux/store";
+import { getRequest, usePatchData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 import { changePasswordSchema } from "@/schemas/changePasswordSchema";
 import { SocialMediaSchema } from "@/schemas/mentorSchema";
-import { studentBasicInfoFormSchema } from "@/schemas/studentSchema";
+import { studentBasicInfoFormSchema, studentSchema } from "@/schemas/studentSchema";
 
 import { ContactsForm } from "./components/ContactsFrom";
 import { PasswordForm } from "./components/PasswordForm";
@@ -21,32 +24,83 @@ export type TStudentEditProfileForm = z.infer<typeof studentBasicInfoFormSchema>
   z.infer<typeof SocialMediaSchema>;
 
 export function StudentEditProfile() {
-  const user = useSelector((state: RootState) => state.auth);
+  const [studentId, setStudentId] = useState<string | null>(null);
   const navigate = useNavigate();
+
   const editForm = useForm<TStudentEditProfileForm>({
     resolver: zodResolver(studentBasicInfoFormSchema.extend(SocialMediaSchema.shape).and(changePasswordSchema)),
-    defaultValues: {
-      name: "",
-      email: "",
-      mobileNumber: "",
-      country: "",
-      city: "",
-      education: "",
-      gradYear: undefined,
-      facebook: "",
-      linkedIn: "",
-      github: "",
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-      image: user.image,
-      dateOfBirth: undefined,
+    defaultValues: async () => {
+      const { data: response } = (await getRequest("/students/profile")) as AxiosResponse;
+      const { student }: { student: z.infer<typeof studentSchema> } = response?.data || {};
+      if (student) {
+        setStudentId(student?.id);
+      }
+      return {
+        name: student?.user?.name,
+        email: student?.user?.email,
+        phoneNumber: student?.user.phoneNumber || "",
+        country: student?.user?.country || "",
+        city: student?.user?.city || "",
+        education: student?.education || "",
+        graduationYear: student?.graduationYear || undefined,
+        facebook: student?.facebook || "",
+        linkedIn: student?.linkedIn || "",
+        github: student?.gitHub || "",
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        image: student?.user?.image || "",
+        dob: student?.user?.dob || undefined,
+        bio: student?.user?.bio || "",
+      };
     },
   });
 
-  async function handleBasicInfoSubmit(data: TStudentEditProfileForm) {
-    console.log("submitted", data);
+  const updateStudent = usePatchData(`students/${studentId}`);
+  const updatePassword = usePatchData(`users/updatepassword`);
+  const updateImage = usePatchData(`users/upload/image`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  async function handleSubmit(formData: TStudentEditProfileForm) {
+    const toastId = toast.loading("Updating profile...");
+    const { oldPassword, newPassword, confirmPassword, image, ...rest } = formData;
+    const updateData = { ...rest };
+    // Check if password fields are not empty
+    if (oldPassword && newPassword && confirmPassword) {
+      const passwordData = {
+        oldPassword,
+        newPassword,
+        confirmPassword,
+      };
+      const passwordResponse = await updatePassword.mutateAsync(passwordData);
+      if (passwordResponse?.status === "failed") {
+        toast.error(passwordResponse?.data?.errors[0].msg);
+      }
+    }
+    // Check if image is updated
+    if (editForm.formState.dirtyFields.image) {
+      const file = new FormData();
+      file.append("image", image);
+      const imageResponse = await updateImage.mutateAsync(file);
+      if (imageResponse?.status === "failed") {
+        toast.error(imageResponse?.data?.errors[0].msg);
+      }
+    }
+    // Update profile if any other field is updated
+    if (editForm.formState.dirtyFields) {
+      const response = await updateStudent.mutateAsync(updateData);
+      if (response?.status === "failed") {
+        toast.error(response?.data?.errors[0].msg, { id: toastId });
+        return;
+      }
+    }
+    toast.success("Profile updated successfully", { id: toastId });
   }
+
+  if (editForm.formState.isLoading) return <LoadingPage />;
   return (
     <main className=" container py-10">
       <header className="mb-5">
@@ -54,10 +108,7 @@ export function StudentEditProfile() {
       </header>
       <main>
         <Form {...editForm}>
-          <form
-            className="grid lg:grid-cols-[250px_1fr] gap-10"
-            onSubmit={editForm.handleSubmit(handleBasicInfoSubmit)}
-          >
+          <form className="grid lg:grid-cols-[250px_1fr] gap-10" onSubmit={editForm.handleSubmit(handleSubmit)}>
             <aside className="flex flex-col items-center gap-2 mb-10 ">
               <FormField
                 control={editForm.control}
@@ -72,8 +123,8 @@ export function StudentEditProfile() {
                 )}
               />
 
-              <h1 className="font-semibold text-2xl">{user.name}</h1>
-              <p className="text-zinc-400">{user.email}</p>
+              <h1 className="font-semibold text-2xl">{editForm.formState.defaultValues?.name}</h1>
+              <p className="text-zinc-400">{editForm.formState.defaultValues?.email}</p>
             </aside>
             <section className=" space-y-10">
               <div>

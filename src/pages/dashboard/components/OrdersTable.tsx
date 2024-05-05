@@ -107,7 +107,7 @@ export function OrdersTable({ orders }: MentorTableProps) {
             <TableCell>
               <a
                 onClick={(e) => e.stopPropagation()}
-                href={mentor?.cv}
+                href={mentor?.resume}
                 target="_blank"
                 rel="noreferrer"
                 className="w-fit max-w-xl text-royal-blue hover:underline underline-offset-2"

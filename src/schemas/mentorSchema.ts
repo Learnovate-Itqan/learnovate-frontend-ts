@@ -51,11 +51,11 @@ export const BasicInfoFormSchema = z.object({
     .email({ message: "Invalid email" })
     .min(1, { message: "Email is required" })
     .max(100, { message: "Email is too long" }),
-  mobileNumber: z
+  phoneNumber: z
     .string()
     .min(8, { message: "Mobile number is required" })
     .max(100, { message: "Mobile number is too long" }),
-  dateOfBirth: z.date({
+  dob: z.coerce.date({
     required_error: "A date of birth is required.",
   }),
 
@@ -70,10 +70,13 @@ export const ProSectionSchema = z.object({
     .min(1, { message: "Work experience is required" })
     .max(1000, { message: "Work experience is too long" }),
   education: z.string().min(1, { message: "Education is required" }).max(100, { message: "Education is too long" }),
-  experience: z.string().min(1, { message: "Experience is required" }).max(100, { message: "Experience is too long" }),
+  experience: z.union([
+    z.string().min(1, { message: "Experience is required" }).max(100, { message: "Experience is too long" }),
+    z.number(),
+  ]),
   title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
   about: z.string().min(1, { message: "About is required" }).max(1000, { message: "About is too long" }),
-  cv: pdfSchema,
+  resume: pdfSchema,
 });
 
 export const SocialMediaSchema = z.object({

@@ -5,12 +5,12 @@ import { COUNTRIES } from "@/db/Countries";
 
 type StudentInfoProps = {
   bio: string | null | undefined;
-  dateOfBirth: Date | null | undefined;
+  dob: Date | null | undefined;
   country: string | undefined | null;
   city: string | undefined | null;
 };
 
-export function StudentInfo({ bio, dateOfBirth, country, city }: StudentInfoProps) {
+export function StudentInfo({ bio, dob, country, city }: StudentInfoProps) {
   const countryImage =
     (country && COUNTRIES.find((COUNTRY) => COUNTRY.name.toLocaleLowerCase() === country.toLocaleLowerCase())?.image) ||
     "";
@@ -26,9 +26,9 @@ export function StudentInfo({ bio, dateOfBirth, country, city }: StudentInfoProp
       </div>
       <div className="space-y-1">
         <h4 className="font-medium text-xl text-pretty">Date of birth:</h4>
-        {dateOfBirth ? (
+        {dob ? (
           <p className="text-balance text-zinc-700 max-w-2xl">
-            {format(dateOfBirth, "dd/MM/yyyy")} - {differenceInCalendarYears(new Date(), dateOfBirth)} years old
+            {format(dob, "dd/MM/yyyy")} - {differenceInCalendarYears(new Date(), dob)} years old
           </p>
         ) : (
           <span className="text-zinc-400">Date of birth is not provided</span>

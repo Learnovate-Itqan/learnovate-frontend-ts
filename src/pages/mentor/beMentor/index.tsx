@@ -34,8 +34,8 @@ export default function BeMentorForm() {
     image: undefined,
     name: "",
     email: "",
-    mobileNumber: "",
-    dateOfBirth: new Date(),
+    phoneNumber: "",
+    dob: new Date(),
     country: "",
     city: "",
     languages: [],
@@ -46,7 +46,7 @@ export default function BeMentorForm() {
     experience: "",
     about: "",
     title: "",
-    cv: undefined,
+    resume: undefined,
   });
   const [contactInfo, setContactInfo] = useState<z.infer<typeof SocialMediaSchema>>({
     facebook: "",

@@ -18,7 +18,7 @@ export function InfoForm({
 }) {
   const form = useForm<z.infer<typeof BasicInfoFormSchema>>({
     resolver: zodResolver(BasicInfoFormSchema),
-    defaultValues: { ...data, dateOfBirth: undefined },
+    defaultValues: { ...data, dob: undefined },
   });
   const { isSubmitting } = form.formState;
 
@@ -92,7 +92,7 @@ export function InfoForm({
           />
           <FormField
             control={form.control}
-            name="mobileNumber"
+            name="phoneNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Mobile Number</FormLabel>
@@ -111,11 +111,11 @@ export function InfoForm({
           />
           <FormField
             control={form.control}
-            name="dateOfBirth"
+            name="dob"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date of birth</FormLabel>
-                <DatePicker selected={field.value} onSelect={field.onChange} />
+                <DatePicker {...field} />
                 <FormMessage />
               </FormItem>
             )}
