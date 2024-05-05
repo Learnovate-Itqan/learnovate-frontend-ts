@@ -9,13 +9,14 @@ import Question from "./Question";
 
 type QuestionsProps = {
   questions: { question: string; options: string[]; points: number }[];
-  isTimeFinished: boolean;
+  isQuizFinished: boolean;
+  finishQuiz: (answers: Answers) => void;
 };
 type Answers = {
   [question: string]: { answer: string | null; points: number };
 };
 
-export default function Questions({ questions, isTimeFinished }: QuestionsProps) {
+export default function Questions({ questions, isQuizFinished, finishQuiz }: QuestionsProps) {
   const finishCardRef = useRef<HTMLButtonElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Answers>(() => {
@@ -26,10 +27,13 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
   });
   const handleFinish = useCallback(() => {
     console.log(answers);
+    finishQuiz(answers);
     finishCardRef?.current?.click();
-  }, [answers]);
+  }, [answers, finishQuiz]);
 
+  // Calculate the number of answered questions
   const answeredQuestions = Object.values(answers).filter((answer) => answer.answer !== null).length;
+  // Handle the next question
   function handleNextQuestion() {
     if (currentQuestion === questions.length - 1) {
       handleFinish();
@@ -37,10 +41,12 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
     }
     setCurrentQuestion((prev) => prev + 1);
   }
+  // Handle the previous question
   function handlePreviousQuestion() {
     if (currentQuestion === 0) return;
     setCurrentQuestion((prev) => prev - 1);
   }
+  // Handle the answer change
   function handleAnswerChange(question: string, value: string) {
     setAnswers((prev) => {
       return {
@@ -49,12 +55,12 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
       };
     });
   }
-
+  // Handle the times up
   useEffect(() => {
-    if (isTimeFinished) {
+    if (isQuizFinished) {
       handleFinish();
     }
-  }, [isTimeFinished, handleFinish]);
+  }, [isQuizFinished, handleFinish]);
   return (
     <>
       <Progress
@@ -64,6 +70,7 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
 
       <section className="grid gap-5 py-10">
         <Question
+          disabled={isQuizFinished}
           question={questions[currentQuestion].question}
           options={questions[currentQuestion].options}
           currentQuestionNumber={currentQuestion + 1}
@@ -82,7 +89,11 @@ export default function Questions({ questions, isTimeFinished }: QuestionsProps)
         >
           Previous
         </Button>
-        <Button size="lg" onClick={handleNextQuestion}>
+        <Button
+          variant={`${currentQuestion === questions.length - 1 ? "destructive" : "default"}`}
+          size="lg"
+          onClick={handleNextQuestion}
+        >
           {currentQuestion === questions.length - 1 ? "Finish" : "Next"}
         </Button>
       </div>
