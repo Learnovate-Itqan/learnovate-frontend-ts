@@ -5,6 +5,7 @@ import { RiPresentationLine } from "react-icons/ri";
 import { z } from "zod";
 
 import { useGetData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 import { mentorSchema } from "@/schemas/mentorSchema";
 
 import { Statistic } from "./components/Statistic";
@@ -71,9 +72,10 @@ type ResponseData = {
   topTracks: { trackTitle: string; trackPercentage: number }[];
 };
 export function DashboardMain() {
-  const { data: response } = useGetData("/admin/dashboard");
+  const { data: response, isLoading } = useGetData("/admin/dashboard");
   const { data } = response || {};
   const { courseCnt, mentorCnt, studentCnt, topMentors, topTracks }: ResponseData = data || {};
+  if (isLoading) return <LoadingPage />;
   return (
     <main>
       <section className=" grid xl:grid-cols-4 sm:grid-cols-2 gap-3">
@@ -108,7 +110,7 @@ export function DashboardMain() {
       </section>
       <section className="py-4 grid xl:grid-cols-[1.5fr_2fr] gap-3">
         <TopTracksChart
-          data={topTracks.map((track) => ({
+          data={topTracks?.map((track) => ({
             name: track.trackTitle,
             value: track.trackPercentage,
           }))}
