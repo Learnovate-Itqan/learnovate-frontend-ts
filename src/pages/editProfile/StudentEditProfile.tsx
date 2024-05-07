@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,6 +27,7 @@ export type TStudentEditProfileForm = z.infer<typeof studentBasicInfoFormSchema>
 export function StudentEditProfile() {
   const [studentId, setStudentId] = useState<string | null>(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const editForm = useForm<TStudentEditProfileForm>({
     resolver: zodResolver(studentBasicInfoFormSchema.extend(SocialMediaSchema.shape).and(changePasswordSchema)),
@@ -97,6 +99,9 @@ export function StudentEditProfile() {
         return;
       }
     }
+    queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey.includes("/nav"),
+    });
     toast.success("Profile updated successfully", { id: toastId });
   }
 
