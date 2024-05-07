@@ -4,6 +4,7 @@ import { PiBooksBold } from "react-icons/pi";
 import { RiPresentationLine } from "react-icons/ri";
 import { z } from "zod";
 
+import { useGetData } from "@/hooks/useApi";
 import { mentorSchema } from "@/schemas/mentorSchema";
 
 import { Statistic } from "./components/Statistic";
@@ -11,13 +12,6 @@ import { TopMentors } from "./components/TopMentors";
 import { TopTracksChart } from "./components/TopTracksChart";
 import { TopUsers } from "./components/TopUsers";
 
-const topTracks = [
-  { name: "Data Science", value: 900 },
-  { name: "Front end", value: 500 },
-  { name: "Back end", value: 600 },
-  { name: "Security", value: 300 },
-  { name: "Other", value: 100 },
-];
 const totalUsers = [
   {
     name: "Jan",
@@ -69,29 +63,38 @@ const totalUsers = [
   },
 ];
 
-const TOP_MENTORS: z.infer<typeof mentorSchema>[] = [];
+type ResponseData = {
+  courseCnt: number;
+  mentorCnt: number;
+  studentCnt: number;
+  topMentors: z.infer<typeof mentorSchema>[];
+  topTracks: { trackTitle: string; trackPercentage: number }[];
+};
 export function DashboardMain() {
+  const { data: response } = useGetData("/admin/dashboard");
+  const { data } = response || {};
+  const { courseCnt, mentorCnt, studentCnt, topMentors, topTracks }: ResponseData = data || {};
   return (
     <main>
       <section className=" grid xl:grid-cols-4 sm:grid-cols-2 gap-3">
         <Statistic
           Icon={BsFillPeopleFill}
           title="Learners"
-          value={1200}
+          value={studentCnt}
           IconClassName={"bg-[#3D42DF]/20 text-[#3D42DF]"}
           trend={8.5}
         />
         <Statistic
           Icon={RiPresentationLine}
           title="Mentors"
-          value={1200}
+          value={mentorCnt}
           IconClassName={"bg-[#C94E08]/20 text-[#C94E08]"}
           trend={8.5}
         />
         <Statistic
           Icon={PiBooksBold}
           title="Courses"
-          value={1200}
+          value={courseCnt}
           IconClassName={"bg-[#3498DB]/20 text-[#3498DB]"}
           trend={8.5}
         />
@@ -104,11 +107,16 @@ export function DashboardMain() {
         />
       </section>
       <section className="py-4 grid xl:grid-cols-[1.5fr_2fr] gap-3">
-        <TopTracksChart data={topTracks} />
+        <TopTracksChart
+          data={topTracks.map((track) => ({
+            name: track.trackTitle,
+            value: track.trackPercentage,
+          }))}
+        />
         <TopUsers data={totalUsers} />
       </section>
       <section>
-        <TopMentors mentors={TOP_MENTORS} />
+        <TopMentors mentors={topMentors} />
       </section>
     </main>
   );
