@@ -4,7 +4,9 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { useGetData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 
 import { MentorsTable } from "../components/MentorTable";
 
@@ -17,9 +19,10 @@ export function DashboardMentors() {
   }, 500);
 
   // fetch Courses
-  const { data: response } = useGetData(`dashboard/courses?${searchParams.toString()}`);
-  const { data } = response || {};
-  const { courses } = data || {};
+  const { data: response, isLoading } = useGetData(`mentors?${searchParams.toString()}`);
+  const { data, status } = response || {};
+  const { mentors, totalMentors } = data || {};
+  if (status === "failed") return <SomethingWentWrong />;
   return (
     <main>
       <section className=" shadow-custom rounded-xl py-6 mb-10">
@@ -36,9 +39,9 @@ export function DashboardMentors() {
             />
           </div>
         </header>
-        <MentorsTable mentors={courses} />
+        {isLoading ? <LoadingPage /> : <MentorsTable mentors={mentors} />}
       </section>
-      <Paginate pageCount={3} />
+      <Paginate pageCount={totalMentors / 16} />
     </main>
   );
 }

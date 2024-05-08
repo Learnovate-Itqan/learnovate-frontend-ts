@@ -1,49 +1,24 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 import { BsGrid1X2, BsPeople } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
 import { PiBooksBold } from "react-icons/pi";
 import { TbLogout } from "react-icons/tb";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { BurgerBtn } from "@/components/ui/BurgerButton";
 import { UserAvatar } from "@/components/ui/UserAvatar";
-import { usePostData } from "@/hooks/useApi";
-import { resetUser } from "@/redux/slices/authSlice";
+import { useLogout } from "@/hooks/useLogout";
 import { RootState } from "@/redux/store";
 
 import Logo from "../assets/logo-inline.webp";
 import { SmallDashboardNavbar } from "./SmallDashboardNavbar";
 
 export function DashboardLayout() {
-  const dispatcher = useDispatch();
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth);
-  const logoutRequest = usePostData("/auth/logout");
-
-  const logout = async () => {
-    const toastId = toast.loading("Logging out...");
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    console.log(token);
-    const response = await logoutRequest.mutateAsync({ token });
-    console.log(response);
-    if (response?.status === "success") {
-      queryClient.clear();
-      localStorage.removeItem("token");
-      dispatcher(resetUser());
-      queryClient.invalidateQueries({
-        queryKey: ["/nav"],
-      });
-      toast.success("Logged out successfully", { id: toastId });
-      navigate("/");
-    } else {
-      toast.error("Something went wrong, please try again later", { id: toastId });
-    }
-  };
+  if (user.role !== "admin") navigate("/auth/login", { replace: true });
+  const logout = useLogout();
   const outlet = Outlet({});
   useEffect(() => {
     if (outlet === null) navigate("/dashboard/main", { replace: true });

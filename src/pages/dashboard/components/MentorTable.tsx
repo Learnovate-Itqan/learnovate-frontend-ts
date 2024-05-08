@@ -24,25 +24,13 @@ export function MentorsTable({ mentors }: MentorTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <TableRow key={index}>
-            <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
-            <TableCell>#{index + 1}</TableCell>
-            <TableCell className="flex justify-start items-center gap-2">
-              <UserAvatar
-                fallbackClassName="text-xs text-white"
-                name={"Khaled Ahmed"}
-                imageUrl={""}
-                className=" w-6 h-6"
-              />
-              {"Khaled Ahmed"}
+        {(!mentors || mentors?.length === 0) && (
+          <TableRow className=" cursor-pointer">
+            <TableCell colSpan={7} className="text-center font-semibold py-10">
+              No mentors Found
             </TableCell>
-            <TableCell>{"Data Science"}</TableCell>
-            <TableCell>{1200}</TableCell>
-            <TableCell>{4.5}</TableCell>
-            <TableCell>{formatCurrency(60)}</TableCell>
           </TableRow>
-        ))}
+        )}
         {mentors?.map((mentor, index) => (
           <TableRow key={mentor.id}>
             <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
