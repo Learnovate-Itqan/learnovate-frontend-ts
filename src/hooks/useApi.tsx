@@ -1,6 +1,7 @@
 import "@tanstack/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { decrypt } from "@/utils/crypto";
 
@@ -81,11 +82,15 @@ export async function postRequest<T>(endpoint: string, data: T) {
   }
 }
 export function usePostData<T>(endpoint: string) {
+  const navigate = useNavigate();
+
   const mutation = useMutation({
     mutationKey: [endpoint],
     mutationFn: async (data: T) => {
       const res = await postRequest(endpoint, data);
-      return globalResponseFormat(res);
+      const formattedResponse = globalResponseFormat(res);
+      if (formattedResponse.code === 401) navigate("/auth/login");
+      return formattedResponse;
     },
   });
   return mutation;
@@ -101,11 +106,15 @@ export async function patchRequest<T>(endpoint: string, data: T, configs?: Axios
   }
 }
 export function usePatchData<T>(endpoint: string, configs?: AxiosRequestConfig<T>) {
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationKey: [endpoint],
     mutationFn: async (data: T) => {
       const res = await patchRequest(endpoint, data, configs);
-      return globalResponseFormat(res);
+      const formattedResponse = globalResponseFormat(res);
+      if (formattedResponse.code === 401) navigate("/auth/login");
+
+      return formattedResponse;
     },
   });
   return mutation;
@@ -121,11 +130,15 @@ export async function deleteRequest(endpoint: string) {
   }
 }
 export function useDeleteData(endpoint: string) {
+  const navigate = useNavigate();
+
   const mutation = useMutation({
     mutationKey: [endpoint],
     mutationFn: async () => {
       const res = await deleteRequest(endpoint);
-      return globalResponseFormat(res);
+      const formattedResponse = globalResponseFormat(res);
+      if (formattedResponse.code === 401) navigate("/auth/login");
+      return formattedResponse;
     },
   });
   return mutation;
