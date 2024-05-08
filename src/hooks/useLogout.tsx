@@ -21,6 +21,7 @@ export function useLogout() {
     if (response?.status === "success") {
       queryClient.clear();
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       dispatcher(resetUser());
       queryClient.invalidateQueries({
         queryKey: ["/nav"],
