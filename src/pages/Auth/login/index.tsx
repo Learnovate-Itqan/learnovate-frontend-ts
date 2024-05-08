@@ -64,8 +64,11 @@ export function LoginPage() {
       const { accessToken, data } = response.data;
       const userParse = userSchema.safeParse({ ...data, authStatus: true });
       if (userParse.success) {
+        const user = JSON.stringify(userParse.data);
+        const encryptedUser = encrypt(user, import.meta.env.VITE_TOKEN_SECRET);
         const encryptedToken = encrypt(accessToken, import.meta.env.VITE_TOKEN_SECRET);
         localStorage.setItem("token", encryptedToken);
+        localStorage.setItem("user", encryptedUser);
         dispatch(setUser(userParse.data));
         setSuccess("Login successful!");
         form.reset();

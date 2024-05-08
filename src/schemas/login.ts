@@ -11,7 +11,7 @@ export const loginResponseSchema = z.object({
     email: z.string().email(),
     id: z.string().uuid(),
     name: z.string(),
-    role: z.union([z.literal("student"), z.literal("mentor"), z.literal(undefined)]),
+    role: z.union([z.literal("student"), z.literal("mentor"), z.literal("admin"), z.literal(undefined)]),
     image: z.string().url(),
     age: z.union([z.number().int().positive(), z.null()]).optional(),
     gender: z.union([z.literal("male"), z.literal("female"), z.null()]).optional(),

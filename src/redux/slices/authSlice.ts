@@ -2,15 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import { z } from "zod";
 
 import { userSchema } from "@/schemas/userSchema";
+import { decrypt } from "@/utils/crypto";
 
+const encryptedUser = localStorage.getItem("user");
+const decryptedUser = encryptedUser ? decrypt(encryptedUser, import.meta.env.VITE_TOKEN_SECRET) : undefined;
+const user = decryptedUser ? JSON.parse(decryptedUser) : undefined;
 const initialState: z.infer<typeof userSchema> = {
-  id: "",
-  name: "",
-  email: "",
-  authStatus: !!localStorage.getItem("accessToken"),
-  role: undefined,
-  image:
-    "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=",
+  id: user?.id || "",
+  name: user?.name || "",
+  email: user?.email || "",
+  authStatus: user?.authStatus || false,
+  role: user?.role || undefined,
+  image: user?.image || undefined,
 };
 
 export const authSlice = createSlice({
@@ -21,7 +24,7 @@ export const authSlice = createSlice({
       return { ...state, ...action.payload };
     },
     resetUser: (state) => {
-      return { ...state, ...initialState };
+      return { ...state, id: "", name: "", email: "", authStatus: false, role: undefined, image: "" };
     },
   },
 });
