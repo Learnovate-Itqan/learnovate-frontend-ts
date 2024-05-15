@@ -44,7 +44,7 @@ export function MentorsTable({ mentors }: MentorTableProps) {
               />
               {mentor?.user?.name}
             </TableCell>
-            <TableCell>{mentor?.track?.name}</TableCell>
+            <TableCell>{mentor?.track?.title}</TableCell>
             <TableCell>{mentor?.noStudents}</TableCell>
             <TableCell>{mentor?.rating}</TableCell>
             <TableCell>{formatCurrency(mentor?.pricePerHour)}</TableCell>
