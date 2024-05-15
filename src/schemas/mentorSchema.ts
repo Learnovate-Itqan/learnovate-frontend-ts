@@ -36,7 +36,7 @@ export const mentorSchema = z.object({
   location: z.string(),
   timeZones: z.string(),
   user: userSchema,
-  track: z.object({ name: z.string(), id: z.string().uuid() }),
+  track: z.object({ name: z.string(), id: z.string().uuid(), title: z.string() }),
   availability: z.array(MentorAvailabilitySchema),
   sessions: z.array(sessionSchema),
   visits: z.array(z.object({ date: z.date(), visits: z.number() })),
