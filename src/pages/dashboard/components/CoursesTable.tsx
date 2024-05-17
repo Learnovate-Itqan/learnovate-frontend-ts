@@ -34,11 +34,11 @@ export function CoursesTable({ courses }: MentorTableProps) {
             <TableCell className="flex justify-start items-center gap-2">
               <UserAvatar
                 fallbackClassName="text-xs text-white"
-                name={course?.publisher?.name}
-                imageUrl={course?.publisher?.image}
+                name={course?.mentor?.user?.name}
+                imageUrl={course?.mentor?.user?.image}
                 className=" w-6 h-6"
               />
-              {course?.publisher?.name}
+              {course?.mentor?.user?.name}
             </TableCell>
             <TableCell>
               <LevelTag level={course?.cLevel.toLowerCase() as "beginner" | "intermediate" | "hard" | "advanced"} />
