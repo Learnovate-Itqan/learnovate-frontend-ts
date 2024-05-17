@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { imageSchema } from "./imageSchema";
+import { mentorSchema } from "./mentorSchema";
 
 export const courseChaptersSchema = z.object({
   chapters: z.array(
@@ -31,11 +32,7 @@ export const courseSchema = z
     rating: z.number(),
     cLink: z.string(),
     trackID: z.string().uuid(),
-    publisher: z.object({
-      id: z.string().uuid(),
-      name: z.string(),
-      image: z.string().url(),
-    }),
+    mentor: mentorSchema,
   })
   .merge(basicCourseInfoSchema)
   .merge(courseChaptersSchema);
