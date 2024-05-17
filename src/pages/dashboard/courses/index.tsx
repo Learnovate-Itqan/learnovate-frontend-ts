@@ -12,6 +12,7 @@ import { useGetData } from "@/hooks/useApi";
 import { CoursesTable } from "../components/CoursesTable";
 import { AddCourseForm } from "./components/AddCourseForm";
 
+const pageSize = 10;
 export function DashboardCourses() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
@@ -21,9 +22,9 @@ export function DashboardCourses() {
   }, 500);
 
   // fetch Courses
-  const { data: response } = useGetData(`admin/courses?experience=1&pageSize=20&${searchParams.toString()}`);
+  const { data: response } = useGetData(`admin/courses?experience=1&pageSize=${pageSize}&${searchParams.toString()}`);
   const { data } = response || {};
-  const { courses } = data || {};
+  const { courses, courseCnt } = data || {};
   return (
     <main>
       <section className=" shadow-custom rounded-xl py-6 mb-10">
@@ -53,7 +54,7 @@ export function DashboardCourses() {
         </header>
         <CoursesTable courses={courses} />
       </section>
-      <Paginate pageCount={3} />
+      <Paginate pageCount={courseCnt / pageSize} />
     </main>
   );
 }
