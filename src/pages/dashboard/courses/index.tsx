@@ -22,7 +22,9 @@ export function DashboardCourses() {
   }, 500);
 
   // fetch Courses
-  const { data: response } = useGetData(`admin/courses?experience=1&pageSize=${pageSize}&${searchParams.toString()}`);
+  const { data: response } = useGetData(
+    `admin/courses?experience=1&pageSize=${pageSize}${searchParams.get("page") ? `&pageNumber=${searchParams.get("page")}` : ""}`
+  );
   const { data } = response || {};
   const { courses, courseCnt } = data || {};
   return (
