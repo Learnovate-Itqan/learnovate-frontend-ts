@@ -19,9 +19,9 @@ export function DashboardMentors() {
   }, 500);
 
   // fetch Courses
-  const { data: response, isLoading } = useGetData(`mentors?${searchParams.toString()}`);
+  const { data: response, isLoading } = useGetData(`admin/mentors?image=true&name=true&track=true&${searchParams.toString()}`);
   const { data, status } = response || {};
-  const { mentors, totalMentors } = data || {};
+  const { mentors, mentorsCnt, pageSize } = data || {};
   if (status === "failed") return <SomethingWentWrong />;
   return (
     <main>
@@ -41,7 +41,7 @@ export function DashboardMentors() {
         </header>
         {isLoading ? <LoadingPage /> : <MentorsTable mentors={mentors} />}
       </section>
-      <Paginate pageCount={totalMentors / 16} />
+      <Paginate pageCount={mentorsCnt / pageSize} />
     </main>
   );
 }
