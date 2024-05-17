@@ -24,7 +24,6 @@ export function DashboardCourses() {
   const { data: response } = useGetData(`admin/courses?experience=1&pageSize=20&${searchParams.toString()}`);
   const { data } = response || {};
   const { courses } = data || {};
-  console.log(courses);
   return (
     <main>
       <section className=" shadow-custom rounded-xl py-6 mb-10">
