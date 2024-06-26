@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { ImageUploader } from "@/components/ui/ImageUploader";
+import Selector from "@/components/ui/Selector";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useTracks } from "@/hooks/useTracks";
 import { basicCourseInfoSchema } from "@/schemas/courseSchema";
 
 import { KeyWordsForm } from "./Keywords";
@@ -21,6 +23,7 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
     defaultValues: data?.keywords ? data : { ...data, keywords: [] },
   });
   const { isSubmitting } = addCourseForm.formState;
+  const tracks = useTracks();
   return (
     <Form {...addCourseForm}>
       <form
@@ -68,11 +71,11 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
               <FormItem className=" col-span-1">
                 <FormLabel>Track</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isSubmitting}
-                    placeholder="e.g. Web Development"
-                    type="text"
+                  <Selector
+                    options={tracks.map((track) => track.name)}
+                    onChange={field.onChange}
+                    defaultValue={field.value}
+                    placeholder="Select a track"
                     className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                   />
                 </FormControl>
@@ -87,11 +90,11 @@ export function CourseInfoForm({ data, handleCourseInfo }: CourseInfoFormProps) 
               <FormItem>
                 <FormLabel>Level</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isSubmitting}
-                    placeholder="e.g. beginner"
-                    type="text"
+                  <Selector
+                    options={["Beginner", "Intermediate", "Advanced"]}
+                    onChange={field.onChange}
+                    defaultValue={field.value}
+                    placeholder="Select a level"
                     className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
                   />
                 </FormControl>
