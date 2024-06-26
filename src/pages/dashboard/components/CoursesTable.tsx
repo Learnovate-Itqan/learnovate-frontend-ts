@@ -30,7 +30,7 @@ export function CoursesTable({ courses }: MentorTableProps) {
         {courses?.map((course, index) => (
           <TableRow key={course.id}>
             <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
-            <TableCell>#{course?.id}</TableCell>
+            <TableCell>{course?.title}</TableCell>
             <TableCell className="flex justify-start items-center gap-2">
               <UserAvatar
                 fallbackClassName="text-xs text-white"
