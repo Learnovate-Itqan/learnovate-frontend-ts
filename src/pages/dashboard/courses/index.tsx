@@ -49,7 +49,7 @@ export function DashboardCourses() {
                   <FaPlus /> Add
                 </Button>
               </DialogTrigger>
-              <DialogContent className=" container max-h-[95%] w-5/6 md:w-4/6  max-w-4xl  overflow-hidden">
+              <DialogContent className=" container max-h-[95%] w-5/6 md:w-4/6  max-w-4xl  overflow-x-hidden">
                 <DialogHeader>
                   <DialogTitle>
                     <h1 className="text-2xl font-semibold mb-5">Add a New Course</h1>
