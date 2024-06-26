@@ -91,3 +91,6 @@ export const SocialMediaSchema = z.object({
   github: z.string().optional(),
   x: z.string().optional(),
 });
+export const selectMentorFormSchema = z.object({
+  mentorId: z.string().uuid(),
+});
