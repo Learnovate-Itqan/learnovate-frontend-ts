@@ -128,6 +128,26 @@ export function EducationForm({
           />
           <FormField
             control={form.control}
+            name="pricePerHour"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price per hour</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isSubmitting}
+                    placeholder="e.g. 10$"
+                    type="number"
+                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    className="rounded-lg border-[0.1rem] border-zinc-400 bg-transparent py-2.5 pe-2.5 ps-4 outline-none placeholder:text-zinc-400 invalid:border-red-500 focus:border-white"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="resume"
             render={({ field }) => (
               <FormItem>
@@ -139,6 +159,7 @@ export function EducationForm({
               </FormItem>
             )}
           />
+        </div>
           <div className="flex justify-end items-center gap-4 mt-8">
             <Button
               variant={"ghost"}
@@ -152,7 +173,6 @@ export function EducationForm({
               Next
             </Button>
           </div>
-        </div>
       </form>
     </Form>
   );
