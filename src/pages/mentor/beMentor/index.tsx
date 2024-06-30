@@ -1,8 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
+import { usePatchData, usePostData } from "@/hooks/useApi";
 import { BasicInfoFormSchema, ProSectionSchema, SocialMediaSchema } from "@/schemas/mentorSchema";
 
 import { ContactForm } from "./components/ContactForm";
@@ -28,6 +30,7 @@ const STEPS = [
 ];
 
 export default function BeMentorForm() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [prevStep, setPrevStep] = useState(0);
   const [basicInfo, setBasicInfo] = useState<z.infer<typeof BasicInfoFormSchema>>({
@@ -47,6 +50,7 @@ export default function BeMentorForm() {
     about: "",
     title: "",
     resume: undefined,
+    pricePerHour: 0,
   });
   const [contactInfo, setContactInfo] = useState<z.infer<typeof SocialMediaSchema>>({
     facebook: "",
@@ -54,26 +58,75 @@ export default function BeMentorForm() {
     github: "",
   });
 
+  const sendApplication = usePostData("/users/upgrade");
+  const sendResume = usePatchData("applications/upload/cv", {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  const sendImage = usePatchData("applications/upload/image", {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
   const handleBasicInfo = (data: z.infer<typeof BasicInfoFormSchema>) => {
     setBasicInfo(data);
     setCurrentStep((prev) => prev + 1);
     setPrevStep(1);
   };
+
   const handleEducationInfo = (data: z.infer<typeof ProSectionSchema>) => {
     setEducationInfo(data);
     setCurrentStep((prev) => prev + 1);
     setPrevStep(2);
   };
-  const handleContactInfo = (data: z.infer<typeof SocialMediaSchema>) => {
+
+  const handleSubmit = async (data: z.infer<typeof SocialMediaSchema>) => {
     setContactInfo(data);
-    toast.success("Mentor created successfully");
+    const toastId = toast.loading("Sending your application...");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { workExp, languages, ...mentorData } = {
+      ...basicInfo,
+      ...educationInfo,
+      ...data,
+      experience: Number(educationInfo.experience),
+      workExperience: educationInfo.workExp,
+      language: basicInfo.languages.join(","),
+    };
+    delete mentorData.resume;
+    delete mentorData.image;
+    const { status, data: response } = await sendApplication.mutateAsync(mentorData);
+    console.log(response, mentorData);
+    if (status === "failed" || response?.status === "failed") {
+      toast.error("Failed to send your application, please try again later.", { id: toastId });
+      return;
+    }
+
+    const resume = new FormData();
+    resume.append("cv", educationInfo?.resume as Blob);
+    const { status: resumeStatus } = await sendResume.mutateAsync(resume);
+    if (resumeStatus === "failed") {
+      toast.error("Failed to send your resume, please try again later.");
+    }
+
+    const image = new FormData();
+    image.append("image", basicInfo?.image as Blob);
+    const { status: imageStatus } = await sendImage.mutateAsync(image);
+    if (imageStatus === "failed") {
+      toast.error("Failed to send your image, please try again later.");
+    }
+    toast.success("your application has been sent successfully.", { id: toastId });
+    navigate("/");
   };
+
   const handlePrevious = () => {
     setCurrentStep((prev) => {
       setPrevStep(prev);
       return prev - 1;
     });
   };
+
   return (
     <main className=" container  py-10 flex flex-col justify-center items-center gap-20">
       <header className=" container flex justify-center items-center gap-4">
@@ -135,7 +188,7 @@ export default function BeMentorForm() {
               exit={{ x: "100vw" }}
               transition={{ duration: 0.3 }}
             >
-              <ContactForm data={contactInfo} onNext={handleContactInfo} onPrevious={handlePrevious} />
+              <ContactForm data={contactInfo} onNext={handleSubmit} onPrevious={handlePrevious} />
             </motion.div>
           )}
         </AnimatePresence>
