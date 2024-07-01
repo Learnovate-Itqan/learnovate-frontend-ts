@@ -14,7 +14,7 @@ import { formatCurrency } from "@/utils/helpers";
 import { OrderField } from "./components/OrderField";
 import { OrderImageField } from "./components/OrderImageField";
 
-const Statuses = ["Pending", "Approved", "Rejected"];
+const Statuses = ["Pending", "Accepted", "Rejected"];
 const PAGE_SIZE = 10;
 
 type OrderType = z.infer<typeof orderSchema>;
