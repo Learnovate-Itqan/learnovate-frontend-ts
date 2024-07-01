@@ -77,6 +77,7 @@ export const ProSectionSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
   about: z.string().min(1, { message: "About is required" }).max(1000, { message: "About is too long" }),
   pricePerHour: z.number().min(10, { message: "Price per hour can not be less than 10$" }),
+  trackName: z.string().min(1, { message: "Track name is required" }).max(100, { message: "Track name is too long" }),
   resume: pdfSchema,
 });
 
