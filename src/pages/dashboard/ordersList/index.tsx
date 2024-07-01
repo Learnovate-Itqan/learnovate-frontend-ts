@@ -5,6 +5,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { useGetData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 
 import { OrdersTable } from "../components/OrdersTable";
 
@@ -18,8 +19,8 @@ export function DashboardOrders() {
   }, 500);
 
   const page = searchParams.get("page") || 1;
-  // fetch Courses
-  const { data: response } = useGetData(`/applications?page=${page}&size=${PAGE_SIZE}`);
+  // fetch orders
+  const { data: response, isLoading } = useGetData(`/applications?page=${page}&size=${PAGE_SIZE}`);
   const { data } = response || {};
   const { applications, applicationCnt } = data || {};
   const pagesNumber = Math.ceil(applicationCnt / PAGE_SIZE);
@@ -39,7 +40,7 @@ export function DashboardOrders() {
             />
           </div>
         </header>
-        <OrdersTable orders={applications} />
+        {isLoading ? <LoadingPage /> : <OrdersTable orders={applications} />}
       </section>
       {pagesNumber > 1 && <Paginate pageCount={pagesNumber} />}
     </main>
