@@ -31,7 +31,7 @@ const STEPS = [
 
 export default function BeMentorForm() {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const [prevStep, setPrevStep] = useState(0);
   const [basicInfo, setBasicInfo] = useState<z.infer<typeof BasicInfoFormSchema>>({
     image: undefined,
@@ -51,6 +51,7 @@ export default function BeMentorForm() {
     title: "",
     resume: undefined,
     pricePerHour: 0,
+    trackName: "",
   });
   const [contactInfo, setContactInfo] = useState<z.infer<typeof SocialMediaSchema>>({
     facebook: "",
