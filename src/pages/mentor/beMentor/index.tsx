@@ -31,7 +31,7 @@ const STEPS = [
 
 export default function BeMentorForm() {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [prevStep, setPrevStep] = useState(0);
   const [basicInfo, setBasicInfo] = useState<z.infer<typeof BasicInfoFormSchema>>({
     image: undefined,
