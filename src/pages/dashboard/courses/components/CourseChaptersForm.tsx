@@ -17,7 +17,7 @@ export function CourseChaptersForm({ noChapters, handleCourseChapters, onPrev }:
   const courseChapterForm = useForm<z.infer<typeof courseChaptersSchema>>({
     resolver: zodResolver(courseChaptersSchema),
     defaultValues: {
-      chapters: Array.from({ length: noChapters }).map(() => ({ title: "", link: "" })),
+      chapters: Array.from({ length: noChapters }).map(() => ({ chapterName: "", chapterLink: "" })),
     },
   });
   const { isSubmitting } = courseChapterForm.formState;
@@ -34,7 +34,7 @@ export function CourseChaptersForm({ noChapters, handleCourseChapters, onPrev }:
                 <FormField
                   key={index}
                   control={courseChapterForm.control}
-                  name={`chapters.${index}.title`}
+                  name={`chapters.${index}.chapterName`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Title</FormLabel>
@@ -53,7 +53,7 @@ export function CourseChaptersForm({ noChapters, handleCourseChapters, onPrev }:
                 />
                 <FormField
                   control={courseChapterForm.control}
-                  name={`chapters.${index}.link`}
+                  name={`chapters.${index}.chapterLink`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Link</FormLabel>
