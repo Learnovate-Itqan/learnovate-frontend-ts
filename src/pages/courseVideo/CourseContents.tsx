@@ -5,17 +5,16 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 type CourseContentsProps = {
   courseChapters: {
-    id: string;
-    name: string;
-    duration: string;
-    cLink: string;
+    id?: string;
+    chapterName: string;
+    chapterLink: string;
   }[];
   progress: number;
 };
 
 export function CourseContents({ courseChapters, progress }: CourseContentsProps) {
   const [searchParam, setSearchParam] = useSearchParams();
-  const currentVideo = searchParam.get("chapter") || courseChapters[0].id;
+  const currentVideo = searchParam.get("chapter") || courseChapters[0].id?.toString();
   const handleVideoClick = (id: string) => {
     searchParam.set("chapter", id);
     setSearchParam(searchParam);
@@ -35,8 +34,8 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
             {courseChapters.map((chapter, index) => (
               <button
                 key={chapter.id}
-                className={`flex justify-between transition-colors duration-150 w-full text-xl items-center gap-4 px-1 ${currentVideo === chapter.id ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
-                onClick={() => handleVideoClick(chapter.id)}
+                className={`flex justify-between transition-colors duration-150 w-full text-xl items-center gap-4 px-1 ${currentVideo === chapter.id?.toString() ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
+                onClick={() => handleVideoClick(chapter.id || "")}
               >
                 <span className="flex gap-4">
                   <span
@@ -44,9 +43,9 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
                   >
                     {index + 1}
                   </span>
-                  {chapter.name}
+                  {chapter.chapterName}
                 </span>
-                <span className="text-zinc-400">{chapter.duration}</span>
+                {/* <span className="text-zinc-400">{chapter.duration}</span> */}
               </button>
             ))}
           </div>
