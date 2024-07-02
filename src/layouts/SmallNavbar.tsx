@@ -154,7 +154,7 @@ function TracksDropDownMenu({ tracks, handleCloseNav }: DropDownMenuProps) {
         <div className="flex flex-col gap-2 items-end font-[500] p-4 ">
           {tracks.map((track) => (
             <Link
-              to={`/track/${track?.name.toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")}`}
+              to={`/track/${track?.id}`}
               className={`flex items-center gap-1 hover:text-dark-navy/70 `}
               key={track.id}
               onClick={() => {

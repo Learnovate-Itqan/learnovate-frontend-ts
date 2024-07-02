@@ -1,18 +1,59 @@
+import { format } from "date-fns";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { z } from "zod";
 
 import RoundedCheckbox from "@/components/ui/RoundedCheckbox";
 import { Button } from "@/components/ui/button";
+import { globalResponseFormat, patchRequest, useGetData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
+import { orderSchema } from "@/schemas/orderSchema";
+import { formatCurrency } from "@/utils/helpers";
 
 import { OrderField } from "./components/OrderField";
 import { OrderImageField } from "./components/OrderImageField";
 
-const Statuses = ["Pending", "Approved", "Rejected"];
+const Statuses = ["Pending", "Accepted", "Rejected"];
+const PAGE_SIZE = 10;
 
+type OrderType = z.infer<typeof orderSchema>;
 export function OrderDetails() {
-  const [selectedStatuses, setSelectedStatuses] = useState<string>("Rejected");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { orderId } = useParams();
+  const [selectedStatuses, setSelectedStatuses] = useState<string | undefined>();
+
+  const page = searchParams.get("page") || 1;
+  // fetch Orders
+  const { data: response, isLoading } = useGetData(`/applications?page=${page}&size=${PAGE_SIZE}`);
+  const { data } = response || {};
+  const { applications } = data || {};
+  const currentOrder: OrderType = applications?.find((order: OrderType) => order.id === orderId);
+
   const handleStatusChange = (value: string) => {
     setSelectedStatuses(value);
   };
+
+  const handleSubmit = async () => {
+    if (!selectedStatuses || selectedStatuses.toLocaleLowerCase() === currentOrder.status) {
+      toast.error("Please select a different status");
+      return;
+    }
+    const toastId = toast.loading("Updating status...");
+    const requestBody = { status: selectedStatuses.toLocaleLowerCase() };
+    const res = await patchRequest(`/applications/${currentOrder.id}`, requestBody);
+    const { status } = globalResponseFormat(res);
+    if (status === "failed") {
+      toast.error("Failed to update status", { id: toastId });
+      return;
+    }
+    toast.success(`Application has been ${selectedStatuses} successfully`, { id: toastId });
+    navigate("/dashboard/orders-list");
+  };
+
+  if (isLoading) return <LoadingPage />;
+  if (!currentOrder) return <Navigate to="/dashboard/orders-list" />;
   return (
     <main className=" container py-5 shadow-custom rounded-xl space-y-5 ">
       <header className=" mb-5">
@@ -22,72 +63,66 @@ export function OrderDetails() {
       <section className=" space-y-3">
         <header className=" flex justify-between flex-wrap items-center ">
           <h2 className="text-lg font-semibold">Basic information</h2>
-          <OrderImageField
-            className=" grow-0 "
-            image="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
-          />
+          <OrderImageField className=" grow-0 " image={currentOrder?.image} />
         </header>
         <div className="flex flex-col gap-5">
-          {/* grid sm:grid-cols-3 h-min place-self-center gap-5 grow *:grow */}
           <div className=" w-full flex flex-wrap gap-5 grow *:grow">
             <OrderField header="Full Name">
-              <span>John Doe</span>
+              <span>{currentOrder?.name}</span>
             </OrderField>
             <OrderField header="Email">
-              <span>Khalidahmed@gmail.com</span>
+              <span>{currentOrder?.email}</span>
             </OrderField>
             <OrderField header="Mobile Number">
-              <span>01129598595956569</span>
+              <span>{currentOrder?.phoneNumber}</span>
             </OrderField>
           </div>
         </div>
         <div className=" grid sm:grid-cols-2 lg:grid-cols-4 gap-5 ">
           <OrderField header="Date of birth">
-            <span>26/22/2044</span>
+            <span>{format(currentOrder?.dob, "dd/MM/yyyy")}</span>
           </OrderField>
           <OrderField header="Country">
-            <span>Egypt</span>
+            <span>{currentOrder?.country}</span>
           </OrderField>
           <OrderField header="city">
-            <span>cairo</span>
+            <span>{currentOrder?.city}</span>
           </OrderField>
           <OrderField header="Languages">
-            <span className=" text-wrap">English, Arabic</span>
+            <span className=" text-wrap">{currentOrder?.language}</span>
           </OrderField>
         </div>
         <OrderField header="About">
-          <span className=" text-balance">
-            I am a punctual and motivated individual who is able to work in a busy environment and produce high
-            standards of work. I am an excellent team worker and am able to take instructions from all levels and build
-            up good working relationships with all colleagues. I am flexible, reliable and possess excellent time
-            keeping skills.
-          </span>
+          <span className=" text-balance">{currentOrder?.about}</span>
         </OrderField>
       </section>
       <section className=" space-y-3">
         <h2 className="text-lg font-semibold">Education information</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 *:break-words ">
           <OrderField header="Education">
-            <span>Bachelor's degree in Computer Science from X University.</span>
+            <span>{currentOrder?.education}</span>
           </OrderField>
           <OrderField header="Work Experience">
-            <span>Worked at ABC Tech as a Senior Frontend Developer</span>
+            <span>{currentOrder?.workExp}</span>
           </OrderField>
           <OrderField header="Experience in years">
-            <span>5 years</span>
+            <span>{currentOrder?.experience} years</span>
           </OrderField>
           <OrderField header="Title">
-            <span>Front end developer</span>
+            <span>{currentOrder?.title}</span>
+          </OrderField>
+          <OrderField header="Price per hour">
+            <span>{formatCurrency(currentOrder?.pricePerHour)}</span>
           </OrderField>
           <OrderField header="CV/Resume">
             <a
               onClick={(e) => e.stopPropagation()}
-              href={"https://www.google.com"}
+              href={currentOrder?.resume}
               target="_blank"
               rel="noreferrer"
               className="w-fit max-w-xl text-royal-blue  hover:underline underline-offset-2"
             >
-              khalidahmedcv.pdf
+              Resume.pdf
             </a>
           </OrderField>
         </div>
@@ -96,13 +131,13 @@ export function OrderDetails() {
         <h2 className="text-lg font-semibold">Social information</h2>
         <div className=" grid  sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-5 *:break-words ">
           <OrderField header="FaceBook">
-            <span>Khalidahmed@gmail.com</span>
+            <span>{currentOrder?.facebook}</span>
           </OrderField>
           <OrderField header="Linkedin">
-            <span>Khalidahmed@gmail.com</span>
+            <span>{currentOrder?.linkedIn}</span>
           </OrderField>
           <OrderField header="Github">
-            <span>Khalidahmed@gmail.com</span>
+            <span>{currentOrder?.github}</span>
           </OrderField>
         </div>
       </section>
@@ -110,14 +145,19 @@ export function OrderDetails() {
         <div className="flex flex-wrap place-self-start  gap-2 md:gap-5">
           {Statuses.map((status) => (
             <RoundedCheckbox
+              key={status}
               label={status}
-              checked={selectedStatuses === status}
+              checked={
+                selectedStatuses ? selectedStatuses === status : currentOrder?.status === status.toLocaleLowerCase()
+              }
               onChange={handleStatusChange}
               value={status}
             />
           ))}
         </div>
-        <Button className=" place-self-end px-8">submit</Button>
+        <Button onClick={handleSubmit} className=" place-self-end px-8">
+          submit
+        </Button>
       </footer>
     </main>
   );

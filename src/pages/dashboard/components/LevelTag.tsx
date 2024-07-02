@@ -2,7 +2,7 @@ import { Tag } from "@/components/ui/Tag";
 import { cn } from "@/lib/utils";
 
 type LevelTagProps = {
-  level: "intermediate" | "beginner" | "hard";
+  level: "intermediate" | "beginner" | "hard" | "advanced";
   className?: string;
 };
 const levelMap = {
@@ -18,7 +18,11 @@ const levelMap = {
     className: "bg-[#FF0000]/10 text-[#FF0000] border-[#FF0000] border-2",
     text: "Hard",
   },
+  advanced: {
+    className: "bg-[#FF0000]/10 text-[#FF0000] border-[#FF0000] border-2",
+    text: "Advanced",
+  },
 };
 export function LevelTag({ level, className = "" }: LevelTagProps) {
-  return <Tag className={cn(levelMap[level].className, className)}>{levelMap[level].text}</Tag>;
+  return <Tag className={cn(levelMap[level]?.className, className)}>{levelMap[level]?.text}</Tag>;
 }

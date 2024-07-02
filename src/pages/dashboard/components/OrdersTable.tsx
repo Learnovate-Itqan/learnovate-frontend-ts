@@ -23,7 +23,6 @@ type MentorTableProps = {
 
 export function OrdersTable({ orders }: MentorTableProps) {
   const navigate = useNavigate();
-
   return (
     <Table className="mt-2">
       <TableHeader>
@@ -38,44 +37,6 @@ export function OrdersTable({ orders }: MentorTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <TableRow
-            key={index}
-            className=" cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("2");
-            }}
-          >
-            <TableCell className="font-medium">{index + 1 > 9 ? index + 1 : "0" + (index + 1)}</TableCell>
-            <TableCell className="flex justify-start items-center gap-2">
-              <UserAvatar
-                fallbackClassName="text-xs text-white"
-                name={"Khaled Ahmed"}
-                imageUrl={""}
-                className=" w-6 h-6"
-              />
-              {"Khaled Ahmed"}
-            </TableCell>
-            <TableCell>Web Developer</TableCell>
-            <TableCell>4 years</TableCell>
-            <TableCell>
-              <a
-                onClick={(e) => e.stopPropagation()}
-                href={"https://www.google.com"}
-                target="_blank"
-                rel="noreferrer"
-                className="w-fit max-w-xl text-royal-blue hover:underline underline-offset-2"
-              >
-                view CV
-              </a>
-            </TableCell>
-            <TableCell>{format(new Date(), "dd-MM-yyyy")}</TableCell>
-            <TableCell>
-              <StatusTag status="pending" />
-            </TableCell>
-          </TableRow>
-        ))}
         {(!orders || orders?.length === 0) && (
           <TableRow className=" cursor-pointer">
             <TableCell colSpan={7} className="text-center font-semibold py-10">
@@ -115,7 +76,7 @@ export function OrdersTable({ orders }: MentorTableProps) {
                 view CV
               </a>
             </TableCell>
-            <TableCell>{format(mentor.name, "dd-MM-yyyy")}</TableCell>
+            <TableCell>{format(mentor.dob, "dd-MM-yyyy")}</TableCell>
 
             <TableCell>
               <StatusTag status={mentor.status} />

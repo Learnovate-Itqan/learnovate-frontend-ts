@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { imageSchema } from "./imageSchema";
+import { mentorSchema } from "./mentorSchema";
 
 export const courseChaptersSchema = z.object({
   chapters: z.array(
@@ -16,7 +17,7 @@ export const basicCourseInfoSchema = z.object({
   keywords: z.array(z.string()).min(2, "At least 2 keywords are required").max(8, "Maximum 8 keywords are allowed"),
   image: imageSchema,
   trackName: z.string(),
-  cLevel: z.literal("beginner").or(z.literal("intermediate")).or(z.literal("hard")),
+  cLevel: z.literal("Beginner").or(z.literal("Intermediate")).or(z.literal("Hard")).or(z.literal("Advanced")),
   estimatedTime: z.number(),
   noChapters: z.number(),
   price: z.number(),
@@ -31,11 +32,7 @@ export const courseSchema = z
     rating: z.number(),
     cLink: z.string(),
     trackID: z.string().uuid(),
-    publisher: z.object({
-      id: z.string().uuid(),
-      name: z.string(),
-      image: z.string().url(),
-    }),
+    mentor: mentorSchema,
   })
   .merge(basicCourseInfoSchema)
   .merge(courseChaptersSchema);

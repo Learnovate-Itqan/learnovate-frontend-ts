@@ -85,7 +85,7 @@ export function CourseChaptersForm({ noChapters, handleCourseChapters, onPrev }:
             Back
           </Button>
           <Button type="submit" className="px-10" disabled={isSubmitting}>
-            Submit
+            Next
           </Button>
         </footer>
       </form>

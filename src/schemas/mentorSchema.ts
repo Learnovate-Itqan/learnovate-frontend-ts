@@ -36,7 +36,7 @@ export const mentorSchema = z.object({
   location: z.string(),
   timeZones: z.string(),
   user: userSchema,
-  track: z.object({ name: z.string(), id: z.string().uuid() }),
+  track: z.object({ name: z.string(), id: z.string().uuid(), title: z.string() }),
   availability: z.array(MentorAvailabilitySchema),
   sessions: z.array(sessionSchema),
   visits: z.array(z.object({ date: z.date(), visits: z.number() })),
@@ -76,6 +76,8 @@ export const ProSectionSchema = z.object({
   ]),
   title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title is too long" }),
   about: z.string().min(1, { message: "About is required" }).max(1000, { message: "About is too long" }),
+  pricePerHour: z.number().min(10, { message: "Price per hour can not be less than 10$" }),
+  trackName: z.string().min(1, { message: "Track name is required" }).max(100, { message: "Track name is too long" }),
   resume: pdfSchema,
 });
 
@@ -90,4 +92,7 @@ export const SocialMediaSchema = z.object({
   facebook: z.string().optional(),
   github: z.string().optional(),
   x: z.string().optional(),
+});
+export const selectMentorFormSchema = z.object({
+  mentorId: z.string().uuid(),
 });

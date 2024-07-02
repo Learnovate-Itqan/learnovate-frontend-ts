@@ -5,9 +5,11 @@ import { useDebouncedCallback } from "use-debounce";
 import { Paginate } from "@/components/ui/Paginate";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { useGetData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 
 import { OrdersTable } from "../components/OrdersTable";
 
+const PAGE_SIZE = 10;
 export function DashboardOrders() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
@@ -16,10 +18,12 @@ export function DashboardOrders() {
     setSearchParams(searchParams);
   }, 500);
 
-  // fetch Courses
-  const { data: response } = useGetData(`dashboard/orders?${searchParams.toString()}`);
+  const page = searchParams.get("page") || 1;
+  // fetch orders
+  const { data: response, isLoading } = useGetData(`/applications?page=${page}&size=${PAGE_SIZE}`);
   const { data } = response || {};
-  const { orders } = data || {};
+  const { applications, applicationCnt } = data || {};
+  const pagesNumber = Math.ceil(applicationCnt / PAGE_SIZE);
   return (
     <main>
       <section className="shadow-custom rounded-xl py-6  mb-10">
@@ -36,9 +40,9 @@ export function DashboardOrders() {
             />
           </div>
         </header>
-        <OrdersTable orders={orders} />
+        {isLoading ? <LoadingPage /> : <OrdersTable orders={applications} />}
       </section>
-      <Paginate pageCount={3} />
+      {pagesNumber > 1 && <Paginate pageCount={pagesNumber} />}
     </main>
   );
 }

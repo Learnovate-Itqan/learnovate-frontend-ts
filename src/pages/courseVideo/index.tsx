@@ -20,7 +20,7 @@ const course: z.infer<typeof courseSchema> = {
   noChapters: 10,
   noStudentsEnrolled: 100,
   rating: 4.5,
-  cLevel: "beginner",
+  cLevel: "Beginner",
   cLink: "https://www.youtube.com/watch?v=UEIHZBjzOuI",
   trackID: "1",
   trackName: "Frontend",
@@ -47,10 +47,43 @@ const course: z.infer<typeof courseSchema> = {
       link: "https://www.youtube.com/OL-tStCYoFM?si=3ZikLxiD6yvZtyBw",
     },
   ],
-  publisher: {
+  mentor: {
     id: "1",
-    name: "John Doe",
-    image: "",
+    user: {
+      id: "1",
+      name: "John Doe",
+      image: "",
+      email: "",
+      authStatus: true,
+    },
+    title: "Senior Frontend Developer",
+    rating: 4.5,
+    noStudents: 100,
+    trackID: "",
+    mentorID: "",
+    pricePerHour: 0,
+    about: "",
+    experience: 0,
+    skills: [],
+    resume: "",
+    education: "",
+    workExperience: "",
+    linkedIn: "",
+    gitHub: "",
+    facebook: "",
+    twitter: "",
+    languages: [],
+    location: "",
+    timeZones: "",
+    track: {
+      id: "",
+      title: "",
+      name: "",
+    },
+    availability: [],
+    sessions: [],
+    visits: [],
+    Visit: {},
   },
 };
 
@@ -86,7 +119,6 @@ const courseChapters = [
     cLink: "https://www.youtube.com/OL-tStCYoFM?si=3ZikLxiD6yvZtyBw",
   },
 ];
-
 const mentor = {
   id: "1",
   name: "John Doe",
