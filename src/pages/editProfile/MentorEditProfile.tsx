@@ -19,25 +19,25 @@ import { MentorBasicInfo } from "./components/MentorBasicInfo";
 import { MentorEducationInfo } from "./components/MentorEducationInfo";
 import { PasswordForm } from "./components/PasswordForm";
 
-export type TMentorEditProfileForm = z.infer<typeof BasicInfoFormSchema> &
-  z.infer<typeof changePasswordSchema> &
-  z.infer<typeof ProSectionSchema> &
-  z.infer<typeof SocialMediaSchema>;
+const MentorEditFormSchema = BasicInfoFormSchema.extend(
+  ProSectionSchema.omit({ trackName: true, pricePerHour: true }).shape
+)
+  .extend(SocialMediaSchema.shape)
+  .and(changePasswordSchema);
+
+export type TMentorEditProfileForm = z.infer<typeof MentorEditFormSchema>;
 
 export function MentorEditProfile() {
   const [mentorId, setMentorId] = useState<string | null>(null);
   const navigate = useNavigate();
   const editForm = useForm<TMentorEditProfileForm>({
-    resolver: zodResolver(
-      BasicInfoFormSchema.extend(ProSectionSchema.shape).extend(SocialMediaSchema.shape).and(changePasswordSchema)
-    ),
+    resolver: zodResolver(MentorEditFormSchema),
     defaultValues: async () => {
       const { data: response } = (await getRequest("/mentors/profile")) as AxiosResponse;
       const { mentor }: { mentor: z.infer<typeof mentorSchema> } = response || {};
       if (mentor) {
         setMentorId(mentor?.id);
       }
-      console.log(mentor);
       return {
         name: mentor?.user?.name,
         email: mentor?.user?.email,
