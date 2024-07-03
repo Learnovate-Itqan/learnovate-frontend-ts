@@ -13,7 +13,7 @@ type CoursePlayerProps = {
 };
 export function CoursePlayer({ courseChapters }: CoursePlayerProps) {
   const [searchParams] = useSearchParams();
-  const videoId = searchParams.get("chapter") || courseChapters[0].id;
+  const videoId = searchParams.get("chapter") || courseChapters[0]?.id;
   const currentVideo = courseChapters.find((chapter) => chapter.id?.toString() === videoId);
   const res = getYoutubeId(currentVideo?.chapterLink || "");
   let videoLink = currentVideo?.chapterLink;
