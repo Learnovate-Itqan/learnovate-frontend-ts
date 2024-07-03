@@ -14,7 +14,7 @@ type CourseContentsProps = {
 
 export function CourseContents({ courseChapters, progress }: CourseContentsProps) {
   const [searchParam, setSearchParam] = useSearchParams();
-  const currentVideo = searchParam.get("chapter") || courseChapters[0].id?.toString();
+  const currentVideo = searchParam.get("chapter") || courseChapters[0]?.id?.toString();
   const handleVideoClick = (id: string) => {
     searchParam.set("chapter", id);
     setSearchParam(searchParam);
@@ -33,9 +33,9 @@ export function CourseContents({ courseChapters, progress }: CourseContentsProps
           <div className="flex flex-col gap-4 p-3">
             {courseChapters.map((chapter, index) => (
               <button
-                key={chapter.id}
-                className={`flex justify-between transition-colors duration-150 w-full text-xl items-center gap-4 px-1 ${currentVideo === chapter.id?.toString() ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
-                onClick={() => handleVideoClick(chapter.id || "")}
+                key={chapter?.id}
+                className={`flex justify-between transition-colors duration-150 w-full text-xl items-center gap-4 px-1 ${currentVideo === chapter?.id?.toString() ? " text-royal-blue" : " hover:text-royal-blue/70"} `}
+                onClick={() => handleVideoClick(chapter?.id || "")}
               >
                 <span className="flex gap-4">
                   <span
