@@ -72,7 +72,7 @@ export function CourseInfo() {
         <div className=" grid grid-cols-auto-fit-19 gap-3">
           {relatedCourses.map((course) => (
             <CourseCard
-              className="max-w-[25rem]"
+              className="max-w-[470px"
               key={course.id}
               id={course.id}
               name={course.title}
