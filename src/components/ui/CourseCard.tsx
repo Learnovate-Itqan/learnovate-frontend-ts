@@ -36,7 +36,7 @@ export default function CourseCard({
   className,
 }: CourseCardProps) {
   const { isLoading, wishlistIds } = useWishlist();
-  const isWishListed = wishlistIds.includes(id);
+  const isWishListed = wishlistIds?.includes(id);
   return (
     <div className={"text-black flex flex-col rounded-lg shadow-lg overflow-hidden border-2 grow " + className}>
       <div className=" bg-[#B7B9C3] relative overflow-hidden aspect-video">
