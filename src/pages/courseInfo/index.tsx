@@ -8,6 +8,7 @@ import { UserAvatar } from "@/components/ui/UserAvatar";
 import { WishListButton } from "@/components/ui/WishListButton";
 import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
+import { useWishlist } from "@/hooks/useWishlist";
 import { LoadingPage } from "@/layouts/LoadingPage";
 import { courseSchema } from "@/schemas/courseSchema";
 import { formatCurrency } from "@/utils/helpers";
@@ -23,6 +24,8 @@ type responseType = {
 export function CourseInfo() {
   const { id: courseId } = useParams();
   const { status, data: response, isLoading } = useGetData(`courses/${courseId}`);
+  const { isLoading: isLoadingWishlist, wishlistIds } = useWishlist();
+  const isWishListed = wishlistIds?.includes(courseId || "");
   const data = response?.data;
   const { course, relatedCourses }: responseType = data || {};
   if (isLoading) return <LoadingPage />;
@@ -54,11 +57,13 @@ export function CourseInfo() {
             <h1 className="text-4xl text-dark-navy font-semibold">{formatCurrency(course.price)}</h1>
             <div className="grid gap-2">
               <Button>Buy Now</Button>
-              <WishListButton
-                className=" justify-center border-[1px] border-royal-blue"
-                courseId={course.id}
-                isWishListed={false}
-              />
+              {!isLoadingWishlist && (
+                <WishListButton
+                  className=" justify-center border-[1px] border-royal-blue"
+                  courseId={course.id}
+                  isWishListed={isWishListed}
+                />
+              )}
             </div>
           </header>
         </div>
