@@ -4,7 +4,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { usePatchData } from "@/hooks/useApi";
+import { usePostData } from "@/hooks/useApi";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 
@@ -17,7 +17,7 @@ export function WishListButton({ className = "", courseId, isWishListed }: WishL
   const navigate = useNavigate();
   const authStatus = useSelector((state: RootState) => state.auth.authStatus);
   const [optimisticWish, setOptimisticWish] = useState(isWishListed);
-  const addToWishList = usePatchData(`/courses/${courseId}/wishlist`);
+  const addToWishList = usePostData(`/courses/wishlist/${courseId}`);
   async function handleWishList() {
     if (!authStatus) {
       toast.error("Please login to add to wishlist");
