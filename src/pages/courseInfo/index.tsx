@@ -20,7 +20,6 @@ type responseType = {
   course: z.infer<typeof courseSchema>;
   relatedCourses: z.infer<typeof courseSchema>[];
 };
-// const relatedCourses: z.infer<typeof courseSchema>[] = [course, course, course];
 export function CourseInfo() {
   const { id: courseId } = useParams();
   const { status, data: response, isLoading } = useGetData(`courses/${courseId}`);
