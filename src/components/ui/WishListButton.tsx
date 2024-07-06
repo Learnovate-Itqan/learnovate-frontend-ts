@@ -1,10 +1,11 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { usePatchData } from "@/hooks/useApi";
+import { usePostData } from "@/hooks/useApi";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 
@@ -14,10 +15,11 @@ type WishListButtonProps = {
   isWishListed: boolean;
 };
 export function WishListButton({ className = "", courseId, isWishListed }: WishListButtonProps) {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const authStatus = useSelector((state: RootState) => state.auth.authStatus);
   const [optimisticWish, setOptimisticWish] = useState(isWishListed);
-  const addToWishList = usePatchData(`/courses/${courseId}/wishlist`);
+  const addToWishList = usePostData(`/courses/wishlist/${courseId}`);
   async function handleWishList() {
     if (!authStatus) {
       toast.error("Please login to add to wishlist");
@@ -28,6 +30,10 @@ export function WishListButton({ className = "", courseId, isWishListed }: WishL
     const { status } = await addToWishList.mutateAsync({ wishList: !optimisticWish });
     if (status === "failed") {
       setOptimisticWish((prev) => !prev);
+    } else {
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey?.includes("courses/wishlist"),
+      });
     }
   }
   return (

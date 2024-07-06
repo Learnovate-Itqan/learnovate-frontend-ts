@@ -22,7 +22,7 @@ export function CourseDescription({ course }: CourseDescriptionProps) {
           {course?.rating.toFixed(1)}
         </Tag>
         <Tag className=" select-none flex gap-1 rounded-xl px-3 ">
-          <TbTargetArrow className="text-royal-blue" /> {course?.trackName}
+          <TbTargetArrow className="text-royal-blue" /> {course?.track?.title}
         </Tag>
         <Tag className=" select-none flex gap-1 rounded-xl px-3 ">
           <IoCalendarNumber className="text-royal-blue" /> {new Date(course?.publishTime).toLocaleDateString()}

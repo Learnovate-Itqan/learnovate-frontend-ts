@@ -6,8 +6,8 @@ import { mentorSchema } from "./mentorSchema";
 export const courseChaptersSchema = z.object({
   chapters: z.array(
     z.object({
-      title: z.string().min(1, { message: "Title is required" }),
-      link: z.string().url({ message: "Invalid URL" }),
+      chapterName: z.string().min(1, { message: "Title is required" }),
+      chapterLink: z.string().url({ message: "Invalid URL" }),
     })
   ),
 });
@@ -33,6 +33,10 @@ export const courseSchema = z
     cLink: z.string(),
     trackID: z.string().uuid(),
     mentor: mentorSchema,
+    track: z.object({
+      id: z.string().uuid(),
+      title: z.string(),
+    }),
   })
   .merge(basicCourseInfoSchema)
   .merge(courseChaptersSchema);

@@ -42,13 +42,11 @@ export function AddCourseForm({ onCloseModal }: { onCloseModal?: () => void }) {
 
     // update course info
     const toastId = toast.loading("Creating New Course...");
-    const chapters = courseChapters?.chapters.map((chapter) => {
-      return { chapterName: chapter.title, chapterLink: chapter.link };
-    });
+
     const newCourse = {
       mentorId: data.mentorId,
       ...courseInfo,
-      chapters,
+      chapters: courseChapters?.chapters,
       track: courseInfo?.trackName,
     };
     delete newCourse.image;

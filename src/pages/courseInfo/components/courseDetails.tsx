@@ -10,7 +10,10 @@ import { cn } from "@/lib/utils";
 
 type courseDetailsProps = {
   rating: number;
-  trackName: string;
+  track: {
+    id: string;
+    title: string;
+  };
   publishTime: string;
   estimatedTime: number;
   noChapters: number;
@@ -21,7 +24,7 @@ type courseDetailsProps = {
 };
 export function CourseDetails({
   rating,
-  trackName,
+  track,
   publishTime,
   estimatedTime,
   noChapters,
@@ -37,7 +40,7 @@ export function CourseDetails({
         {rating.toFixed(1)}
       </Tag>
       <Tag className={cn(" select-none flex gap-1 rounded-xl px-3 bg-[#374573] text-white", itemClassName)}>
-        <TbTargetArrow className="text-royal-blue" /> {trackName}
+        <TbTargetArrow className="text-royal-blue" /> {track.title}
       </Tag>
       <Tag className={cn(" select-none flex gap-1 rounded-xl px-3 bg-[#374573] text-white", itemClassName)}>
         <IoCalendarNumber className="text-royal-blue" /> {new Date(publishTime).toLocaleDateString()}
