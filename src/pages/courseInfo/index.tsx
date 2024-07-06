@@ -6,6 +6,7 @@ import { Keywords } from "@/components/ui/Keywords";
 import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { WishListButton } from "@/components/ui/WishListButton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetData } from "@/hooks/useApi";
 import { useWishlist } from "@/hooks/useWishlist";
 import { LoadingPage } from "@/layouts/LoadingPage";
@@ -15,7 +16,6 @@ import { formatCurrency } from "@/utils/helpers";
 import BuyCourseBtn from "./components/BuyCourseBtn";
 import { CourseContent } from "./components/CourseContent";
 import { CourseDetails } from "./components/courseDetails";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type responseType = {
   course: z.infer<typeof courseSchema>;

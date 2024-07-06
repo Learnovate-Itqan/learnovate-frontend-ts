@@ -42,7 +42,7 @@ export function AddCourseForm({ onCloseModal }: { onCloseModal?: () => void }) {
 
     // update course info
     const toastId = toast.loading("Creating New Course...");
-    
+
     const newCourse = {
       mentorId: data.mentorId,
       ...courseInfo,
