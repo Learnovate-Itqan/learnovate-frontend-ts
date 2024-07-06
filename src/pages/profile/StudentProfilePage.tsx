@@ -7,6 +7,7 @@ import { LoadingPage } from "@/layouts/LoadingPage";
 import { studentSchema } from "@/schemas/studentSchema";
 
 import { BookedSessions } from "../mentor/me/components/BookedSessions";
+import MyCoursesSection from "./components/MyCoursesSection";
 import { StudentHeader } from "./components/StudentHeader";
 import { StudentInfo } from "./components/StudentInfo";
 import { TracksProgress } from "./components/TracksProgress";
@@ -54,6 +55,7 @@ export function StudentProfilePage() {
           <BookedSessions sessions={student.sessions || []} userRole="student" className="h-48" />
         </section>
         <WishlistSection />
+        <MyCoursesSection />
       </main>
     </main>
   );
