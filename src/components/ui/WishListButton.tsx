@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -14,6 +15,7 @@ type WishListButtonProps = {
   isWishListed: boolean;
 };
 export function WishListButton({ className = "", courseId, isWishListed }: WishListButtonProps) {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const authStatus = useSelector((state: RootState) => state.auth.authStatus);
   const [optimisticWish, setOptimisticWish] = useState(isWishListed);
@@ -28,6 +30,10 @@ export function WishListButton({ className = "", courseId, isWishListed }: WishL
     const { status } = await addToWishList.mutateAsync({ wishList: !optimisticWish });
     if (status === "failed") {
       setOptimisticWish((prev) => !prev);
+    } else {
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey?.includes("courses/wishlist"),
+      });
     }
   }
   return (
