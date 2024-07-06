@@ -6,15 +6,16 @@ import { Keywords } from "@/components/ui/Keywords";
 import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { WishListButton } from "@/components/ui/WishListButton";
-import { Button } from "@/components/ui/button";
 import { useGetData } from "@/hooks/useApi";
 import { useWishlist } from "@/hooks/useWishlist";
 import { LoadingPage } from "@/layouts/LoadingPage";
 import { courseSchema } from "@/schemas/courseSchema";
 import { formatCurrency } from "@/utils/helpers";
 
+import BuyCourseBtn from "./components/BuyCourseBtn";
 import { CourseContent } from "./components/CourseContent";
 import { CourseDetails } from "./components/courseDetails";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type responseType = {
   course: z.infer<typeof courseSchema>;
@@ -22,11 +23,16 @@ type responseType = {
 };
 export function CourseInfo() {
   const { id: courseId } = useParams();
+
+  // fetch course data
   const { status, data: response, isLoading } = useGetData(`courses/${courseId}`);
-  const { isLoading: isLoadingWishlist, wishlistIds } = useWishlist();
-  const isWishListed = wishlistIds?.includes(courseId || "");
   const data = response?.data;
   const { course, relatedCourses }: responseType = data || {};
+
+  // wishlist check
+  const { isLoading: isLoadingWishlist, wishlistIds } = useWishlist();
+  const isWishListed = wishlistIds?.includes(courseId || "");
+
   if (isLoading) return <LoadingPage />;
   if (status === "error") return <SomethingWentWrong />;
   return (
@@ -55,8 +61,10 @@ export function CourseInfo() {
 
             <h1 className="text-4xl text-dark-navy font-semibold">{formatCurrency(course.price)}</h1>
             <div className="grid gap-2">
-              <Button>Buy Now</Button>
-              {!isLoadingWishlist && (
+              <BuyCourseBtn courseId={courseId} />
+              {isLoadingWishlist ? (
+                <Skeleton className="w-full h-10 bg-royal-blue/10" />
+              ) : (
                 <WishListButton
                   className=" justify-center border-[1px] border-royal-blue"
                   courseId={course.id}
