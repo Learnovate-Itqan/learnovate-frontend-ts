@@ -14,7 +14,7 @@ type QuestionsProps = {
   finishQuiz: (answers: AnswersType) => void;
 };
 export type AnswersType = {
-  [question: string]: { answer: string | null; isCorrect: boolean };
+  [question: string]: { answer: string | null; isCorrect: boolean; correctAnswer?: string };
 };
 
 export default function Questions({ questions, isQuizFinished, finishQuiz }: QuestionsProps) {
@@ -22,12 +22,11 @@ export default function Questions({ questions, isQuizFinished, finishQuiz }: Que
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<AnswersType>(() => {
     return questions.reduce((acc, question) => {
-      acc[question.question] = { answer: null, isCorrect: false };
+      acc[question.question] = { answer: null, isCorrect: false, correctAnswer: question.correctAnswer.trim() };
       return acc;
     }, {} as AnswersType);
   });
   const handleFinish = useCallback(() => {
-    console.log(answers);
     finishQuiz(answers);
     finishCardRef?.current?.click();
   }, [answers, finishQuiz]);
@@ -52,7 +51,11 @@ export default function Questions({ questions, isQuizFinished, finishQuiz }: Que
     setAnswers((prev) => {
       return {
         ...prev,
-        [question]: { answer: value, isCorrect: value === questions[currentQuestion]?.correctAnswer },
+        [question]: {
+          answer: value,
+          isCorrect: value === questions[currentQuestion]?.correctAnswer.trim(),
+          correctAnswer: questions[currentQuestion]?.correctAnswer.trim(),
+        },
       };
     });
   }
