@@ -45,13 +45,13 @@ export const Router = createBrowserRouter(
         <Route element={<AppLayout />}>
           <Route element={<NavLayout />}>
             <Route element={<ProtectedRoute />}>
-              <Route path="/quiz/:id" element={<Quiz />} />
+              <Route path="/quiz/:trackName" element={<Quiz />} />
               {/* Profile Route */}
               <Route path="profile" element={<Profile />} />
               <Route path="profile/edit" element={<EditProfile />} />
             </Route>
             {/* Mentor Routes */}
-            <Route path="mentor/:trackName" element={<MentorViewerPage />} />
+            <Route path="mentor/:id" element={<MentorViewerPage />} />
             <Route element={<FooterLayout />}>
               <Route index element={<HomePage />} />
               <Route path="/courses" element={<CoursesPage />} />
