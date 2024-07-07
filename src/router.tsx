@@ -65,7 +65,7 @@ export const Router = createBrowserRouter(
               <Route element={<ProtectedRoute />}>
                 <Route path="/be-a-mentor" element={<BeMentorForm />} />
                 <Route path="/course/lecture/:id" element={<CourseVideo />} />
-                <Route path="/roadmap/:id" element={<Roadmap />} />
+                <Route path="/roadmap" element={<Roadmap />} />
               </Route>
             </Route>
           </Route>
