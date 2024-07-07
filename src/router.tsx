@@ -51,7 +51,7 @@ export const Router = createBrowserRouter(
               <Route path="profile/edit" element={<EditProfile />} />
             </Route>
             {/* Mentor Routes */}
-            <Route path="mentor/:id" element={<MentorViewerPage />} />
+            <Route path="mentor/:trackName" element={<MentorViewerPage />} />
             <Route element={<FooterLayout />}>
               <Route index element={<HomePage />} />
               <Route path="/courses" element={<CoursesPage />} />
