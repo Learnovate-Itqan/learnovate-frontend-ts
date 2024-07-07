@@ -1,4 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+import { usePostData } from "@/hooks/useApi";
+
+import { AnswersType } from "../quiz/components/Questions";
 
 const ROADMAP = {
   id: "1",
@@ -62,6 +67,27 @@ const ROADMAP = {
 };
 
 export function Roadmap() {
+  const { state } = useLocation();
+  const { answers }: { answers: AnswersType } = state || { answers: undefined };
+  const finalAnswers = Object.entries(answers).map(([question, answer]) => {
+    {
+      return {
+        question,
+        studentAnswer: answer.answer,
+        correctAnswer: answer.correctAnswer,
+      };
+    }
+  });
+  const generateRoadMap = usePostData("/submit-quiz");
+  useEffect(() => {
+    async function handleGenerateRoadMap() {
+      const { status, data } = await generateRoadMap.mutateAsync(finalAnswers);
+      console.log(status, data);
+    }
+    if (answers) {
+      handleGenerateRoadMap();
+    }
+  }, [answers, finalAnswers, generateRoadMap]);
   return (
     <section className="bg-dark-navy min-h-96">
       <main className="container text-white h-full py-7">
