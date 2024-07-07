@@ -57,7 +57,7 @@ export function Track() {
                   variant={"outline"}
                   className="w-full border-royal-blue text-royal-blue hover:text-royal-blue"
                   type="button"
-                  onClick={() => navigate(`/quiz/${track.id}`)}
+                  onClick={() => navigate(`/quiz/${track.title}`)}
                 >
                   Take a quiz
                 </Button>
