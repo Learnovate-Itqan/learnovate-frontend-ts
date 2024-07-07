@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { Option } from "./Option";
 
+const PossibleAnswers = ["a", "b", "c", "d"];
 type QuestionProps = {
   questionsCount: number;
   question: string;
@@ -39,9 +40,9 @@ export default function Question({
               disabled={disabled}
               key={index}
               option={option}
-              value={option}
+              value={PossibleAnswers[index]}
               onChange={(value) => onAnswerChange(question, value)}
-              checked={currentAnswer === option}
+              checked={currentAnswer === PossibleAnswers[index]}
             />
           ))}
         </section>
