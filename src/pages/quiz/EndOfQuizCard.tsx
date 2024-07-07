@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 
+import { AnswersType } from "./components/Questions";
+
 function scoreMessage(score: number) {
   if (score < 50) {
     return "No worries! Keep studying and you'll get there!";
@@ -14,7 +16,10 @@ function scoreMessage(score: number) {
     return "Fantastic job! You're really mastering this material";
   }
 }
-export function EndOfQuizCard() {
+export function EndOfQuizCard({ answers }: { answers: AnswersType }) {
+  const correctAnswers = Object.values(answers).filter((answer) => answer.isCorrect).length;
+  const totalQuestions = Object.keys(answers).length;
+  const score = (correctAnswers / totalQuestions) * 100;
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center gap-3 p-5">
@@ -30,18 +35,18 @@ export function EndOfQuizCard() {
           },
         }}
         className=" -rotate-[125deg] max-w-56"
-        value={80}
+        value={score}
         circleRatio={0.7}
       >
         <div className="flex flex-col items-center gap-1">
           <div>
-            <span className="text-6xl font-bold">80</span>
+            <span className="text-6xl font-bold">{Math.ceil(score)}</span>
             <span className="text-4xl font-bold">%</span>
           </div>
           <span className="text-lg text-neutral-gray">Your score</span>
         </div>
       </CircularProgressbarWithChildren>
-      <p className="text-center text-2xl font-medium">{scoreMessage(80)}</p>
+      <p className="text-center text-2xl font-medium">{scoreMessage(score)}</p>
       <div>
         <h3 className=" text-neutral-gray">We recommend courses based on your level</h3>
       </div>
@@ -53,7 +58,15 @@ export function EndOfQuizCard() {
         >
           home
         </Button>
-        <Button onClick={() => navigate("/roadmap/5")}>Generate RoodMap</Button>
+        <Button
+          onClick={() =>
+            navigate("/roadmap", {
+              state: { answers },
+            })
+          }
+        >
+          Generate RoodMap
+        </Button>
       </div>
     </div>
   );
