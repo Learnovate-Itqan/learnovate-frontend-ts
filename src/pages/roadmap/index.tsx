@@ -5,7 +5,7 @@ import { usePostData } from "@/hooks/useApi";
 
 import { AnswersType } from "../quiz/components/Questions";
 import RoadmapError from "./RoadmapError";
-import { LoadingRoadmap } from "./loadingRoadmap";
+import { LoadingRoadmap } from "./LoadingRoadmap";
 
 type ResponseType = {
   prediction: string[];
