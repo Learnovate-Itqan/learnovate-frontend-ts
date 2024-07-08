@@ -4,29 +4,29 @@ import Modal from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
+import { QuizQuestionType } from "..";
 import { EndOfQuizCard } from "../EndOfQuizCard";
 import Question from "./Question";
 
 type QuestionsProps = {
-  questions: { question: string; options: string[]; points: number }[];
+  questions: QuizQuestionType[];
   isQuizFinished: boolean;
-  finishQuiz: (answers: Answers) => void;
+  finishQuiz: (answers: AnswersType) => void;
 };
-type Answers = {
-  [question: string]: { answer: string | null; points: number };
+export type AnswersType = {
+  [question: string]: { answer: string | null; isCorrect: boolean; correctAnswer?: string };
 };
 
 export default function Questions({ questions, isQuizFinished, finishQuiz }: QuestionsProps) {
   const finishCardRef = useRef<HTMLButtonElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Answers>(() => {
+  const [answers, setAnswers] = useState<AnswersType>(() => {
     return questions.reduce((acc, question) => {
-      acc[question.question] = { answer: null, points: 0 };
+      acc[question.question] = { answer: null, isCorrect: false, correctAnswer: question.correctAnswer.trim() };
       return acc;
-    }, {} as Answers);
+    }, {} as AnswersType);
   });
   const handleFinish = useCallback(() => {
-    console.log(answers);
     finishQuiz(answers);
     finishCardRef?.current?.click();
   }, [answers, finishQuiz]);
@@ -51,7 +51,11 @@ export default function Questions({ questions, isQuizFinished, finishQuiz }: Que
     setAnswers((prev) => {
       return {
         ...prev,
-        [question]: { answer: value, points: questions[currentQuestion].points },
+        [question]: {
+          answer: value,
+          isCorrect: value === questions[currentQuestion]?.correctAnswer.trim(),
+          correctAnswer: questions[currentQuestion]?.correctAnswer.trim(),
+        },
       };
     });
   }
@@ -72,12 +76,17 @@ export default function Questions({ questions, isQuizFinished, finishQuiz }: Que
         <Question
           disabled={isQuizFinished}
           question={questions[currentQuestion].question}
-          options={questions[currentQuestion].options}
+          options={[
+            questions[currentQuestion].answerA,
+            questions[currentQuestion].answerB,
+            questions[currentQuestion].answerC,
+            questions[currentQuestion].answerD,
+          ]}
           currentQuestionNumber={currentQuestion + 1}
           questionsCount={questions.length}
-          pointsPerQuestion={questions[currentQuestion].points}
+          pointsPerQuestion={1}
           onAnswerChange={handleAnswerChange}
-          currentAnswer={answers[questions[currentQuestion].question].answer}
+          currentAnswer={answers[questions[currentQuestion].question]?.answer}
         />
       </section>
       <div className=" flex justify-end gap-2">
@@ -104,7 +113,7 @@ export default function Questions({ questions, isQuizFinished, finishQuiz }: Que
           </Button>
         </Modal.Open>
         <Modal.Window name="result">
-          <EndOfQuizCard />
+          <EndOfQuizCard answers={answers} />
         </Modal.Window>
       </Modal>
     </>

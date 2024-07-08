@@ -1,40 +1,34 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+
+import { SomethingWentWrong } from "@/components/ui/SomethingWentWrong";
+import { useGetData } from "@/hooks/useApi";
+import { LoadingPage } from "@/layouts/LoadingPage";
 
 import Questions from "./components/Questions";
 import Timer from "./components/Timer";
 
-const QUIZ = {
-  header: {
-    title: "Mentor Quiz",
-    description: "Non quia ipsum rem animi dolor eum voluptatum necessitatibus",
-    time: 1 * 20,
-  },
-  questions: [
-    {
-      question: "What is the capital of France?",
-      options: ["New York", "London", "Paris", "Dublin"],
-      points: 3,
-    },
-    {
-      question: "Who is CEO of Tesla?",
-      options: ["Jeff Bezos", "Elon Musk", "Bill Gates", "Tony Stark"],
-      points: 5,
-    },
-    {
-      question: "The iPhone was created by which company?",
-      options: ["Apple", "Intel", "Amazon", "Microsoft"],
-      points: 3,
-    },
-    {
-      question: "How many Harry Potter books are there?",
-      options: ["1", "4", "6", "7"],
-      points: 3,
-    },
-  ],
+export type QuizQuestionType = {
+  question: string;
+  answerA: string;
+  answerB: string;
+  answerC: string;
+  answerD: string;
+  id: string;
+  trackName: string;
+  correctAnswer: string;
 };
 
+const SECONDS_IN_MINUTE = 60;
+const QUIZ_TIME_IN_MINUTES = 5 * SECONDS_IN_MINUTE;
 export function Quiz() {
+  // Get the track name from the URL
+  const { trackName } = useParams();
+  // Fetch the quiz questions
+  const { data: response, isLoading } = useGetData(`/students/quiz/${trackName}`);
+  const { status, data } = response || {};
+  const { questions }: { questions: QuizQuestionType[] } = data?.data || {};
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   function handleTimesUp() {
     toast.error("Times up! 🕒");
@@ -43,21 +37,23 @@ export function Quiz() {
   function finishQuiz() {
     setIsQuizFinished(true);
   }
+  if (isLoading) return <LoadingPage />;
+  if (status === "failed") return <SomethingWentWrong />;
   return (
     <main>
       <header className="bg-dark-navy text-white">
         <main className="container flex flex-col md:flex-row justify-between items-center gap-10 py-16">
           <section className="grid gap-3">
-            <h1 className="text-3xl font-semibold">{QUIZ.header.title}</h1>
-            <p>{QUIZ.header.description}</p>
+            <h1 className="text-3xl font-semibold">{trackName} quiz</h1>
+            <p>Non quia ipsum rem animi dolor eum voluptatum necessitatibus</p>
           </section>
           <section className=" w-1/2 place-self-start md:w-fit md:place-self-end max-w-48">
-            <Timer time={QUIZ.header.time} isQuizFinished={isQuizFinished} onTimesUp={handleTimesUp} />
+            <Timer time={QUIZ_TIME_IN_MINUTES} isQuizFinished={isQuizFinished} onTimesUp={handleTimesUp} />
           </section>
         </main>
       </header>
       <main className="container py-16">
-        <Questions questions={QUIZ.questions} isQuizFinished={isQuizFinished} finishQuiz={finishQuiz} />
+        <Questions questions={questions} isQuizFinished={isQuizFinished} finishQuiz={finishQuiz} />
       </main>
     </main>
   );
