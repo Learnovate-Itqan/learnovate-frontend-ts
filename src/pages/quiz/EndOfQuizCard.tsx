@@ -1,5 +1,5 @@
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +17,7 @@ function scoreMessage(score: number) {
   }
 }
 export function EndOfQuizCard({ answers }: { answers: AnswersType }) {
+  const { trackName } = useParams();
   const correctAnswers = Object.values(answers).filter((answer) => answer.isCorrect).length;
   const totalQuestions = Object.keys(answers).length;
   const score = (correctAnswers / totalQuestions) * 100;
@@ -61,7 +62,7 @@ export function EndOfQuizCard({ answers }: { answers: AnswersType }) {
         <Button
           onClick={() =>
             navigate("/roadmap", {
-              state: { answers },
+              state: { answers, trackName },
             })
           }
         >
