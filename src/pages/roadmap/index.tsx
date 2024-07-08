@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 import { usePostData } from "@/hooks/useApi";
 
 import { AnswersType } from "../quiz/components/Questions";
-import RoadmapError from "./RoadmapError";
 import { LoadingRoadmap } from "./LoadingRoadmap";
+import RoadmapError from "./RoadmapError";
 
 type ResponseType = {
   prediction: string[];
