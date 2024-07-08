@@ -68,6 +68,7 @@ export function Roadmap() {
       setStatus(() => status);
     }
     handleGenerateRoadMap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(roadMap, predictions);
