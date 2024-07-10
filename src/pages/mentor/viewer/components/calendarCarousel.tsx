@@ -17,7 +17,7 @@ export const CalendarCarousel = ({ selectedTime, setSelectedTime, availability }
           <CarouselItem key={index} className="basis-1/2 ">
             <Button
               variant={selectedTime === time.startTime ? "default" : "outline"}
-              className="border "
+              className="border w-full "
               disabled={time.isBooked}
               onClick={() => handleSelection(time.startTime)}
             >
