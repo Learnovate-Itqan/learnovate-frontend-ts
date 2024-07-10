@@ -1,11 +1,13 @@
 import { eachDayOfInterval, format, isSameDay } from "date-fns";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { z } from "zod";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { usePostData } from "@/hooks/useApi";
+import { MentorAvailabilitySchema } from "@/schemas/mentorSchema";
 
 import { AddedAvailableTime } from "./AddedAvailableTime";
 import { AvailableTimeForm } from "./AvailableTimeForm";
@@ -19,18 +21,33 @@ type AvailableTimeType = {
     isBooked: boolean;
   };
 };
-export function AvailabilityEditor() {
+export function AvailabilityEditor({ availabilities }: { availabilities: z.infer<typeof MentorAvailabilitySchema>[] }) {
   const addAvailableTime = usePostData("/sessions/add-session");
   const [days, setDays] = useState(() =>
     eachDayOfInterval({
       start: new Date(),
       end: new Date(new Date().setDate(new Date().getDate() + 7)),
     }).map((day) => {
-      return { day: format(day, "EEEE"), date: format(day, "yyyy-MM-dd"), isOpen: false };
+      const isOpen = availabilities?.find((time) => isSameDay(day, new Date(time.date))) ? true : false;
+      return { day: format(day, "EEEE"), date: format(day, "yyyy-MM-dd"), isOpen };
     })
   );
 
-  const [availableTimes, setAvailableTimes] = useState<AvailableTimeType[]>([]);
+  const [availableTimes, setAvailableTimes] = useState<AvailableTimeType[]>(() => {
+    return (
+      availabilities?.map((time) => {
+        return {
+          day: format(new Date(time.date), "EEEE"),
+          date: new Date(time.date),
+          times: {
+            startTime: time.startTime,
+            endTime: time.endTime,
+            isBooked: time.isBooked,
+          },
+        };
+      }) || []
+    );
+  });
   async function handleAddTime({
     startTime,
     endTime,

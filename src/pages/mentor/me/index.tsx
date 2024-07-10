@@ -17,7 +17,7 @@ export const MentorMePage = () => {
   const { data: response } = useGetData(`/mentors/profile`);
   const { data, status } = response || {};
   const { mentor }: { mentor: z.infer<typeof mentorSchema> } = data || {};
-  console.log(mentor);
+  console.log(mentor?.Visit);
   if (!status) {
     return (
       <div className="w-full flex justify-center items-center h-screen">
@@ -55,7 +55,7 @@ export const MentorMePage = () => {
             <MeStats mentor={mentor} />
           </div>
           <div className="my-8 flex flex-col md:flex-row gap-y-8 gap-x-4 justify-between">
-            <AvailabilityEditor />
+            <AvailabilityEditor availabilities={mentor?.availability} />
             <BookedSessions sessions={mentor?.sessions} userRole="mentor" />
           </div>
         </div>

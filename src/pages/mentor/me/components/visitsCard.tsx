@@ -55,9 +55,12 @@ export const StatsCard = ({ visits }: { visits: Record<string, number> }) => {
   // Loop to get the dates for the last 30 days
   for (let i = 0; i < 30; i++) {
     // Format the date as "yyyy-MM-dd"
+    const visit = Object.entries(visits).find(
+      ([key]) => format(key, "MM/dd/yyyy") === format(currentDate, "MM/dd/yyyy")
+    );
     last30Days.push({
       name: format(currentDate, "d MMM"),
-      visits: visits[format(currentDate, "dd/MM/yyyy")] || 0,
+      visits: Number(visit?.at(1)) || 0,
     });
 
     // Subtract 1 day from the current date
