@@ -43,7 +43,7 @@ export function AvailabilityEditor() {
     date: Date;
   }) {
     if (days.find((d) => isSameDay(d.date, date) && !d.isOpen)) return toast.error("This day is locked by you!");
-
+    console.log({ startTime, endTime, day, date });
     const res = await addAvailableTime.mutateAsync({ startTime, endTime, date });
     const toastId = toast.loading("Adding session...");
     if (res.status === "success") {
